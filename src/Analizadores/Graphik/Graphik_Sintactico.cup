@@ -1,0 +1,317 @@
+/*------------ Codigo de Usuario ---------*/
+//------> Paquetes,importaciones
+package Analizadores;
+import java_cup.runtime.Symbol;
+import java.util.LinkedList;
+
+//------> Parser, Variables y Metodos
+
+parser code
+{: 
+    public static LinkedList<Errores> Err = new LinkedList<Errores>();
+    
+    public void syntax_error(Symbol s)
+    {
+        String texto = s.value.toString();
+        int fila= s.right;
+        int columna = s.left;
+        
+        System.out.println("Error Sintactico Recuperado: "+texto+" Fila: "+fila+" Columna: " +columna);
+        Errores err = new Errores("Sintactico: ","No se esperaba: ",texto,fila,columna);
+        Err.add(err);
+
+    }
+
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
+    {
+        String texto = s.value.toString();
+        int fila= s.right;
+        int columna = s.left;
+        
+        System.out.println("Error Sintactico Modo Panico: "+texto+" Fila: "+fila+" Columna: " +columna);
+        Errores err = new Errores("Sintactico: ","No se esperaba: ",texto,fila,columna);
+        Err.add(err);
+    }
+:}  
+
+//------> Acciones Gramaticales 
+action code 
+{:
+:}
+
+/*action code
+{:
+    public void escribirSalida(String salida){
+        parser.salida.setText(salida);
+    }
+:}*/
+
+
+/*------------ Declaraciones Terminales y No Terminales ---------*/
+
+
+/*------------ Reglas Semanticas ---------*/
+
+terminal Tentero, Tdecimal, Tcaracter, Tcadena, Tbool, Tvacio, Tals;
+terminal protegido, privado, publico;
+terminal importar, hereda, var, nuevo, retornar, llamar;
+terminal inicio, llamarHK, incluirHK, graphikar;
+terminal si, seleccion, sino, caso, defecto, para, mientras, hacer, continuar, terminar;
+terminal datos, columna, procesar, donde, dondecada, dondetodo, imprimir;
+terminal cad, id, num, dec, carac, verdadero, falso,nombreArchivo;
+terminal corAbre, corCierra, llaveAbre, llaveCierra, parenAbre, parenCierra;
+terminal mas, menos, por, div, potencia;
+terminal or, and, xor, not;
+terminal mayorq, menorq, mayorigualq, menorigualq, igualigual, diferente;
+terminal incremento, decremento;
+terminal igual, dospuntos, punto, coma, fin; 
+
+non terminal INICIO, CUERPO_ALS, L_ALS, ALS;
+non terminal IMPORTACIONES, L_IMPORTACIONES, INCLUYE_HK, L_INCLUYE;
+non terminal VISIBILIDAD, SENTENCIAS, L_SENT, HEREDA;
+non terminal DECLARACION_GLOBAL, L_GLOBALES, L_VAR, ASIGNACION;
+non terminal DECLARACION_LOCAL, ASIGNA;
+non terminal TIPO_DATO, OPCION, EXP, DATOS;
+non terminal ARREGLO, L_DIMENSIONES, ASIGNACION_ARREGLO, L_POS, POSICIONES, L_EXP;
+non terminal METODO_INICIO, METODOS_DEFINIDOS, METODOS, PARAMETROS;
+non terminal INSTANCIA_OBJETOS, LLAMAR, LLAMARHK, PARAM_LLAMA;
+non terminal RETORNA, SENTENCIA_SI, SENTENCIA_SINO;
+non terminal SENTENCIA_PARA, ASIGNA_PARA, CONDICION,DECLARACION_PARA;
+non terminal SENTENCIA_HMIENTRAS, SENTENCIA_MIENTRAS;
+non terminal SENTENCIA_SELECCION, CASOS, L_CASO, DEFECTO;
+non terminal TERMINAR, CONTINUAR,IMPRIMIR;
+ 
+precedence left or;
+precedence left xor;
+precedence left and;
+precedence left not;
+precedence left igualigual, diferente, mayorq, menorq, mayorigualq, menorigualq;
+precedence left mas, menos;
+precedence left por, div;
+precedence right potencia;
+precedence left incremento, decremento;
+
+start with INICIO; 
+
+INICIO ::= IMPORTACIONES INCLUYE_HK L_ALS
+        ;
+
+IMPORTACIONES ::= IMPORTACIONES L_IMPORTACIONES
+                 | L_IMPORTACIONES
+                 ;
+L_IMPORTACIONES ::= importar nombreArchivo fin
+                 ;
+
+INCLUYE_HK ::= INCLUYE_HK L_INCLUYE
+            | L_INCLUYE
+            ;
+
+L_INCLUYE ::= incluirHK id fin
+            ;
+
+L_ALS ::= L_ALS ALS
+       | ALS
+       ;
+
+ALS ::= Tals id VISIBILIDAD HEREDA llaveAbre CUERPO_ALS llaveCierra
+     ;
+
+HEREDA ::= hereda id
+        |
+        ;
+
+VISIBILIDAD ::= dospuntos publico
+            | dospuntos privado
+            | dospuntos protegido
+            | //por defecto es publico
+            ;
+
+CUERPO_ALS ::= DECLARACION_GLOBAL 
+            | METODO_INICIO
+            | DATOS 
+            | METODOS_DEFINIDOS
+            ;
+
+DATOS::= // DONDE DONDECADA ETC 
+
+DECLARACION_GLOBAL ::= DECLARACION_GLOBAL L_GLOBALES
+                    | L_GLOBALES
+                    ;
+
+L_GLOBALES ::= var TIPO_DATO id VISIBILIDAD OPCION fin
+            | var TIPO_DATO id ARREGLO VISIBILIDAD ASIGNACION_ARREGLO fin
+            ;
+
+OPCION ::= coma L_VAR 
+        | ASIGNACION
+        | 
+        ;
+
+ARREGLO ::= ARREGLO L_DIMENSIONES 
+        | L_DIMENSIONES
+        ;
+
+L_DIMENSIONES ::= corAbre EXP corCierra
+               ;
+
+TIPO_DATO ::= Tentero
+           | Tdecimal
+           | Tcaracter
+           | Tcadena
+           | Tbool
+           | Tals
+           | Tvacio
+           ;
+
+ASIGNACION_ARREGLO ::= igual POSICIONES
+                    ;
+
+POSICIONES ::= POSICIONES coma L_POS
+            | L_POS
+            ;
+
+L_POS ::= llaveAbre POSICIONES llaveCierra
+       | EXP
+       ;
+
+
+ASIGNACION ::= igual EXP
+            ;
+
+L_VAR ::= L_VAR coma id VISIBILIDAD
+       | id VISIBILIDAD
+       ;
+
+METODO_INICIO ::= Tvacio inicio parenAbre parenCierra SENTENCIAS llaveAbre llaveCierra
+               ;
+
+METODOS_DEFINIDOS ::= METODOS_DEFINIDOS METODOS
+                   | METODOS
+                   ;
+
+METODOS ::= TIPO_DATO id parenAbre PARAMETROS parenCierra VISIBILIDAD llaveAbre SENTENCIAS llaveCierra
+         ;
+
+PARAMETROS ::= PARAMETROS coma TIPO_DATO id
+            | TIPO_DATO id
+            ;
+
+SENTENCIAS ::= SENTENCIAS L_SENT
+            | L_SENT
+            ;
+
+L_SENT ::= DECLARACION_LOCAL fin
+        | INSTANCIA_OBJETOS
+        | LLAMAR
+        | LLAMARHK
+        | ASIGNA fin
+        | RETORNA
+        | SENTENCIA_SI
+        | SENTENCIA_SELECCION
+        | SENTENCIA_PARA
+        | SENTENCIA_MIENTRAS
+        | SENTENCIA_HMIENTRAS
+        | CONTINUAR
+        | TERMINAR
+        | IMPRIMIR
+        ;
+
+IMPRIMIR ::= imprimir parenAbre EXP parenCierra fin
+          ;
+
+CONTINUAR ::= continuar fin
+           ;
+
+TERMINAR ::= terminar fin
+          ;
+
+SENTENCIA_HMIENTRAS ::= hacer llaveAbre SENTENCIAS llaveCierra mientras parenAbre EXP parenAbre fin
+                    ;
+
+SENTENCIA_MIENTRAS ::= mientras parenAbre EXP parenCierra llaveAbre SENTENCIAS llaveCierra
+                    ;
+
+SENTENCIA_PARA ::= para parenAbre ASIGNA_PARA CONDICION EXP parenCierra llaveAbre SENTENCIAS llaveCierra
+                ;
+
+CONDICION ::= EXP dospuntos
+           ;
+
+ASIGNA_PARA ::= DECLARACION_PARA dospuntos
+             | ASIGNA dospuntos
+             ;
+
+DECLARACION_PARA ::= var TIPO_DATO id igual EXP
+                  ;
+
+SENTENCIA_SELECCION ::= seleccion parenAbre EXP parenCierra llaveAbre CASOS DEFECTO llaveCierra
+                     ;
+
+CASOS ::= CASOS L_CASO
+       | L_CASO
+       ;
+
+DEFECTO ::= defecto dospuntos SENTENCIAS
+         ;
+
+L_CASO ::= caso EXP dospuntos SENTENCIAS
+        ;
+
+SENTENCIA_SI ::= si parenAbre EXP parenCierra llaveAbre SENTENCIAS llaveCierra SENTENCIA_SINO
+              ;
+
+SENTENCIA_SINO ::= sino llaveAbre SENTENCIAS llaveCierra
+                | 
+                ;
+
+RETORNA ::= retornar EXP fin
+        ;
+
+DECLARACION_LOCAL ::= var TIPO_DATO id VISIBILIDAD OPCION
+            | var TIPO_DATO id ARREGLO VISIBILIDAD ASIGNACION_ARREGLO
+            ;
+
+ASIGNA ::= id igual EXP
+        ;
+
+LLAMAR ::= llamar id parenAbre PARAM_LLAMA parenCierra fin
+        ;
+
+LLAMARHK ::= llamarHK id parenAbre PARAM_LLAMA parenCierra fin
+        ;
+
+PARAM_LLAMA ::= PARAM_LLAMA coma EXP
+             | EXP
+             ;
+
+INSTANCIA_OBJETOS ::= var id id igual nuevo id parenAbre parenCierra fin
+                   ;
+
+EXP ::= EXP mas EXP
+     | EXP menos EXP
+     | EXP por EXP
+     | EXP div EXP
+     | EXP potencia EXP
+     | EXP or EXP
+     | EXP xor EXP
+     | EXP and EXP
+     | not EXP
+     | EXP menorq EXP
+     | EXP mayorq EXP
+     | EXP menorigualq EXP
+     | EXP mayorigualq EXP
+     | EXP igualigual EXP
+     | EXP diferente EXP
+     | EXP incremento
+     | EXP decremento
+     | menos EXP
+     | parenAbre EXP parenCierra
+    // | LLAMAR falta hk
+     | num
+     | cad
+     | dec
+     | carac
+     | id
+     | falso
+     | verdadero
+     ;

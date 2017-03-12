@@ -1,0 +1,198 @@
+/*------------ Codigo de Usuario ---------*/
+//------> Paquetes,importaciones
+package Analizadores.Consola;
+import java_cup.runtime.Symbol;
+
+
+//------> Parser, Variables y Metodos
+
+parser code
+{: 
+   
+    
+    public void syntax_error(Symbol s)
+    {
+        String texto = s.value.toString();
+        int fila= s.right;
+        int columna = s.left;
+        
+        System.out.println("Error Sintactico Recuperado: "+texto+" Fila: "+fila+" Columna: " +columna);
+
+    }
+
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
+    {
+        String texto = s.value.toString();
+        int fila= s.right;
+        int columna = s.left;
+        
+        System.out.println("Error Sintactico Modo Panico: "+texto+" Fila: "+fila+" Columna: " +columna);
+    }
+:}
+
+//------> Acciones Gramaticales 
+action code 
+{:
+:}
+/*------------ Declaraciones Terminales y No Terminales ---------*/
+
+
+/*------------ Reglas Semanticas ---------*/
+
+terminal mas, menos, por, div, residuo, sqrt, pot;
+terminal or, and;
+terminal mayorq, menorq, mayorigualq, menorigualq, igualigual, diferente;
+terminal igual, dolar, concatena, indice, coma, porcentaje; 
+terminal corAbre, corCierra, parenAbre, parenCierra;
+terminal succ, decc, let, min, max, calcular;
+terminal sum, product, revers, impr, par, asc, desc, tam;
+terminal entero, cadena, caracter, id;
+
+non terminal INICIO;
+non terminal L_PARAM, PARAMETROS;
+non terminal FUNCIONES_PROPIAS, LLAMA_FUNCION;
+non terminal DECLARA_LISTA, LISTA, LISTAS, MAS_CORCH, EXPRESIONES, EXP;
+non terminal CALCULAR, SUCC, DECC, MIN, MAX, M;
+non terminal SUM, PRODUCT, REVERS, IMPR, PAR, ASC, DESC, LENGTH, CONCATENA, INDICE;
+
+precedence left or;
+precedence left and;
+precedence left igualigual, diferente, mayorq, menorq, mayorigualq, menorigualq;
+precedence left mas, menos;
+precedence left por, div, residuo; 
+precedence right pot, sqrt;
+
+start with INICIO;
+
+INICIO ::= FUNCIONES_PROPIAS 
+          ;
+
+FUNCIONES_PROPIAS ::= DECLARA_LISTA 
+                    | CALCULAR
+                    | SUCC
+                    | DECC
+                    | MIN
+                    | MAX
+                    | SUM
+                    | PRODUCT
+                    | REVERS
+                    | IMPR
+                    | PAR
+                    | ASC
+                    | DESC
+                    | LENGTH
+                    | CONCATENA
+                    | INDICE 
+                    | LLAMA_FUNCION
+                    ;
+
+DECLARA_LISTA ::= dolar let id igual LISTA dolar
+               ;
+
+CALCULAR ::= dolar calcular EXP dolar
+          ;
+
+SUCC ::= dolar succ EXP dolar
+      ;
+
+DECC ::= dolar decc EXP dolar
+      ;
+
+MIN ::= dolar min M dolar
+     ;
+
+MAX ::= dolar max M dolar
+     ;
+
+M ::= EXP 
+    | LISTA
+    ;
+
+SUM ::= dolar sum LISTA dolar
+     ;
+
+PRODUCT ::= dolar product LISTA dolar
+        ;
+
+REVERS ::= dolar revers LISTA dolar
+        ;
+
+IMPR ::= dolar impr LISTA dolar
+      ;
+
+PAR ::= dolar par LISTA dolar
+     ;
+
+ASC ::= dolar asc LISTA dolar
+     ;
+
+DESC ::= dolar desc LISTA dolar
+      ;
+
+LENGTH ::= dolar tam LISTA dolar
+        ;
+
+CONCATENA ::= LISTA concatena LISTA
+           ;
+
+INDICE ::= id indice EXP
+        ;
+
+LISTA ::= corAbre LISTAS corCierra
+       ;
+
+LISTAS ::= EXPRESIONES
+        | MAS_CORCH
+        ;
+
+EXPRESIONES ::= EXPRESIONES coma EXP
+            | EXP
+            ;
+
+MAS_CORCH ::= corAbre EXPRESIONES corCierra coma corAbre EXPRESIONES corCierra
+          ;
+
+EXP ::= EXP mas EXP
+     | EXP menos EXP
+     | EXP por EXP
+     | EXP div EXP
+     | EXP residuo EXP
+     | EXP sqrt EXP
+     | EXP pot EXP
+     | EXP or EXP
+     | EXP and EXP
+     | EXP menorq EXP
+     | EXP mayorq EXP
+     | EXP menorigualq EXP
+     | EXP mayorigualq EXP
+     | EXP igualigual EXP
+     | EXP diferente EXP
+     | SUM
+     | PRODUCT
+     | tam LISTA
+     | menos EXP
+     | parenAbre EXP parenCierra
+     | CALCULAR
+     | LLAMA_FUNCION 
+     | SUCC
+     | DECC
+     | MIN
+     | MAX
+     | entero
+     | cadena
+     | caracter
+     | id
+     ;
+
+LLAMA_FUNCION ::= dolar id PARAMETROS dolar
+               ;
+
+PARAMETROS ::= PARAMETROS coma L_PARAM
+            | L_PARAM
+            ;
+
+L_PARAM ::= EXP 
+        | LISTA 
+        | porcentaje
+        ;
+

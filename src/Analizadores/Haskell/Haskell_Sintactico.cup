@@ -1,0 +1,239 @@
+/*------------ Codigo de Usuario ---------*/
+//------> Paquetes,importaciones
+package Analizadores.Haskell;
+import java_cup.runtime.Symbol;
+import java.util.LinkedList;
+
+//------> Parser, Variables y Metodos
+
+parser code
+{: 
+    public static LinkedList<Analizadores.Errores> Err = new LinkedList<Analizadores.Errores>();
+    
+    public void syntax_error(Symbol s)
+    {
+        String texto = s.value.toString();
+        int columna = s.right+1;
+        int fila = (s.left+1);
+        
+        System.out.println("Error Sintactico Recuperado: "+texto+" Fila: "+fila+" Columna: " +columna);
+        Analizadores.Errores err = new Analizadores.Errores("Sintactico: ","No se esperaba: ",texto,fila,columna);
+        Err.add(err);
+
+    }
+
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
+    {
+        String texto = s.value.toString();
+        int columna = s.right+1;
+        int fila = (s.left+1);
+        
+        System.out.println("Error Sintactico Modo Panico: "+texto+" Fila: "+fila+" Columna: " +columna);
+        Analizadores.Errores err = new Analizadores.Errores("Sintactico: ","No se esperaba: ",texto,fila,columna);
+        Err.add(err);
+    }
+:}
+
+//------> Acciones Gramaticales 
+action code 
+{:
+:}
+
+/*------------ Declaraciones Terminales y No Terminales ---------*/
+
+
+/*------------ Reglas Semanticas ---------*/
+
+terminal mas, menos, por, div, residuo, sqrt, pot;
+terminal or, and;
+terminal mayorq, menorq, mayorigualq, menorigualq, igualigual, diferente;
+terminal igual, dolar, concatena, indice, dospuntos, coma, puntoycoma; 
+terminal corAbre, corCierra, llaveAbre, llaveCierra, parenAbre, parenCierra;
+terminal succ, decc, let, min, max, calcular;
+terminal sum, product, revers, impr, par, asc, desc, tam;
+terminal si, entonces, sino, caso, fin;
+terminal entero, cadena, caracter, id;
+
+non terminal INICIO;
+non terminal L_PARAM, PARAMETROS;
+non terminal FUNCION,L_FUNCION, FUNCIONES_PROPIAS, LLAMA_FUNCION;
+non terminal CUERPO, L_CUERPO;
+non terminal DECLARA_LISTA, LISTA, LISTAS, MAS_CORCH, EXPRESIONES, EXP, EXP_CASO;
+non terminal IF, CASE, CASOS, L_CASOS;
+non terminal CALCULAR, SUCC, DECC, MIN, MAX, M;
+non terminal SUM, PRODUCT, REVERS, IMPR, PAR, ASC, DESC, LENGTH, CONCATENA, INDICE;
+
+precedence left or;
+precedence left and;
+precedence left igualigual, diferente, mayorq, menorq, mayorigualq, menorigualq;
+precedence left mas, menos;
+precedence left por, div, residuo; 
+precedence right pot, sqrt;
+
+start with INICIO;
+
+INICIO ::= FUNCION
+    ;
+
+FUNCION ::= FUNCION L_FUNCION
+        | L_FUNCION
+        ;
+
+L_FUNCION ::= id PARAMETROS igual CUERPO fin
+            ;
+
+PARAMETROS ::= PARAMETROS coma L_PARAM
+            | L_PARAM
+            ;
+
+L_PARAM ::= EXP 
+        | LISTA 
+        ;
+
+CUERPO ::= CUERPO L_CUERPO
+        | L_CUERPO
+        ;
+
+L_CUERPO ::= IF
+          | CASE
+          | FUNCIONES_PROPIAS 
+          ;
+
+IF ::= si EXP entonces CUERPO sino CUERPO fin
+    ;
+
+CASE ::= caso EXP_CASO CASOS fin
+      ;
+
+CASOS ::= CASOS L_CASOS
+       | L_CASOS
+       ;
+
+L_CASOS ::= EXP_CASO dospuntos CUERPO puntoycoma
+        ;
+
+EXP_CASO ::= EXP
+          | LISTA
+          ;
+
+FUNCIONES_PROPIAS ::= DECLARA_LISTA 
+                    | CALCULAR
+                    | SUCC
+                    | DECC
+                    | MIN
+                    | MAX
+                    | SUM
+                    | PRODUCT
+                    | REVERS
+                    | IMPR
+                    | PAR
+                    | ASC
+                    | DESC
+                    | LENGTH
+                    | CONCATENA
+                    | INDICE 
+                    ;
+
+DECLARA_LISTA ::= dolar let id igual LISTA dolar
+               ;
+
+CALCULAR ::= dolar calcular EXP dolar
+          ;
+
+SUCC ::= dolar succ EXP dolar
+      ;
+
+DECC ::= dolar decc EXP dolar
+      ;
+
+MIN ::= dolar min M dolar
+     ;
+
+MAX ::= dolar max M dolar
+     ;
+
+M ::= EXP 
+    | LISTA
+    ;
+
+SUM ::= dolar sum LISTA dolar
+     ;
+
+PRODUCT ::= dolar product LISTA dolar
+        ;
+
+REVERS ::= dolar revers LISTA dolar
+        ;
+
+IMPR ::= dolar impr LISTA dolar
+      ;
+
+PAR ::= dolar par LISTA dolar
+     ;
+
+ASC ::= dolar asc LISTA dolar
+     ;
+
+DESC ::= dolar desc LISTA dolar
+      ;
+
+LENGTH ::= tam LISTA 
+        ;
+
+CONCATENA ::= LISTA concatena LISTA
+           ;
+
+INDICE ::= id indice EXP
+        ;
+
+LISTA ::= corAbre LISTAS corCierra
+       ;
+
+LISTAS ::= EXPRESIONES
+        | MAS_CORCH
+        ;
+
+EXPRESIONES ::= EXPRESIONES coma EXP
+            | EXP
+            ;
+
+MAS_CORCH ::= corAbre EXPRESIONES corCierra coma corAbre EXPRESIONES corCierra
+          ;
+
+EXP ::= EXP mas EXP
+     | EXP menos EXP
+     | EXP por EXP
+     | EXP div EXP
+     | EXP residuo EXP
+     | EXP sqrt EXP
+     | EXP pot EXP
+     | EXP or EXP
+     | EXP and EXP
+     | EXP menorq EXP
+     | EXP mayorq EXP
+     | EXP menorigualq EXP
+     | EXP mayorigualq EXP
+     | EXP igualigual EXP
+     | EXP diferente EXP
+     | SUM
+     | PRODUCT
+     | LENGTH
+     | menos EXP
+     | parenAbre EXP parenCierra
+     | CALCULAR
+     | LLAMA_FUNCION 
+     | INDICE
+     | SUCC
+     | DECC
+     | MIN
+     | MAX
+     //| LISTA
+     | entero
+     | cadena
+     | caracter
+     | id
+     ;
+
+LLAMA_FUNCION ::= dolar id llaveAbre PARAMETROS llaveCierra dolar
+               ;
+
