@@ -38,15 +38,15 @@ public class HaskellLexico implements java_cup.runtime.Scanner {
    * Translates characters to character classes
    */
   private static final char [] ZZ_CMAP = {
-     0,  0,  0,  0,  0,  0,  0,  0,  0, 49, 48, 50, 50, 47,  0,  0, 
+     0,  0,  0,  0,  0,  0,  0,  0,  0, 50, 49, 51, 51, 48,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-    49, 23,  3,  0, 24,  0, 19,  4, 29, 30,  7,  5, 32,  6,  0,  8, 
-     1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 31, 33, 21, 22, 20,  0, 
-     0, 41,  2, 35, 11, 36, 46, 44, 45, 39,  2,  2, 37,  9, 40, 10, 
-    17, 14, 15, 13, 16, 34, 43,  2, 42,  2,  2, 25,  0, 26,  0,  2, 
-     0, 41,  2, 35, 11, 36, 46, 44, 45, 39,  2,  2, 37,  9, 40, 10, 
-    17, 14, 15, 13, 16, 34, 43,  2, 42,  2,  2, 27, 18, 28,  0,  0, 
-     0,  0,  0,  0,  0, 50,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+     5, 24,  3,  0, 25,  0, 20,  4, 30, 31,  8,  6, 33,  7,  0,  9, 
+     1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 32, 34, 22, 23, 21,  0, 
+     0, 42,  2, 36, 12, 37, 47, 45, 46, 40,  2,  2, 38, 10, 41, 11, 
+    18, 15, 16, 14, 17, 35, 44,  2, 43,  2,  2, 26,  0, 27,  0,  2, 
+     0, 42,  2, 36, 12, 37, 47, 45, 46, 40,  2,  2, 38, 10, 41, 11, 
+    18, 15, 16, 14, 17, 35, 44,  2, 43,  2,  2, 28, 19, 29,  0,  0, 
+     0,  0,  0,  0,  0, 51,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
@@ -63,18 +63,18 @@ public class HaskellLexico implements java_cup.runtime.Scanner {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\1\0\1\1\1\2\1\3\2\1\1\4\1\5\1\6"+
-    "\1\7\2\3\1\1\4\3\2\1\1\10\1\11\1\12"+
-    "\1\1\1\13\1\14\1\15\1\16\1\17\1\20\1\21"+
-    "\1\22\1\23\1\24\3\3\1\1\2\3\1\0\2\25"+
-    "\6\0\1\26\1\0\3\3\1\0\5\3\1\27\1\30"+
-    "\1\31\1\32\1\33\1\34\1\35\4\3\1\0\1\36"+
-    "\1\3\1\36\1\0\1\3\1\37\1\40\3\0\2\41"+
-    "\1\42\1\0\2\3\1\43\1\0\1\43\4\3\1\44"+
-    "\1\0\2\3\1\0\1\3\1\45\1\46\1\3\1\0"+
-    "\1\3\2\47\3\0\2\50\1\51\2\52\1\3\1\53"+
-    "\1\3\2\54\1\3\2\55\1\3\2\56\1\57\1\0"+
-    "\1\60\4\3\1\61\2\62\2\3\1\63\1\64\1\3"+
-    "\1\65";
+    "\1\7\1\10\2\3\1\1\4\3\2\1\1\11\1\12"+
+    "\1\13\1\1\1\14\1\15\1\16\1\17\1\20\1\21"+
+    "\1\22\1\23\1\24\1\25\3\3\1\1\2\3\1\0"+
+    "\1\4\2\0\1\26\4\0\1\27\1\0\3\3\1\0"+
+    "\5\3\1\30\1\31\1\32\1\33\1\34\1\35\1\36"+
+    "\4\3\1\0\1\37\1\3\1\37\1\0\1\3\1\40"+
+    "\3\0\2\41\1\42\1\0\2\3\1\43\1\0\1\43"+
+    "\4\3\1\44\1\0\2\3\1\0\1\3\1\45\1\46"+
+    "\1\3\1\0\1\3\2\47\3\0\2\50\1\51\2\52"+
+    "\1\3\1\53\1\3\2\54\1\3\2\55\1\3\2\56"+
+    "\1\57\1\0\1\60\4\3\1\61\2\62\2\3\1\63"+
+    "\1\64\1\3\1\65";
 
   private static int [] zzUnpackAction() {
     int [] result = new int[142];
@@ -102,24 +102,24 @@ public class HaskellLexico implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\63\0\146\0\231\0\314\0\377\0\u0132\0\63"+
-    "\0\63\0\63\0\u0165\0\u0198\0\u01cb\0\u01fe\0\u0231\0\u0264"+
-    "\0\u0297\0\u02ca\0\u02fd\0\u0330\0\u0363\0\u0396\0\u03c9\0\63"+
-    "\0\63\0\63\0\63\0\63\0\63\0\63\0\63\0\63"+
-    "\0\63\0\u03fc\0\u042f\0\u0462\0\u0495\0\u04c8\0\u04fb\0\u052e"+
-    "\0\u0561\0\u0594\0\u05c7\0\u05fa\0\u062d\0\u0660\0\u0693\0\u06c6"+
-    "\0\63\0\u06f9\0\u072c\0\u075f\0\u0792\0\u07c5\0\u07f8\0\u082b"+
-    "\0\u085e\0\u0891\0\u08c4\0\63\0\63\0\63\0\63\0\63"+
-    "\0\63\0\63\0\u08f7\0\u092a\0\u095d\0\u0990\0\u09c3\0\63"+
-    "\0\u09f6\0\231\0\u0a29\0\u0a5c\0\63\0\63\0\u0a8f\0\u0ac2"+
-    "\0\u0af5\0\63\0\231\0\231\0\u0b28\0\u0b5b\0\u0b8e\0\63"+
-    "\0\u0bc1\0\231\0\u0bf4\0\u0c27\0\u0c5a\0\u0c8d\0\231\0\u0cc0"+
-    "\0\u0cf3\0\u0d26\0\u0d59\0\u0d8c\0\231\0\231\0\u0dbf\0\u0df2"+
-    "\0\u0e25\0\63\0\231\0\u0e58\0\u0e8b\0\u0ebe\0\63\0\231"+
-    "\0\231\0\63\0\231\0\u0ef1\0\231\0\u0f24\0\63\0\231"+
-    "\0\u0f57\0\63\0\231\0\u0f8a\0\63\0\231\0\63\0\u0fbd"+
-    "\0\63\0\u0ff0\0\u1023\0\u1056\0\u1089\0\63\0\63\0\231"+
-    "\0\u10bc\0\u10ef\0\231\0\231\0\u1122\0\231";
+    "\0\0\0\64\0\150\0\234\0\320\0\u0104\0\u0138\0\u016c"+
+    "\0\64\0\64\0\64\0\u01a0\0\u01d4\0\u0208\0\u023c\0\u0270"+
+    "\0\u02a4\0\u02d8\0\u030c\0\u0340\0\u0374\0\u03a8\0\u03dc\0\u0410"+
+    "\0\64\0\64\0\64\0\64\0\64\0\64\0\64\0\64"+
+    "\0\64\0\64\0\u0444\0\u0478\0\u04ac\0\u04e0\0\u0514\0\u0548"+
+    "\0\u057c\0\u05b0\0\u05e4\0\u0618\0\64\0\u064c\0\u0680\0\u06b4"+
+    "\0\u06e8\0\64\0\u071c\0\u0750\0\u0784\0\u07b8\0\u07ec\0\u0820"+
+    "\0\u0854\0\u0888\0\u08bc\0\u08f0\0\64\0\64\0\64\0\64"+
+    "\0\64\0\64\0\64\0\u0924\0\u0958\0\u098c\0\u09c0\0\u09f4"+
+    "\0\64\0\u0a28\0\234\0\u0a5c\0\u0a90\0\64\0\u0ac4\0\u0af8"+
+    "\0\u0b2c\0\64\0\234\0\234\0\u0b60\0\u0b94\0\u0bc8\0\64"+
+    "\0\u0bfc\0\234\0\u0c30\0\u0c64\0\u0c98\0\u0ccc\0\234\0\u0d00"+
+    "\0\u0d34\0\u0d68\0\u0d9c\0\u0dd0\0\234\0\234\0\u0e04\0\u0e38"+
+    "\0\u0e6c\0\64\0\234\0\u0ea0\0\u0ed4\0\u0f08\0\64\0\234"+
+    "\0\234\0\64\0\234\0\u0f3c\0\234\0\u0f70\0\64\0\234"+
+    "\0\u0fa4\0\64\0\234\0\u0fd8\0\64\0\234\0\64\0\u100c"+
+    "\0\64\0\u1040\0\u1074\0\u10a8\0\u10dc\0\64\0\64\0\234"+
+    "\0\u1110\0\u1144\0\234\0\234\0\u1178\0\234";
 
   private static int [] zzUnpackRowMap() {
     int [] result = new int[142];
@@ -146,100 +146,101 @@ public class HaskellLexico implements java_cup.runtime.Scanner {
 
   private static final String ZZ_TRANS_PACKED_0 =
     "\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11"+
-    "\1\12\1\13\1\4\1\14\1\15\1\16\1\4\1\17"+
+    "\1\12\1\13\1\14\1\4\1\15\1\16\1\17\1\4"+
     "\1\20\1\21\1\22\1\23\1\24\1\25\1\26\1\27"+
     "\1\30\1\31\1\32\1\33\1\34\1\35\1\36\1\37"+
-    "\1\40\1\41\1\4\1\42\1\43\1\44\1\45\1\46"+
-    "\1\4\1\47\5\4\1\50\1\51\1\52\65\0\1\3"+
-    "\62\0\2\4\6\0\3\4\1\0\5\4\20\0\4\4"+
-    "\1\0\10\4\6\0\1\53\6\0\3\53\1\0\5\53"+
-    "\20\0\4\53\1\0\10\53\6\0\1\54\6\0\1\55"+
-    "\2\54\1\56\1\57\3\54\1\60\20\0\4\54\1\0"+
-    "\10\54\11\0\1\61\56\0\2\4\6\0\3\4\1\0"+
-    "\5\4\20\0\4\4\1\62\1\63\1\4\1\64\5\4"+
-    "\5\0\2\4\6\0\3\4\1\0\5\4\20\0\2\4"+
-    "\1\65\1\4\1\0\10\4\46\0\1\66\21\0\2\4"+
-    "\6\0\3\4\1\0\5\4\20\0\1\67\3\4\1\0"+
-    "\10\4\5\0\2\4\6\0\3\4\1\0\5\4\20\0"+
-    "\2\4\1\70\1\4\1\0\10\4\5\0\2\4\6\0"+
-    "\3\4\1\0\5\4\20\0\4\4\1\0\6\4\1\71"+
-    "\1\4\5\0\2\4\6\0\3\4\1\0\2\4\1\72"+
-    "\2\4\20\0\4\4\1\0\2\4\1\73\5\4\26\0"+
-    "\1\74\63\0\1\75\65\0\1\76\62\0\1\77\62\0"+
-    "\1\100\62\0\1\101\1\102\34\0\2\4\6\0\3\4"+
-    "\1\0\5\4\20\0\4\4\1\0\2\4\1\103\5\4"+
-    "\5\0\2\4\6\0\3\4\1\0\5\4\20\0\3\4"+
-    "\1\104\1\0\1\4\1\105\6\4\5\0\2\4\6\0"+
-    "\3\4\1\0\5\4\20\0\2\4\1\106\1\4\1\0"+
-    "\10\4\15\0\1\107\44\0\1\110\5\0\2\4\6\0"+
-    "\1\111\2\4\1\0\5\4\20\0\4\4\1\0\7\4"+
-    "\1\112\5\0\2\4\6\0\3\4\1\113\1\114\4\4"+
-    "\20\0\4\4\1\0\10\4\64\0\1\51\61\0\1\50"+
-    "\1\51\63\0\1\52\3\0\1\53\1\115\5\0\3\53"+
-    "\1\0\5\53\20\0\4\53\1\0\10\53\10\0\1\116"+
-    "\62\0\1\116\5\0\1\117\66\0\1\120\50\0\1\116"+
-    "\11\0\1\120\50\0\1\116\5\0\1\121\120\0\1\122"+
-    "\13\0\2\4\6\0\3\4\1\0\5\4\20\0\4\4"+
-    "\1\0\1\4\1\123\6\4\5\0\2\4\6\0\3\4"+
-    "\1\0\5\4\20\0\4\4\1\0\3\4\1\124\4\4"+
-    "\5\0\2\4\6\0\3\4\1\125\1\126\4\4\20\0"+
-    "\1\4\1\127\2\4\1\0\10\4\15\0\1\130\31\0"+
-    "\1\131\20\0\2\4\6\0\1\132\2\4\1\0\5\4"+
-    "\20\0\1\4\1\133\2\4\1\0\10\4\5\0\2\4"+
-    "\6\0\3\4\1\0\5\4\20\0\4\4\1\0\4\4"+
-    "\1\134\3\4\5\0\2\4\6\0\3\4\1\0\5\4"+
-    "\20\0\2\4\1\135\1\4\1\0\10\4\5\0\2\4"+
-    "\6\0\1\4\1\136\1\4\1\0\5\4\20\0\4\4"+
-    "\1\0\10\4\5\0\2\4\6\0\3\4\1\0\2\4"+
-    "\1\137\2\4\20\0\4\4\1\0\10\4\5\0\2\4"+
-    "\6\0\3\4\1\140\1\141\4\4\20\0\3\4\1\142"+
-    "\1\0\10\4\5\0\2\4\6\0\3\4\1\143\1\144"+
-    "\4\4\20\0\4\4\1\0\10\4\5\0\2\4\6\0"+
-    "\2\4\1\145\1\0\5\4\20\0\4\4\1\0\10\4"+
-    "\5\0\2\4\6\0\3\4\1\0\3\4\1\146\1\4"+
-    "\20\0\4\4\1\0\1\4\1\147\6\4\25\0\1\150"+
-    "\42\0\2\4\6\0\3\4\1\0\4\4\1\151\20\0"+
-    "\4\4\1\0\10\4\47\0\1\152\20\0\2\4\6\0"+
-    "\3\4\1\0\5\4\20\0\1\4\1\153\2\4\1\0"+
-    "\10\4\17\0\1\154\66\0\1\155\63\0\1\156\105\0"+
-    "\1\157\20\0\2\4\6\0\3\4\1\0\5\4\20\0"+
-    "\1\4\1\160\2\4\1\0\10\4\5\0\2\4\6\0"+
-    "\3\4\1\0\5\4\20\0\1\4\1\161\2\4\1\0"+
-    "\10\4\47\0\1\162\20\0\2\4\6\0\3\4\1\0"+
-    "\5\4\20\0\1\4\1\163\2\4\1\0\10\4\5\0"+
-    "\2\4\6\0\3\4\1\0\5\4\20\0\2\4\1\164"+
-    "\1\4\1\0\10\4\5\0\2\4\6\0\3\4\1\0"+
-    "\5\4\20\0\4\4\1\0\1\4\1\165\6\4\5\0"+
-    "\2\4\6\0\2\4\1\166\1\0\5\4\20\0\4\4"+
-    "\1\0\10\4\50\0\1\167\17\0\2\4\6\0\3\4"+
-    "\1\0\5\4\20\0\2\4\1\170\1\4\1\0\10\4"+
-    "\5\0\2\4\6\0\3\4\1\0\5\4\20\0\1\4"+
-    "\1\171\2\4\1\0\10\4\50\0\1\172\17\0\2\4"+
-    "\6\0\3\4\1\0\5\4\20\0\2\4\1\173\1\4"+
-    "\1\0\10\4\5\0\2\4\6\0\3\4\1\0\5\4"+
-    "\20\0\4\4\1\0\5\4\1\174\2\4\23\0\1\175"+
-    "\44\0\2\4\6\0\3\4\1\0\2\4\1\176\2\4"+
-    "\20\0\4\4\1\0\10\4\10\0\1\177\76\0\1\200"+
-    "\46\0\1\201\57\0\2\4\6\0\3\4\1\0\2\4"+
-    "\1\202\2\4\20\0\4\4\1\0\10\4\5\0\2\4"+
-    "\6\0\3\4\1\0\5\4\20\0\1\203\3\4\1\0"+
-    "\10\4\5\0\2\4\6\0\3\4\1\0\5\4\20\0"+
-    "\1\204\3\4\1\0\10\4\5\0\2\4\6\0\3\4"+
-    "\1\0\3\4\1\205\1\4\20\0\4\4\1\0\10\4"+
-    "\10\0\1\206\57\0\2\4\6\0\3\4\1\207\1\210"+
-    "\4\4\20\0\4\4\1\0\10\4\5\0\2\4\6\0"+
-    "\3\4\1\0\5\4\20\0\1\4\1\211\2\4\1\0"+
-    "\10\4\5\0\2\4\6\0\3\4\1\0\5\4\20\0"+
-    "\3\4\1\212\1\0\10\4\5\0\2\4\6\0\3\4"+
-    "\1\0\5\4\20\0\4\4\1\0\6\4\1\213\1\4"+
-    "\5\0\2\4\6\0\3\4\1\0\3\4\1\214\1\4"+
-    "\20\0\4\4\1\0\10\4\5\0\2\4\6\0\3\4"+
-    "\1\0\5\4\20\0\4\4\1\0\2\4\1\215\5\4"+
-    "\5\0\2\4\6\0\3\4\1\0\2\4\1\216\2\4"+
-    "\20\0\4\4\1\0\10\4\4\0";
+    "\1\40\1\41\1\42\1\4\1\43\1\44\1\45\1\46"+
+    "\1\47\1\4\1\50\5\4\1\51\1\52\1\7\66\0"+
+    "\1\3\63\0\2\4\7\0\3\4\1\0\5\4\20\0"+
+    "\4\4\1\0\10\4\6\0\1\53\7\0\3\53\1\0"+
+    "\5\53\20\0\4\53\1\0\10\53\6\0\1\54\1\0"+
+    "\1\55\1\54\4\0\1\56\2\54\1\57\1\60\3\54"+
+    "\1\61\20\0\4\54\1\0\10\54\11\0\1\7\54\0"+
+    "\1\7\7\0\1\62\56\0\2\4\7\0\3\4\1\0"+
+    "\5\4\20\0\4\4\1\63\1\64\1\4\1\65\5\4"+
+    "\5\0\2\4\7\0\3\4\1\0\5\4\20\0\2\4"+
+    "\1\66\1\4\1\0\10\4\47\0\1\67\21\0\2\4"+
+    "\7\0\3\4\1\0\5\4\20\0\1\70\3\4\1\0"+
+    "\10\4\5\0\2\4\7\0\3\4\1\0\5\4\20\0"+
+    "\2\4\1\71\1\4\1\0\10\4\5\0\2\4\7\0"+
+    "\3\4\1\0\5\4\20\0\4\4\1\0\6\4\1\72"+
+    "\1\4\5\0\2\4\7\0\3\4\1\0\2\4\1\73"+
+    "\2\4\20\0\4\4\1\0\2\4\1\74\5\4\27\0"+
+    "\1\75\64\0\1\76\66\0\1\77\63\0\1\100\63\0"+
+    "\1\101\63\0\1\102\1\103\34\0\2\4\7\0\3\4"+
+    "\1\0\5\4\20\0\4\4\1\0\2\4\1\104\5\4"+
+    "\5\0\2\4\7\0\3\4\1\0\5\4\20\0\3\4"+
+    "\1\105\1\0\1\4\1\106\6\4\5\0\2\4\7\0"+
+    "\3\4\1\0\5\4\20\0\2\4\1\107\1\4\1\0"+
+    "\10\4\16\0\1\110\44\0\1\111\5\0\2\4\7\0"+
+    "\1\112\2\4\1\0\5\4\20\0\4\4\1\0\7\4"+
+    "\1\113\5\0\2\4\7\0\3\4\1\114\1\115\4\4"+
+    "\20\0\4\4\1\0\10\4\65\0\1\52\62\0\1\51"+
+    "\1\52\4\0\1\53\1\116\6\0\3\53\1\0\5\53"+
+    "\20\0\4\53\1\0\10\53\10\0\1\55\63\0\1\55"+
+    "\6\0\1\117\67\0\1\120\50\0\1\55\12\0\1\120"+
+    "\50\0\1\55\6\0\1\121\121\0\1\122\13\0\2\4"+
+    "\7\0\3\4\1\0\5\4\20\0\4\4\1\0\1\4"+
+    "\1\123\6\4\5\0\2\4\7\0\3\4\1\0\5\4"+
+    "\20\0\4\4\1\0\3\4\1\124\4\4\5\0\2\4"+
+    "\7\0\3\4\1\125\1\126\4\4\20\0\1\4\1\127"+
+    "\2\4\1\0\10\4\16\0\1\130\31\0\1\131\20\0"+
+    "\2\4\7\0\1\132\2\4\1\0\5\4\20\0\1\4"+
+    "\1\133\2\4\1\0\10\4\5\0\2\4\7\0\3\4"+
+    "\1\0\5\4\20\0\4\4\1\0\4\4\1\134\3\4"+
+    "\5\0\2\4\7\0\3\4\1\0\5\4\20\0\2\4"+
+    "\1\135\1\4\1\0\10\4\5\0\2\4\7\0\1\4"+
+    "\1\136\1\4\1\0\5\4\20\0\4\4\1\0\10\4"+
+    "\5\0\2\4\7\0\3\4\1\0\2\4\1\137\2\4"+
+    "\20\0\4\4\1\0\10\4\5\0\2\4\7\0\3\4"+
+    "\1\140\1\141\4\4\20\0\3\4\1\142\1\0\10\4"+
+    "\5\0\2\4\7\0\3\4\1\143\1\144\4\4\20\0"+
+    "\4\4\1\0\10\4\5\0\2\4\7\0\2\4\1\145"+
+    "\1\0\5\4\20\0\4\4\1\0\10\4\5\0\2\4"+
+    "\7\0\3\4\1\0\3\4\1\146\1\4\20\0\4\4"+
+    "\1\0\1\4\1\147\6\4\26\0\1\150\42\0\2\4"+
+    "\7\0\3\4\1\0\4\4\1\151\20\0\4\4\1\0"+
+    "\10\4\50\0\1\152\20\0\2\4\7\0\3\4\1\0"+
+    "\5\4\20\0\1\4\1\153\2\4\1\0\10\4\20\0"+
+    "\1\154\67\0\1\155\64\0\1\156\106\0\1\157\20\0"+
+    "\2\4\7\0\3\4\1\0\5\4\20\0\1\4\1\160"+
+    "\2\4\1\0\10\4\5\0\2\4\7\0\3\4\1\0"+
+    "\5\4\20\0\1\4\1\161\2\4\1\0\10\4\50\0"+
+    "\1\162\20\0\2\4\7\0\3\4\1\0\5\4\20\0"+
+    "\1\4\1\163\2\4\1\0\10\4\5\0\2\4\7\0"+
+    "\3\4\1\0\5\4\20\0\2\4\1\164\1\4\1\0"+
+    "\10\4\5\0\2\4\7\0\3\4\1\0\5\4\20\0"+
+    "\4\4\1\0\1\4\1\165\6\4\5\0\2\4\7\0"+
+    "\2\4\1\166\1\0\5\4\20\0\4\4\1\0\10\4"+
+    "\51\0\1\167\17\0\2\4\7\0\3\4\1\0\5\4"+
+    "\20\0\2\4\1\170\1\4\1\0\10\4\5\0\2\4"+
+    "\7\0\3\4\1\0\5\4\20\0\1\4\1\171\2\4"+
+    "\1\0\10\4\51\0\1\172\17\0\2\4\7\0\3\4"+
+    "\1\0\5\4\20\0\2\4\1\173\1\4\1\0\10\4"+
+    "\5\0\2\4\7\0\3\4\1\0\5\4\20\0\4\4"+
+    "\1\0\5\4\1\174\2\4\24\0\1\175\44\0\2\4"+
+    "\7\0\3\4\1\0\2\4\1\176\2\4\20\0\4\4"+
+    "\1\0\10\4\10\0\1\177\100\0\1\200\46\0\1\201"+
+    "\60\0\2\4\7\0\3\4\1\0\2\4\1\202\2\4"+
+    "\20\0\4\4\1\0\10\4\5\0\2\4\7\0\3\4"+
+    "\1\0\5\4\20\0\1\203\3\4\1\0\10\4\5\0"+
+    "\2\4\7\0\3\4\1\0\5\4\20\0\1\204\3\4"+
+    "\1\0\10\4\5\0\2\4\7\0\3\4\1\0\3\4"+
+    "\1\205\1\4\20\0\4\4\1\0\10\4\10\0\1\206"+
+    "\60\0\2\4\7\0\3\4\1\207\1\210\4\4\20\0"+
+    "\4\4\1\0\10\4\5\0\2\4\7\0\3\4\1\0"+
+    "\5\4\20\0\1\4\1\211\2\4\1\0\10\4\5\0"+
+    "\2\4\7\0\3\4\1\0\5\4\20\0\3\4\1\212"+
+    "\1\0\10\4\5\0\2\4\7\0\3\4\1\0\5\4"+
+    "\20\0\4\4\1\0\6\4\1\213\1\4\5\0\2\4"+
+    "\7\0\3\4\1\0\3\4\1\214\1\4\20\0\4\4"+
+    "\1\0\10\4\5\0\2\4\7\0\3\4\1\0\5\4"+
+    "\20\0\4\4\1\0\2\4\1\215\5\4\5\0\2\4"+
+    "\7\0\3\4\1\0\2\4\1\216\2\4\20\0\4\4"+
+    "\1\0\10\4\4\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[4437];
+    int [] result = new int[4524];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -277,13 +278,14 @@ public class HaskellLexico implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\5\1\3\11\15\1\12\11\6\1\1\0"+
-    "\2\1\6\0\1\11\1\0\3\1\1\0\5\1\7\11"+
-    "\4\1\1\0\1\11\2\1\1\0\1\1\2\11\3\0"+
-    "\1\11\2\1\1\0\2\1\1\11\1\0\6\1\1\0"+
-    "\2\1\1\0\4\1\1\0\1\1\1\11\1\1\3\0"+
-    "\1\11\2\1\1\11\4\1\1\11\2\1\1\11\2\1"+
-    "\1\11\1\1\1\11\1\0\1\11\4\1\2\11\7\1";
+    "\1\0\1\11\6\1\3\11\15\1\12\11\6\1\1\0"+
+    "\1\1\2\0\1\11\4\0\1\11\1\0\3\1\1\0"+
+    "\5\1\7\11\4\1\1\0\1\11\2\1\1\0\1\1"+
+    "\1\11\3\0\1\11\2\1\1\0\2\1\1\11\1\0"+
+    "\6\1\1\0\2\1\1\0\4\1\1\0\1\1\1\11"+
+    "\1\1\3\0\1\11\2\1\1\11\4\1\1\11\2\1"+
+    "\1\11\2\1\1\11\1\1\1\11\1\0\1\11\4\1"+
+    "\2\11\7\1";
 
   private static int [] zzUnpackAttribute() {
     int [] result = new int[142];
@@ -750,147 +752,147 @@ public class HaskellLexico implements java_cup.runtime.Scanner {
             }
           case 56: break;
           case 4: 
-            { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.mas, yyline, yycolumn, yytext());
+            { 
             }
           case 57: break;
           case 5: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.menos, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.mas, yyline, yycolumn, yytext());
             }
           case 58: break;
           case 6: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.por, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.menos, yyline, yycolumn, yytext());
             }
           case 59: break;
           case 7: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.div, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.por, yyline, yycolumn, yytext());
             }
           case 60: break;
           case 8: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.mayorq, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.div, yyline, yycolumn, yytext());
             }
           case 61: break;
           case 9: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.menorq, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.mayorq, yyline, yycolumn, yytext());
             }
           case 62: break;
           case 10: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.igual, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.menorq, yyline, yycolumn, yytext());
             }
           case 63: break;
           case 11: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.dolar, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.igual, yyline, yycolumn, yytext());
             }
           case 64: break;
           case 12: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.corAbre, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.dolar, yyline, yycolumn, yytext());
             }
           case 65: break;
           case 13: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.corCierra, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.corAbre, yyline, yycolumn, yytext());
             }
           case 66: break;
           case 14: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.llaveAbre, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.corCierra, yyline, yycolumn, yytext());
             }
           case 67: break;
           case 15: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.llaveCierra, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.llaveAbre, yyline, yycolumn, yytext());
             }
           case 68: break;
           case 16: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.parenAbre, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.llaveCierra, yyline, yycolumn, yytext());
             }
           case 69: break;
           case 17: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.parenCierra, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.parenAbre, yyline, yycolumn, yytext());
             }
           case 70: break;
           case 18: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.dospuntos, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.parenCierra, yyline, yycolumn, yytext());
             }
           case 71: break;
           case 19: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.coma, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.dospuntos, yyline, yycolumn, yytext());
             }
           case 72: break;
           case 20: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.puntoycoma, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.coma, yyline, yycolumn, yytext());
             }
           case 73: break;
           case 21: 
-            { 
+            { //System.out.println("Reconocio: "+yytext());  
+                                   return new Symbol(SimbolosHaskell.puntoycoma, yyline, yycolumn, yytext());
             }
           case 74: break;
           case 22: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.concatena, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.caracter, yyline, yycolumn, yytext());
             }
           case 75: break;
           case 23: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.or, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.concatena, yyline, yycolumn, yytext());
             }
           case 76: break;
           case 24: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.and, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.or, yyline, yycolumn, yytext());
             }
           case 77: break;
           case 25: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.mayorigualq, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.and, yyline, yycolumn, yytext());
             }
           case 78: break;
           case 26: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.menorigualq, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.mayorigualq, yyline, yycolumn, yytext());
             }
           case 79: break;
           case 27: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.igualigual, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.menorigualq, yyline, yycolumn, yytext());
             }
           case 80: break;
           case 28: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.diferente, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.igualigual, yyline, yycolumn, yytext());
             }
           case 81: break;
           case 29: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.indice, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.diferente, yyline, yycolumn, yytext());
             }
           case 82: break;
           case 30: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.si, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.indice, yyline, yycolumn, yytext());
             }
           case 83: break;
           case 31: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.cadena, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.si, yyline, yycolumn, yytext());
             }
           case 84: break;
           case 32: 
             { //System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosHaskell.caracter, yyline, yycolumn, yytext());
+                                   return new Symbol(SimbolosHaskell.cadena, yyline, yycolumn, yytext());
             }
           case 85: break;
           case 33: 

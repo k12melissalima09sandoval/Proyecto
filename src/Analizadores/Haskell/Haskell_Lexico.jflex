@@ -29,7 +29,7 @@ digito = [0-9]
 entero = {digito}+
 letra = [a-zA-Z_Ññ]
 cadena = "\"" {letra}+ "\"" 
-caracter = "'" {letra} "'"
+caracter = "'" ({letra}|" ")? "'"
 id = {letra} ({letra} | {digito})*
 
 %%

@@ -14,7 +14,7 @@ parser code
     {
         String texto = s.value.toString();
         int columna = s.right+1;
-        int fila = (s.left+1);
+        int fila = (s.left+2);
         
         System.out.println("Error Sintactico Recuperado: "+texto+" Fila: "+fila+" Columna: " +columna);
         Analizadores.Errores err = new Analizadores.Errores("Sintactico: ","No se esperaba: ",texto,fila,columna);
@@ -26,7 +26,7 @@ parser code
     {
         String texto = s.value.toString();
         int columna = s.right+1;
-        int fila = (s.left+1);
+        int fila = (s.left+2);
         
         System.out.println("Error Sintactico Modo Panico: "+texto+" Fila: "+fila+" Columna: " +columna);
         Analizadores.Errores err = new Analizadores.Errores("Sintactico: ","No se esperaba: ",texto,fila,columna);
@@ -60,7 +60,7 @@ non terminal FUNCION,L_FUNCION, FUNCIONES_PROPIAS, LLAMA_FUNCION;
 non terminal CUERPO, L_CUERPO;
 non terminal DECLARA_LISTA, LISTA, LISTAS, MAS_CORCH, EXPRESIONES, EXP, EXP_CASO;
 non terminal IF, CASE, CASOS, L_CASOS;
-non terminal CALCULAR, SUCC, DECC, MIN, MAX, M;
+non terminal CALCULAR, SUCC, DECC, MIN, MAX, M, C_L;
 non terminal SUM, PRODUCT, REVERS, IMPR, PAR, ASC, DESC, LENGTH, CONCATENA, INDICE;
 
 precedence left or;
@@ -72,7 +72,7 @@ precedence right pot, sqrt;
 
 start with INICIO;
 
-INICIO ::= FUNCION
+INICIO ::= {:System.out.println("Empezo\n");:}FUNCION {:System.out.println("Finalizo\n");:} 
     ;
 
 FUNCION ::= FUNCION L_FUNCION
@@ -97,6 +97,7 @@ CUERPO ::= CUERPO L_CUERPO
 L_CUERPO ::= IF
           | CASE
           | FUNCIONES_PROPIAS 
+          | LLAMA_FUNCION
           ;
 
 IF ::= si EXP entonces CUERPO sino CUERPO fin
@@ -134,7 +135,7 @@ FUNCIONES_PROPIAS ::= DECLARA_LISTA
                     | INDICE 
                     ;
 
-DECLARA_LISTA ::= dolar let id igual LISTA dolar
+DECLARA_LISTA ::= dolar let id igual CONCATENA dolar
                ;
 
 CALCULAR ::= dolar calcular EXP dolar
@@ -156,32 +157,37 @@ M ::= EXP
     | LISTA
     ;
 
-SUM ::= dolar sum LISTA dolar
+SUM ::= dolar sum CONCATENA dolar
      ;
 
-PRODUCT ::= dolar product LISTA dolar
+PRODUCT ::= dolar product CONCATENA dolar
         ;
 
-REVERS ::= dolar revers LISTA dolar
+REVERS ::= dolar revers CONCATENA dolar
         ;
 
-IMPR ::= dolar impr LISTA dolar
+IMPR ::= dolar impr CONCATENA dolar
       ;
 
-PAR ::= dolar par LISTA dolar
+PAR ::= dolar par CONCATENA dolar
      ;
 
-ASC ::= dolar asc LISTA dolar
+ASC ::= dolar asc CONCATENA dolar
      ;
 
-DESC ::= dolar desc LISTA dolar
+DESC ::= dolar desc CONCATENA dolar
       ;
 
-LENGTH ::= dolar tam LISTA dolar
+LENGTH ::= dolar tam CONCATENA dolar
         ;
 
-CONCATENA ::= LISTA concatena LISTA
+CONCATENA ::= CONCATENA concatena C_L 
+           | C_L
            ;
+
+C_L ::= LISTA
+     | id 
+     ;
 
 INDICE ::= id indice EXP
         ;
@@ -227,11 +233,10 @@ EXP ::= EXP mas EXP
      | DECC
      | MIN
      | MAX
-     //| LISTA
      | entero
      | cadena
      | caracter
-     | id
+     | id {:RESULT = :}
      ;
 
 LLAMA_FUNCION ::= dolar id llaveAbre PARAMETROS llaveCierra dolar
