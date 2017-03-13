@@ -4,10 +4,13 @@ import java.io.StringReader;
 import Analizadores.Haskell.HaskellLexico;
 import Analizadores.Haskell.HaskellSintactico;
 import java.awt.Color;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import org.fife.ui.rsyntaxtextarea.AbstractTokenMakerFactory;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxScheme;
@@ -31,39 +34,12 @@ public class FormPrincipal extends javax.swing.JFrame {
      * Creates new form FormPrincipal
      */
     
-    ArrayList<pestaña> listaPestañas = new ArrayList();
+    public static ArrayList<RTextScrollPane> listaPestañas = new ArrayList();
     public static int nuevo;
     int contadorPestañas =0;
     public FormPrincipal() {
         initComponents();
        // configurarEditor();
-    }
-
-    private RSyntaxTextArea rsta;
-    private void configurarEditor() {
-        AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
-        atmf.putMapping("text/SBScript", "org.esvux.sbscript.ventanas.SBScriptSyntax");
-        rsta = new RSyntaxTextArea(20, 60);
-        rsta.setSyntaxEditingStyle("text/SBScript");
-        rsta.setCodeFoldingEnabled(true);
-        rsta.setCurrentLineHighlightColor(new Color(227, 242, 253, 200));
-        rsta.setFadeCurrentLineHighlight(true);
-        rsta.setBorder(BorderFactory.createEmptyBorder());
-        rsta.addKeyListener(new java.awt.event.KeyAdapter() {
-            
-        });
-        RTextScrollPane rtsp = new RTextScrollPane(rsta);
-        rtsp.setViewportBorder(BorderFactory.createEmptyBorder());
-        //jPanelPrincipal.add(rtsp);
-
-        SyntaxScheme scheme = rsta.getSyntaxScheme();
-        scheme.getStyle(Token.RESERVED_WORD).foreground = Color.decode("#0d47a1");
-        scheme.getStyle(Token.LITERAL_STRING_DOUBLE_QUOTE).foreground = Color.decode("#e65100");
-        scheme.getStyle(Token.IDENTIFIER).foreground = Color.decode("#1b5e20");
-        scheme.getStyle(Token.DATA_TYPE).foreground = Color.decode("#42a5f5");
-        scheme.getStyle(Token.COMMENT_EOL).foreground = Color.decode("#827717");
-        scheme.getStyle(Token.COMMENT_MULTILINE).foreground = Color.decode("#827717");
-        scheme.getStyle(Token.SEPARATOR).foreground = Color.black;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -78,13 +54,17 @@ public class FormPrincipal extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         btnNueva = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
+        jLabel1 = new javax.swing.JLabel();
+        lblColumna = new javax.swing.JLabel();
+        btnEjecutar = new javax.swing.JButton();
 
         jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Graphik y Haskell++");
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 801, 455));
+        setBackground(new java.awt.Color(0, 153, 153));
+        setMinimumSize(new java.awt.Dimension(990, 466));
+        setPreferredSize(new java.awt.Dimension(971, 650));
 
         btnNueva.setText("Nuevo Documento");
         btnNueva.addActionListener(new java.awt.event.ActionListener() {
@@ -92,35 +72,83 @@ public class FormPrincipal extends javax.swing.JFrame {
                 btnNuevaActionPerformed(evt);
             }
         });
-        getContentPane().add(btnNueva, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 10, -1, -1));
-        getContentPane().add(filler1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        jLabel1.setText("Columna: ");
+
+        btnEjecutar.setText("Ejecutar");
+        btnEjecutar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEjecutarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 801, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnNueva)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(btnEjecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnNueva)
+                        .addGap(7, 7, 7)
+                        .addComponent(btnEjecutar)
+                        .addGap(377, 377, 377)
+                        .addComponent(jLabel1))))
+        );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+     public RSyntaxTextArea rsta;
+     
     private void btnNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaActionPerformed
-        new NuevoDocumento().setVisible(true);
-        contadorPestañas++;
-        if(NuevoDocumento.getHaskell()==1){ //haskell
-            pestaña p = new pestaña();
-            p.textPane = new JEditorPane();
-            JScrollPane scrollPane = new JScrollPane(p.textPane);
-            jTabbedPane1.add(scrollPane, "Archivo"+contadorPestañas+".hk");
-            p.textPane.setContentType("text/java");
-            listaPestañas.add(p);
-            jTabbedPane1.setSelectedIndex(listaPestañas.size() - 1);
-        } else if(NuevoDocumento.getGraphik() == 1){ //graphik
-            pestaña p = new pestaña();
-            p.textPane = new JEditorPane();
-            JScrollPane scrollPane = new JScrollPane(p.textPane);
-            jTabbedPane1.add(scrollPane, "Archivo"+contadorPestañas+".gk");
-            p.textPane.setContentType("text/java");
-            listaPestañas.add(p);
-            jTabbedPane1.setSelectedIndex(listaPestañas.size() - 1);
-        }
-        
+        String nombre = "";
+        NuevoDocumento ventana = new NuevoDocumento();
+        ventana.setVisible(true);
     }//GEN-LAST:event_btnNuevaActionPerformed
+
+    private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
+        
+        int actual = jTabbedPane1.getSelectedIndex();
+        String a = listaPestañas.get(actual).getTextArea().getText();
+            if(a.isEmpty()){
+                System.err.println("No es posible evaluar una cadena en blanco.");
+                return;
+            }
+            try {
+                if(listaPestañas.get(actual).getTextArea().getName().equals(".hk")){
+                    
+                    HaskellLexico scan = new HaskellLexico(new BufferedReader( new StringReader(a)));
+                    HaskellSintactico parser = new HaskellSintactico(scan);
+                    parser.parse();
+                }else if(listaPestañas.get(actual).getTextArea().getName().equals(".gk")){
+                    System.out.println("entro a graphik");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        
+    }//GEN-LAST:event_btnEjecutarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -154,9 +182,12 @@ public class FormPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEjecutar;
     private javax.swing.JButton btnNueva;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
-    public javax.swing.JTabbedPane jTabbedPane1;
+    public static javax.swing.JTabbedPane jTabbedPane1;
+    public static javax.swing.JLabel lblColumna;
     // End of variables declaration//GEN-END:variables
 }

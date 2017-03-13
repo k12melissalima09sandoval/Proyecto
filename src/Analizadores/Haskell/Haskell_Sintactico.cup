@@ -177,7 +177,7 @@ ASC ::= dolar asc LISTA dolar
 DESC ::= dolar desc LISTA dolar
       ;
 
-LENGTH ::= tam LISTA 
+LENGTH ::= dolar tam LISTA dolar
         ;
 
 CONCATENA ::= LISTA concatena LISTA

@@ -1,8 +1,19 @@
 
+import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Utilities;
+import org.fife.ui.rsyntaxtextarea.AbstractTokenMakerFactory;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxScheme;
+import org.fife.ui.rsyntaxtextarea.Token;
+import org.fife.ui.rsyntaxtextarea.TokenMakerFactory;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,13 +27,7 @@ import javax.swing.JScrollPane;
  */
 public class NuevoDocumento extends javax.swing.JFrame {
 
-    static class ClaseConCampoEstatico {
-        public static int nuevoHaskell=0;
-        public static int nuevoGraphik=0;
-    }
-
-    
-     ArrayList<pestaña> listaPestañas = new ArrayList();
+     public RSyntaxTextArea texto;
     /**
      * Creates new form NuevoDocumento
      */
@@ -30,19 +35,15 @@ public class NuevoDocumento extends javax.swing.JFrame {
         initComponents();
     }
     
-    public static int getHaskell(){
-        
-        if(ClaseConCampoEstatico.nuevoHaskell==1){
-            return 1;
-        }else {
-            return 0;
-        }
-    }
-    public static int getGraphik(){
-        if(ClaseConCampoEstatico.nuevoGraphik==1){
-            return 1;
-        }else{
-            return 0;
+    
+    private void Columna() {
+        try {
+            int caretPos = texto.getCaretPosition();
+            int offset = Utilities.getRowStart(texto, caretPos);
+            int colNum = caretPos - offset + 1;
+            FormPrincipal.lblColumna.setText("   "+colNum);
+        } catch (BadLocationException ex) {
+            System.err.println(ex.getMessage());
         }
     }
 
@@ -62,6 +63,7 @@ public class NuevoDocumento extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
 
+        setTitle("Nuevo Documento");
         setMinimumSize(new java.awt.Dimension(437, 194));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -111,18 +113,63 @@ public class NuevoDocumento extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    private void jTextEntradaKeyReleased(java.awt.event.KeyEvent evt) {
+        
+        if (evt.getKeyCode() == KeyEvent.VK_F5) {
+//ejecutar();
+        }
+    }
+    
     private void btnHaskellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHaskellActionPerformed
-        cambiaValorHaskell(1);
-       this.setVisible(false);
+                
+        //AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
+        //atmf.putMapping("text/FormPrincipal", "Analizadores.Haskell.HaskellLexico");
+        texto = new RSyntaxTextArea(20, 60);
+        texto.setCodeFoldingEnabled(true);
+        texto.setCurrentLineHighlightColor(new Color(227, 242, 253, 200));
+        texto.setFadeCurrentLineHighlight(true);
+        texto.setName(".hk");
+        texto.setBorder(BorderFactory.createEmptyBorder());
+        texto.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                Columna();
+            }
+        });
+        RTextScrollPane pestaña = new RTextScrollPane(texto);
+        pestaña.setName("Archivo.hk");
+        pestaña.setViewportBorder(BorderFactory.createEmptyBorder());
+        FormPrincipal.jTabbedPane1.add(pestaña);
+        FormPrincipal.listaPestañas.add(pestaña);
+        this.setVisible(false);
+      
     }//GEN-LAST:event_btnHaskellActionPerformed
 
     private void btnGraphikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGraphikActionPerformed
-        cambiaValorHaskell(1);
+        
+        texto = new RSyntaxTextArea(20, 60);
+        texto.setCodeFoldingEnabled(true);
+        texto.setCurrentLineHighlightColor(new Color(227, 242, 253, 200));
+        texto.setFadeCurrentLineHighlight(true);
+        texto.setName(".gk");
+        texto.setBorder(BorderFactory.createEmptyBorder());
+        texto.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                Columna();
+            }
+        });
+        RTextScrollPane pestaña = new RTextScrollPane(texto);
+        pestaña.setName("Archivo.gk");
+        pestaña.setViewportBorder(BorderFactory.createEmptyBorder());
+        FormPrincipal.jTabbedPane1.add(pestaña);
+        FormPrincipal.listaPestañas.add(pestaña);
         this.setVisible(false);
     }//GEN-LAST:event_btnGraphikActionPerformed
 
     
-    public static void cambiaValorHaskell(int nuevoValor) {
+    /*public static void cambiaValorHaskell(int nuevoValor) {
         try {
             Field field = ClaseConCampoEstatico.class.getDeclaredField("nuevoHaskell");
             field.setAccessible(true);
@@ -131,17 +178,7 @@ public class NuevoDocumento extends javax.swing.JFrame {
             System.out.println("No se pudo cambiar el valor :(");
             e.printStackTrace(System.out);
         }
-    }
-    public static void cambiaValorGraphik(int nuevoValor) {
-        try {
-            Field field = ClaseConCampoEstatico.class.getDeclaredField("nuevoGraphik");
-            field.setAccessible(true);
-            field.setInt(null, nuevoValor);
-        } catch (Exception e) {
-            System.out.println("No se pudo cambiar el valor :(");
-            e.printStackTrace(System.out);
-        }
-    }
+    }*/
 
     /**
      * @param args the command line arguments
