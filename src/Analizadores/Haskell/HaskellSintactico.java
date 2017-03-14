@@ -744,7 +744,9 @@ class CUP$HaskellSintactico$actions {
           case 1: // NT$0 ::= 
             {
               Nodo RESULT =null;
-System.out.println("Empezo\n");
+
+                System.out.println("Empezo\n");
+           
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("NT$0",37, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -755,7 +757,9 @@ System.out.println("Empezo\n");
               Nodo RESULT =null;
               // propagate RESULT from NT$0
                 RESULT = (Nodo) ((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)).value;
-		System.out.println("Finalizo\n");
+		
+                System.out.println("Finalizo\n");
+            
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("INICIO",0, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -782,7 +786,25 @@ System.out.println("Empezo\n");
           case 5: // L_FUNCION ::= id PARAMETROS igual CUERPO fin 
             {
               Nodo RESULT =null;
-
+		int nameleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-4)).left;
+		int nameright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-4)).right;
+		Object name = (Object)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-4)).value;
+		int paramleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-3)).left;
+		int paramright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-3)).right;
+		Nodo param = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-3)).value;
+		int corpoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)).left;
+		int corporight = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)).right;
+		Nodo corpo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)).value;
+		
+                    Nodo nuevo = new Nodo("Funcion");
+                    Nodo nombre = new Nodo(name);
+                    Nodo cuerpo = new Nodo("CuerpoFuncion");
+                    cuerpo.Hijo(corpo);
+                    nuevo.Hijo(nombre);
+                    nuevo.Hijo(param);
+                    nuevo.Hijo(cuerpo);
+                    RESULT = nuevo;
+                
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("L_FUNCION",4, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-4)), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -791,7 +813,16 @@ System.out.println("Empezo\n");
           case 6: // PARAMETROS ::= PARAMETROS coma L_PARAM 
             {
               Nodo RESULT =null;
-
+		int paramleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-2)).left;
+		int paramright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-2)).right;
+		Nodo param = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-2)).value;
+		int pleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
+		int pright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
+		Nodo p = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
+		  
+                    param.Hijo(p); 
+                    RESULT= param;
+                
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("PARAMETROS",2, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -800,7 +831,14 @@ System.out.println("Empezo\n");
           case 7: // PARAMETROS ::= L_PARAM 
             {
               Nodo RESULT =null;
-
+		int expleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
+		int expright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
+		Nodo exp = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
+		
+                    Nodo nuevo = new Nodo("Parametros");
+                    nuevo.Hijo(exp);
+                    RESULT = nuevo;
+                
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("PARAMETROS",2, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -809,7 +847,14 @@ System.out.println("Empezo\n");
           case 8: // L_PARAM ::= EXP 
             {
               Nodo RESULT =null;
-
+		int expleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
+		int expright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
+		Nodo exp = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
+		
+                Nodo nuevo = new Nodo("Exp");
+                nuevo.Hijo(exp);
+                RESULT = nuevo;
+            
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("L_PARAM",1, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -818,7 +863,10 @@ System.out.println("Empezo\n");
           case 9: // L_PARAM ::= LISTA 
             {
               Nodo RESULT =null;
-
+		int listaleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
+		int listaright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
+		Nodo lista = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
+		 RESULT = lista; 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("L_PARAM",1, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -827,7 +875,16 @@ System.out.println("Empezo\n");
           case 10: // CUERPO ::= CUERPO L_CUERPO 
             {
               Nodo RESULT =null;
-
+		int sentleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)).left;
+		int sentright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)).right;
+		Nodo sent = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)).value;
+		int cuerpoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
+		int cuerporight = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
+		Nodo cuerpo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
+		
+                sent.Hijo(cuerpo);
+                RESULT=sent;
+            
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("CUERPO",7, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -836,7 +893,14 @@ System.out.println("Empezo\n");
           case 11: // CUERPO ::= L_CUERPO 
             {
               Nodo RESULT =null;
-
+		int sentencialeft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
+		int sentenciaright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
+		Nodo sentencia = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
+		
+                Nodo nuevo = new Nodo("Sentencias");
+                nuevo.Hijo(sentencia);
+                RESULT = nuevo;
+            
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("CUERPO",7, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -893,7 +957,29 @@ System.out.println("Empezo\n");
           case 16: // IF ::= si EXP entonces CUERPO sino CUERPO fin 
             {
               Nodo RESULT =null;
-
+		int expleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-5)).left;
+		int expright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-5)).right;
+		Nodo exp = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-5)).value;
+		int corpoifleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-3)).left;
+		int corpoifright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-3)).right;
+		Nodo corpoif = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-3)).value;
+		int corposinoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)).left;
+		int corposinoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)).right;
+		Nodo corposino = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)).value;
+		
+            Nodo nuevo = new Nodo("If");
+            Nodo novo = new Nodo("Else");
+            Nodo cuerpo = new Nodo("CuerpoIf");
+            Nodo cuerpo2 = new Nodo("CuerpoSino");
+            Nodo cond = new Nodo("Exp");
+            cond.Hijo(exp);
+            cuerpo.Hijo(corpoif);
+            cuerpo2.Hijo(corposino);
+            nuevo.Hijo(cond);
+            nuevo.Hijo(cuerpo);
+            nuevo.Hijo(cuerpo2);
+            RESULT = nuevo;            
+        
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("IF",17, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-6)), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;

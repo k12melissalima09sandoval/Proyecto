@@ -75,26 +75,66 @@ precedence right pot, sqrt;
 
 start with INICIO;
 
-INICIO ::= {:System.out.println("Empezo\n");:}FUNCION {:System.out.println("Finalizo\n");:} 
+INICIO ::= {:
+                System.out.println("Empezo\n");
+           :}
+            FUNCION 
+            {:
+                System.out.println("Finalizo\n");
+            :} 
     ;
 
 FUNCION ::= FUNCION L_FUNCION
         | L_FUNCION
         ;
 
-L_FUNCION ::= id PARAMETROS igual CUERPO fin
+L_FUNCION ::= id:name PARAMETROS:param igual CUERPO:corpo fin
+                {:
+                    Nodo nuevo = new Nodo("Funcion");
+                    Nodo nombre = new Nodo(name);
+                    Nodo cuerpo = new Nodo("CuerpoFuncion");
+                    cuerpo.Hijo(corpo);
+                    nuevo.Hijo(nombre);
+                    nuevo.Hijo(param);
+                    nuevo.Hijo(cuerpo);
+                    RESULT = nuevo;
+                :}
             ;
 
-PARAMETROS ::= PARAMETROS coma L_PARAM
-            | L_PARAM
+PARAMETROS ::= PARAMETROS:param coma L_PARAM:p
+                {:  
+                    param.Hijo(p); 
+                    RESULT= param;
+                :}
+            | L_PARAM:exp
+                {:
+                    Nodo nuevo = new Nodo("Parametros");
+                    nuevo.Hijo(exp);
+                    RESULT = nuevo;
+                :}
             ;
 
-L_PARAM ::= EXP 
-        | LISTA 
+L_PARAM ::= EXP:exp
+            {:
+                Nodo nuevo = new Nodo("Exp");
+                nuevo.Hijo(exp);
+                RESULT = nuevo;
+            :}
+        | LISTA:lista
+            {: RESULT = lista; :}
         ;
 
-CUERPO ::= CUERPO L_CUERPO
-        | L_CUERPO
+CUERPO ::= CUERPO:sent L_CUERPO:cuerpo
+            {:
+                sent.Hijo(cuerpo);
+                RESULT=sent;
+            :}
+        | L_CUERPO:sentencia
+            {:
+                Nodo nuevo = new Nodo("Sentencias");
+                nuevo.Hijo(sentencia);
+                RESULT = nuevo;
+            :}
         ;
 
 L_CUERPO ::= IF:nodo
@@ -107,7 +147,21 @@ L_CUERPO ::= IF:nodo
             {: RESULT = nodo; :}
           ;
 
-IF ::= si EXP entonces CUERPO sino CUERPO fin
+IF ::= si EXP:exp entonces CUERPO:corpoif sino CUERPO:corposino fin
+        {:
+            Nodo nuevo = new Nodo("If");
+            Nodo novo = new Nodo("Else");
+            Nodo cuerpo = new Nodo("CuerpoIf");
+            Nodo cuerpo2 = new Nodo("CuerpoSino");
+            Nodo cond = new Nodo("Exp");
+            cond.Hijo(exp);
+            cuerpo.Hijo(corpoif);
+            cuerpo2.Hijo(corposino);
+            nuevo.Hijo(cond);
+            nuevo.Hijo(cuerpo);
+            nuevo.Hijo(cuerpo2);
+            RESULT = nuevo;            
+        :}
     ;
 
 CASE ::= caso EXP_CASO:exp CASOS:corpo fin
