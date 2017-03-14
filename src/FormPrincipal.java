@@ -4,6 +4,8 @@ import java.io.StringReader;
 import Analizadores.Haskell.HaskellLexico;
 import Analizadores.Haskell.HaskellSintactico;
 import Ast.Nodo;
+import Simbolos.LlenadoTablaHaskell;
+import Simbolos.TablaSimbolosHaskell;
 import java.awt.Color;
 import java.io.ByteArrayInputStream;
 import java.io.FileWriter;
@@ -149,15 +151,20 @@ public class FormPrincipal extends javax.swing.JFrame {
                 System.err.println("No es posible evaluar una cadena en blanco.");
                 return;
             }
-            try {
+            try { 
+                //viene haskell
+                
                 if(listaPestañas.get(actual).getTextArea().getName().equals(".hk")){
                     
                     HaskellLexico scan = new HaskellLexico(new BufferedReader( new StringReader(a)));
                     HaskellSintactico parser = new HaskellSintactico(scan);
                     parser.parse();
                     Graficar(recorrido(HaskellSintactico.raiz),"AstHaskell");
+                    LlenadoTablaHaskell.Llenar(HaskellSintactico.raiz);
                     
-                }else if(listaPestañas.get(actual).getTextArea().getName().equals(".gk")){
+                }
+                //viene graphik    
+                else if(listaPestañas.get(actual).getTextArea().getName().equals(".gk")){
                     System.out.println("entro a graphik");
                 }
             } catch (Exception ex) {

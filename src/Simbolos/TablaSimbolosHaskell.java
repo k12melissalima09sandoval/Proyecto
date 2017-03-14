@@ -5,11 +5,25 @@
  */
 package Simbolos;
 
+import Ast.Nodo;
+import Interprete.Parametros;
+import java.util.ArrayList;
+
 /**
  *
  * @author MishaPks
  */
 public class TablaSimbolosHaskell {
     
+    String nombre;
+    public Object parametros;
+    Nodo cuerpo;
+    
+    public TablaSimbolosHaskell(String nombre, ArrayList<String> param, Nodo cuerpofun){
+        this.nombre = nombre;
+        this.parametros=param;
+        this.cuerpo = cuerpofun;
+        
+    }
     
 }
