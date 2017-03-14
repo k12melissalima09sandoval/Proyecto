@@ -3,6 +3,7 @@
 package Analizadores.Haskell;
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
+import Ast.Nodo;
 
 //------> Parser, Variables y Metodos
 
@@ -37,6 +38,7 @@ parser code
 //------> Acciones Gramaticales 
 action code 
 {:
+    Nodo raiz = new Nodo();
 :}
 
 /*------------ Declaraciones Terminales y No Terminales ---------*/
@@ -54,14 +56,15 @@ terminal sum, product, revers, impr, par, asc, desc, tam;
 terminal si, entonces, sino, caso, fin;
 terminal entero, cadena, caracter, id;
 
-non terminal INICIO;
+non terminal Nodo INICIO;
 non terminal L_PARAM, PARAMETROS;
 non terminal FUNCION,L_FUNCION, FUNCIONES_PROPIAS, LLAMA_FUNCION;
-non terminal CUERPO, L_CUERPO;
-non terminal DECLARA_LISTA, LISTA, LISTAS, MAS_CORCH, EXPRESIONES, EXP, EXP_CASO;
-non terminal IF, CASE, CASOS, L_CASOS;
-non terminal CALCULAR, SUCC, DECC, MIN, MAX, M, C_L;
-non terminal SUM, PRODUCT, REVERS, IMPR, PAR, ASC, DESC, LENGTH, CONCATENA, INDICE;
+non terminal Nodo CUERPO, L_CUERPO;
+non terminal Nodo DECLARA_LISTA, LISTA, LISTAS, MAS_CORCH, EXPRESIONES, EXP_CASO;
+non terminal Nodo EXP,CALCULAR;
+non terminal Nodo IF, CASE, CASOS, L_CASOS;
+non terminal Nodo SUCC, DECC, MIN, MAX, M, C_L;
+non terminal Nodo SUM, PRODUCT, REVERS, IMPR, PAR, ASC, DESC, LENGTH, CONCATENA, INDICE;
 
 precedence left or;
 precedence left and;
@@ -113,130 +116,382 @@ CASOS ::= CASOS L_CASOS
 L_CASOS ::= EXP_CASO dospuntos CUERPO puntoycoma
         ;
 
-EXP_CASO ::= EXP
-          | LISTA
+EXP_CASO ::= EXP:exp
+                {:  Nodo nuevo = new Nodo("Exp");
+                    nuevo.Hijo(exp);
+                    RESULT = nuevo;
+                :}
+          | LISTA:lista
+                {:RESULT = lista;:}
           ;
 
-FUNCIONES_PROPIAS ::= DECLARA_LISTA 
-                    | CALCULAR
-                    | SUCC
-                    | DECC
-                    | MIN
-                    | MAX
-                    | SUM
-                    | PRODUCT
-                    | REVERS
-                    | IMPR
-                    | PAR
-                    | ASC
-                    | DESC
-                    | LENGTH
-                    | CONCATENA
-                    | INDICE 
+FUNCIONES_PROPIAS ::= DECLARA_LISTA:nodo
+                        {: RESULT = nodo; :}
+                    | CALCULAR:nodo
+                        {: RESULT = nodo; :}
+                    | SUCC:nodo
+                        {: RESULT = nodo; :}
+                    | DECC:nodo
+                        {: RESULT = nodo; :}
+                    | MIN:nodo
+                        {: RESULT = nodo; :}
+                    | MAX:nodo
+                        {: RESULT = nodo; :}
+                    | SUM:nodo
+                        {: RESULT = nodo; :}
+                    | PRODUCT:nodo
+                        {: RESULT = nodo; :}
+                    | REVERS:nodo
+                        {: RESULT = nodo; :}
+                    | IMPR:nodo
+                        {: RESULT = nodo; :}
+                    | PAR:nodo
+                        {: RESULT = nodo; :}
+                    | ASC:nodo
+                        {: RESULT = nodo; :}
+                    | DESC:nodo
+                        {: RESULT = nodo; :}
+                    | LENGTH:nodo
+                        {: RESULT = nodo; :}
+                    | CONCATENA:nodo
+                        {: RESULT = nodo; :}
+                    | INDICE:nodo
+                        {: RESULT = nodo; :}
                     ;
 
-DECLARA_LISTA ::= dolar let id igual CONCATENA dolar
+DECLARA_LISTA ::= dolar let id:nombre igual CONCATENA:exp dolar
+                {:
+                    Nodo nuevo = new Nodo("D_Lista");
+                    Nodo name = new Nodo(nombre);
+                    Nodo igual = new Nodo(exp);
+                    nuevo.Hijo(name);
+                    nuevo.Hijo(igual);
+                    RESULT = nuevo;
+                :}
                ;
 
-CALCULAR ::= dolar calcular EXP dolar
+CALCULAR ::= dolar calcular:calcula EXP:exp dolar
+            {:
+                Nodo cal = new Nodo("Calcular");
+                Nodo expresion = new Nodo("Exp");
+                expresion.Hijo(exp);
+                cal.Hijo(expresion);
+                RESULT = cal;
+            :}
           ;
 
-SUCC ::= dolar succ EXP dolar
+SUCC ::= dolar succ EXP:exp dolar
+        {:
+            Nodo nuevo = new Nodo("Succ");
+            Nodo lista = new Nodo("Exp");
+            lista.Hijo(exp);
+            nuevo.Hijo(lista);
+            RESULT = nuevo;
+        :}
       ;
 
-DECC ::= dolar decc EXP dolar
+DECC ::= dolar decc EXP:exp dolar
+        {:
+            Nodo nuevo = new Nodo("Decc");
+            Nodo lista = new Nodo("Exp");
+            lista.Hijo(exp);
+            nuevo.Hijo(lista);
+            RESULT = nuevo;
+        :}
       ;
 
-MIN ::= dolar min M dolar
+MIN ::= dolar min M:exp dolar
+        {:
+            Nodo nuevo = new Nodo("Min");
+            Nodo lista = new Nodo(exp);
+            nuevo.Hijo(lista);
+            RESULT = nuevo;
+        :}
      ;
 
-MAX ::= dolar max M dolar
+MAX ::= dolar max M:exp dolar
+        {:
+            Nodo nuevo = new Nodo("Max");
+            Nodo lista = new Nodo(exp);
+            nuevo.Hijo(lista);
+            RESULT = nuevo;
+        :}
      ;
 
-M ::= EXP 
-    | LISTA
+M ::= id:id
+        {: RESULT = new Nodo(id); :}
+    | LISTA:lista
+        {: RESULT = lista; :}
     ;
 
-SUM ::= dolar sum CONCATENA dolar
+SUM ::= dolar sum CONCATENA:exp dolar
+        {:
+            Nodo nuevo = new Nodo("Sum");
+            Nodo lista = new Nodo(exp);
+            nuevo.Hijo(lista);
+            RESULT = nuevo;
+        :}
      ;
 
-PRODUCT ::= dolar product CONCATENA dolar
+PRODUCT ::= dolar product CONCATENA:exp dolar
+            {:
+            Nodo nuevo = new Nodo("Product");
+            Nodo lista = new Nodo(exp);
+            nuevo.Hijo(lista);
+            RESULT = nuevo;
+        :}
         ;
 
-REVERS ::= dolar revers CONCATENA dolar
+REVERS ::= dolar revers CONCATENA:exp dolar
+        {:
+            Nodo nuevo = new Nodo("Revers");
+            Nodo lista = new Nodo(exp);
+            nuevo.Hijo(lista);
+            RESULT = nuevo;
+        :}
         ;
 
-IMPR ::= dolar impr CONCATENA dolar
+IMPR ::= dolar impr CONCATENA:exp dolar
+        {:
+            Nodo nuevo = new Nodo("Impr");
+            Nodo lista = new Nodo(exp);
+            nuevo.Hijo(lista);
+            RESULT = nuevo;
+        :}
       ;
 
-PAR ::= dolar par CONCATENA dolar
+PAR ::= dolar par CONCATENA:exp dolar
+        {:
+            Nodo nuevo = new Nodo("Par");
+            Nodo lista = new Nodo(exp);
+            nuevo.Hijo(lista);
+            RESULT = nuevo;
+        :}
      ;
 
-ASC ::= dolar asc CONCATENA dolar
+ASC ::= dolar asc CONCATENA:exp dolar
+        {:
+            Nodo nuevo = new Nodo("Asc");
+            Nodo lista = new Nodo(exp);
+            nuevo.Hijo(lista);
+            RESULT = nuevo;
+        :}
      ;
 
-DESC ::= dolar desc CONCATENA dolar
+DESC ::= dolar desc CONCATENA:exp dolar
+        {:
+            Nodo nuevo = new Nodo("Desc");
+            Nodo lista = new Nodo(exp);
+            nuevo.Hijo(lista);
+            RESULT = nuevo;
+        :}
       ;
 
-LENGTH ::= dolar tam CONCATENA dolar
+LENGTH ::= dolar tam CONCATENA:exp dolar
+        {:
+            Nodo nuevo = new Nodo("Length");
+            Nodo lista = new Nodo(exp);
+            nuevo.Hijo(lista);
+            RESULT = nuevo;
+        :}
         ;
 
-CONCATENA ::= CONCATENA concatena C_L 
-           | C_L
+CONCATENA ::= CONCATENA:c concatena C_L:l
+            {: c.Hijo(l);  RESULT = c; :}
+           | C_L:l
+            {:Nodo lista = new Nodo("Lista");
+                lista.Hijo(l);
+                RESULT = lista;
+            :}
            ;
 
-C_L ::= LISTA
-     | id 
+C_L ::= LISTA:lista
+        {:RESULT = lista;:}
+     | id:id
+        {: RESULT = new Nodo(id);:}
      ;
 
-INDICE ::= id indice EXP
+INDICE ::= id:id indice EXP:exp
+            {:
+                Nodo nuevo = new Nodo("Indice");
+                Nodo nombre = new Nodo(id);
+                Nodo e = new Nodo("Exp");
+                e.Hijo(exp);
+                nuevo.Hijo(nombre);
+                nuevo.Hijo(e);
+                RESULT = nuevo;
+            :}
         ;
 
-LISTA ::= corAbre LISTAS corCierra
+LISTA ::= corAbre LISTAS:listas corCierra
+            {: RESULT = listas; :}
        ;
 
-LISTAS ::= EXPRESIONES
-        | MAS_CORCH
+LISTAS ::= EXPRESIONES:exp
+            {:RESULT = exp; :}
+        | MAS_CORCH:lista
+            
         ;
 
-EXPRESIONES ::= EXPRESIONES coma EXP
-            | EXP
+EXPRESIONES ::= EXPRESIONES:lista coma EXP:exp
+                {:  
+                    lista.Hijo(exp); 
+                    RESULT = lista; 
+                :}
+            | EXP:exp
+                {: 
+                    Nodo lista = new Nodo("Lista");
+                    Nodo e = new Nodo("Exp");
+                    e.Hijo(exp);
+                    lista.Hijo(e); 
+                    RESULT = lista; 
+                :}
             ;
 
-MAS_CORCH ::= corAbre EXPRESIONES corCierra coma corAbre EXPRESIONES corCierra
+MAS_CORCH ::= corAbre EXPRESIONES:nivel1 corCierra coma corAbre EXPRESIONES:nivel2 corCierra
+                {:Nodo nivel = new Nodo("2Niveles");
+                    nivel.Hijo(nivel1);
+                    nivel.Hijo(nivel2);
+                    RESULT = nivel;
+                :}
           ;
 
-EXP ::= EXP mas EXP
-     | EXP menos EXP
-     | EXP por EXP
-     | EXP div EXP
-     | EXP residuo EXP
-     | EXP sqrt EXP
-     | EXP pot EXP
-     | EXP or EXP
-     | EXP and EXP
-     | EXP menorq EXP
-     | EXP mayorq EXP
-     | EXP menorigualq EXP
-     | EXP mayorigualq EXP
-     | EXP igualigual EXP
-     | EXP diferente EXP
-     | SUM
-     | PRODUCT
-     | LENGTH
-     | menos EXP
-     | parenAbre EXP parenCierra
-     | CALCULAR
-     | LLAMA_FUNCION 
-     | INDICE
-     | SUCC
-     | DECC
-     | MIN
-     | MAX
-     | entero
-     | cadena
-     | caracter
-     | id {:RESULT = :}
+EXP ::= EXP:j mas EXP:m
+        {:
+            Nodo nuevo = new Nodo("+");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j menos EXP:m
+        {:
+            Nodo nuevo = new Nodo("-");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j por EXP:m
+        {:
+            Nodo nuevo = new Nodo("*");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j div EXP:m
+        {:
+            Nodo nuevo = new Nodo("/");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j residuo EXP:m
+        {:
+            Nodo nuevo = new Nodo("mod");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j sqrt EXP:m
+        {:
+            Nodo nuevo = new Nodo("sqrt");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j pot EXP:m
+        {:
+            Nodo nuevo = new Nodo("pot");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j or EXP:m
+        {:
+            Nodo nuevo = new Nodo("||");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j and EXP:m
+        {:
+            Nodo nuevo = new Nodo("&&");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j menorq EXP:m
+        {:
+            Nodo nuevo = new Nodo("<");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j mayorq EXP:m
+        {:
+            Nodo nuevo = new Nodo(">");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j menorigualq EXP:m
+        {:
+            Nodo nuevo = new Nodo("<=");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j mayorigualq EXP:m
+        {:
+            Nodo nuevo = new Nodo(">=");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j igualigual EXP:m
+        {:
+            Nodo nuevo = new Nodo("==");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j diferente EXP:m
+        {:
+            Nodo nuevo = new Nodo("!=");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | SUM:nodo
+        {: RESULT = nodo; :}
+     | PRODUCT:nodo
+        {: RESULT = nodo; :}
+     | LENGTH:nodo
+        {: RESULT = nodo; :}
+     | menos EXP:nodo
+     | parenAbre EXP:nodo parenCierra 
+        {: RESULT = nodo; :}
+     | CALCULAR:nodo
+        {: RESULT = nodo; :}
+     | LLAMA_FUNCION:nodo 
+        {: RESULT = nodo; :}
+     | INDICE:nodo
+        {: RESULT = nodo; :}
+     | SUCC:nodo
+        {: RESULT = nodo; :}
+     | DECC:nodo
+        {: RESULT = nodo; :}
+     | MIN:nodo
+        {: RESULT = nodo; :}
+     | MAX:nodo
+        {: RESULT = nodo; :}
+     | entero:num
+        {: RESULT = new Nodo(num); :}
+     | cadena:cad
+        {: RESULT = new Nodo(cad); :}
+     | caracter:letra
+        {: RESULT = new Nodo(letra); :}
+     | id:id
+        {:  RESULT = new Nodo(id); :}
      ;
 
 LLAMA_FUNCION ::= dolar id llaveAbre PARAMETROS llaveCierra dolar

@@ -5,11 +5,26 @@
  */
 package Ast;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author MishaPks
  */
 public class Nodo {
     
+    ArrayList<Nodo> hijos = new ArrayList();
+    Object valor;
     
+    public Nodo(){
+    
+    }
+    public void Hijo(Nodo hijo){
+        hijos.add(hijo);
+    }
+    
+    public Nodo(Object valor){
+        this.valor = valor;
+        this.hijos = new ArrayList();
+    }
 }
