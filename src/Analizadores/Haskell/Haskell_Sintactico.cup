@@ -57,8 +57,8 @@ terminal si, entonces, sino, caso, fin;
 terminal entero, cadena, caracter, id;
 
 non terminal Nodo INICIO;
-non terminal L_PARAM, PARAMETROS;
-non terminal FUNCION,L_FUNCION, FUNCIONES_PROPIAS, LLAMA_FUNCION;
+non terminal Nodo L_PARAM, PARAMETROS;
+non terminal Nodo FUNCION,L_FUNCION, FUNCIONES_PROPIAS, LLAMA_FUNCION;
 non terminal Nodo CUERPO, L_CUERPO;
 non terminal Nodo DECLARA_LISTA, LISTA, LISTAS, MAS_CORCH, EXPRESIONES, EXP_CASO;
 non terminal Nodo EXP,CALCULAR;
@@ -97,23 +97,53 @@ CUERPO ::= CUERPO L_CUERPO
         | L_CUERPO
         ;
 
-L_CUERPO ::= IF
-          | CASE
-          | FUNCIONES_PROPIAS 
-          | LLAMA_FUNCION
+L_CUERPO ::= IF:nodo
+            {: RESULT = nodo; :}
+          | CASE:nodo
+            {: RESULT = nodo; :}
+          | FUNCIONES_PROPIAS:nodo
+            {: RESULT = nodo; :}
+          | LLAMA_FUNCION:nodo
+            {: RESULT = nodo; :}
           ;
 
 IF ::= si EXP entonces CUERPO sino CUERPO fin
     ;
 
-CASE ::= caso EXP_CASO CASOS fin
+CASE ::= caso EXP_CASO:exp CASOS:corpo fin
+        {:
+            Nodo nuevo = new Nodo("Case");
+            Nodo cuerpo = new Nodo("Cuerpo_Caso");
+            cuerpo.Hijo(corpo);
+            nuevo.Hijo(exp);
+            nuevo.Hijo(cuerpo);
+            RESULT = nuevo;
+        :}
       ;
 
-CASOS ::= CASOS L_CASOS
-       | L_CASOS
+CASOS ::= CASOS:caso L_CASOS:exp
+        {:
+            caso.Hijo(exp);
+            RESULT = caso;
+        :}
+       | L_CASOS:exp
+        {:
+            Nodo nuevo = new Nodo("Lista_Casos");
+            nuevo.Hijo(exp);
+            RESULT = nuevo;
+        :}
        ;
 
-L_CASOS ::= EXP_CASO dospuntos CUERPO puntoycoma
+L_CASOS ::= EXP_CASO:v dospuntos CUERPO:corpo puntoycoma
+            {:
+                Nodo nuevo = new Nodo("Caso");
+                Nodo valor = new Nodo(v);
+                Nodo cuerpo = new Nodo("Cuerpo_Caso");
+                cuerpo.Hijo(corpo);
+                nuevo.Hijo(valor);
+                nuevo.Hijo(cuerpo);
+                RESULT = nuevo;
+            :}
         ;
 
 EXP_CASO ::= EXP:exp
@@ -297,9 +327,13 @@ LENGTH ::= dolar tam CONCATENA:exp dolar
         ;
 
 CONCATENA ::= CONCATENA:c concatena C_L:l
-            {: c.Hijo(l);  RESULT = c; :}
+            {: 
+                c.Hijo(l);  
+                RESULT = c; 
+            :}
            | C_L:l
-            {:Nodo lista = new Nodo("Lista");
+            {:
+                Nodo lista = new Nodo("Lista");
                 lista.Hijo(l);
                 RESULT = lista;
             :}
@@ -330,6 +364,7 @@ LISTA ::= corAbre LISTAS:listas corCierra
 LISTAS ::= EXPRESIONES:exp
             {:RESULT = exp; :}
         | MAS_CORCH:lista
+            {:RESULT = lista; :}
             
         ;
 

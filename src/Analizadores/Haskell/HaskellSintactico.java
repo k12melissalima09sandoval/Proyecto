@@ -763,7 +763,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 3: // FUNCION ::= FUNCION L_FUNCION 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("FUNCION",3, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
@@ -772,7 +772,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 4: // FUNCION ::= L_FUNCION 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("FUNCION",3, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
@@ -781,7 +781,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 5: // L_FUNCION ::= id PARAMETROS igual CUERPO fin 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("L_FUNCION",4, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-4)), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
@@ -790,7 +790,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 6: // PARAMETROS ::= PARAMETROS coma L_PARAM 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("PARAMETROS",2, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
@@ -799,7 +799,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 7: // PARAMETROS ::= L_PARAM 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("PARAMETROS",2, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
@@ -808,7 +808,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 8: // L_PARAM ::= EXP 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("L_PARAM",1, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
@@ -817,7 +817,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 9: // L_PARAM ::= LISTA 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("L_PARAM",1, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
@@ -845,7 +845,10 @@ System.out.println("Empezo\n");
           case 12: // L_CUERPO ::= IF 
             {
               Nodo RESULT =null;
-
+		int nodoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
+		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
+		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
+		 RESULT = nodo; 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("L_CUERPO",8, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -854,7 +857,10 @@ System.out.println("Empezo\n");
           case 13: // L_CUERPO ::= CASE 
             {
               Nodo RESULT =null;
-
+		int nodoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
+		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
+		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
+		 RESULT = nodo; 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("L_CUERPO",8, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -863,7 +869,10 @@ System.out.println("Empezo\n");
           case 14: // L_CUERPO ::= FUNCIONES_PROPIAS 
             {
               Nodo RESULT =null;
-
+		int nodoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
+		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
+		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
+		 RESULT = nodo; 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("L_CUERPO",8, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -872,7 +881,10 @@ System.out.println("Empezo\n");
           case 15: // L_CUERPO ::= LLAMA_FUNCION 
             {
               Nodo RESULT =null;
-
+		int nodoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
+		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
+		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
+		 RESULT = nodo; 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("L_CUERPO",8, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -890,7 +902,20 @@ System.out.println("Empezo\n");
           case 17: // CASE ::= caso EXP_CASO CASOS fin 
             {
               Nodo RESULT =null;
-
+		int expleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-2)).left;
+		int expright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-2)).right;
+		Nodo exp = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-2)).value;
+		int corpoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)).left;
+		int corporight = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)).right;
+		Nodo corpo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)).value;
+		
+            Nodo nuevo = new Nodo("Case");
+            Nodo cuerpo = new Nodo("Cuerpo_Caso");
+            cuerpo.Hijo(corpo);
+            nuevo.Hijo(exp);
+            nuevo.Hijo(cuerpo);
+            RESULT = nuevo;
+        
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("CASE",18, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-3)), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -899,7 +924,16 @@ System.out.println("Empezo\n");
           case 18: // CASOS ::= CASOS L_CASOS 
             {
               Nodo RESULT =null;
-
+		int casoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)).left;
+		int casoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)).right;
+		Nodo caso = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)).value;
+		int expleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
+		int expright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
+		Nodo exp = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
+		
+            caso.Hijo(exp);
+            RESULT = caso;
+        
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("CASOS",19, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -908,7 +942,14 @@ System.out.println("Empezo\n");
           case 19: // CASOS ::= L_CASOS 
             {
               Nodo RESULT =null;
-
+		int expleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
+		int expright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
+		Nodo exp = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
+		
+            Nodo nuevo = new Nodo("Lista_Casos");
+            nuevo.Hijo(exp);
+            RESULT = nuevo;
+        
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("CASOS",19, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -917,7 +958,21 @@ System.out.println("Empezo\n");
           case 20: // L_CASOS ::= EXP_CASO dospuntos CUERPO puntoycoma 
             {
               Nodo RESULT =null;
-
+		int vleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-3)).left;
+		int vright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-3)).right;
+		Nodo v = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-3)).value;
+		int corpoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)).left;
+		int corporight = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)).right;
+		Nodo corpo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)).value;
+		
+                Nodo nuevo = new Nodo("Caso");
+                Nodo valor = new Nodo(v);
+                Nodo cuerpo = new Nodo("Cuerpo_Caso");
+                cuerpo.Hijo(corpo);
+                nuevo.Hijo(valor);
+                nuevo.Hijo(cuerpo);
+                RESULT = nuevo;
+            
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("L_CASOS",20, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-3)), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -952,7 +1007,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 23: // FUNCIONES_PROPIAS ::= DECLARA_LISTA 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int nodoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
@@ -964,7 +1019,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 24: // FUNCIONES_PROPIAS ::= CALCULAR 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int nodoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
@@ -976,7 +1031,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 25: // FUNCIONES_PROPIAS ::= SUCC 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int nodoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
@@ -988,7 +1043,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 26: // FUNCIONES_PROPIAS ::= DECC 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int nodoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
@@ -1000,7 +1055,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 27: // FUNCIONES_PROPIAS ::= MIN 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int nodoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
@@ -1012,7 +1067,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 28: // FUNCIONES_PROPIAS ::= MAX 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int nodoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
@@ -1024,7 +1079,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 29: // FUNCIONES_PROPIAS ::= SUM 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int nodoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
@@ -1036,7 +1091,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 30: // FUNCIONES_PROPIAS ::= PRODUCT 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int nodoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
@@ -1048,7 +1103,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 31: // FUNCIONES_PROPIAS ::= REVERS 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int nodoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
@@ -1060,7 +1115,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 32: // FUNCIONES_PROPIAS ::= IMPR 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int nodoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
@@ -1072,7 +1127,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 33: // FUNCIONES_PROPIAS ::= PAR 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int nodoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
@@ -1084,7 +1139,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 34: // FUNCIONES_PROPIAS ::= ASC 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int nodoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
@@ -1096,7 +1151,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 35: // FUNCIONES_PROPIAS ::= DESC 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int nodoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
@@ -1108,7 +1163,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 36: // FUNCIONES_PROPIAS ::= LENGTH 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int nodoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
@@ -1120,7 +1175,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 37: // FUNCIONES_PROPIAS ::= CONCATENA 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int nodoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
@@ -1132,7 +1187,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 38: // FUNCIONES_PROPIAS ::= INDICE 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int nodoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
@@ -1424,7 +1479,10 @@ System.out.println("Empezo\n");
 		int lleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int lright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Nodo l = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
-		 c.Hijo(l);  RESULT = c; 
+		 
+                c.Hijo(l);  
+                RESULT = c; 
+            
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("CONCATENA",35, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -1436,7 +1494,8 @@ System.out.println("Empezo\n");
 		int lleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int lright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Nodo l = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
-		Nodo lista = new Nodo("Lista");
+		
+                Nodo lista = new Nodo("Lista");
                 lista.Hijo(l);
                 RESULT = lista;
             
@@ -1522,7 +1581,7 @@ System.out.println("Empezo\n");
 		int listaleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int listaright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Nodo lista = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
-
+		RESULT = lista; 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("LISTAS",11, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -1960,7 +2019,7 @@ System.out.println("Empezo\n");
               Nodo RESULT =null;
 		int nodoleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
-		Object nodo = (Object)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
+		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
 		 RESULT = nodo; 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("EXP",15, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
@@ -2077,7 +2136,7 @@ System.out.println("Empezo\n");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 97: // LLAMA_FUNCION ::= dolar id llaveAbre PARAMETROS llaveCierra dolar 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("LLAMA_FUNCION",6, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-5)), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
