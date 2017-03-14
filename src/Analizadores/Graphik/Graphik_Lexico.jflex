@@ -136,9 +136,6 @@ comentario  = "#" ([^]*)
 "graphikar_funcion" {   System.out.println("Entro graphikar_funcion");
                         return new Symbol(SimbolosGraphik.graphikar, yyline, yycolumn, new String(yytext()));
                     }
-"datos"         {   System.out.println("Entro Datos");
-                    return new Symbol(SimbolosGraphik.datos, yyline, yycolumn, new String(yytext()));
-                }
 "columna"       {   System.out.println("Entro Columna");
                     return new Symbol(SimbolosGraphik.columna, yyline, yycolumn, new String(yytext()));
                 }

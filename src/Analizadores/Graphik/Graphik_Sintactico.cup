@@ -57,7 +57,7 @@ terminal protegido, privado, publico;
 terminal importar, hereda, var, nuevo, retornar, llamar;
 terminal inicio, llamarHK, incluirHK, graphikar;
 terminal si, seleccion, sino, caso, defecto, para, mientras, hacer, continuar, terminar;
-terminal datos, columna, procesar, donde, dondecada, dondetodo, imprimir;
+terminal columna, procesar, donde, dondecada, dondetodo, imprimir;
 terminal cad, id, num, dec, carac, verdadero, falso,nombreArchivo;
 terminal corAbre, corCierra, llaveAbre, llaveCierra, parenAbre, parenCierra;
 terminal mas, menos, por, div, potencia;
@@ -70,9 +70,10 @@ non terminal INICIO, CUERPO_ALS, L_ALS, ALS;
 non terminal IMPORTACIONES, L_IMPORTACIONES, INCLUYE_HK, L_INCLUYE;
 non terminal VISIBILIDAD, SENTENCIAS, L_SENT, HEREDA;
 non terminal DECLARACION_GLOBAL, L_GLOBALES, L_VAR, ASIGNACION;
-non terminal DECLARACION_LOCAL, ASIGNA;
-non terminal TIPO_DATO, OPCION, EXP, DATOS;
-non terminal ARREGLO, L_DIMENSIONES, ASIGNACION_ARREGLO, L_POS, POSICIONES, L_EXP;
+non terminal DECLARACION_LOCAL, ASIGNA, GRAPHIKAR;
+non terminal TIPO_DATO, OPCION, EXP, DATOS, ATRIBUTO;
+non terminal COLUMNA, PROCESAR, DONDE, DONDECADA, DONDETODO;
+non terminal ARREGLO, L_DIMENSIONES, ASIGNACION_ARREGLO, L_POS, POSICIONES;
 non terminal METODO_INICIO, METODOS_DEFINIDOS, METODOS, PARAMETROS;
 non terminal INSTANCIA_OBJETOS, LLAMAR, LLAMARHK, PARAM_LLAMA;
 non terminal RETORNA, SENTENCIA_SI, SENTENCIA_SINO;
@@ -132,7 +133,27 @@ CUERPO_ALS ::= DECLARACION_GLOBAL
             | METODOS_DEFINIDOS
             ;
 
-DATOS::= // DONDE DONDECADA ETC 
+DATOS ::= COLUMNA
+        | PROCESAR
+        | DONDE 
+        | DONDECADA 
+        | DONDETODO
+        ;
+
+COLUMNA ::= columna parenAbre EXP parenCierra
+         ;
+
+PROCESAR ::= procesar igual EXP fin
+          ;
+
+DONDE ::= donde parenAbre EXP parenCierra igual EXP fin
+       ;
+
+DONDECADA ::= dondecada parenAbre EXP parenCierra fin
+           ;
+
+DONDETODO ::= dondetodo parenAbre EXP parenCierra fin
+           ;
 
 DECLARACION_GLOBAL ::= DECLARACION_GLOBAL L_GLOBALES
                     | L_GLOBALES
@@ -214,7 +235,11 @@ L_SENT ::= DECLARACION_LOCAL fin
         | CONTINUAR
         | TERMINAR
         | IMPRIMIR
+        | GRAPHIKAR
         ;
+
+GRAPHIKAR ::= graphikar parenAbre id parenCierra fin
+           ;
 
 IMPRIMIR ::= imprimir parenAbre EXP parenCierra fin
           ;
@@ -271,8 +296,12 @@ DECLARACION_LOCAL ::= var TIPO_DATO id VISIBILIDAD OPCION
             | var TIPO_DATO id ARREGLO VISIBILIDAD ASIGNACION_ARREGLO
             ;
 
-ASIGNA ::= id igual EXP
+ASIGNA ::= id ATRIBUTO igual EXP
         ;
+
+ATRIBUTO ::= punto id
+          | 
+          ;
 
 LLAMAR ::= llamar id parenAbre PARAM_LLAMA parenCierra fin
         ;
