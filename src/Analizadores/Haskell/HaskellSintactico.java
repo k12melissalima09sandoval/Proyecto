@@ -1622,7 +1622,10 @@ class CUP$HaskellSintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
-		 RESULT = new Nodo(id);
+		  Nodo nuevo = new Nodo("id"); 
+            Nodo i = new Nodo(id);
+            nuevo.Hijo(i);
+            RESULT = nuevo; 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("C_L",26, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -1634,7 +1637,9 @@ class CUP$HaskellSintactico$actions {
 		int cadleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int cadright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Object cad = (Object)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
-		 RESULT = new Nodo(cad); 
+		  Nodo nuevo = new Nodo("cadena"); 
+            Nodo n = new Nodo(cad.toString().replace("\"", ""));
+            nuevo.Hijo(n); RESULT = nuevo; 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("C_L",26, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -2206,7 +2211,10 @@ class CUP$HaskellSintactico$actions {
 		int numleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int numright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Object num = (Object)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
-		 RESULT = new Nodo(num); 
+		  Nodo nuevo = new Nodo("numero"); 
+            Nodo n = new Nodo(num);
+            nuevo.Hijo(n); 
+            RESULT = nuevo; 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("EXP",15, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -2218,7 +2226,9 @@ class CUP$HaskellSintactico$actions {
 		int cadleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int cadright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Object cad = (Object)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
-		 RESULT = new Nodo(cad); 
+		  Nodo nuevo = new Nodo("cadena"); 
+            Nodo n = new Nodo(cad.toString().replace("\"", ""));
+            nuevo.Hijo(n); RESULT = nuevo; 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("EXP",15, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -2230,7 +2240,10 @@ class CUP$HaskellSintactico$actions {
 		int letraleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int letraright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Object letra = (Object)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
-		 RESULT = new Nodo(letra); 
+		  Nodo nuevo = new Nodo("caracter"); 
+            Nodo l = new Nodo(letra);
+            nuevo.Hijo(l); 
+            RESULT = nuevo; 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("EXP",15, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;
@@ -2242,7 +2255,10 @@ class CUP$HaskellSintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
-		  RESULT = new Nodo(id); 
+		  Nodo nuevo = new Nodo("id"); 
+            Nodo i = new Nodo(id);
+            nuevo.Hijo(i);
+            RESULT = nuevo; 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("EXP",15, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;

@@ -42,10 +42,12 @@ public class FormPrincipal extends javax.swing.JFrame{
     public static ArrayList<RTextScrollPane> listaPestañas = new ArrayList();
     public static int nuevo;
     int contadorPestañas =0;
-    
+    String anterior;
     
     public FormPrincipal() {
         initComponents();
+        
+        //PARA LA CONSOLA
         this.txtEntradaConsola.addKeyListener(new KeyAdapter(){
             @Override
             public void keyReleased(KeyEvent e){
@@ -56,7 +58,13 @@ public class FormPrincipal extends javax.swing.JFrame{
                         ConsolaSintactico parser = new ConsolaSintactico(scan);
                         parser.parse();
                         Graficar(recorrido(ConsolaSintactico.raiz),"AstConsola");
-                //RecorreHaskell.Recorrido(HaskellSintactico.raiz);
+                        anterior = txtSalidaConsola.getText();
+                        txtSalidaConsola.setText(anterior+">"+txtEntradaConsola.getText().toString()+"\n");
+                        txtEntradaConsola.setText("$ $");
+                        
+                        //RecorreHaskell.Consola(ConsolaSintactico.raiz);
+                        
+                        
                     }catch(Exception ex){
                         ex.printStackTrace();
                     }
@@ -117,6 +125,8 @@ public class FormPrincipal extends javax.swing.JFrame{
         txtSalidaConsola.setColumns(20);
         txtSalidaConsola.setRows(5);
         jScrollPane1.setViewportView(txtSalidaConsola);
+
+        txtEntradaConsola.setText("$ $");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

@@ -714,72 +714,72 @@ public class ConsolaLexico implements java_cup.runtime.Scanner {
             }
           case 38: break;
           case 2: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.entero, yyline, yycolumn, yytext());
             }
           case 39: break;
           case 3: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.id, yyline, yycolumn, yytext());
             }
           case 40: break;
           case 4: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.mas, yyline, yycolumn, yytext());
             }
           case 41: break;
           case 5: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.menos, yyline, yycolumn, yytext());
             }
           case 42: break;
           case 6: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.por, yyline, yycolumn, yytext());
             }
           case 43: break;
           case 7: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.div, yyline, yycolumn, yytext());
             }
           case 44: break;
           case 8: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.igual, yyline, yycolumn, yytext());
             }
           case 45: break;
           case 9: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.dolar, yyline, yycolumn, yytext());
             }
           case 46: break;
           case 10: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.corAbre, yyline, yycolumn, yytext());
             }
           case 47: break;
           case 11: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.corCierra, yyline, yycolumn, yytext());
             }
           case 48: break;
           case 12: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.parenAbre, yyline, yycolumn, yytext());
             }
           case 49: break;
           case 13: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.parenCierra, yyline, yycolumn, yytext());
             }
           case 50: break;
           case 14: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.porcentaje, yyline, yycolumn, yytext());
             }
           case 51: break;
           case 15: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.coma, yyline, yycolumn, yytext());
             }
           case 52: break;
@@ -788,107 +788,107 @@ public class ConsolaLexico implements java_cup.runtime.Scanner {
             }
           case 53: break;
           case 17: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.concatena, yyline, yycolumn, yytext());
             }
           case 54: break;
           case 18: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.indice, yyline, yycolumn, yytext());
             }
           case 55: break;
           case 19: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.cadena, yyline, yycolumn, yytext());
             }
           case 56: break;
           case 20: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.caracter, yyline, yycolumn, yytext());
             }
           case 57: break;
           case 21: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.min, yyline, yycolumn, yytext());
             }
           case 58: break;
           case 22: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.max, yyline, yycolumn, yytext());
             }
           case 59: break;
           case 23: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.sum, yyline, yycolumn, yytext());
             }
           case 60: break;
           case 24: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.par, yyline, yycolumn, yytext());
             }
           case 61: break;
           case 25: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.let, yyline, yycolumn, yytext());
             }
           case 62: break;
           case 26: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.asc, yyline, yycolumn, yytext());
             }
           case 63: break;
           case 27: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.desc, yyline, yycolumn, yytext());
             }
           case 64: break;
           case 28: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.decc, yyline, yycolumn, yytext());
             }
           case 65: break;
           case 29: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.succ, yyline, yycolumn, yytext());
             }
           case 66: break;
           case 30: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.impr, yyline, yycolumn, yytext());
             }
           case 67: break;
           case 31: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.residuo, yyline, yycolumn, yytext());
             }
           case 68: break;
           case 32: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.pot, yyline, yycolumn, yytext());
             }
           case 69: break;
           case 33: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.sqrt, yyline, yycolumn, yytext());
             }
           case 70: break;
           case 34: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.revers, yyline, yycolumn, yytext());
             }
           case 71: break;
           case 35: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.tam, yyline, yycolumn, yytext());
             }
           case 72: break;
           case 36: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.product, yyline, yycolumn, yytext());
             }
           case 73: break;
           case 37: 
-            { System.out.println("Reconocio: "+yytext());  
+            { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.calcular, yyline, yycolumn, yytext());
             }
           case 74: break;

@@ -246,9 +246,15 @@ CONCATENA ::= CONCATENA:c concatena C_L:l
 C_L ::= LISTA:lista
         {:RESULT = lista;:}
      | id:id
-        {: RESULT = new Nodo(id);:}
+        {:  Nodo nuevo = new Nodo("id"); 
+            Nodo i = new Nodo(id);
+            nuevo.Hijo(i);
+            RESULT = nuevo; :}
      | cadena:cad
-        {: RESULT = new Nodo(cad); :}
+        {:  Nodo nuevo = new Nodo("cadena"); 
+            Nodo n = new Nodo(cad.toString().replace("\"", ""));
+            nuevo.Hijo(n); 
+            RESULT = nuevo; :}
      ;
 
 INDICE ::= id:id indice EXP:exp
@@ -373,13 +379,25 @@ EXP ::= EXP:j mas EXP:m
      | MAX:nodo
         {: RESULT = nodo; :}
      | entero:num
-        {: RESULT = new Nodo(num); :}
+        {:  Nodo nuevo = new Nodo("numero"); 
+            Nodo n = new Nodo(num);
+            nuevo.Hijo(n); 
+            RESULT = nuevo; :}
      | cadena:cad
-        {: RESULT = new Nodo(cad); :}
+        {:  Nodo nuevo = new Nodo("cadena"); 
+            Nodo n = new Nodo(cad.toString().replace("\"", ""));
+            nuevo.Hijo(n); 
+            RESULT = nuevo; :}
      | caracter:letra
-        {: RESULT = new Nodo(letra); :}
+        {:  Nodo nuevo = new Nodo("caracter"); 
+            Nodo l = new Nodo(letra);
+            nuevo.Hijo(l); 
+            RESULT = nuevo; :}
      | id:id
-        {: RESULT = new Nodo(id); :}
+        {:  Nodo nuevo = new Nodo("id"); 
+            Nodo i = new Nodo(id);
+            nuevo.Hijo(i);
+            RESULT = nuevo; :}
      | porcentaje:porcentaje
         {: RESULT = new Nodo(porcentaje); :}
      ;

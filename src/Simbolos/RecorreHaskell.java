@@ -42,4 +42,10 @@ public class RecorreHaskell {
         }
         //Map<String, FuncionHaskell> l = agrega.ObtenerListaFunciones();
     }
+    
+    public static void Consola(Nodo raiz){
+        for(Nodo aux: raiz.hijos){
+            
+        }
+    }
 }
