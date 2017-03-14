@@ -10,7 +10,8 @@ import Ast.Nodo;
 parser code
 {: 
     public static LinkedList<Analizadores.Errores> Err = new LinkedList<Analizadores.Errores>();
-    
+    public static Nodo raiz;
+
     public void syntax_error(Symbol s)
     {
         String texto = s.value.toString();
@@ -38,7 +39,7 @@ parser code
 //------> Acciones Gramaticales 
 action code 
 {:
-    Nodo raiz = new Nodo();
+    
 :}
 
 /*------------ Declaraciones Terminales y No Terminales ---------*/
@@ -78,14 +79,24 @@ start with INICIO;
 INICIO ::= {:
                 System.out.println("Empezo\n");
            :}
-            FUNCION 
+            FUNCION:nodo
             {:
                 System.out.println("Finalizo\n");
+                parser.raiz = nodo;
             :} 
     ;
 
-FUNCION ::= FUNCION L_FUNCION
-        | L_FUNCION
+FUNCION ::= FUNCION:nodo L_FUNCION:fun
+            {:
+                nodo.Hijo(fun);
+                RESULT = nodo;
+            :}
+        | L_FUNCION:fun
+            {:
+                Nodo nuevo = new Nodo("CuerpoArchivo");
+                nuevo.Hijo(fun);
+                RESULT = nuevo;
+            :}
         ;
 
 L_FUNCION ::= id:name PARAMETROS:param igual CUERPO:corpo fin
@@ -116,9 +127,7 @@ PARAMETROS ::= PARAMETROS:param coma L_PARAM:p
 
 L_PARAM ::= EXP:exp
             {:
-                Nodo nuevo = new Nodo("Exp");
-                nuevo.Hijo(exp);
-                RESULT = nuevo;
+                RESULT = exp;
             :}
         | LISTA:lista
             {: RESULT = lista; :}
@@ -167,10 +176,8 @@ IF ::= si EXP:exp entonces CUERPO:corpoif sino CUERPO:corposino fin
 CASE ::= caso EXP_CASO:exp CASOS:corpo fin
         {:
             Nodo nuevo = new Nodo("Case");
-            Nodo cuerpo = new Nodo("Cuerpo_Caso");
-            cuerpo.Hijo(corpo);
             nuevo.Hijo(exp);
-            nuevo.Hijo(cuerpo);
+            nuevo.Hijo(corpo);
             RESULT = nuevo;
         :}
       ;
@@ -191,11 +198,8 @@ CASOS ::= CASOS:caso L_CASOS:exp
 L_CASOS ::= EXP_CASO:v dospuntos CUERPO:corpo puntoycoma
             {:
                 Nodo nuevo = new Nodo("Caso");
-                Nodo valor = new Nodo(v);
-                Nodo cuerpo = new Nodo("Cuerpo_Caso");
-                cuerpo.Hijo(corpo);
-                nuevo.Hijo(valor);
-                nuevo.Hijo(cuerpo);
+                nuevo.Hijo(v);
+                nuevo.Hijo(corpo);
                 RESULT = nuevo;
             :}
         ;
@@ -247,9 +251,8 @@ DECLARA_LISTA ::= dolar let id:nombre igual CONCATENA:exp dolar
                 {:
                     Nodo nuevo = new Nodo("D_Lista");
                     Nodo name = new Nodo(nombre);
-                    Nodo igual = new Nodo(exp);
                     nuevo.Hijo(name);
-                    nuevo.Hijo(igual);
+                    nuevo.Hijo(exp);
                     RESULT = nuevo;
                 :}
                ;
@@ -287,8 +290,7 @@ DECC ::= dolar decc EXP:exp dolar
 MIN ::= dolar min M:exp dolar
         {:
             Nodo nuevo = new Nodo("Min");
-            Nodo lista = new Nodo(exp);
-            nuevo.Hijo(lista);
+            nuevo.Hijo(exp);
             RESULT = nuevo;
         :}
      ;
@@ -296,8 +298,7 @@ MIN ::= dolar min M:exp dolar
 MAX ::= dolar max M:exp dolar
         {:
             Nodo nuevo = new Nodo("Max");
-            Nodo lista = new Nodo(exp);
-            nuevo.Hijo(lista);
+            nuevo.Hijo(exp);
             RESULT = nuevo;
         :}
      ;
@@ -311,8 +312,7 @@ M ::= id:id
 SUM ::= dolar sum CONCATENA:exp dolar
         {:
             Nodo nuevo = new Nodo("Sum");
-            Nodo lista = new Nodo(exp);
-            nuevo.Hijo(lista);
+            nuevo.Hijo(exp);
             RESULT = nuevo;
         :}
      ;
@@ -320,8 +320,7 @@ SUM ::= dolar sum CONCATENA:exp dolar
 PRODUCT ::= dolar product CONCATENA:exp dolar
             {:
             Nodo nuevo = new Nodo("Product");
-            Nodo lista = new Nodo(exp);
-            nuevo.Hijo(lista);
+            nuevo.Hijo(exp);
             RESULT = nuevo;
         :}
         ;
@@ -329,8 +328,7 @@ PRODUCT ::= dolar product CONCATENA:exp dolar
 REVERS ::= dolar revers CONCATENA:exp dolar
         {:
             Nodo nuevo = new Nodo("Revers");
-            Nodo lista = new Nodo(exp);
-            nuevo.Hijo(lista);
+            nuevo.Hijo(exp);
             RESULT = nuevo;
         :}
         ;
@@ -338,8 +336,7 @@ REVERS ::= dolar revers CONCATENA:exp dolar
 IMPR ::= dolar impr CONCATENA:exp dolar
         {:
             Nodo nuevo = new Nodo("Impr");
-            Nodo lista = new Nodo(exp);
-            nuevo.Hijo(lista);
+            nuevo.Hijo(exp);
             RESULT = nuevo;
         :}
       ;
@@ -347,8 +344,7 @@ IMPR ::= dolar impr CONCATENA:exp dolar
 PAR ::= dolar par CONCATENA:exp dolar
         {:
             Nodo nuevo = new Nodo("Par");
-            Nodo lista = new Nodo(exp);
-            nuevo.Hijo(lista);
+            nuevo.Hijo(exp);
             RESULT = nuevo;
         :}
      ;
@@ -356,8 +352,7 @@ PAR ::= dolar par CONCATENA:exp dolar
 ASC ::= dolar asc CONCATENA:exp dolar
         {:
             Nodo nuevo = new Nodo("Asc");
-            Nodo lista = new Nodo(exp);
-            nuevo.Hijo(lista);
+            nuevo.Hijo(exp);
             RESULT = nuevo;
         :}
      ;
@@ -365,8 +360,7 @@ ASC ::= dolar asc CONCATENA:exp dolar
 DESC ::= dolar desc CONCATENA:exp dolar
         {:
             Nodo nuevo = new Nodo("Desc");
-            Nodo lista = new Nodo(exp);
-            nuevo.Hijo(lista);
+            nuevo.Hijo(exp);
             RESULT = nuevo;
         :}
       ;
@@ -374,8 +368,7 @@ DESC ::= dolar desc CONCATENA:exp dolar
 LENGTH ::= dolar tam CONCATENA:exp dolar
         {:
             Nodo nuevo = new Nodo("Length");
-            Nodo lista = new Nodo(exp);
-            nuevo.Hijo(lista);
+            nuevo.Hijo(exp);
             RESULT = nuevo;
         :}
         ;
@@ -387,7 +380,7 @@ CONCATENA ::= CONCATENA:c concatena C_L:l
             :}
            | C_L:l
             {:
-                Nodo lista = new Nodo("Lista");
+                Nodo lista = new Nodo("Concatena");
                 lista.Hijo(l);
                 RESULT = lista;
             :}
@@ -430,9 +423,7 @@ EXPRESIONES ::= EXPRESIONES:lista coma EXP:exp
             | EXP:exp
                 {: 
                     Nodo lista = new Nodo("Lista");
-                    Nodo e = new Nodo("Exp");
-                    e.Hijo(exp);
-                    lista.Hijo(e); 
+                    lista.Hijo(exp); 
                     RESULT = lista; 
                 :}
             ;
@@ -557,6 +548,11 @@ EXP ::= EXP:j mas EXP:m
      | LENGTH:nodo
         {: RESULT = nodo; :}
      | menos EXP:nodo
+        {:
+            Nodo nuevo = new Nodo("Unario");
+            nuevo.Hijo(nodo);
+            RESULT = nuevo;
+        :}
      | parenAbre EXP:nodo parenCierra 
         {: RESULT = nodo; :}
      | CALCULAR:nodo
@@ -583,6 +579,13 @@ EXP ::= EXP:j mas EXP:m
         {:  RESULT = new Nodo(id); :}
      ;
 
-LLAMA_FUNCION ::= dolar id llaveAbre PARAMETROS llaveCierra dolar
+LLAMA_FUNCION ::= dolar id:id llaveAbre PARAMETROS:param llaveCierra dolar
+                {:
+                    Nodo nuevo = new Nodo("LlamaFunc");
+                    Nodo nombre = new Nodo(id);
+                    nuevo.Hijo(nombre);
+                    nuevo.Hijo(param);
+                    RESULT = nuevo;
+                :}
                ;
 

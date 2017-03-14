@@ -13,8 +13,8 @@ import java.util.ArrayList;
  */
 public class Nodo {
     
-    ArrayList<Nodo> hijos = new ArrayList();
-    Object valor;
+    public ArrayList<Nodo> hijos = new ArrayList();
+    public Object valor;
     
     public Nodo(){
     

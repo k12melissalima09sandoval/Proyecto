@@ -3,9 +3,13 @@ import java.io.BufferedReader;
 import java.io.StringReader;
 import Analizadores.Haskell.HaskellLexico;
 import Analizadores.Haskell.HaskellSintactico;
+import Ast.Nodo;
 import java.awt.Color;
 import java.io.ByteArrayInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JEditorPane;
@@ -151,6 +155,8 @@ public class FormPrincipal extends javax.swing.JFrame {
                     HaskellLexico scan = new HaskellLexico(new BufferedReader( new StringReader(a)));
                     HaskellSintactico parser = new HaskellSintactico(scan);
                     parser.parse();
+                    Graficar(recorrido(HaskellSintactico.raiz),"AstHaskell");
+                    
                 }else if(listaPestañas.get(actual).getTextArea().getName().equals(".gk")){
                     System.out.println("entro a graphik");
                 }
@@ -160,6 +166,43 @@ public class FormPrincipal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnEjecutarActionPerformed
 
+    public void Graficar(String cadena,String cad){
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+        String nombre=cad;
+        String archivo=nombre+".dot";
+        try {
+            fichero = new FileWriter(archivo);
+            pw = new PrintWriter(fichero);
+            pw.println("digraph G {node[shape=box, style=filled]; edge[color=red]");
+            pw.println(cadena);
+            pw.println("\n}");
+            fichero.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        } 
+        try {
+            String cmd = "dot.exe -Tpng "+nombre+".dot -o AstHaskell.png"; 
+            Runtime.getRuntime().exec(cmd); 
+        } catch (IOException ioe) {
+                System.out.println (ioe);
+        }
+    }
+    
+    
+    String recorrido(Nodo raiz){
+     
+        String r= ""; 
+        if(raiz!=null){
+            r="node" + raiz.hashCode()+ "[label=\""+raiz.valor+  "\"];";
+            for (int i=0;i<raiz.hijos.size();i++){
+                r+="\n node"+ raiz.hashCode() + "->"+"node"+raiz.hijos.get(i).hashCode() + ";";
+                r+=recorrido(raiz.hijos.get(i));  
+            }
+        }
+        return r;
+    }
+    
     /**
      * @param args the command line arguments
      */
