@@ -52,24 +52,6 @@ id = {letra} ({letra} | {digito})*
     "'pot'"                     {System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.pot, yyline, yycolumn, yytext());}
 
-    "||"                        {System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosConsola.or, yyline, yycolumn, yytext());}
-    "&&"                        {System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosConsola.and, yyline, yycolumn, yytext());}
-    
-    ">"                         {System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosConsola.mayorq, yyline, yycolumn, yytext());}
-    "<"                         {System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosConsola.menorq, yyline, yycolumn, yytext());}
-    ">="                        {System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosConsola.mayorigualq, yyline, yycolumn, yytext());}
-    "<="                        {System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosConsola.menorigualq, yyline, yycolumn, yytext());}
-    "=="                        {System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosConsola.igualigual, yyline, yycolumn, yytext());}
-    "!="                        {System.out.println("Reconocio: "+yytext());  
-                                   return new Symbol(SimbolosConsola.diferente, yyline, yycolumn, yytext());}
-
     "="                         {System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.igual, yyline, yycolumn, yytext());}
     "$"                         {System.out.println("Reconocio: "+yytext());  

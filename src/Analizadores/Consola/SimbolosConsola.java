@@ -8,51 +8,43 @@ package Analizadores.Consola;
 /** CUP generated class containing symbol constants. */
 public class SimbolosConsola {
   /* terminals */
-  public static final int decc = 28;
-  public static final int corCierra = 24;
-  public static final int igualigual = 15;
+  public static final int decc = 20;
+  public static final int corCierra = 16;
   public static final int residuo = 6;
-  public static final int mayorq = 11;
-  public static final int par = 37;
-  public static final int asc = 38;
-  public static final int coma = 21;
-  public static final int igual = 17;
-  public static final int calcular = 32;
-  public static final int caracter = 43;
-  public static final int let = 29;
-  public static final int succ = 27;
-  public static final int sum = 33;
-  public static final int corAbre = 23;
-  public static final int max = 31;
+  public static final int par = 29;
+  public static final int asc = 30;
+  public static final int coma = 13;
+  public static final int igual = 9;
+  public static final int calcular = 24;
+  public static final int caracter = 35;
+  public static final int let = 21;
+  public static final int succ = 19;
+  public static final int sum = 25;
+  public static final int corAbre = 15;
+  public static final int max = 23;
   public static final int menos = 3;
-  public static final int porcentaje = 22;
+  public static final int porcentaje = 14;
   public static final int EOF = 0;
   public static final int mas = 2;
-  public static final int revers = 35;
-  public static final int menorq = 12;
+  public static final int revers = 27;
   public static final int error = 1;
-  public static final int entero = 41;
-  public static final int or = 9;
+  public static final int entero = 33;
   public static final int pot = 8;
   public static final int por = 4;
-  public static final int indice = 20;
-  public static final int mayorigualq = 13;
-  public static final int parenAbre = 25;
-  public static final int parenCierra = 26;
-  public static final int id = 44;
-  public static final int concatena = 19;
+  public static final int indice = 12;
+  public static final int parenAbre = 17;
+  public static final int parenCierra = 18;
+  public static final int id = 36;
+  public static final int concatena = 11;
   public static final int sqrt = 7;
-  public static final int product = 34;
-  public static final int impr = 36;
-  public static final int tam = 40;
-  public static final int menorigualq = 14;
-  public static final int desc = 39;
-  public static final int diferente = 16;
-  public static final int and = 10;
-  public static final int dolar = 18;
+  public static final int product = 26;
+  public static final int impr = 28;
+  public static final int tam = 32;
+  public static final int desc = 31;
+  public static final int dolar = 10;
   public static final int div = 5;
-  public static final int min = 30;
-  public static final int cadena = 42;
+  public static final int min = 22;
+  public static final int cadena = 34;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -63,14 +55,6 @@ public class SimbolosConsola {
   "residuo",
   "sqrt",
   "pot",
-  "or",
-  "and",
-  "mayorq",
-  "menorq",
-  "mayorigualq",
-  "menorigualq",
-  "igualigual",
-  "diferente",
   "igual",
   "dolar",
   "concatena",

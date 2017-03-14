@@ -7,16 +7,21 @@ package Simbolos;
 
 import Ast.Nodo;
 import java.util.ArrayList;
+import Interprete.FuncionHaskell;
+import Simbolos.TablaSimbolosHaskell;
+import java.util.Map;
 
 /**
  *
  * @author MishaPks
  */
-public class LlenadoTablaHaskell {
+public class RecorreHaskell {
     
     public static ArrayList<String> parametros;
+    static FuncionHaskell nueva;
+    static TablaSimbolosHaskell agrega = new TablaSimbolosHaskell();
     
-    public static void Llenar(Nodo raiz){
+    public static void Recorrido(Nodo raiz){
         
         for (int i = 0; i < raiz.hijos.size(); i++) {
             //nombre de la funcion
@@ -32,8 +37,9 @@ public class LlenadoTablaHaskell {
             //nodo del cuerpo de la funcion
             Nodo cuerpo = raiz.hijos.get(i).hijos.get(2).hijos.get(0);
             
-            TablaSimbolosHaskell nuevaFuncion = new TablaSimbolosHaskell(nombreFunc,parametros,cuerpo);
+            nueva = new FuncionHaskell(nombreFunc,parametros,cuerpo);
+            agrega.AgregarFuncion(nombreFunc, nueva); 
         }
-        
+        //Map<String, FuncionHaskell> l = agrega.ObtenerListaFunciones();
     }
 }

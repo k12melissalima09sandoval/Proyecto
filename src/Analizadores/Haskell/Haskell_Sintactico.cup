@@ -390,6 +390,8 @@ C_L ::= LISTA:lista
         {:RESULT = lista;:}
      | id:id
         {: RESULT = new Nodo(id);:}
+     | cadena:cad
+        {: RESULT = new Nodo(cad); :}
      ;
 
 INDICE ::= id:id indice EXP:exp

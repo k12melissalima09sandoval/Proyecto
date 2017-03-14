@@ -143,6 +143,7 @@ public class NuevoDocumento extends javax.swing.JFrame {
         FormPrincipal.jTabbedPane1.add(pestaña);
         FormPrincipal.listaPestañas.add(pestaña);
         this.setVisible(false);
+        
       
     }//GEN-LAST:event_btnHaskellActionPerformed
 

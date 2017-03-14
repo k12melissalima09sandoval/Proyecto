@@ -3,10 +3,15 @@ import java.io.BufferedReader;
 import java.io.StringReader;
 import Analizadores.Haskell.HaskellLexico;
 import Analizadores.Haskell.HaskellSintactico;
+import Analizadores.Consola.ConsolaLexico;
+import Analizadores.Consola.ConsolaSintactico;
 import Ast.Nodo;
-import Simbolos.LlenadoTablaHaskell;
+import Simbolos.RecorreHaskell;
 import Simbolos.TablaSimbolosHaskell;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.ByteArrayInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -24,17 +29,11 @@ import org.fife.ui.rsyntaxtextarea.Token;
 import org.fife.ui.rsyntaxtextarea.TokenMakerFactory;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author MishaPks
  */
-public class FormPrincipal extends javax.swing.JFrame {
+public class FormPrincipal extends javax.swing.JFrame{
 
     /**
      * Creates new form FormPrincipal
@@ -43,9 +42,31 @@ public class FormPrincipal extends javax.swing.JFrame {
     public static ArrayList<RTextScrollPane> listaPestañas = new ArrayList();
     public static int nuevo;
     int contadorPestañas =0;
+    
+    
     public FormPrincipal() {
         initComponents();
-       // configurarEditor();
+        this.txtEntradaConsola.addKeyListener(new KeyAdapter(){
+            @Override
+            public void keyReleased(KeyEvent e){
+                int tecla = e.getKeyCode();
+                if(tecla == KeyEvent.VK_ENTER ){
+                    try{
+                        ConsolaLexico scan = new ConsolaLexico(new BufferedReader( new StringReader(txtEntradaConsola.getText())));
+                        ConsolaSintactico parser = new ConsolaSintactico(scan);
+                        parser.parse();
+                        Graficar(recorrido(ConsolaSintactico.raiz),"AstConsola");
+                //RecorreHaskell.Recorrido(HaskellSintactico.raiz);
+                    }catch(Exception ex){
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+    
+    
+        //this.txtEntradaConsola.addKeyListener(this);
+       
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -63,16 +84,19 @@ public class FormPrincipal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnEjecutar = new javax.swing.JButton();
         lblColumna = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtSalidaConsola = new javax.swing.JTextArea();
+        txtEntradaConsola = new javax.swing.JTextField();
 
         jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Graphik y Haskell++");
         setBackground(new java.awt.Color(0, 153, 153));
-        setMinimumSize(new java.awt.Dimension(990, 466));
-        setPreferredSize(new java.awt.Dimension(971, 650));
+        setMinimumSize(new java.awt.Dimension(900, 500));
+        setPreferredSize(new java.awt.Dimension(935, 710));
 
-        btnNueva.setText("Nuevo Documento");
+        btnNueva.setText("Nuevo");
         btnNueva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevaActionPerformed(evt);
@@ -90,6 +114,10 @@ public class FormPrincipal extends javax.swing.JFrame {
 
         lblColumna.setText("----");
 
+        txtSalidaConsola.setColumns(20);
+        txtSalidaConsola.setRows(5);
+        jScrollPane1.setViewportView(txtSalidaConsola);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -99,43 +127,50 @@ public class FormPrincipal extends javax.swing.JFrame {
                     .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 801, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(9, 9, 9)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnNueva)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addComponent(btnEjecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblColumna)))))
+                                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 801, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(9, 9, 9)
+                                        .addComponent(jLabel1)
+                                        .addGap(6, 6, 6)
+                                        .addComponent(lblColumna))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(btnEjecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnNueva, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(txtEntradaConsola))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
+                .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(btnNueva)
-                        .addGap(7, 7, 7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEjecutar)
                         .addGap(377, 377, 377)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(lblColumna)))))
+                            .addComponent(lblColumna)))
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(4, 4, 4)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(txtEntradaConsola, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-     public RSyntaxTextArea rsta;
      
     private void btnNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaActionPerformed
         String nombre = "";
@@ -160,7 +195,7 @@ public class FormPrincipal extends javax.swing.JFrame {
                     HaskellSintactico parser = new HaskellSintactico(scan);
                     parser.parse();
                     Graficar(recorrido(HaskellSintactico.raiz),"AstHaskell");
-                    LlenadoTablaHaskell.Llenar(HaskellSintactico.raiz);
+                    RecorreHaskell.Recorrido(HaskellSintactico.raiz);
                     
                 }
                 //viene graphik    
@@ -189,7 +224,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             System.out.println(e);
         } 
         try {
-            String cmd = "dot.exe -Tpng "+nombre+".dot -o AstHaskell.png"; 
+            String cmd = "dot.exe -Tpng "+nombre+".dot -o "+nombre+".png"; 
             Runtime.getRuntime().exec(cmd); 
         } catch (IOException ioe) {
                 System.out.println (ioe);
@@ -247,7 +282,11 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JTabbedPane jTabbedPane1;
     public static javax.swing.JLabel lblColumna;
+    private javax.swing.JTextField txtEntradaConsola;
+    private javax.swing.JTextArea txtSalidaConsola;
     // End of variables declaration//GEN-END:variables
+
 }
