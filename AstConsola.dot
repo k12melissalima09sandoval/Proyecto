@@ -1,21 +1,18 @@
 digraph G {node[shape=box, style=filled]; edge[color=red]
-node1205058519[label="D_Lista"];
- node1205058519->node1823140909;node1823140909[label="lista"];
- node1205058519->node405478071;node405478071[label="Concatena"];
- node405478071->node157577965;node157577965[label="Lista"];
- node157577965->node1395883285;node1395883285[label="Calcular"];
- node1395883285->node1757624538;node1757624538[label="Exp"];
- node1757624538->node679307735;node679307735[label="numero"];
- node679307735->node44336431;node44336431[label="5"];
- node157577965->node1253542843;node1253542843[label="Calcular"];
- node1253542843->node1002667999;node1002667999[label="Exp"];
- node1002667999->node2016643745;node2016643745[label="+"];
- node2016643745->node1587082613;node1587082613[label="numero"];
- node1587082613->node671369038;node671369038[label="55"];
- node2016643745->node144308246;node144308246[label="*"];
- node144308246->node1813712166;node1813712166[label="numero"];
- node1813712166->node1974562445;node1974562445[label="10"];
- node144308246->node2139453762;node2139453762[label="numero"];
- node2139453762->node949712876;node949712876[label="9"];
+node365762534[label="D_Lista"];
+ node365762534->node182980811;node182980811[label="lista"];
+ node365762534->node19281414;node19281414[label="Concatena"];
+ node19281414->node1838642262;node1838642262[label="Lista"];
+ node1838642262->node270019621;node270019621[label="Calcular"];
+ node270019621->node1522276517;node1522276517[label="Exp"];
+ node1522276517->node1780122610;node1780122610[label="numero"];
+ node1780122610->node1022983971;node1022983971[label="5"];
+ node1838642262->node1842419101;node1842419101[label="Calcular"];
+ node1842419101->node1460814258;node1460814258[label="Exp"];
+ node1460814258->node1772707249;node1772707249[label="+"];
+ node1772707249->node517875648;node517875648[label="caracter"];
+ node517875648->node2076619899;node2076619899[label="'a'"];
+ node1772707249->node1042048352;node1042048352[label="caracter"];
+ node1042048352->node503051207;node503051207[label="'b'"];
 
 }

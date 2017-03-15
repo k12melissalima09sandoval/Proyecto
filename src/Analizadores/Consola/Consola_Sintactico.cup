@@ -104,7 +104,7 @@ FUNCIONES_PROPIAS ::= DECLARA_LISTA:nodo
                         {: RESULT = nodo; :}
                     ;
 
-DECLARA_LISTA ::= dolar let id:nombre igual CONCATENA:exp dolar
+    DECLARA_LISTA ::= dolar let id:nombre igual CONCATENA:exp dolar
                 {:
                     Nodo nuevo = new Nodo("D_Lista");
                     Nodo name = new Nodo(nombre);

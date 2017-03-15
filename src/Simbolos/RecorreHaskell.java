@@ -63,15 +63,7 @@ public class RecorreHaskell {
                             
                             
                             
-                            /*else if(raiz.hijos.get(1).hijos.get(0).valor.toString()=="Lista"){
-                                else if(raiz.hijos.get(1).hijos.get(0).hijos.get(0).valor.toString()=="Calcular"){
-                                  for(Nodo c: raiz.hijos.get(1).hijos.get(0).hijos){
-                                        //aqui tengo que llevar la lista de caracteres
-                                        //exp.Expresion(c);
-                                        
-                                    }
-                                }
-                            }
+                            /*
                             else if(raiz.hijos.get(1).hijos.get(0).valor.toString()=="2Niveles"){
                                 
                             }*/

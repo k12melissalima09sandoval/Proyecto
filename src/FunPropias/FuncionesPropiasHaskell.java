@@ -15,7 +15,22 @@ import Ast.Nodo;
 
 public class FuncionesPropiasHaskell {
    
+    static Asc asc = new Asc();
+    static Calcular calcular = new Calcular();
     static Concatena concatena= new Concatena();
+    static Decc decc = new Decc();
+    static Desc desc = new Desc();
+    static Impr impr = new Impr();
+    static Indice indice = new Indice();
+    static Length length = new Length();
+    static LlamaFuncion llamaF = new LlamaFuncion();
+    static Max max = new Max();
+    static Min min = new Min();
+    static Par par = new Par();
+    static Product product = new Product();
+    static Revers revers = new Revers();
+    static Succ succ = new Succ();
+    static Sum sum = new Sum();
     
     public Object Recorrer(Nodo raiz){
         switch(raiz.valor.toString()){
@@ -27,8 +42,8 @@ public class FuncionesPropiasHaskell {
                 break;
                 
             case "Concatena":
-                Object val = concatena.Recorrer(raiz.hijos.get(0));
-                return val;
+                Object obj3 = concatena.Recorrer(raiz.hijos.get(0));
+                return obj3;
                 
             case "Decc":
                 break;

@@ -7,6 +7,7 @@ package FunPropias;
 
 import Ast.Nodo;
 import Interprete.ExpresionHaskell;
+import Interprete.Valor;
 import java.util.ArrayList;
 
 /**
@@ -38,8 +39,8 @@ public class Concatena {
             ArrayList<Object> cadena = new ArrayList();
             
             for(Nodo nodo: raiz.hijos){
-                Object valor = (Object)exp.Expresion(nodo);
-                cadena.add(valor);
+                Valor valor = (Valor)exp.Expresion(nodo);
+                cadena.add(valor.valor.toString());
             }
             return cadena;
         }
