@@ -661,12 +661,12 @@ class CUP$ConsolaSintactico$actions {
 		int expright = ((java_cup.runtime.Symbol)CUP$ConsolaSintactico$stack.elementAt(CUP$ConsolaSintactico$top-1)).right;
 		Nodo exp = (Nodo)((java_cup.runtime.Symbol) CUP$ConsolaSintactico$stack.elementAt(CUP$ConsolaSintactico$top-1)).value;
 		
-                    Nodo nuevo = new Nodo("D_Lista");
-                    Nodo name = new Nodo(nombre);
-                    nuevo.Hijo(name);
-                    nuevo.Hijo(exp);
-                    RESULT = nuevo;
-                
+                Nodo nuevo = new Nodo("D_Lista");
+                Nodo name = new Nodo(nombre);
+                nuevo.Hijo(name);
+                nuevo.Hijo(exp);
+                RESULT = nuevo;
+            
               CUP$ConsolaSintactico$result = parser.getSymbolFactory().newSymbol("DECLARA_LISTA",6, ((java_cup.runtime.Symbol)CUP$ConsolaSintactico$stack.elementAt(CUP$ConsolaSintactico$top-5)), ((java_cup.runtime.Symbol)CUP$ConsolaSintactico$stack.peek()), RESULT);
             }
           return CUP$ConsolaSintactico$result;
@@ -767,7 +767,12 @@ class CUP$ConsolaSintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ConsolaSintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ConsolaSintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ConsolaSintactico$stack.peek()).value;
-		 RESULT = new Nodo(id); 
+		 //Nodo nuevo = new Nodo("M");
+           Nodo nuevo = new Nodo("id"); 
+           Nodo i = new Nodo(id); 
+           //i2.Hijo(i);
+           nuevo.Hijo(i);
+           RESULT = nuevo; 
               CUP$ConsolaSintactico$result = parser.getSymbolFactory().newSymbol("M",17, ((java_cup.runtime.Symbol)CUP$ConsolaSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ConsolaSintactico$stack.peek()), RESULT);
             }
           return CUP$ConsolaSintactico$result;
@@ -779,7 +784,8 @@ class CUP$ConsolaSintactico$actions {
 		int listaleft = ((java_cup.runtime.Symbol)CUP$ConsolaSintactico$stack.peek()).left;
 		int listaright = ((java_cup.runtime.Symbol)CUP$ConsolaSintactico$stack.peek()).right;
 		Nodo lista = (Nodo)((java_cup.runtime.Symbol) CUP$ConsolaSintactico$stack.peek()).value;
-		 RESULT = lista; 
+		 //Nodo nuevo = new Nodo("M"); nuevo.Hijo(lista); 
+            RESULT = lista; 
               CUP$ConsolaSintactico$result = parser.getSymbolFactory().newSymbol("M",17, ((java_cup.runtime.Symbol)CUP$ConsolaSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ConsolaSintactico$stack.peek()), RESULT);
             }
           return CUP$ConsolaSintactico$result;

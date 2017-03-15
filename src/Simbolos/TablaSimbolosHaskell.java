@@ -5,7 +5,6 @@
  */
 package Simbolos;
 
-import Ast.Nodo;
 import Interprete.FuncionHaskell;
 import Interprete.Variable;
 import java.util.ArrayList;
@@ -18,8 +17,8 @@ import java.util.Map;
  */
 public class TablaSimbolosHaskell {
     
-    Map<String, FuncionHaskell> listaFunciones = new LinkedHashMap<>();
-    Map<String, Variable> listaListasConsola = new LinkedHashMap<>();
+    public static Map<String, FuncionHaskell> listaFunciones = new LinkedHashMap<>();
+    public static Map<String, Variable> listaListasConsola = new LinkedHashMap<>();
       
     
     private static TablaSimbolosHaskell tabla;
@@ -28,6 +27,15 @@ public class TablaSimbolosHaskell {
         
     }
     
+    public Boolean getKey(String val){
+        Boolean valor = listaListasConsola.containsKey(val);
+        return valor;
+    }
+    
+    public ArrayList<String> getValores(int i){
+        ArrayList<String> a = (ArrayList)listaListasConsola.get("lista").valor;
+        return a;
+    }
     public void AgregarVariable(String nombre,Variable var){
         listaListasConsola.put(nombre,var);
     }
@@ -38,6 +46,9 @@ public class TablaSimbolosHaskell {
     
     public Map<String, FuncionHaskell> ObtenerListaFunciones(){
         return listaFunciones;
+    }
+    public Map<String, Variable> ObtenerListaListas(){
+        return listaListasConsola;
     }
     public static TablaSimbolosHaskell ObtenerTabla(){
         if(tabla==null){

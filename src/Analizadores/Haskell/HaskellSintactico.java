@@ -1424,7 +1424,10 @@ class CUP$HaskellSintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
-		 RESULT = new Nodo(id); 
+		 Nodo nuevo = new Nodo("id");
+           Nodo i = new Nodo(id); 
+           nuevo.Hijo(i);
+           RESULT = nuevo; 
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("M",25, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
           return CUP$HaskellSintactico$result;

@@ -104,15 +104,15 @@ FUNCIONES_PROPIAS ::= DECLARA_LISTA:nodo
                         {: RESULT = nodo; :}
                     ;
 
-    DECLARA_LISTA ::= dolar let id:nombre igual CONCATENA:exp dolar
-                {:
-                    Nodo nuevo = new Nodo("D_Lista");
-                    Nodo name = new Nodo(nombre);
-                    nuevo.Hijo(name);
-                    nuevo.Hijo(exp);
-                    RESULT = nuevo;
-                :}
-               ;
+DECLARA_LISTA ::= dolar let id:nombre igual CONCATENA:exp dolar
+            {:
+                Nodo nuevo = new Nodo("D_Lista");
+                Nodo name = new Nodo(nombre);
+                nuevo.Hijo(name);
+                nuevo.Hijo(exp);
+                RESULT = nuevo;
+            :}
+           ;
 
 CALCULAR ::= dolar calcular:calcula EXP:exp dolar
             {:
@@ -161,9 +161,15 @@ MAX ::= dolar max M:exp dolar
      ;
 
 M ::= id:id
-        {: RESULT = new Nodo(id); :}
+        {: //Nodo nuevo = new Nodo("M");
+           Nodo nuevo = new Nodo("id"); 
+           Nodo i = new Nodo(id); 
+           //i2.Hijo(i);
+           nuevo.Hijo(i);
+           RESULT = nuevo; :}
     | LISTA:lista
-        {: RESULT = lista; :}
+        {: //Nodo nuevo = new Nodo("M"); nuevo.Hijo(lista); 
+            RESULT = lista; :}
     ;
 
 SUM ::= dolar sum CONCATENA:exp dolar
@@ -350,7 +356,7 @@ EXP ::= EXP:j mas EXP:m
             nuevo.Hijo(m);
             RESULT = nuevo;
         :}
-      | SUM:nodo
+     | SUM:nodo
         {: RESULT = nodo; :}
      | PRODUCT:nodo
         {: RESULT = nodo; :}
@@ -388,6 +394,7 @@ EXP ::= EXP:j mas EXP:m
             Nodo n = new Nodo(cad.toString().replace("\"", ""));
             nuevo.Hijo(n); 
             RESULT = nuevo; :}
+     
      | caracter:letra
         {:  Nodo nuevo = new Nodo("caracter"); 
             Nodo l = new Nodo(letra);

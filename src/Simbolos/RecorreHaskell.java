@@ -9,6 +9,7 @@ import Ast.Nodo;
 import java.util.ArrayList;
 import Interprete.FuncionHaskell;
 import FunPropias.FuncionesPropiasHaskell;
+import Interprete.Valor;
 import Interprete.Variable;
 /**
  *
@@ -55,20 +56,15 @@ public class RecorreHaskell {
                         String nombrelista = raiz.hijos.get(0).valor.toString();
                         if(raiz.hijos.get(1).hijos.size()==1)
                         { //id, cadena, Lista, 2Niveles
-                            Object val = (Object)funPropias.Recorrer(raiz.hijos.get(1));
-                            variable = new Variable(nombrelista,val);
+                            Valor val = (Valor)funPropias.Recorrer(raiz.hijos.get(1));
+                            variable = new Variable(nombrelista,val.valor,val.tipo);
                             agrega.AgregarVariable(nombrelista, variable);
-                            
-                            
-                            
-                            
                             
                             /*
                             else if(raiz.hijos.get(1).hijos.get(0).valor.toString()=="2Niveles"){
                                 
                             }*/
                         }
-                        System.out.println("entro a D_Lista");
                         break;
                         
                     case "Calcular":

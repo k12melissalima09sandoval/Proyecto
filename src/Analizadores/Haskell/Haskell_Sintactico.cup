@@ -304,7 +304,10 @@ MAX ::= dolar max M:exp dolar
      ;
 
 M ::= id:id
-        {: RESULT = new Nodo(id); :}
+       {: Nodo nuevo = new Nodo("id");
+           Nodo i = new Nodo(id); 
+           nuevo.Hijo(i);
+           RESULT = nuevo; :}
     | LISTA:lista
         {: RESULT = lista; :}
     ;

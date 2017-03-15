@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package Interprete;
-
 /**
  *
  * @author MishaPks
@@ -12,17 +11,19 @@ package Interprete;
 public class Variable {
     public String nombre;
     public Object valor;
-    public int tipo;
+    public String tipo;
+    
 
-    public Variable(int tipo, String nombre, String valor) {
+    public Variable(String tipo, String nombre, String valor) {
         this.nombre = nombre;
         this.valor = valor;
         this.tipo = tipo;
     }
     
-    public Variable(String nombre, Object valor){
+    public Variable(String nombre, Object valor, String tipoLista){
         this.nombre = nombre;
         this.valor = valor;
+        this.tipo = tipoLista;
     }
     
     public String getNombre() {
@@ -41,11 +42,11 @@ public class Variable {
         this.valor = valor;
     }
 
-    public int getTipo() {
+    public String getTipo() {
         return tipo;
     }
 
-    public void setTipo(int tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
     

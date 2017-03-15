@@ -27,9 +27,10 @@ import java.util.LinkedList;
 //------> Expresiones Regulares
 digito = [0-9]
 entero = {digito}+
+decimal={entero}"."{entero}
 letra = [a-zA-Z_Ññ]
-cadena = "\"" {letra}+ "\"" 
-caracter = "'" ({letra}|" ")? "'"
+cadena = "\"" ([^\"]*)"\""
+caracter = "'" ([^\']) "'"
 id = {letra} ({letra} | {digito})*
 
 %%
@@ -141,6 +142,8 @@ id = {letra} ({letra} | {digito})*
                                    return new Symbol(SimbolosHaskell.fin, yyline, yycolumn, yytext());}
 
     {entero}                    {//System.out.println("Reconocio: "+yytext());  
+                                   return new Symbol(SimbolosHaskell.entero, yyline, yycolumn, yytext());}
+    {decimal}                    {//System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosHaskell.entero, yyline, yycolumn, yytext());}
     {cadena}                    {//System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosHaskell.cadena, yyline, yycolumn, yytext());}

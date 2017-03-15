@@ -26,7 +26,7 @@ import java.util.LinkedList;
 
 //------> Expresiones Regulares
 texto       = "\""([^\"]*)"\""
-caracter    = "\'"([a-zA-Z0-9]|"!"|"\""|"·"|"$"|"%"|"="|"?"|"¿"|"Ç"|"_"|"-"|"."|","|"<"|">"|"@"|"#"|"~"|"½"|"¬"|";"|"["|"]"|"º"|"ª"|""|"!"|"+"|"-"|"*"|"^"|"&"|"\\")"\'"
+caracter = "'" ([^\']) "'"
 numero      = [0-9]+
 letras      = [a-zA-ZñÑ]+
 id          ={letras}({numero}|"_"|{letras})*

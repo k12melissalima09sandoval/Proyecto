@@ -1,18 +1,11 @@
 digraph G {node[shape=box, style=filled]; edge[color=red]
-node365762534[label="D_Lista"];
- node365762534->node182980811;node182980811[label="lista"];
- node365762534->node19281414;node19281414[label="Concatena"];
- node19281414->node1838642262;node1838642262[label="Lista"];
- node1838642262->node270019621;node270019621[label="Calcular"];
- node270019621->node1522276517;node1522276517[label="Exp"];
- node1522276517->node1780122610;node1780122610[label="numero"];
- node1780122610->node1022983971;node1022983971[label="5"];
- node1838642262->node1842419101;node1842419101[label="Calcular"];
- node1842419101->node1460814258;node1460814258[label="Exp"];
- node1460814258->node1772707249;node1772707249[label="+"];
- node1772707249->node517875648;node517875648[label="caracter"];
- node517875648->node2076619899;node2076619899[label="'a'"];
- node1772707249->node1042048352;node1042048352[label="caracter"];
- node1042048352->node503051207;node503051207[label="'b'"];
+node1905072146[label="D_Lista"];
+ node1905072146->node3691564;node3691564[label="list2"];
+ node1905072146->node543412160;node543412160[label="Concatena"];
+ node543412160->node2040299165;node2040299165[label="Lista"];
+ node2040299165->node1623761972;node1623761972[label="Product"];
+ node1623761972->node580064565;node580064565[label="Concatena"];
+ node580064565->node472957800;node472957800[label="id"];
+ node472957800->node105000677;node105000677[label="lista"];
 
 }

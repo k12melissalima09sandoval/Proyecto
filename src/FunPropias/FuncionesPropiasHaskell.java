@@ -7,6 +7,7 @@ package FunPropias;
 
 //import FunPropias.*;
 import Ast.Nodo;
+import Interprete.Valor;
 
 /**
  *
@@ -42,7 +43,7 @@ public class FuncionesPropiasHaskell {
                 break;
                 
             case "Concatena":
-                Object obj3 = concatena.Recorrer(raiz.hijos.get(0));
+                Valor obj3 = (Valor)concatena.Recorrer(raiz.hijos.get(0));
                 return obj3;
                 
             case "Decc":
