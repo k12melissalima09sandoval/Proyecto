@@ -188,7 +188,10 @@ public class ExpresionHaskell {
                     break;
                     
                 case "unario":
-                    break;
+                    Valor v5 = (Valor)Expresion(exp);
+                    int mult = Integer.parseInt(v5.valor.toString())*(-1);
+                    Valor v6= new Valor(mult,"numero");
+                    return v6;
                     
             }
         }else if(raiz.hijos.size()==2){
