@@ -1,11 +1,21 @@
 digraph G {node[shape=box, style=filled]; edge[color=red]
-node678672770[label="D_Lista"];
- node678672770->node729517433;node729517433[label="lista"];
- node678672770->node69878470;node69878470[label="Concatena"];
- node69878470->node871314398;node871314398[label="Lista"];
- node871314398->node107291528;node107291528[label="caracter"];
- node107291528->node1904375416;node1904375416[label="'a'"];
- node871314398->node669525756;node669525756[label="caracter"];
- node669525756->node1842577436;node1842577436[label="'b'"];
+node1205058519[label="D_Lista"];
+ node1205058519->node1823140909;node1823140909[label="lista"];
+ node1205058519->node405478071;node405478071[label="Concatena"];
+ node405478071->node157577965;node157577965[label="Lista"];
+ node157577965->node1395883285;node1395883285[label="Calcular"];
+ node1395883285->node1757624538;node1757624538[label="Exp"];
+ node1757624538->node679307735;node679307735[label="numero"];
+ node679307735->node44336431;node44336431[label="5"];
+ node157577965->node1253542843;node1253542843[label="Calcular"];
+ node1253542843->node1002667999;node1002667999[label="Exp"];
+ node1002667999->node2016643745;node2016643745[label="+"];
+ node2016643745->node1587082613;node1587082613[label="numero"];
+ node1587082613->node671369038;node671369038[label="55"];
+ node2016643745->node144308246;node144308246[label="*"];
+ node144308246->node1813712166;node1813712166[label="numero"];
+ node1813712166->node1974562445;node1974562445[label="10"];
+ node144308246->node2139453762;node2139453762[label="numero"];
+ node2139453762->node949712876;node949712876[label="9"];
 
 }
