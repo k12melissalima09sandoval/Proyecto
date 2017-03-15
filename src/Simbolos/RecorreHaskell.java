@@ -8,9 +8,7 @@ package Simbolos;
 import Ast.Nodo;
 import java.util.ArrayList;
 import Interprete.FuncionHaskell;
-import Simbolos.TablaSimbolosHaskell;
-import java.util.Map;
-
+import Interprete.Variable;
 /**
  *
  * @author MishaPks
@@ -20,7 +18,7 @@ public class RecorreHaskell {
     public static ArrayList<String> parametros;
     static FuncionHaskell nueva;
     static TablaSimbolosHaskell agrega = new TablaSimbolosHaskell();
-    
+    static Variable variable;
     public static void Recorrido(Nodo raiz){
         
         for (int i = 0; i < raiz.hijos.size(); i++) {
@@ -44,8 +42,52 @@ public class RecorreHaskell {
     }
     
     public static void Consola(Nodo raiz){
-        for(Nodo aux: raiz.hijos){
-            
+        
+            switch(raiz.valor.toString()){
+                
+                    case "D_Lista": //siempre trae dos hijos
+                        String nombrelista = raiz.hijos.get(0).valor.toString();
+                        if(raiz.hijos.get(1).hijos.size()==1){ //id, cadena, Lista, 2Niveles
+                            if(raiz.hijos.get(1).hijos.get(0).valor.toString()=="id"){
+                                String valor =  raiz.hijos.get(1).hijos.get(0).hijos.get(0).valor.toString();
+                                variable = new Variable(nombrelista,valor);
+                                agrega.AgregarVariable(nombrelista, variable);
+                            }
+                            else if(raiz.hijos.get(1).hijos.get(0).valor.toString()=="cadena"){
+                                ArrayList<Object> cadena=new ArrayList();
+                                String valor = raiz.hijos.get(1).hijos.get(0).hijos.get(0).valor.toString();
+                                for (int i = 0; i < valor.length(); i++) {
+                                    char letra = valor.charAt(i);
+                                    cadena.add(letra);
+                                }
+                                variable = new Variable(nombrelista, cadena);
+                                agrega.AgregarVariable(nombrelista, variable);
+                            }
+                            else if(raiz.hijos.get(1).hijos.get(0).valor.toString()=="Lista"){
+                                ArrayList<Object> cadena = new ArrayList();
+                                if(raiz.hijos.get(1).hijos.get(0).hijos.get(0).valor.toString()=="caracter"){
+                                    for(Nodo c: raiz.hijos.get(1).hijos.get(0).hijos){
+                                        //aqui tengo que llevar la lista de caracteres
+                                        cadena.add(c.hijos.get(0).valor.toString());
+                                        
+                                    }
+                                variable = new Variable(nombrelista, cadena);
+                                agrega.AgregarVariable(nombrelista, variable);
+                                } else if(raiz.hijos.get(1).hijos.get(0).hijos.get(0).valor.toString()=="Calcula"){
+                                 //AQUI ME QUEDE   
+                                }
+                            }
+                            else if(raiz.hijos.get(1).hijos.get(0).valor.toString()=="2Niveles"){
+                                
+                            }
+                        }
+                        System.out.println("entro a D_Lista");
+                        break;
+                        
+                    case "Calcular":
+                        System.out.println("entro a Calcular");
+                        break;
         }
+        
     }
 }

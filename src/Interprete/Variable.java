@@ -11,13 +11,18 @@ package Interprete;
  */
 public class Variable {
     public String nombre;
-    public String valor;
+    public Object valor;
     public int tipo;
 
     public Variable(int tipo, String nombre, String valor) {
         this.nombre = nombre;
         this.valor = valor;
         this.tipo = tipo;
+    }
+    
+    public Variable(String nombre, Object valor){
+        this.nombre = nombre;
+        this.valor = valor;
     }
     
     public String getNombre() {
@@ -28,7 +33,7 @@ public class Variable {
         this.nombre = nombre;
     }
 
-    public String getValor() {
+    public Object getValor() {
         return valor;
     }
 
