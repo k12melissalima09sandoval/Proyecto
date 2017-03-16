@@ -17,6 +17,8 @@ import java.util.Map;
  */
 public class ExpresionHaskell {
     
+    public Object ultimoValor;
+    
     static Concatena concatena = new Concatena();
     static TablaSimbolosHaskell lista= new TablaSimbolosHaskell();
     public Object Expresion(Nodo raiz){
@@ -32,12 +34,14 @@ public class ExpresionHaskell {
                 
                 case "Calcular":
                     Valor ob2 = (Valor)Expresion(exp);
+                    ultimoValor = ob2.valor.toString();
                     return ob2;
                     
                 case "Decc":
                     Valor ob3 = (Valor)Expresion(exp);
                     Double ob33 = Double.parseDouble(ob3.valor.toString());
                     temp = ob33-1;
+                    ultimoValor = temp;
                     System.out.println("decc: "+temp);
                     tmp = new Valor(temp,"numero");
                     return tmp;
@@ -46,6 +50,7 @@ public class ExpresionHaskell {
                     Valor ob4 = (Valor)concatena.Recorrer(exp.hijos.get(0));
                     ArrayList vals = (ArrayList)ob4.valor;
                     int tamaño = vals.size();
+                    ultimoValor = tamaño;
                     Valor val4 = new Valor(tamaño,"numero");
                     return val4;
 
@@ -60,6 +65,7 @@ public class ExpresionHaskell {
                                 max = a.get(i).toString().codePointAt(0);
                             }
                         }
+                        ultimoValor=max;
                         char c = (char)max;
                         System.out.println("max "+c);
                         Valor v = new Valor(c,"caracter");
@@ -71,6 +77,7 @@ public class ExpresionHaskell {
                                 max = Double.parseDouble(a.get(i).toString());
                             }
                         }System.out.println("max "+max);
+                        ultimoValor=max;
                         Valor v = new Valor(max,"numero");
                         return v;
                     }
@@ -92,6 +99,7 @@ public class ExpresionHaskell {
                                 min = a8.get(i).toString().codePointAt(0);
                             }
                         }
+                        ultimoValor = min;
                         char c = (char)min;
                         System.out.println("min "+c);
                         Valor v = new Valor(c,"caracter");
@@ -109,6 +117,7 @@ public class ExpresionHaskell {
                                 min = Double.parseDouble(a8.get(i).toString());
                             }
                         }
+                        ultimoValor = min;
                         System.out.println("min "+min);
                         Valor v = new Valor(min,"numero");
                         return v;
@@ -123,6 +132,7 @@ public class ExpresionHaskell {
                         for (int i = 0; i <a7.size(); i++) {
                             multiplica = multiplica * a7.get(i).toString().codePointAt(0);
                         }
+                        ultimoValor = multiplica;
                         System.out.println("mult "+multiplica);
                         Valor v = new Valor(multiplica,"numero");
                         return v;
@@ -131,7 +141,7 @@ public class ExpresionHaskell {
                         for (int i = 0; i <a7.size(); i++) {
                             multiplica = multiplica*Integer.parseInt(a7.get(i).toString());
                         }
-                        
+                        ultimoValor = multiplica;
                         System.out.println("mult "+multiplica);
                         Valor v = new Valor(multiplica,"numero");
                         return v;
@@ -141,6 +151,7 @@ public class ExpresionHaskell {
                     Valor ob8 = (Valor)Expresion(exp);
                     Double ob18 = Double.parseDouble(ob8.valor.toString());
                     temp = ob18+1;
+                    ultimoValor = temp;
                     System.out.println("succ: "+temp);
                     tmp = new Valor(temp,"numero");
                     return tmp;
@@ -154,6 +165,7 @@ public class ExpresionHaskell {
                         for (int i = 0; i <a9.size(); i++) {
                             sum = sum + a9.get(i).toString().codePointAt(0);
                         }
+                        ultimoValor=sum;
                         System.out.println("sum "+sum);
                         Valor v = new Valor(sum,"numero");
                         return v;
@@ -162,7 +174,7 @@ public class ExpresionHaskell {
                         for (int i = 0; i <a9.size(); i++) {
                             sum = sum+ Integer.parseInt(a9.get(i).toString());
                         }
-                        
+                        ultimoValor = sum;
                         System.out.println("sum "+sum);
                         Valor v = new Valor(sum,"numero");
                         return v;
@@ -185,7 +197,8 @@ public class ExpresionHaskell {
                     return v3;
                     
                 case "porcentaje":
-                    break;
+                    Valor v4 = new Valor(ultimoValor,"numero");
+                    return v4;
                     
                 case "unario":
                     Valor v5 = (Valor)Expresion(exp);

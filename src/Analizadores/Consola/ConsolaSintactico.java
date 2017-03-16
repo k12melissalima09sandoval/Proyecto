@@ -1461,7 +1461,10 @@ class CUP$ConsolaSintactico$actions {
 		int porcentajeleft = ((java_cup.runtime.Symbol)CUP$ConsolaSintactico$stack.peek()).left;
 		int porcentajeright = ((java_cup.runtime.Symbol)CUP$ConsolaSintactico$stack.peek()).right;
 		Object porcentaje = (Object)((java_cup.runtime.Symbol) CUP$ConsolaSintactico$stack.peek()).value;
-		 RESULT = new Nodo(porcentaje); 
+		 Nodo nuevo = new Nodo("porcentaje");
+            Nodo por = new Nodo(porcentaje);
+            nuevo.Hijo(por);
+            RESULT = nuevo; 
               CUP$ConsolaSintactico$result = parser.getSymbolFactory().newSymbol("EXP",11, ((java_cup.runtime.Symbol)CUP$ConsolaSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ConsolaSintactico$stack.peek()), RESULT);
             }
           return CUP$ConsolaSintactico$result;

@@ -406,7 +406,10 @@ EXP ::= EXP:j mas EXP:m
             nuevo.Hijo(i);
             RESULT = nuevo; :}
      | porcentaje:porcentaje
-        {: RESULT = new Nodo(porcentaje); :}
+        {: Nodo nuevo = new Nodo("porcentaje");
+            Nodo por = new Nodo(porcentaje);
+            nuevo.Hijo(por);
+            RESULT = nuevo; :}
      ;
 
 LLAMA_FUNCION ::= dolar id:id PARAMETROS:param dolar

@@ -1,12 +1,11 @@
 digraph G {node[shape=box, style=filled]; edge[color=red]
-node614376938[label="D_Lista"];
- node614376938->node987997669;node987997669[label="lista"];
- node614376938->node1566676809;node1566676809[label="Concatena"];
- node1566676809->node665080414;node665080414[label="Lista"];
- node665080414->node1984172725;node1984172725[label="Calcular"];
- node1984172725->node1362058517;node1362058517[label="Exp"];
- node1362058517->node10830758;node10830758[label="Unario"];
- node10830758->node93767502;node93767502[label="numero"];
- node93767502->node1393671411;node1393671411[label="9"];
+node111715498[label="D_Lista"];
+ node111715498->node1514586625;node1514586625[label="lis"];
+ node111715498->node80074393;node80074393[label="Concatena"];
+ node80074393->node547581205;node547581205[label="Lista"];
+ node547581205->node1676476511;node1676476511[label="Succ"];
+ node1676476511->node257396969;node257396969[label="Exp"];
+ node257396969->node629993092;node629993092[label="porcentaje"];
+ node629993092->node519890149;node519890149[label="%"];
 
 }
