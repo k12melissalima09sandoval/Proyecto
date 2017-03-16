@@ -8,6 +8,7 @@ package Interprete;
 import Ast.Nodo;
 import FunPropias.Concatena;
 import Simbolos.TablaSimbolosHaskell;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -16,811 +17,861 @@ import java.util.Map;
  * @author MishaPks
  */
 public class ExpresionHaskell {
-    
-    public Object ultimoValor;
+
+    public static Object ultimoValor;
     Boolean res;
     Boolean uno;
     Boolean dos;
     static Concatena concatena = new Concatena();
-    static TablaSimbolosHaskell lista= new TablaSimbolosHaskell();
-    public Object Expresion(Nodo raiz){
-        if(raiz.hijos.size()==1){
+    static TablaSimbolosHaskell lista = new TablaSimbolosHaskell();
+
+    public Object Expresion(Nodo raiz) {
+        if (raiz.hijos.size() == 1) {
             //Double temp;
             Valor tmp;
             Nodo exp = raiz.hijos.get(0);
-            switch(raiz.valor.toString()){
-                
+            switch (raiz.valor.toString()) {
+
                 case "Exp":
-                    Valor ob1 = (Valor)Expresion(exp);
+                    Valor ob1 = (Valor) Expresion(exp);
                     return ob1;
-                
+
                 case "Calcular":
-                    Valor ob2 = (Valor)Expresion(exp);
+                    Valor ob2 = (Valor) Expresion(exp);
                     ultimoValor = ob2.valor.toString();
                     return ob2;
-                    
+
                 case "Decc":
-                    Valor ob3 = (Valor)Expresion(exp);
-                    if(ob3.tipo.equals("caracter")||ob3.tipo.equals("cadena")){
+                    Valor ob3 = (Valor) Expresion(exp);
+                    if (ob3.tipo.equals("caracter") || ob3.tipo.equals("cadena")) {
                         int num = ob3.valor.toString().codePointAt(0);
-                        num = num-1;
+                        num = num - 1;
                         ultimoValor = num;
-                        System.out.println("decc: "+num);
-                        tmp = new Valor(num,"numero");
+                        System.out.println("decc: " + num);
+                        tmp = new Valor(num, "numero");
                         return tmp;
-                    }else {
+                    } else {
                         Double ob18 = Double.parseDouble(ob3.valor.toString());
-                        Double num = ob18-1;
+                        Double num = ob18 - 1;
                         ultimoValor = num;
-                        System.out.println("decc: "+num);
-                        tmp = new Valor(num,"numero");
+                        System.out.println("decc: " + num);
+                        tmp = new Valor(num, "numero");
                         return tmp;
                     }
 
                 case "Length":
-                    Valor ob4 = (Valor)concatena.Listas(exp.hijos.get(0));
-                    ArrayList vals = (ArrayList)ob4.valor;
+                    Valor ob4 = (Valor) concatena.Listas(exp.hijos.get(0));
+                    ArrayList vals = (ArrayList) ob4.valor;
                     int tamaño = vals.size();
                     ultimoValor = tamaño;
-                    Valor val4 = new Valor(tamaño,"numero");
+                    Valor val4 = new Valor(tamaño, "numero");
                     return val4;
 
                 case "Max":
-                    Valor ob5 = (Valor)concatena.Listas(exp);
-                    ArrayList a = (ArrayList)ob5.valor;
-                    if(a.get(0) instanceof ArrayList){
+                    Valor ob5 = (Valor) concatena.Listas(exp);
+                    ArrayList a = (ArrayList) ob5.valor;
+                    if (a.get(0) instanceof ArrayList) {
                         //2 NIVELES
-                        if(ob5.tipo.equals("caracter")||ob5.tipo.equals("cadena")){
+                        if (ob5.tipo.equals("caracter") || ob5.tipo.equals("cadena")) {
 
-                            int max=0;
-                            for (int i = 0; i <a.size(); i++) {
-                                ArrayList temp = (ArrayList)a.get(i);
+                            int max = 0;
+                            for (int i = 0; i < a.size(); i++) {
+                                ArrayList temp = (ArrayList) a.get(i);
                                 for (int j = 0; j < temp.size(); j++) {
-                                    if(temp.get(j).toString().codePointAt(0) > max){
+                                    if (temp.get(j).toString().codePointAt(0) > max) {
                                         max = temp.get(j).toString().codePointAt(0);
                                     }
                                 }
                             }
-                            ultimoValor=max;
-                            char c = (char)max;
-                            Valor v = new Valor(c,"caracter");
+                            ultimoValor = max;
+                            char c = (char) max;
+                            Valor v = new Valor(c, "caracter");
                             return v;
-                        }else {
-                            Double max=0.00;
-                            for (int i = 0; i <a.size(); i++) {
-                                ArrayList temp = (ArrayList)a.get(i);
+                        } else {
+                            Double max = 0.00;
+                            for (int i = 0; i < a.size(); i++) {
+                                ArrayList temp = (ArrayList) a.get(i);
                                 for (int j = 0; j < temp.size(); j++) {
-                                    if(Integer.parseInt(temp.get(j).toString()) > max){
+                                    if (Integer.parseInt(temp.get(j).toString()) > max) {
                                         max = Double.parseDouble(temp.get(j).toString());
                                     }
                                 }
                             }
-                            ultimoValor=max;
-                            Valor v = new Valor(max,"numero");
+                            ultimoValor = max;
+                            Valor v = new Valor(max, "numero");
                             return v;
                         }
-                    }else{
-                        if(ob5.tipo.equals("caracter")||ob5.tipo.equals("cadena")){
+                    } else if (ob5.tipo.equals("caracter") || ob5.tipo.equals("cadena")) {
 
-                            int max=0;
-                            for (int i = 0; i <a.size(); i++) {
-                                if(a.get(i).toString().codePointAt(0) > max){
-                                    max = a.get(i).toString().codePointAt(0);
-                                }
+                        int max = 0;
+                        for (int i = 0; i < a.size(); i++) {
+                            if (a.get(i).toString().codePointAt(0) > max) {
+                                max = a.get(i).toString().codePointAt(0);
                             }
-                            ultimoValor=max;
-                            char c = (char)max;
-                            Valor v = new Valor(c,"caracter");
-                            return v;
-                        }else {
-                            Double max=0.00;
-                            for (int i = 0; i <a.size(); i++) {
-                                if(Integer.parseInt(a.get(i).toString()) > max){
-                                    max = Double.parseDouble(a.get(i).toString());
-                                }
-                            }
-                            ultimoValor=max;
-                            Valor v = new Valor(max,"numero");
-                            return v;
                         }
+                        ultimoValor = max;
+                        char c = (char) max;
+                        Valor v = new Valor(c, "caracter");
+                        return v;
+                    } else {
+                        Double max = 0.00;
+                        for (int i = 0; i < a.size(); i++) {
+                            if (Integer.parseInt(a.get(i).toString()) > max) {
+                                max = Double.parseDouble(a.get(i).toString());
+                            }
+                        }
+                        ultimoValor = max;
+                        Valor v = new Valor(max, "numero");
+                        return v;
                     }
 
                 case "Min":
-                    Valor ob6 = (Valor)concatena.Listas(exp);
-                    ArrayList a8=(ArrayList)ob6.valor;
-                    if(a8.get(0) instanceof ArrayList){
-                        if(ob6.tipo.equals("caracter")||ob6.tipo.equals("cadena")){
+                    Valor ob6 = (Valor) concatena.Listas(exp);
+                    ArrayList a8 = (ArrayList) ob6.valor;
+                    if (a8.get(0) instanceof ArrayList) {
+                        if (ob6.tipo.equals("caracter") || ob6.tipo.equals("cadena")) {
 
-                            int max=0;
-                            for (int i = 0; i <a8.size(); i++) {
-                                ArrayList temp = (ArrayList)a8.get(i);
+                            int max = 0;
+                            for (int i = 0; i < a8.size(); i++) {
+                                ArrayList temp = (ArrayList) a8.get(i);
                                 for (int j = 0; j < temp.size(); j++) {
-                                    if(temp.get(j).toString().codePointAt(0) > max){
+                                    if (temp.get(j).toString().codePointAt(0) > max) {
                                         max = temp.get(j).toString().codePointAt(0);
                                     }
                                 }
                             }
-                            int min=max;
-                            for (int i = 0; i <a8.size(); i++) {
-                                ArrayList temp = (ArrayList)a8.get(i);
+                            int min = max;
+                            for (int i = 0; i < a8.size(); i++) {
+                                ArrayList temp = (ArrayList) a8.get(i);
                                 for (int j = 0; j < temp.size(); j++) {
-                                    if(temp.get(j).toString().codePointAt(0) < min){
+                                    if (temp.get(j).toString().codePointAt(0) < min) {
                                         min = temp.get(j).toString().codePointAt(0);
                                     }
                                 }
                             }
                             ultimoValor = min;
-                            char c = (char)min;
-                            System.out.println("min "+c);
-                            Valor v = new Valor(c,"caracter");
+                            char c = (char) min;
+                            System.out.println("min " + c);
+                            Valor v = new Valor(c, "caracter");
                             return v;
-                        }else { //numero
-                            Double max=0.00;
-                            for (int i = 0; i <a8.size(); i++) {
-                                ArrayList temp = (ArrayList)a8.get(i);
+                        } else { //numero
+                            Double max = 0.00;
+                            for (int i = 0; i < a8.size(); i++) {
+                                ArrayList temp = (ArrayList) a8.get(i);
                                 for (int j = 0; j < temp.size(); j++) {
-                                    if(Integer.parseInt(temp.get(j).toString()) > max){
+                                    if (Integer.parseInt(temp.get(j).toString()) > max) {
                                         max = Double.parseDouble(temp.get(j).toString());
                                     }
                                 }
                             }
-                            Double min =max;
-                            for (int i = 0; i <a8.size(); i++) {
-                                ArrayList temp = (ArrayList)a8.get(i);
+                            Double min = max;
+                            for (int i = 0; i < a8.size(); i++) {
+                                ArrayList temp = (ArrayList) a8.get(i);
                                 for (int j = 0; j < temp.size(); j++) {
-                                    if(Integer.parseInt(temp.get(j).toString()) < min){
+                                    if (Integer.parseInt(temp.get(j).toString()) < min) {
                                         min = Double.parseDouble(temp.get(j).toString());
                                     }
                                 }
                             }
                             ultimoValor = min;
-                            System.out.println("min "+min);
-                            Valor v = new Valor(min,"numero");
+                            System.out.println("min " + min);
+                            Valor v = new Valor(min, "numero");
                             return v;
                         }
-                    } else{
-                        
-                        if(ob6.tipo.equals("caracter")||ob6.tipo.equals("cadena")){
+                    } else if (ob6.tipo.equals("caracter") || ob6.tipo.equals("cadena")) {
 
-                            int max=0;
-                            for (int i = 0; i <a8.size(); i++) {
-                                if(a8.get(i).toString().codePointAt(0) > max){
-                                    max = a8.get(i).toString().codePointAt(0);
-                                }
+                        int max = 0;
+                        for (int i = 0; i < a8.size(); i++) {
+                            if (a8.get(i).toString().codePointAt(0) > max) {
+                                max = a8.get(i).toString().codePointAt(0);
                             }
-                            int min=max;
-                            for (int i = 0; i < a8.size(); i++) {
-                                if(a8.get(i).toString().codePointAt(0) < min){
-                                    min = a8.get(i).toString().codePointAt(0);
-                                }
-                            }
-                            ultimoValor = min;
-                            char c = (char)min;
-                            System.out.println("min "+c);
-                            Valor v = new Valor(c,"caracter");
-                            return v;
-                        }else { //numero
-                            Double max=0.00;
-                            for (int i = 0; i <a8.size(); i++) {
-                                if(Integer.parseInt(a8.get(i).toString()) > max){
-                                    max = Double.parseDouble(a8.get(i).toString());
-                                }
-                            }
-                            Double min =max;
-                            for (int i = 0; i < a8.size(); i++) {
-                                if(Integer.parseInt(a8.get(i).toString()) < min){
-                                    min = Double.parseDouble(a8.get(i).toString());
-                                }
-                            }
-                            ultimoValor = min;
-                            System.out.println("min "+min);
-                            Valor v = new Valor(min,"numero");
-                            return v;
                         }
+                        int min = max;
+                        for (int i = 0; i < a8.size(); i++) {
+                            if (a8.get(i).toString().codePointAt(0) < min) {
+                                min = a8.get(i).toString().codePointAt(0);
+                            }
+                        }
+                        ultimoValor = min;
+                        char c = (char) min;
+                        System.out.println("min " + c);
+                        Valor v = new Valor(c, "caracter");
+                        return v;
+                    } else { //numero
+                        Double max = 0.00;
+                        for (int i = 0; i < a8.size(); i++) {
+                            if (Integer.parseInt(a8.get(i).toString()) > max) {
+                                max = Double.parseDouble(a8.get(i).toString());
+                            }
+                        }
+                        Double min = max;
+                        for (int i = 0; i < a8.size(); i++) {
+                            if (Integer.parseInt(a8.get(i).toString()) < min) {
+                                min = Double.parseDouble(a8.get(i).toString());
+                            }
+                        }
+                        ultimoValor = min;
+                        System.out.println("min " + min);
+                        Valor v = new Valor(min, "numero");
+                        return v;
                     }
 
                 case "Product":
-                    Valor ob7 = (Valor)concatena.Listas(exp.hijos.get(0));
-                    ArrayList a7 = (ArrayList)ob7.valor;
-                    if(a7.get(0) instanceof ArrayList){
-                        if(ob7.tipo.equals("caracter")||ob7.tipo.equals("cadena")){
+                    Valor ob7 = (Valor) concatena.Listas(exp.hijos.get(0));
+                    ArrayList a7 = (ArrayList) ob7.valor;
+                    if (a7.get(0) instanceof ArrayList) {
+                        if (ob7.tipo.equals("caracter") || ob7.tipo.equals("cadena")) {
 
-                            int multiplica=1;
-                            for (int i = 0; i <a7.size(); i++) {
-                                ArrayList temp = (ArrayList)a7.get(i);
+                            BigInteger multiplica = BigInteger.ONE;
+                            for (int i = 0; i < a7.size(); i++) {
+                                ArrayList temp = (ArrayList) a7.get(i);
                                 for (int j = 0; j < temp.size(); j++) {
-                                    multiplica = multiplica * temp.get(j).toString().codePointAt(0);
+                                    BigInteger h2 = new BigInteger(temp.get(j).toString().codePointAt(0) + "");
+                                    multiplica = multiplica.multiply(h2);
                                 }
                             }
                             ultimoValor = multiplica;
-                            System.out.println("mult "+multiplica);
-                            Valor v = new Valor(multiplica,"numero");
+                            System.out.println("mult " + multiplica);
+                            Valor v = new Valor(multiplica, "numero");
                             return v;
-                        }else { //numero
-                            int multiplica=1;
-                            for (int i = 0; i <a7.size(); i++) {
-                                ArrayList temp = (ArrayList)a7.get(i);
+                        } else { //numero
+                            BigInteger multiplica = BigInteger.ONE;
+                            for (int i = 0; i < a7.size(); i++) {
+                                ArrayList temp = (ArrayList) a7.get(i);
                                 for (int j = 0; j < temp.size(); j++) {
-                                    multiplica = multiplica*Integer.parseInt(temp.get(j).toString());
+                                    BigInteger h2 = new BigInteger(temp.get(j).toString().codePointAt(0) + "");
+                                    multiplica = multiplica.multiply(h2);
+
                                 }
                             }
                             ultimoValor = multiplica;
-                            System.out.println("mult "+multiplica);
-                            Valor v = new Valor(multiplica,"numero");
+                            System.out.println("mult " + multiplica);
+                            Valor v = new Valor(multiplica, "numero");
                             return v;
                         }
-                    }else{
-                        if(ob7.tipo.equals("caracter")||ob7.tipo.equals("cadena")){
+                    } else if (ob7.tipo.equals("caracter") || ob7.tipo.equals("cadena")) {
 
-                            int multiplica=1;
-                            for (int i = 0; i <a7.size(); i++) {
-                                multiplica = multiplica * a7.get(i).toString().codePointAt(0);
-                            }
-                            ultimoValor = multiplica;
-                            System.out.println("mult "+multiplica);
-                            Valor v = new Valor(multiplica,"numero");
-                            return v;
-                        }else { //numero
-                            int multiplica=1;
-                            for (int i = 0; i <a7.size(); i++) {
-                                multiplica = multiplica*Integer.parseInt(a7.get(i).toString());
-                            }
-                            ultimoValor = multiplica;
-                            System.out.println("mult "+multiplica);
-                            Valor v = new Valor(multiplica,"numero");
-                            return v;
+                        BigInteger multiplica = BigInteger.ONE;
+                        System.out.println("dd " + multiplica);
+                        for (int i = 0; i < a7.size(); i++) {
+                            BigInteger h2 = new BigInteger(a7.get(i).toString().codePointAt(0) + "");
+                            System.out.println("h2 " + h2);
+                            multiplica = multiplica.multiply(h2);
+                            System.out.println("res " + multiplica);
                         }
+                        ultimoValor = multiplica;
+                        System.out.println("mult " + multiplica);
+                        Valor v = new Valor(multiplica, "numero");
+                        return v;
+                    } else { //numero
+                        BigInteger multiplica = BigInteger.ONE;
+                        for (int i = 0; i < a7.size(); i++) {
+                            BigInteger h2 = new BigInteger(a7.get(i).toString().codePointAt(0) + "");
+                            multiplica = multiplica.multiply(h2);
+                        }
+                        ultimoValor = multiplica;
+                        System.out.println("mult " + multiplica);
+                        Valor v = new Valor(multiplica, "numero");
+                        return v;
                     }
 
                 case "Succ":
-                    Valor ob8 = (Valor)Expresion(exp);
-                    
-                    if(ob8.tipo.equals("caracter")||ob8.tipo.equals("cadena")){
+                    Valor ob8 = (Valor) Expresion(exp);
+
+                    if (ob8.tipo.equals("caracter") || ob8.tipo.equals("cadena")) {
                         int num = ob8.valor.toString().codePointAt(0);
-                        num =num+1;
+                        num = num + 1;
                         ultimoValor = num;
-                        System.out.println("succ: "+num);
-                        tmp = new Valor(num,"numero");
+                        System.out.println("succ: " + num);
+                        tmp = new Valor(num, "numero");
                         return tmp;
-                    }else {
+                    } else {
                         Double ob18 = Double.parseDouble(ob8.valor.toString());
-                        Double num = ob18+1;
+                        Double num = ob18 + 1;
                         ultimoValor = num;
-                        System.out.println("succ: "+num);
-                        tmp = new Valor(num,"numero");
+                        System.out.println("succ: " + num);
+                        tmp = new Valor(num, "numero");
                         return tmp;
                     }
-                    
-                case "Sum":
-                    Valor ob9 = (Valor)concatena.Listas(exp.hijos.get(0));
-                    ArrayList a9 = (ArrayList)ob9.valor;
-                    if(a9.get(0) instanceof ArrayList){
-                        if(ob9.tipo.equals("caracter")||ob9.tipo.equals("cadena")){
 
-                            int sum=0;
-                            for (int i = 0; i <a9.size(); i++) {
-                                ArrayList temp = (ArrayList)a9.get(i);
+                case "Sum":
+                    Valor ob9 = (Valor) concatena.Listas(exp.hijos.get(0));
+                    ArrayList a9 = (ArrayList) ob9.valor;
+                    if (a9.get(0) instanceof ArrayList) {
+                        if (ob9.tipo.equals("caracter") || ob9.tipo.equals("cadena")) {
+
+                            int sum = 0;
+                            for (int i = 0; i < a9.size(); i++) {
+                                ArrayList temp = (ArrayList) a9.get(i);
                                 for (int j = 0; j < temp.size(); j++) {
                                     sum = sum + temp.get(j).toString().codePointAt(0);
                                 }
                             }
-                            ultimoValor=sum;
-                            System.out.println("sum "+sum);
-                            Valor v = new Valor(sum,"numero");
+                            ultimoValor = sum;
+                            System.out.println("sum " + sum);
+                            Valor v = new Valor(sum, "numero");
                             return v;
-                        }else { //numero
-                            int sum=0;
-                            for (int i = 0; i <a9.size(); i++) {
-                                ArrayList temp = (ArrayList)a9.get(i);
+                        } else { //numero
+                            int sum = 0;
+                            for (int i = 0; i < a9.size(); i++) {
+                                ArrayList temp = (ArrayList) a9.get(i);
                                 for (int j = 0; j < temp.size(); j++) {
-                                    sum = sum+ Integer.parseInt(temp.get(j).toString());
+                                    sum = sum + Integer.parseInt(temp.get(j).toString());
                                 }
                             }
                             ultimoValor = sum;
-                            System.out.println("sum "+sum);
-                            Valor v = new Valor(sum,"numero");
+                            System.out.println("sum " + sum);
+                            Valor v = new Valor(sum, "numero");
                             return v;
                         }
-                    }else{
-                        if(ob9.tipo.equals("caracter")||ob9.tipo.equals("cadena")){
+                    } else if (ob9.tipo.equals("caracter") || ob9.tipo.equals("cadena")) {
 
-                            int sum=0;
-                            for (int i = 0; i <a9.size(); i++) {
-                                sum = sum + a9.get(i).toString().codePointAt(0);
-                            }
-                            ultimoValor=sum;
-                            System.out.println("sum "+sum);
-                            Valor v = new Valor(sum,"numero");
-                            return v;
-                        }else { //numero
-                            int sum=0;
-                            for (int i = 0; i <a9.size(); i++) {
-                                sum = sum+ Integer.parseInt(a9.get(i).toString());
-                            }
-                            ultimoValor = sum;
-                            System.out.println("sum "+sum);
-                            Valor v = new Valor(sum,"numero");
-                            return v;
+                        int sum = 0;
+                        for (int i = 0; i < a9.size(); i++) {
+                            sum = sum + a9.get(i).toString().codePointAt(0);
                         }
+                        ultimoValor = sum;
+                        System.out.println("sum " + sum);
+                        Valor v = new Valor(sum, "numero");
+                        return v;
+                    } else { //numero
+                        int sum = 0;
+                        for (int i = 0; i < a9.size(); i++) {
+                            sum = sum + Integer.parseInt(a9.get(i).toString());
+                        }
+                        ultimoValor = sum;
+                        System.out.println("sum " + sum);
+                        Valor v = new Valor(sum, "numero");
+                        return v;
                     }
-                    
+
                 case "porcentaje":
-                    Valor v4 = new Valor(ultimoValor,"numero");
+                    Valor v4 = new Valor(ultimoValor, "numero");
                     return v4;
-                    
+
                 case "Unario":
-                    Valor v5 = (Valor)Expresion(exp);
-                    int mult = Integer.parseInt(v5.valor.toString())*(-1);
-                    Valor v6= new Valor(mult,"numero");
+                    Valor v5 = (Valor) Expresion(exp);
+                    int mult = Integer.parseInt(v5.valor.toString()) * (-1);
+                    Valor v6 = new Valor(mult, "numero");
                     return v6;
-                    
+
                 case "numero":
-                    Valor v = new Valor(raiz.hijos.get(0).valor.toString(),"numero");
+                    Valor v = new Valor(raiz.hijos.get(0).valor.toString(), "numero");
                     return v;
-                    
+
                 case "cadena":
-                    Valor v1 = new Valor(raiz.hijos.get(0).valor.toString(),"cadena");
+                    Valor v1 = new Valor(raiz.hijos.get(0).valor.toString(), "cadena");
                     return v1;
-                    
+
                 case "id":
-                    Valor v2 = new Valor(raiz.hijos.get(0).valor.toString(),"id");
+                    Valor v2 = new Valor(raiz.hijos.get(0).valor.toString(), "id");
                     return v2;
-                    
+
                 case "caracter":
-                    Valor v3 = new Valor(raiz.hijos.get(0).valor.toString().replace("'", ""),"caracter");
+                    Valor v3 = new Valor(raiz.hijos.get(0).valor.toString().replace("'", ""), "caracter");
                     return v3;
-                    
+
             }
-        }else if(raiz.hijos.size()==2){
+        } else if (raiz.hijos.size() == 2) {
             Valor izq;
             Valor der;
             Double resultado = 0.0;
-            switch(raiz.valor.toString()){
-                
+            switch (raiz.valor.toString()) {
+
                 case "LlamaFunc":
                     /////////////////////////////////////////////////////////////////////////////
                     break;
-                    
+
                 case "Indice":
                     String nombreLista = raiz.hijos.get(0).valor.toString();
-                    Valor ob = (Valor)Expresion(raiz.hijos.get(1));
-                    int indice = Integer.parseInt(ob.valor.toString());
+
+                    Valor ob = (Valor) Expresion(raiz.hijos.get(1));
+                    int indice = Integer.parseInt(ob.valor.toString().replace(".0",""));
                     //buscar en la lista de listas
-                    
+
                     Map<String, Variable> l = lista.ObtenerListaListas();
-                    if(l!=null){
-                        if(l.size()>0){
+                    if (l != null) {
+                        if (l.size() > 0) {
                             for (int i = 0; i < l.size(); i++) {
                                 Boolean g = lista.getKey(nombreLista);
-                                if(g.equals(true)){
-                                    ArrayList valores = (ArrayList)l.get(nombreLista).valor;
+                                if (g.equals(true)) {
+                                    ArrayList valores = (ArrayList) l.get(nombreLista).valor;
                                     String pos = valores.get(indice).toString();
-                                    if(l.get(nombreLista).tipo.equals("numero"))
-                                    {
-                                        Valor val = new Valor(pos,"numero");
+                                    if (l.get(nombreLista).tipo.equals("numero")) {
+                                        ultimoValor = pos;
+                                        Valor val = new Valor(pos, "numero");
                                         return val;
-                                    }else{
-                                        Valor val = new Valor(pos,"caracter");
+                                    } else {
+                                        ultimoValor = pos;
+                                        Valor val = new Valor(pos, "caracter");
                                         return val;
                                     }
                                 }
                             }
-                        }else {
+                        } else {
                             System.out.println("no hay ninguna lista declarada");
                         }
                     }
-                    System.out.println("entro a indice "+nombreLista);
-                    
-                    //Valor val = new Valor();
-                    return ob;
-                    
+
                 case "+":
-                    izq = (Valor)Expresion(raiz.hijos.get(0)); 
-                    der = (Valor)Expresion(raiz.hijos.get(1));
-                    if(izq!=null || der != null){
-                        if(izq.tipo.equals(der.tipo)){
-                            if(izq.tipo.equals("numero")){
+                    izq = (Valor) Expresion(raiz.hijos.get(0));
+                    der = (Valor) Expresion(raiz.hijos.get(1));
+                    if (izq != null || der != null) {
+                        if (izq.tipo.equals(der.tipo)) {
+                            if (izq.tipo.equals("numero")) {
                                 Double num1 = Double.parseDouble(izq.valor.toString());
                                 Double num2 = Double.parseDouble(der.valor.toString());
-                                resultado = num1+num2;
-                                Valor v = new Valor(resultado,"numero");
+                                resultado = num1 + num2;
+                                Valor v = new Valor(resultado, "numero");
                                 return v;
-                            }
-                            else if(izq.tipo.equals("caracter")){
+                            } else if (izq.tipo.equals("caracter")) {
                                 Object o = izq.valor.toString().codePointAt(0);
                                 Object m = der.valor.toString().codePointAt(0);
                                 Double num1 = new Double(o.toString());
                                 Double num2 = new Double(m.toString());
-                                resultado = num1+num2;
-                                Valor v = new Valor(resultado,"numero");
+                                resultado = num1 + num2;
+                                Valor v = new Valor(resultado, "numero");
                                 return v;
-                            }else {
+                            } else {
                                 //error
                                 System.out.println("no son del mismo tipo");
                             }
                         }
-                    }else {
+                    } else {
                         System.out.println("los valores tienen nulo");
                     }
                 case "-":
-                    izq = (Valor)Expresion(raiz.hijos.get(0)); 
-                    der = (Valor)Expresion(raiz.hijos.get(1));
-                    if(izq!=null || der != null){
-                        if(izq.tipo.equals(der.tipo)){
-                            if(izq.tipo.equals("numero")){
+                    izq = (Valor) Expresion(raiz.hijos.get(0));
+                    der = (Valor) Expresion(raiz.hijos.get(1));
+                    if (izq != null || der != null) {
+                        if (izq.tipo.equals(der.tipo)) {
+                            if (izq.tipo.equals("numero")) {
                                 Double num1 = Double.parseDouble(izq.valor.toString());
                                 Double num2 = Double.parseDouble(der.valor.toString());
-                                resultado = num1-num2;
-                                Valor v = new Valor(resultado,"numero");
+                                resultado = num1 - num2;
+                                Valor v = new Valor(resultado, "numero");
                                 return v;
-                            }
-                            else if(izq.tipo.equals("caracter")){
+                            } else if (izq.tipo.equals("caracter")) {
                                 Object o = izq.valor.toString().codePointAt(0);
                                 Object m = der.valor.toString().codePointAt(0);
                                 Double num1 = new Double(o.toString());
                                 Double num2 = new Double(m.toString());
-                                resultado = num1-num2;
-                                Valor v = new Valor(resultado,"numero");
+                                resultado = num1 - num2;
+                                Valor v = new Valor(resultado, "numero");
                                 return v;
-                            }else {
+                            } else {
                                 //error
                                 System.out.println("no son del mismo tipo");
                             }
                         }
-                    }else {
+                    } else {
                         System.out.println("los valores tienen nulo");
                     }
-                    
+
                 case "*":
-                    izq = (Valor)Expresion(raiz.hijos.get(0)); 
-                    der = (Valor)Expresion(raiz.hijos.get(1));
-                    if(izq!=null || der != null){
-                        if(izq.tipo.equals(der.tipo)){
-                            if(izq.tipo.equals("numero")){
+                    izq = (Valor) Expresion(raiz.hijos.get(0));
+                    der = (Valor) Expresion(raiz.hijos.get(1));
+                    if (izq != null || der != null) {
+                        if (izq.tipo.equals(der.tipo)) {
+                            if (izq.tipo.equals("numero")) {
                                 Double num1 = Double.parseDouble(izq.valor.toString());
                                 Double num2 = Double.parseDouble(der.valor.toString());
-                                resultado = num1*num2;
-                                Valor v = new Valor(resultado,"numero");
+                                resultado = num1 * num2;
+                                Valor v = new Valor(resultado, "numero");
                                 return v;
-                            }
-                            else if(izq.tipo.equals("caracter")){
+                            } else if (izq.tipo.equals("caracter")) {
                                 Object o = izq.valor.toString().codePointAt(0);
                                 Object m = der.valor.toString().codePointAt(0);
                                 Double num1 = new Double(o.toString());
                                 Double num2 = new Double(m.toString());
-                                resultado = num1*num2;
-                                Valor v = new Valor(resultado,"numero");
+                                resultado = num1 * num2;
+                                Valor v = new Valor(resultado, "numero");
                                 return v;
-                            }else {
+                            } else {
                                 //error
                                 System.out.println("no son del mismo tipo");
                             }
                         }
-                    }else {
+                    } else {
                         System.out.println("los valores tienen nulo");
                     }
-                    
+
                 case "/":
-                    izq = (Valor)Expresion(raiz.hijos.get(0)); 
-                    der = (Valor)Expresion(raiz.hijos.get(1));
-                    if(izq!=null || der != null){
-                        if(izq.tipo.equals(der.tipo)){
-                            if(izq.tipo.equals("numero")){
+                    izq = (Valor) Expresion(raiz.hijos.get(0));
+                    der = (Valor) Expresion(raiz.hijos.get(1));
+                    if (izq != null || der != null) {
+                        if (izq.tipo.equals(der.tipo)) {
+                            if (izq.tipo.equals("numero")) {
                                 Double num1 = Double.parseDouble(izq.valor.toString());
                                 Double num2 = Double.parseDouble(der.valor.toString());
-                                resultado = num1/num2;
-                                Valor v = new Valor(resultado,"numero");
+                                resultado = num1 / num2;
+                                Valor v = new Valor(resultado, "numero");
                                 return v;
-                            }
-                            else if(izq.tipo.equals("caracter")){
+                            } else if (izq.tipo.equals("caracter")) {
                                 Object o = izq.valor.toString().codePointAt(0);
                                 Object m = der.valor.toString().codePointAt(0);
                                 Double num1 = new Double(o.toString());
                                 Double num2 = new Double(m.toString());
-                                resultado = num1/num2;
-                                Valor v = new Valor(resultado,"numero");
+                                resultado = num1 / num2;
+                                Valor v = new Valor(resultado, "numero");
                                 return v;
-                            }else {
+                            } else {
                                 //error
                                 System.out.println("no son del mismo tipo");
                             }
                         }
-                    }else {
+                    } else {
                         System.out.println("los valores tienen nulo");
                     }
-                    
+
                 case "mod":
-                    izq = (Valor)Expresion(raiz.hijos.get(0)); 
-                    der = (Valor)Expresion(raiz.hijos.get(1));
-                    if(izq!=null || der != null){
-                        if(izq.tipo.equals(der.tipo)){
-                            if(izq.tipo.equals("numero")){
+                    izq = (Valor) Expresion(raiz.hijos.get(0));
+                    der = (Valor) Expresion(raiz.hijos.get(1));
+                    if (izq != null || der != null) {
+                        if (izq.tipo.equals(der.tipo)) {
+                            if (izq.tipo.equals("numero")) {
                                 Double num1 = Double.parseDouble(izq.valor.toString());
                                 Double num2 = Double.parseDouble(der.valor.toString());
-                                resultado = num1%num2;
-                                Valor v = new Valor(resultado,"numero");
+                                resultado = num1 % num2;
+                                Valor v = new Valor(resultado, "numero");
                                 return v;
-                            }
-                            else if(izq.tipo.equals("caracter")){
+                            } else if (izq.tipo.equals("caracter")) {
                                 Object o = izq.valor.toString().codePointAt(0);
                                 Object m = der.valor.toString().codePointAt(0);
                                 Double num1 = new Double(o.toString());
                                 Double num2 = new Double(m.toString());
-                                resultado = num1%num2;
-                                Valor v = new Valor(resultado,"numero");
+                                resultado = num1 % num2;
+                                Valor v = new Valor(resultado, "numero");
                                 return v;
-                            }else {
+                            } else {
                                 //error
                                 System.out.println("no son del mismo tipo");
                             }
                         }
-                    }else {
+                    } else {
                         System.out.println("los valores tienen nulo");
                     }
-                    
+
                 case "sqrt":
-                    izq = (Valor)Expresion(raiz.hijos.get(0)); 
-                    der = (Valor)Expresion(raiz.hijos.get(1));
-                    if(izq!=null || der != null){
-                        if(izq.tipo.equals(der.tipo)){
-                            if(izq.tipo.equals("numero")){
+                    izq = (Valor) Expresion(raiz.hijos.get(0));
+                    der = (Valor) Expresion(raiz.hijos.get(1));
+                    if (izq != null || der != null) {
+                        if (izq.tipo.equals(der.tipo)) {
+                            if (izq.tipo.equals("numero")) {
                                 Double num1 = Double.parseDouble(izq.valor.toString());
                                 Double num2 = Double.parseDouble(der.valor.toString());
-                                resultado = Math.pow(num2,1/num1);
-                                Valor v = new Valor(resultado,"numero");
+                                resultado = Math.pow(num2, 1 / num1);
+                                Valor v = new Valor(resultado, "numero");
                                 return v;
-                            }
-                            else if(izq.tipo.equals("caracter")){
+                            } else if (izq.tipo.equals("caracter")) {
                                 Object o = izq.valor.toString().codePointAt(0);
                                 Object m = der.valor.toString().codePointAt(0);
                                 Double num1 = new Double(o.toString());
                                 Double num2 = new Double(m.toString());
-                                resultado = Math.pow(num2,1/num1);
-                                Valor v = new Valor(resultado,"numero");
+                                resultado = Math.pow(num2, 1 / num1);
+                                Valor v = new Valor(resultado, "numero");
                                 return v;
-                            }else {
+                            } else {
                                 //error
                                 System.out.println("no son del mismo tipo");
                             }
                         }
-                    }else {
+                    } else {
                         System.out.println("los valores tienen nulo");
                     }
-                   
-                    
+
                 case "pot":
-                    izq = (Valor)Expresion(raiz.hijos.get(0)); 
-                    der = (Valor)Expresion(raiz.hijos.get(1));
-                    if(izq!=null || der != null){
-                        if(izq.tipo.equals(der.tipo)){
-                            if(izq.tipo.equals("numero")){
+                    izq = (Valor) Expresion(raiz.hijos.get(0));
+                    der = (Valor) Expresion(raiz.hijos.get(1));
+                    if (izq != null || der != null) {
+                        if (izq.tipo.equals(der.tipo)) {
+                            if (izq.tipo.equals("numero")) {
                                 Double num1 = Double.parseDouble(izq.valor.toString());
                                 Double num2 = Double.parseDouble(der.valor.toString());
-                                resultado = Math.pow(num1,num2);
-                                Valor v = new Valor(resultado,"numero");
+                                resultado = Math.pow(num1, num2);
+                                Valor v = new Valor(resultado, "numero");
                                 return v;
-                            }
-                            else if(izq.tipo.equals("caracter")){
+                            } else if (izq.tipo.equals("caracter")) {
                                 Object o = izq.valor.toString().codePointAt(0);
                                 Object m = der.valor.toString().codePointAt(0);
                                 Double num1 = new Double(o.toString());
                                 Double num2 = new Double(m.toString());
-                                resultado = Math.pow(num1,num2);
-                                Valor v = new Valor(resultado,"numero");
+                                resultado = Math.pow(num1, num2);
+                                Valor v = new Valor(resultado, "numero");
                                 return v;
-                            }else {
+                            } else {
                                 //error
                                 System.out.println("no son del mismo tipo");
                             }
                         }
-                    }else {
+                    } else {
                         System.out.println("los valores tienen nulo");
                     }
-                    
+
                 case "||":
-                    izq = (Valor)Expresion(raiz.hijos.get(0)); 
-                    der = (Valor)Expresion(raiz.hijos.get(1));
+                    izq = (Valor) Expresion(raiz.hijos.get(0));
+                    der = (Valor) Expresion(raiz.hijos.get(1));
                     uno = Boolean.parseBoolean(izq.valor.toString());
                     dos = Boolean.parseBoolean(der.valor.toString());
                     res = uno || dos;
-                    Valor v = new Valor(res,"bool");
+                    Valor v = new Valor(res, "bool");
                     return v;
-                    
+
                 case "&&":
-                    izq = (Valor)Expresion(raiz.hijos.get(0)); 
-                    der = (Valor)Expresion(raiz.hijos.get(1));
+                    izq = (Valor) Expresion(raiz.hijos.get(0));
+                    der = (Valor) Expresion(raiz.hijos.get(1));
                     uno = Boolean.parseBoolean(izq.valor.toString());
                     dos = Boolean.parseBoolean(der.valor.toString());
                     res = uno && dos;
-                    Valor v2 = new Valor(res,"bool");
+                    Valor v2 = new Valor(res, "bool");
                     return v2;
-                    
+
                 case "<":
-                    izq = (Valor)Expresion(raiz.hijos.get(0)); 
-                    der = (Valor)Expresion(raiz.hijos.get(1));
-                    if(izq!=null && der!=null){
-                        if(izq.tipo.equals(der.tipo)){
-                            if(izq.tipo.equals("numero")){
+                    izq = (Valor) Expresion(raiz.hijos.get(0));
+                    der = (Valor) Expresion(raiz.hijos.get(1));
+                    if (izq != null && der != null) {
+                        if (izq.tipo.equals(der.tipo)) {
+                            if (izq.tipo.equals("numero")) {
                                 Double num1 = Double.parseDouble(izq.valor.toString());
                                 Double num2 = Double.parseDouble(der.valor.toString());
-                                if(num1<num2){
-                                    Valor val = new Valor(true,"bool");
+                                if (num1 < num2) {
+                                    Valor val = new Valor(true, "bool");
                                     return val;
-                                }else{
-                                    Valor val = new Valor(false,"bool");
+                                } else {
+                                    Valor val = new Valor(false, "bool");
                                     return val;
                                 }
-                            }else if(izq.tipo.equals("caracter")){
-                                Object o = (Object)izq.valor.toString().codePointAt(0);
-                                Object oo = (Object)der.valor.toString().codePointAt(0);
+                            } else if (izq.tipo.equals("caracter")) {
+                                Object o = (Object) izq.valor.toString().codePointAt(0);
+                                Object oo = (Object) der.valor.toString().codePointAt(0);
                                 Double num1 = new Double(o.toString());
                                 Double num2 = new Double(oo.toString());
-                                if(num1<num2){
-                                    Valor val = new Valor(true,"bool");
+                                if (num1 < num2) {
+                                    Valor val = new Valor(true, "bool");
                                     return val;
-                                }else{
-                                    Valor val = new Valor(false,"bool");
+                                } else {
+                                    Valor val = new Valor(false, "bool");
                                     return val;
                                 }
                             }
                         }
                     }
-                    
+
                 case ">":
-                    izq = (Valor)Expresion(raiz.hijos.get(0)); 
-                    der = (Valor)Expresion(raiz.hijos.get(1));
-                    if(izq!=null && der!=null){
-                        if(izq.tipo.equals(der.tipo)){
-                            if(izq.tipo.equals("numero")){
+                    izq = (Valor) Expresion(raiz.hijos.get(0));
+                    der = (Valor) Expresion(raiz.hijos.get(1));
+                    if (izq != null && der != null) {
+                        if (izq.tipo.equals(der.tipo)) {
+                            if (izq.tipo.equals("numero")) {
                                 Double num1 = Double.parseDouble(izq.valor.toString());
                                 Double num2 = Double.parseDouble(der.valor.toString());
-                                if(num1>num2){
-                                    Valor val = new Valor(true,"bool");
+                                if (num1 > num2) {
+                                    Valor val = new Valor(true, "bool");
                                     return val;
-                                }else{
-                                    Valor val = new Valor(false,"bool");
+                                } else {
+                                    Valor val = new Valor(false, "bool");
                                     return val;
                                 }
-                            }else if(izq.tipo.equals("caracter")){
-                                Object o = (Object)izq.valor.toString().codePointAt(0);
-                                Object oo = (Object)der.valor.toString().codePointAt(0);
+                            } else if (izq.tipo.equals("caracter")) {
+                                Object o = (Object) izq.valor.toString().codePointAt(0);
+                                Object oo = (Object) der.valor.toString().codePointAt(0);
                                 Double num1 = new Double(o.toString());
                                 Double num2 = new Double(oo.toString());
-                                if(num1>num2){
-                                    Valor val = new Valor(true,"bool");
+                                if (num1 > num2) {
+                                    Valor val = new Valor(true, "bool");
                                     return val;
-                                }else{
-                                    Valor val = new Valor(false,"bool");
+                                } else {
+                                    Valor val = new Valor(false, "bool");
                                     return val;
                                 }
                             }
                         }
                     }
-                    
+
                 case "<=":
-                    izq = (Valor)Expresion(raiz.hijos.get(0)); 
-                    der = (Valor)Expresion(raiz.hijos.get(1));
-                    if(izq!=null && der!=null){
-                        if(izq.tipo.equals(der.tipo)){
-                            if(izq.tipo.equals("numero")){
+                    izq = (Valor) Expresion(raiz.hijos.get(0));
+                    der = (Valor) Expresion(raiz.hijos.get(1));
+                    if (izq != null && der != null) {
+                        if (izq.tipo.equals(der.tipo)) {
+                            if (izq.tipo.equals("numero")) {
                                 Double num1 = Double.parseDouble(izq.valor.toString());
                                 Double num2 = Double.parseDouble(der.valor.toString());
-                                if(num1<=num2){
-                                    Valor val = new Valor(true,"bool");
+                                if (num1 <= num2) {
+                                    Valor val = new Valor(true, "bool");
                                     return val;
-                                }else{
-                                    Valor val = new Valor(false,"bool");
+                                } else {
+                                    Valor val = new Valor(false, "bool");
                                     return val;
                                 }
-                            }else if(izq.tipo.equals("caracter")){
-                                Object o = (Object)izq.valor.toString().codePointAt(0);
-                                Object oo = (Object)der.valor.toString().codePointAt(0);
+                            } else if (izq.tipo.equals("caracter")) {
+                                Object o = (Object) izq.valor.toString().codePointAt(0);
+                                Object oo = (Object) der.valor.toString().codePointAt(0);
                                 Double num1 = new Double(o.toString());
                                 Double num2 = new Double(oo.toString());
-                                if(num1<=num2){
-                                    Valor val = new Valor(true,"bool");
+                                if (num1 <= num2) {
+                                    Valor val = new Valor(true, "bool");
                                     return val;
-                                }else{
-                                    Valor val = new Valor(false,"bool");
+                                } else {
+                                    Valor val = new Valor(false, "bool");
                                     return val;
                                 }
                             }
                         }
                     }
-                    
+
                 case ">=":
-                    izq = (Valor)Expresion(raiz.hijos.get(0)); 
-                    der = (Valor)Expresion(raiz.hijos.get(1));
-                    if(izq!=null && der!=null){
-                        if(izq.tipo.equals(der.tipo)){
-                            if(izq.tipo.equals("numero")){
+                    izq = (Valor) Expresion(raiz.hijos.get(0));
+                    der = (Valor) Expresion(raiz.hijos.get(1));
+                    if (izq != null && der != null) {
+                        if (izq.tipo.equals(der.tipo)) {
+                            if (izq.tipo.equals("numero")) {
                                 Double num1 = Double.parseDouble(izq.valor.toString());
                                 Double num2 = Double.parseDouble(der.valor.toString());
-                                if(num1>=num2){
-                                    Valor val = new Valor(true,"bool");
+                                if (num1 >= num2) {
+                                    Valor val = new Valor(true, "bool");
                                     return val;
-                                }else{
-                                    Valor val = new Valor(false,"bool");
+                                } else {
+                                    Valor val = new Valor(false, "bool");
                                     return val;
                                 }
-                            }else if(izq.tipo.equals("caracter")){
-                                Object o = (Object)izq.valor.toString().codePointAt(0);
-                                Object oo = (Object)der.valor.toString().codePointAt(0);
+                            } else if (izq.tipo.equals("caracter")) {
+                                Object o = (Object) izq.valor.toString().codePointAt(0);
+                                Object oo = (Object) der.valor.toString().codePointAt(0);
                                 Double num1 = new Double(o.toString());
                                 Double num2 = new Double(oo.toString());
-                                if(num1>=num2){
-                                    Valor val = new Valor(true,"bool");
+                                if (num1 >= num2) {
+                                    Valor val = new Valor(true, "bool");
                                     return val;
-                                }else{
-                                    Valor val = new Valor(false,"bool");
+                                } else {
+                                    Valor val = new Valor(false, "bool");
                                     return val;
                                 }
                             }
                         }
                     }
-                    
+
                 case "==":
-                    izq = (Valor)Expresion(raiz.hijos.get(0)); 
-                    der = (Valor)Expresion(raiz.hijos.get(1));
-                    if(izq!=null && der!=null){
-                        if(izq.tipo.equals(der.tipo)){
-                            if(izq.tipo.equals("numero")){
+                    izq = (Valor) Expresion(raiz.hijos.get(0));
+                    der = (Valor) Expresion(raiz.hijos.get(1));
+                    if (izq != null && der != null) {
+                        if (izq.tipo.equals(der.tipo)) {
+                            if (izq.tipo.equals("numero")) {
                                 Double num1 = Double.parseDouble(izq.valor.toString());
                                 Double num2 = Double.parseDouble(der.valor.toString());
-                                if(num1.equals(num2)){
-                                    Valor val = new Valor(true,"bool");
+                                if (num1.equals(num2)) {
+                                    Valor val = new Valor(true, "bool");
                                     return val;
-                                }else{
-                                    Valor val = new Valor(false,"bool");
+                                } else {
+                                    Valor val = new Valor(false, "bool");
                                     return val;
                                 }
-                            }else if(izq.tipo.equals("caracter")){
-                                Object o = (Object)izq.valor.toString().codePointAt(0);
-                                Object oo = (Object)der.valor.toString().codePointAt(0);
+                            } else if (izq.tipo.equals("caracter")) {
+                                Object o = (Object) izq.valor.toString().codePointAt(0);
+                                Object oo = (Object) der.valor.toString().codePointAt(0);
                                 Double num1 = new Double(o.toString());
                                 Double num2 = new Double(oo.toString());
-                                if(num1.equals(num2)){
-                                    Valor val = new Valor(true,"bool");
+                                if (num1.equals(num2)) {
+                                    Valor val = new Valor(true, "bool");
                                     return val;
-                                }else{
-                                    Valor val = new Valor(false,"bool");
+                                } else {
+                                    Valor val = new Valor(false, "bool");
                                     return val;
                                 }
                             }
                         }
                     }
                 case "!=":
-                    izq = (Valor)Expresion(raiz.hijos.get(0)); 
-                    der = (Valor)Expresion(raiz.hijos.get(1));
-                    if(izq!=null && der!=null){
-                        if(izq.tipo.equals(der.tipo)){
-                            if(izq.tipo.equals("numero")){
+                    izq = (Valor) Expresion(raiz.hijos.get(0));
+                    der = (Valor) Expresion(raiz.hijos.get(1));
+                    if (izq != null && der != null) {
+                        if (izq.tipo.equals(der.tipo)) {
+                            if (izq.tipo.equals("numero")) {
                                 Double num1 = Double.parseDouble(izq.valor.toString());
                                 Double num2 = Double.parseDouble(der.valor.toString());
-                                if(!num1.equals(num2)){
-                                    Valor val = new Valor(true,"bool");
+                                if (!num1.equals(num2)) {
+                                    Valor val = new Valor(true, "bool");
                                     return val;
-                                }else{
-                                    Valor val = new Valor(false,"bool");
+                                } else {
+                                    Valor val = new Valor(false, "bool");
                                     return val;
                                 }
-                            }else if(izq.tipo.equals("caracter")){
-                                Object o = (Object)izq.valor.toString().codePointAt(0);
-                                Object oo = (Object)der.valor.toString().codePointAt(0);
+                            } else if (izq.tipo.equals("caracter")) {
+                                Object o = (Object) izq.valor.toString().codePointAt(0);
+                                Object oo = (Object) der.valor.toString().codePointAt(0);
                                 Double num1 = new Double(o.toString());
                                 Double num2 = new Double(oo.toString());
-                                if(!num1.equals(num2)){
-                                    Valor val = new Valor(true,"bool");
+                                if (!num1.equals(num2)) {
+                                    Valor val = new Valor(true, "bool");
                                     return val;
-                                }else{
-                                    Valor val = new Valor(false,"bool");
+                                } else {
+                                    Valor val = new Valor(false, "bool");
                                     return val;
                                 }
                             }
                         }
                     }
             }
+        } else if (raiz.hijos.size() == 3) {
+            Valor izq;
+            Valor der;
+            Double resultado = 0.0;
+            switch (raiz.valor.toString()) {
+
+                case "Indice":
+                    String nombreLista = raiz.hijos.get(0).valor.toString();
+                    Valor i1 = (Valor) Expresion(raiz.hijos.get(1));
+                    Valor i2 = (Valor) Expresion(raiz.hijos.get(2));
+                    int j1 = Integer.parseInt(i1.valor.toString().replace(".0",""));
+                    int j2 = Integer.parseInt(i2.valor.toString().replace(".0",""));
+
+                    Map<String, Variable> l = lista.ObtenerListaListas();
+                    if (l != null) {
+                        if (l.size() > 0) {
+                            for (int i = 0; i < l.size(); i++) {
+                                Boolean g = lista.getKey(nombreLista);
+                                if (g.equals(true)) {
+                                    ArrayList valores = (ArrayList) l.get(nombreLista).valor;
+                                    ArrayList nivel1 = (ArrayList)valores.get(j1);
+                                    String nivel2 = nivel1.get(j2).toString();
+                                    if (l.get(nombreLista).tipo.equals("numero")) {
+                                        ultimoValor = nivel2;
+                                        Valor val = new Valor(nivel2, "numero");
+                                        return val;
+                                    } else {
+                                        ultimoValor = nivel2;
+                                        Valor val = new Valor(nivel2, "caracter");
+                                        return val;
+                                    }
+                                }
+                            }
+                        }else{
+                            System.out.println("ninguna lista declarada aun");
+                        }
+                    }
+                    
+                    
+                  /*  if (l.size() > 0) {
+                            for (int i = 0; i < l.size(); i++) {
+                                Boolean g = lista.getKey(nombreLista);
+                                if (g.equals(true)) {
+                                    ArrayList valores = (ArrayList) l.get(nombreLista).valor;
+                                    String pos = valores.get(indice).toString();
+                                    if (l.get(nombreLista).tipo.equals("numero")) {
+                                        ultimoValor = pos;
+                                        Valor val = new Valor(pos, "numero");
+                                        return val;
+                                    } else {
+                                        ultimoValor = pos;
+                                        Valor val = new Valor(pos, "caracter");
+                                        return val;
+                                    }
+                                }
+                            }
+                        }*/
+
+            }
         }
+
         return null;
     }
 }

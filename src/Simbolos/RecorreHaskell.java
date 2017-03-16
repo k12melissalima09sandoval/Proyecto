@@ -6,6 +6,7 @@
 package Simbolos;
 
 import Ast.Nodo;
+import FunPropias.Concatena;
 import java.util.ArrayList;
 import Interprete.FuncionHaskell;
 import FunPropias.FuncionesPropiasHaskell;
@@ -20,6 +21,7 @@ public class RecorreHaskell {
     public static ArrayList<String> parametros;
     static FuncionHaskell nueva;
     static FuncionesPropiasHaskell funPropias = new FuncionesPropiasHaskell();
+    static Concatena concatena = new Concatena();
     static TablaSimbolosHaskell agrega = new TablaSimbolosHaskell();
     static Variable variable;
     
@@ -52,103 +54,130 @@ public class RecorreHaskell {
     public Object Consola(Nodo raiz){
         
             switch(raiz.valor.toString()){
+
+                case "Revers":
+                case "Impr":
+                case "Par":
+                case "Asc":
+                case "Desc":
+                case "LlamaFunc":
+                    Valor valfun=(Valor)funPropias.Recorrer(raiz);
+                    return valfun;
+
                 
-                    case "D_Lista":
-                        String nombrelista = raiz.hijos.get(0).valor.toString();
-                         //id, cadena, Lista, 2Niveles
-                        Valor val = (Valor)funPropias.Recorrer(raiz.hijos.get(1));
-                        if(val!=null){
+                case "Calcular":
+                    Valor valcalc=(Valor)funPropias.Recorrer(raiz);
+                    return valcalc;
 
-                            variable = new Variable(nombrelista,val.valor,val.tipo);
-                            agrega.AgregarVariable(nombrelista, variable);
-                            String texto="";
-                            ArrayList a = (ArrayList)val.valor;
-                            if(a!=null){
+                case "Succ":
+                    Valor valsucc = (Valor)funPropias.Recorrer(raiz);
+                    return valsucc;
 
-                                if(val.tipo.equals("numero")){
+                case "Decc":
+                    Valor valdecc = (Valor)funPropias.Recorrer(raiz);
+                    return valdecc;
 
-                                    for (int i = 0; i < a.size(); i++) {
-                                        texto += a.get(i).toString()+",";
-                                    }
+                case "Min":
+                    Valor valmin = (Valor)funPropias.Recorrer(raiz);
+                    return valmin;
 
-                                    if(texto.lastIndexOf(",")==texto.length()-1){
-                                        texto = texto.substring(0,texto.length()-1);
-                                    }
-                                    texto = "["+texto+"]";
-                                    Valor v= new Valor(texto,"");
-                                    return v;
-                                }else if(val.tipo.equals("cadena")){
-                                    for (int i = 0; i < a.size(); i++) {
-                                        texto += a.get(i).toString();
-                                    }
-                                    texto = "\""+texto+"\"";
-                                    Valor v = new Valor(texto,"");
-                                    return v;
-                                }else if(val.tipo.equals("caracter")){
-                                    for (int i = 0; i < a.size(); i++) {
-                                        texto += a.get(i).toString();
-                                    }
-                                    texto = "\""+texto+"\"";
-                                    Valor v = new Valor(texto,"");
-                                    return v;
+                case "Max":
+                    Valor valmax = (Valor)funPropias.Recorrer(raiz);
+                    return valmax;
+
+                case "Sum":
+                    Valor valsum = (Valor)funPropias.Recorrer(raiz);
+                    return valsum;
+
+                case "Product":
+                    Valor valpro = (Valor)funPropias.Recorrer(raiz);
+                    return valpro;
+
+                case "Length":
+                    Valor valtam = (Valor)funPropias.Recorrer(raiz);
+                    return valtam;
+
+                case "Indice":
+                    Valor valindice = (Valor)funPropias.Recorrer(raiz);
+                    return valindice;
+
+
+                case "D_Lista":
+                    String nombrelista = raiz.hijos.get(0).valor.toString();
+                     //id, cadena, Lista, 2Niveles
+                    Valor val = (Valor)funPropias.Recorrer(raiz.hijos.get(1));
+                    if(val!=null){
+
+                        variable = new Variable(nombrelista,val.valor,val.tipo);
+                        agrega.AgregarVariable(nombrelista, variable);
+                        String texto="";
+                        ArrayList a = (ArrayList)val.valor;
+                        if(a!=null){
+
+                            if(val.tipo.equals("numero")){
+
+                                for (int i = 0; i < a.size(); i++) {
+                                    texto += a.get(i).toString()+",";
                                 }
+
+                                if(texto.lastIndexOf(",")==texto.length()-1){
+                                    texto = texto.substring(0,texto.length()-1);
+                                }
+                                texto = "["+texto+"]";
+                                Valor v= new Valor(texto,"");
+                                return v;
+                            }else if(val.tipo.equals("cadena")){
+                                for (int i = 0; i < a.size(); i++) {
+                                    texto += a.get(i).toString();
+                                }
+                                texto = "\""+texto+"\"";
+                                Valor v = new Valor(texto,"");
+                                return v;
+                            }else if(val.tipo.equals("caracter")){
+                                for (int i = 0; i < a.size(); i++) {
+                                    texto += a.get(i).toString();
+                                }
+                                texto = "\""+texto+"\"";
+                                Valor v = new Valor(texto,"");
+                                return v;
                             }
                         }
-                        
-                        
-                    case "Calcular":
-                        Valor valcalc=(Valor)funPropias.Recorrer(raiz);
-                        return valcalc;
-                        
-                    case "Concatena":
-                        Valor valconca = (Valor)funPropias.Recorrer(raiz);
-                        String texto="";
-                        ArrayList a = (ArrayList)valconca.valor;
-                            if(a!=null){
+                    }
 
-                                if(valconca.tipo.equals("numero")){
+                case "Concatena":
+                    Valor valconca = (Valor)funPropias.Recorrer(raiz);
+                    String texto="";
+                    ArrayList a = (ArrayList)valconca.valor;
+                        if(a!=null){
 
-                                    for (int i = 0; i < a.size(); i++) {
-                                        texto += a.get(i).toString()+",";
-                                    }
+                            if(valconca.tipo.equals("numero")){
 
-                                    if(texto.lastIndexOf(",")==texto.length()-1){
-                                        texto = texto.substring(0,texto.length()-1);
-                                    }
-                                    texto = "["+texto+"]";
-                                    Valor v= new Valor(texto,"");
-                                    return v;
-                                }else if(valconca.tipo.equals("cadena")){
-                                    for (int i = 0; i < a.size(); i++) {
-                                        texto += a.get(i).toString();
-                                    }
-                                    texto = "\""+texto+"\"";
-                                    Valor v = new Valor(texto,"");
-                                    return v;
-                                }else if(valconca.tipo.equals("caracter")){
-                                    for (int i = 0; i < a.size(); i++) {
-                                        texto += a.get(i).toString();
-                                    }
-                                    texto = "\""+texto+"\"";
-                                    Valor v = new Valor(texto,"");
-                                    return v;
+                                for (int i = 0; i < a.size(); i++) {
+                                    texto += a.get(i).toString()+",";
                                 }
+
+                                if(texto.lastIndexOf(",")==texto.length()-1){
+                                    texto = texto.substring(0,texto.length()-1);
+                                }
+                                texto = "["+texto+"]";
+                                Valor v= new Valor(texto,"");
+                                return v;
+                            }else if(valconca.tipo.equals("cadena")){
+                                for (int i = 0; i < a.size(); i++) {
+                                    texto += a.get(i).toString();
+                                }
+                                texto = "\""+texto+"\"";
+                                Valor v = new Valor(texto,"");
+                                return v;
+                            }else if(valconca.tipo.equals("caracter")){
+                                for (int i = 0; i < a.size(); i++) {
+                                    texto += a.get(i).toString();
+                                }
+                                texto = "\""+texto+"\"";
+                                Valor v = new Valor(texto,"");
+                                return v;
                             }
-                    case "Succ":
-                        Valor valsucc = (Valor)funPropias.Recorrer(raiz);
-                        return valsucc;
-                        
-                    case "Decc":
-                        Valor valdecc = (Valor)funPropias.Recorrer(raiz);
-                        return valdecc;
-                        
-                    case "Min":
-                        Valor valmin = (Valor)funPropias.Recorrer(raiz);
-                        return valmin;
-                        
-                    case "Max":
-                        Valor valmax = (Valor)funPropias.Recorrer(raiz);
-                        return valmax;
+                        }
         }
         
         return null;

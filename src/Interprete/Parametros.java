@@ -13,6 +13,7 @@ public class Parametros {
     
     String tipo;
     String nombre;
+    Object valor;
     
     public Parametros(String nombre){
         this.nombre = nombre;
@@ -21,6 +22,10 @@ public class Parametros {
     public Parametros(String tipo,String nombre){
         this.tipo=tipo;
         this.nombre = nombre;
+    }
+    
+    public void setValor(Object val){
+        this.valor = val;
     }
     
 }

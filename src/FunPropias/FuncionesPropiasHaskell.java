@@ -50,10 +50,12 @@ public class FuncionesPropiasHaskell {
                 break;
                 
             case "Indice":
-                break;
+                Valor obj8=(Valor)exp.Expresion(raiz);
+                return obj8;
                 
             case "Length":
-                break;
+                Valor obj9=(Valor)exp.Expresion(raiz);
+                return obj9;
                 
             case "LlamaFunc":
                 break;
@@ -70,7 +72,8 @@ public class FuncionesPropiasHaskell {
                 break;
                 
             case "Product":
-                break;
+                Valor obj14=(Valor)exp.Expresion(raiz);
+                return obj14;
                 
             case "Revers":
                 break;
@@ -80,7 +83,8 @@ public class FuncionesPropiasHaskell {
                 return obj16;
                 
             case "Sum":
-                break;
+                Valor obj17=(Valor)exp.Expresion(raiz);
+                return obj17;
                 
         }
         return null;

@@ -50,13 +50,13 @@ non terminal Nodo INICIO;
 non terminal Nodo L_PARAM, PARAMETROS, C_L;
 non terminal Nodo FUNCIONES_PROPIAS, LLAMA_FUNCION;
 non terminal Nodo DECLARA_LISTA, LISTA, LISTAS, MAS_CORCH, EXPRESIONES, EXP;
-non terminal Nodo CALCULAR, SUCC, DECC, MIN, MAX, M, IN;
+non terminal Nodo CALCULAR, SUCC, DECC, MIN, MAX, M, L_INDICE, EXP_INDICE;
 non terminal Nodo SUM, PRODUCT, REVERS, IMPR, PAR, ASC, DESC, LENGTH, CONCATENA, INDICE;
 
 precedence left mas, menos;
 precedence left por, div, residuo; 
 precedence right pot, sqrt;
-
+precedence left indice;
 start with INICIO;
 
 INICIO ::=  {: 
@@ -263,7 +263,7 @@ C_L ::= LISTA:lista
             RESULT = nuevo; :}
      ;
 
-INDICE ::= id:id indice EXP:exp //IN:in
+INDICE ::= id:id indice EXP_INDICE:exp L_INDICE:otro 
             {:
                 Nodo nuevo = new Nodo("Indice");
                 Nodo nombre = new Nodo(id);
@@ -271,17 +271,124 @@ INDICE ::= id:id indice EXP:exp //IN:in
                 e.Hijo(exp);
                 nuevo.Hijo(nombre);
                 nuevo.Hijo(e);
+                if (otro!=null){
+                    nuevo.Hijo(otro);
+                }
                 RESULT = nuevo;
             :}
         ;
-IN ::= indice EXP:exp
+
+L_INDICE ::= indice EXP_INDICE:exp
+            {:
+                Nodo nuevo = new Nodo("Exp");
+                nuevo.Hijo(exp);
+                RESULT = nuevo;
+            :}
+          | //{RESULT = null;}
+          ;
+
+EXP_INDICE ::= EXP_INDICE:j mas EXP_INDICE:m
         {:
-            Nodo nuevo = new Nodo("Exp");
-            Nodo n = new Nodo(exp);
-            nuevo.Hijo(n);
+            Nodo nuevo = new Nodo("+");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
             RESULT = nuevo;
         :}
-    ;
+     | EXP_INDICE:j menos EXP_INDICE:m
+        {:
+            Nodo nuevo = new Nodo("-");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP_INDICE:j por EXP_INDICE:m
+        {:
+            Nodo nuevo = new Nodo("*");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP_INDICE:j div EXP_INDICE:m
+        {:
+            Nodo nuevo = new Nodo("/");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP_INDICE:j residuo EXP_INDICE:m
+        {:
+            Nodo nuevo = new Nodo("mod");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP_INDICE:j sqrt EXP_INDICE:m
+        {:
+            Nodo nuevo = new Nodo("sqrt");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP_INDICE:j pot EXP_INDICE:m
+        {:
+            Nodo nuevo = new Nodo("pot");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | SUM:nodo
+        {: RESULT = nodo; :}
+     | PRODUCT:nodo
+        {: RESULT = nodo; :}
+     | LENGTH:nodo
+        {: RESULT = nodo; :}
+     | menos EXP_INDICE:nodo
+        {:
+            Nodo nuevo = new Nodo("Unario");
+            nuevo.Hijo(nodo);
+            RESULT = nuevo;
+        :}
+     | parenAbre EXP_INDICE:nodo parenCierra 
+        {: RESULT = nodo; :}
+     | CALCULAR:nodo
+        {: RESULT = nodo; :}
+     | LLAMA_FUNCION:nodo 
+        {: RESULT = nodo; :}
+     | SUCC:nodo
+        {: RESULT = nodo; :}
+     | DECC:nodo
+        {: RESULT = nodo; :}
+     | MIN:nodo
+        {: RESULT = nodo; :}
+     | MAX:nodo
+        {: RESULT = nodo; :}
+     | entero:num
+        {:  Nodo nuevo = new Nodo("numero"); 
+            Nodo n = new Nodo(num);
+            nuevo.Hijo(n); 
+            RESULT = nuevo; :}
+     | cadena:cad
+        {:  Nodo nuevo = new Nodo("cadena"); 
+            Nodo n = new Nodo(cad.toString().replace("\"", ""));
+            nuevo.Hijo(n); 
+            RESULT = nuevo; :}
+     
+     | caracter:letra
+        {:  Nodo nuevo = new Nodo("caracter"); 
+            Nodo l = new Nodo(letra);
+            nuevo.Hijo(l); 
+            RESULT = nuevo; :}
+     | id:id
+        {:  Nodo nuevo = new Nodo("id"); 
+            Nodo i = new Nodo(id);
+            nuevo.Hijo(i);
+            RESULT = nuevo; :}
+     | porcentaje:porcentaje
+        {: Nodo nuevo = new Nodo("porcentaje");
+            Nodo por = new Nodo(porcentaje);
+            nuevo.Hijo(por);
+            RESULT = nuevo; :}
+     ;
 
 LISTA ::= corAbre LISTAS:listas corCierra
             {: RESULT = listas; :}
