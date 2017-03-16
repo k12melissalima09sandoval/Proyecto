@@ -7,6 +7,7 @@ package FunPropias;
 
 //import FunPropias.*;
 import Ast.Nodo;
+import Interprete.ExpresionHaskell;
 import Interprete.Valor;
 
 /**
@@ -15,23 +16,11 @@ import Interprete.Valor;
  */
 
 public class FuncionesPropiasHaskell {
-   
-    static Asc asc = new Asc();
-    static Calcular calcular = new Calcular();
+  
     static Concatena concatena= new Concatena();
-    static Decc decc = new Decc();
-    static Desc desc = new Desc();
-    static Impr impr = new Impr();
-    static Indice indice = new Indice();
-    static Length length = new Length();
+    static ExpresionHaskell exp = new ExpresionHaskell();
     static LlamaFuncion llamaF = new LlamaFuncion();
-    static Max max = new Max();
-    static Min min = new Min();
-    static Par par = new Par();
-    static Product product = new Product();
-    static Revers revers = new Revers();
-    static Succ succ = new Succ();
-    static Sum sum = new Sum();
+    
     
     public Object Recorrer(Nodo raiz){
         switch(raiz.valor.toString()){
@@ -40,7 +29,8 @@ public class FuncionesPropiasHaskell {
                 break;
                 
             case "Calcular":
-                break;
+                Valor obj2 = (Valor)exp.Expresion(raiz);
+                return obj2;
                 
             case "Concatena":
                 Valor obj3 = (Valor)concatena.Recorrer(raiz);

@@ -96,8 +96,8 @@ public class RecorreHaskell {
                         
                         
                     case "Calcular":
-                        System.out.println("entro a Calcular");
-                        break;
+                        Valor valcalc=(Valor)funPropias.Recorrer(raiz);
+                        return valcalc;
                         
                     case "Concatena":
                         Valor valconca = (Valor)funPropias.Recorrer(raiz);

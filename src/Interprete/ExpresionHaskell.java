@@ -58,7 +58,7 @@ public class ExpresionHaskell {
                     }
 
                 case "Length":
-                    Valor ob4 = (Valor)concatena.Recorrer(exp.hijos.get(0));
+                    Valor ob4 = (Valor)concatena.Listas(exp.hijos.get(0));
                     ArrayList vals = (ArrayList)ob4.valor;
                     int tamaño = vals.size();
                     ultimoValor = tamaño;
@@ -66,9 +66,22 @@ public class ExpresionHaskell {
                     return val4;
 
                 case "Max":
-                    Valor ob5 = (Valor)concatena.Recorrer(exp);
+                    Valor ob5 = (Valor)concatena.Listas(exp);
                     ArrayList a = (ArrayList)ob5.valor;
                     if(ob5.tipo.equals("caracter")){
+                        
+                        int max=0;
+                        for (int i = 0; i <a.size(); i++) {
+                            if(a.get(i).toString().codePointAt(0) > max){
+                                max = a.get(i).toString().codePointAt(0);
+                            }
+                        }
+                        ultimoValor=max;
+                        char c = (char)max;
+                        System.out.println("max "+c);
+                        Valor v = new Valor(c,"caracter");
+                        return v;
+                    }else if(ob5.tipo.equals("cadena")){
                         
                         int max=0;
                         for (int i = 0; i <a.size(); i++) {
@@ -94,7 +107,7 @@ public class ExpresionHaskell {
                     }
 
                 case "Min":
-                    Valor ob6 = (Valor)concatena.Recorrer(exp);
+                    Valor ob6 = (Valor)concatena.Listas(exp);
                     ArrayList a8 = (ArrayList)ob6.valor;
                     if(ob6.tipo.equals("caracter")){
                         
@@ -135,7 +148,7 @@ public class ExpresionHaskell {
                     }
 
                 case "Product":
-                    Valor ob7 = (Valor)concatena.Recorrer(exp.hijos.get(0));
+                    Valor ob7 = (Valor)concatena.Listas(exp.hijos.get(0));
                     ArrayList a7 = (ArrayList)ob7.valor;
                     if(ob7.tipo.equals("caracter")){
                         

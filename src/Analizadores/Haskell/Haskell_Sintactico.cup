@@ -152,8 +152,6 @@ L_CUERPO ::= IF:nodo
             {: RESULT = nodo; :}
           | FUNCIONES_PROPIAS:nodo
             {: RESULT = nodo; :}
-          | LLAMA_FUNCION:nodo
-            {: RESULT = nodo; :}
           ;
 
 IF ::= si EXP:exp entonces CUERPO:corpoif sino CUERPO:corposino fin
@@ -244,6 +242,8 @@ FUNCIONES_PROPIAS ::= DECLARA_LISTA:nodo
                     | CONCATENA:nodo
                         {: RESULT = nodo; :}
                     | INDICE:nodo
+                        {: RESULT = nodo; :}
+                    | LLAMA_FUNCION:nodo
                         {: RESULT = nodo; :}
                     ;
 

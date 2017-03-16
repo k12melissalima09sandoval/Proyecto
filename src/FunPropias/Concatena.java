@@ -95,6 +95,25 @@ public class Concatena {
             }
             Valor v=new Valor(cadena,tipo);
             return v;
+            
+            
+        }else if(temp.equals("2Niveles")){
+            ArrayList<Object> nivel1 = new ArrayList();
+            ArrayList<Object> nivel2 = new ArrayList();
+            ArrayList<Object> juntos = new ArrayList();
+            //voy a traer las dos listas
+            Valor val = (Valor)Listas(raiz.hijos.get(0));
+            Valor val2 = (Valor)Listas(raiz.hijos.get(1));
+            
+            nivel1 = (ArrayList)val.valor;
+            nivel2 = (ArrayList)val2.valor;
+            
+            juntos.add(nivel1);
+            juntos.add(nivel2);
+            
+            Valor v=new Valor(juntos,val.tipo);
+            return v;
+            
         }
         return null;
     }
