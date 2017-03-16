@@ -261,6 +261,11 @@ C_L ::= LISTA:lista
             Nodo n = new Nodo(cad.toString().replace("\"", ""));
             nuevo.Hijo(n); 
             RESULT = nuevo; :}
+     | porcentaje:porcentaje
+        {: Nodo nuevo = new Nodo("porcentaje");
+            Nodo por = new Nodo(porcentaje);
+            nuevo.Hijo(por);
+            RESULT = nuevo; :}
      ;
 
 INDICE ::= id:id indice EXP_INDICE:exp L_INDICE:otro 

@@ -10,6 +10,8 @@ import FunPropias.Concatena;
 import java.util.ArrayList;
 import Interprete.FuncionHaskell;
 import FunPropias.FuncionesPropiasHaskell;
+import Interprete.ExpresionHaskell;
+import Interprete.Parametros;
 import Interprete.Valor;
 import Interprete.Variable;
 /**
@@ -18,7 +20,7 @@ import Interprete.Variable;
  */
 public class RecorreHaskell {
     
-    public static ArrayList<String> parametros;
+    public static ArrayList<Parametros> parametros;
     static FuncionHaskell nueva;
     static FuncionesPropiasHaskell funPropias = new FuncionesPropiasHaskell();
     static Concatena concatena = new Concatena();
@@ -36,7 +38,9 @@ public class RecorreHaskell {
             parametros = new ArrayList();
             Nodo param=raiz.hijos.get(i).hijos.get(1);
             for (int j = 0; j < param.hijos.size(); j++) {
-                parametros.add(param.hijos.get(j).valor.toString());
+                Parametros p = new Parametros("",param.hijos.get(j).hijos.get(0).valor.toString());
+                p.setValor(null);
+                parametros.add(p);
             }
             
             //nodo del cuerpo de la funcion
@@ -110,6 +114,7 @@ public class RecorreHaskell {
 
                         variable = new Variable(nombrelista,val.valor,val.tipo);
                         agrega.AgregarVariable(nombrelista, variable);
+                        ExpresionHaskell.ultimoValor = val.valor;
                         String texto="";
                         ArrayList a = (ArrayList)val.valor;
                         if(a!=null){
@@ -148,6 +153,7 @@ public class RecorreHaskell {
                     Valor valconca = (Valor)funPropias.Recorrer(raiz);
                     String texto="";
                     ArrayList a = (ArrayList)valconca.valor;
+                    ExpresionHaskell.ultimoValor=valconca.valor;
                         if(a!=null){
 
                             if(valconca.tipo.equals("numero")){
@@ -175,6 +181,10 @@ public class RecorreHaskell {
                                 }
                                 texto = "\""+texto+"\"";
                                 Valor v = new Valor(texto,"");
+                                return v;
+                                
+                            }else{
+                                Valor v = new Valor(a.get(0).toString(),"");
                                 return v;
                             }
                         }

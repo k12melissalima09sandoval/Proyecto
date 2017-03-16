@@ -1,0 +1,123 @@
+IncrementaSegunN n,Val = 
+	if n<=$Calcular 1$ then
+		$Succ $calcular 1$$
+	else
+		$Succ $IncrementaSegunN {$Calcular n-1 $,Val}$$
+	end
+end
+
+ConjuntoFuncPolinomial i,x = CASE i
+		1: $Polinomial1 {x}$;
+		2: $Polinomial2 {x}$;
+		3: $Polinomial3 {x}$;
+	end
+end
+
+Polinomial1 x = $Calcular 3 * x'pot'5 - x 'pot'2 + 7 * x -1$ 
+				end
+Polinomial2 x = $Calcular 5 * x'pot'2 - x + 8 * x 'pot'(-1) -1$ 
+				end
+Polinomial3 x = $Calcular x'pot'4 + x 'pot'2 + (9*3) * x +80$ 
+				end
+Polinomial4 x = $Calcular x'pot'3 + x 'pot'2 - 4 * x --4 $ 
+				end
+
+ObtenerModa LIST = $Max LIST$ 
+				   end
+
+ObtenerPromedio LIST = 	$Calcular $sum LIST$ / $length LIST$ $
+					    end
+
+Factorial n = 
+    If n==$Calcular 0$ Then
+        $Calcular 1$
+    Else    
+        $Calcular n * $Factorial{$Calcular n-1$}$$
+  	End
+End
+
+
+Fibonacci n =
+    If n==$Calcular 0$ || n==$Calcular 1$ Then
+        $Calcular 1$
+    Else
+        $Calcular $Fibonacci{$Calcular n-1$}$ + $Fibonacci {$Calcular n-2$}$$
+    End
+End
+
+Operacion a,b, condicion =
+	CASE condicion
+		1: $Calcular a+b$;
+		2: $Calcular a-b$;
+		3: $Calcular a*b$;
+		4: If b != $calcular 0$ Then
+				$Calcular a/b$
+		   else
+		   		$calcular 0$	
+		   End;
+		5: If b != $calcular 0$ Then
+				$Calcular a'mod'b$
+			else
+				$calcular 0$
+			End;
+		6: $Calcular a'sqrt'b$;
+		7: $Calcular a'pot'b$;
+	End
+End 
+
+
+Saludo n, nombre = 
+	Let hola = ['h','o','l','a',' ']
+	Let adios = ['a','d','i','o','s',' ']
+	Case n
+		'a': hola ++ nombre;
+		'b': adios ++ nombre;
+		'c': hola++['u','s','e','r',' ']++nombre ++ [' '] ++ adios;
+	End
+End
+
+
+OperarLista lista, op = 
+	CASE op
+		1: $sum lista$;
+		2: $product lista$;
+		3: $Length lista$;
+		4: $min lista$;
+		5: $max lista$;
+		6: $succ lista !! $calcular 1$$;
+		7: $decc lista !! $calcular 1$$;
+	End
+End
+
+OperarCadena cadena, op =
+	if op == $calcular 1$ then
+		$revers cadena$
+	else
+		if op == $calcular 2$ then
+			$impr cadena$
+		else
+			if op == $calcular 3$ then
+				$par cadena$
+			else
+				if op == $calcular 4$ then
+					$asc cadena$
+				else
+					if op == $calcular 5$ then
+						$desc cadena$
+					else
+						let vacio = cadena
+					End
+				End
+			End
+		End
+	End
+End
+
+
+InvertirLista5_3 tamanio, lista =
+	let ordenada = [[lista !! 4 !! 2 , lista !! 4 !! 1, lista !! 4 !! 0],[lista !! 3 !! 2 , lista !! 3 !! 1, lista !! 3 !! 0],[lista !! 2 !! 2 , lista !! 2 !! 1, lista !! 2 !! 0],[lista !! 1 !! 2 , lista !! 1 !! 1, lista !! 1 !! 0],[lista !! 0 !! 2 , lista !! 0 !! 1, lista !! 0 !! 0]]
+End
+
+
+
+

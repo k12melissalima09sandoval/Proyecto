@@ -58,7 +58,8 @@ public class FuncionesPropiasHaskell {
                 return obj9;
                 
             case "LlamaFunc":
-                break;
+                Valor obj10=(Valor)exp.Expresion(raiz);
+                return obj10;
                 
             case "Max":
                 Valor obj11=(Valor)exp.Expresion(raiz);

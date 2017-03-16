@@ -50,37 +50,72 @@ public class ExpresionHaskell {
                         System.out.println("decc: " + num);
                         tmp = new Valor(num, "numero");
                         return tmp;
-                    } else {
+                    } else if (ob3.tipo.equals("numero")) {
                         Double ob18 = Double.parseDouble(ob3.valor.toString());
                         Double num = ob18 - 1;
                         ultimoValor = num;
                         System.out.println("decc: " + num);
                         tmp = new Valor(num, "numero");
                         return tmp;
+                    } else {
+                        Valor v = new Valor("el ultimo valor es nulo", "");
+                        return v;
                     }
 
                 case "Length":
-                    Valor ob4 = (Valor) concatena.Listas(exp.hijos.get(0));
-                    ArrayList vals = (ArrayList) ob4.valor;
-                    int tamaño = vals.size();
-                    ultimoValor = tamaño;
-                    Valor val4 = new Valor(tamaño, "numero");
-                    return val4;
+                    try {
+                        Valor ob4 = (Valor) concatena.Listas(exp.hijos.get(0));
+                        ArrayList vals = (ArrayList) ob4.valor;
+                        int tamaño = vals.size();
+                        ultimoValor = tamaño;
+                        Valor val4 = new Valor(tamaño, "numero");
+                        return val4;
+                    } catch (Exception e) {
+                        Valor v = new Valor("no es una lista", "");
+                        return v;
+                    }
 
                 case "Max":
-                    Valor ob5 = (Valor) concatena.Listas(exp);
-                    ArrayList a = (ArrayList) ob5.valor;
-                    if (a.get(0) instanceof ArrayList) {
-                        //2 NIVELES
-                        if (ob5.tipo.equals("caracter") || ob5.tipo.equals("cadena")) {
+                    try {
+                        Valor ob5 = (Valor) concatena.Listas(exp);
+                        ArrayList a = (ArrayList) ob5.valor;
+                        if (a.get(0) instanceof ArrayList) {
+                            //2 NIVELES
+                            if (ob5.tipo.equals("caracter") || ob5.tipo.equals("cadena")) {
+
+                                int max = 0;
+                                for (int i = 0; i < a.size(); i++) {
+                                    ArrayList temp = (ArrayList) a.get(i);
+                                    for (int j = 0; j < temp.size(); j++) {
+                                        if (temp.get(j).toString().codePointAt(0) > max) {
+                                            max = temp.get(j).toString().codePointAt(0);
+                                        }
+                                    }
+                                }
+                                ultimoValor = max;
+                                char c = (char) max;
+                                Valor v = new Valor(c, "caracter");
+                                return v;
+                            } else {
+                                Double max = 0.00;
+                                for (int i = 0; i < a.size(); i++) {
+                                    ArrayList temp = (ArrayList) a.get(i);
+                                    for (int j = 0; j < temp.size(); j++) {
+                                        if (Integer.parseInt(temp.get(j).toString()) > max) {
+                                            max = Double.parseDouble(temp.get(j).toString());
+                                        }
+                                    }
+                                }
+                                ultimoValor = max;
+                                Valor v = new Valor(max, "numero");
+                                return v;
+                            }
+                        } else if (ob5.tipo.equals("caracter") || ob5.tipo.equals("cadena")) {
 
                             int max = 0;
                             for (int i = 0; i < a.size(); i++) {
-                                ArrayList temp = (ArrayList) a.get(i);
-                                for (int j = 0; j < temp.size(); j++) {
-                                    if (temp.get(j).toString().codePointAt(0) > max) {
-                                        max = temp.get(j).toString().codePointAt(0);
-                                    }
+                                if (a.get(i).toString().codePointAt(0) > max) {
+                                    max = a.get(i).toString().codePointAt(0);
                                 }
                             }
                             ultimoValor = max;
@@ -90,63 +125,85 @@ public class ExpresionHaskell {
                         } else {
                             Double max = 0.00;
                             for (int i = 0; i < a.size(); i++) {
-                                ArrayList temp = (ArrayList) a.get(i);
-                                for (int j = 0; j < temp.size(); j++) {
-                                    if (Integer.parseInt(temp.get(j).toString()) > max) {
-                                        max = Double.parseDouble(temp.get(j).toString());
-                                    }
+                                if (Integer.parseInt(a.get(i).toString()) > max) {
+                                    max = Double.parseDouble(a.get(i).toString());
                                 }
                             }
                             ultimoValor = max;
                             Valor v = new Valor(max, "numero");
                             return v;
                         }
-                    } else if (ob5.tipo.equals("caracter") || ob5.tipo.equals("cadena")) {
-
-                        int max = 0;
-                        for (int i = 0; i < a.size(); i++) {
-                            if (a.get(i).toString().codePointAt(0) > max) {
-                                max = a.get(i).toString().codePointAt(0);
-                            }
-                        }
-                        ultimoValor = max;
-                        char c = (char) max;
-                        Valor v = new Valor(c, "caracter");
-                        return v;
-                    } else {
-                        Double max = 0.00;
-                        for (int i = 0; i < a.size(); i++) {
-                            if (Integer.parseInt(a.get(i).toString()) > max) {
-                                max = Double.parseDouble(a.get(i).toString());
-                            }
-                        }
-                        ultimoValor = max;
-                        Valor v = new Valor(max, "numero");
+                    } catch (Exception e) {
+                        Valor v = new Valor("no es una lista", "");
                         return v;
                     }
 
                 case "Min":
-                    Valor ob6 = (Valor) concatena.Listas(exp);
-                    ArrayList a8 = (ArrayList) ob6.valor;
-                    if (a8.get(0) instanceof ArrayList) {
-                        if (ob6.tipo.equals("caracter") || ob6.tipo.equals("cadena")) {
+                    try {
+                        Valor ob6 = (Valor) concatena.Listas(exp);
+                        ArrayList a8 = (ArrayList) ob6.valor;
+                        if (a8.get(0) instanceof ArrayList) {
+                            if (ob6.tipo.equals("caracter") || ob6.tipo.equals("cadena")) {
+
+                                int max = 0;
+                                for (int i = 0; i < a8.size(); i++) {
+                                    ArrayList temp = (ArrayList) a8.get(i);
+                                    for (int j = 0; j < temp.size(); j++) {
+                                        if (temp.get(j).toString().codePointAt(0) > max) {
+                                            max = temp.get(j).toString().codePointAt(0);
+                                        }
+                                    }
+                                }
+                                int min = max;
+                                for (int i = 0; i < a8.size(); i++) {
+                                    ArrayList temp = (ArrayList) a8.get(i);
+                                    for (int j = 0; j < temp.size(); j++) {
+                                        if (temp.get(j).toString().codePointAt(0) < min) {
+                                            min = temp.get(j).toString().codePointAt(0);
+                                        }
+                                    }
+                                }
+                                ultimoValor = min;
+                                char c = (char) min;
+                                System.out.println("min " + c);
+                                Valor v = new Valor(c, "caracter");
+                                return v;
+                            } else { //numero
+                                Double max = 0.00;
+                                for (int i = 0; i < a8.size(); i++) {
+                                    ArrayList temp = (ArrayList) a8.get(i);
+                                    for (int j = 0; j < temp.size(); j++) {
+                                        if (Integer.parseInt(temp.get(j).toString()) > max) {
+                                            max = Double.parseDouble(temp.get(j).toString());
+                                        }
+                                    }
+                                }
+                                Double min = max;
+                                for (int i = 0; i < a8.size(); i++) {
+                                    ArrayList temp = (ArrayList) a8.get(i);
+                                    for (int j = 0; j < temp.size(); j++) {
+                                        if (Integer.parseInt(temp.get(j).toString()) < min) {
+                                            min = Double.parseDouble(temp.get(j).toString());
+                                        }
+                                    }
+                                }
+                                ultimoValor = min;
+                                System.out.println("min " + min);
+                                Valor v = new Valor(min, "numero");
+                                return v;
+                            }
+                        } else if (ob6.tipo.equals("caracter") || ob6.tipo.equals("cadena")) {
 
                             int max = 0;
                             for (int i = 0; i < a8.size(); i++) {
-                                ArrayList temp = (ArrayList) a8.get(i);
-                                for (int j = 0; j < temp.size(); j++) {
-                                    if (temp.get(j).toString().codePointAt(0) > max) {
-                                        max = temp.get(j).toString().codePointAt(0);
-                                    }
+                                if (a8.get(i).toString().codePointAt(0) > max) {
+                                    max = a8.get(i).toString().codePointAt(0);
                                 }
                             }
                             int min = max;
                             for (int i = 0; i < a8.size(); i++) {
-                                ArrayList temp = (ArrayList) a8.get(i);
-                                for (int j = 0; j < temp.size(); j++) {
-                                    if (temp.get(j).toString().codePointAt(0) < min) {
-                                        min = temp.get(j).toString().codePointAt(0);
-                                    }
+                                if (a8.get(i).toString().codePointAt(0) < min) {
+                                    min = a8.get(i).toString().codePointAt(0);
                                 }
                             }
                             ultimoValor = min;
@@ -157,20 +214,14 @@ public class ExpresionHaskell {
                         } else { //numero
                             Double max = 0.00;
                             for (int i = 0; i < a8.size(); i++) {
-                                ArrayList temp = (ArrayList) a8.get(i);
-                                for (int j = 0; j < temp.size(); j++) {
-                                    if (Integer.parseInt(temp.get(j).toString()) > max) {
-                                        max = Double.parseDouble(temp.get(j).toString());
-                                    }
+                                if (Integer.parseInt(a8.get(i).toString()) > max) {
+                                    max = Double.parseDouble(a8.get(i).toString());
                                 }
                             }
                             Double min = max;
                             for (int i = 0; i < a8.size(); i++) {
-                                ArrayList temp = (ArrayList) a8.get(i);
-                                for (int j = 0; j < temp.size(); j++) {
-                                    if (Integer.parseInt(temp.get(j).toString()) < min) {
-                                        min = Double.parseDouble(temp.get(j).toString());
-                                    }
+                                if (Integer.parseInt(a8.get(i).toString()) < min) {
+                                    min = Double.parseDouble(a8.get(i).toString());
                                 }
                             }
                             ultimoValor = min;
@@ -178,57 +229,54 @@ public class ExpresionHaskell {
                             Valor v = new Valor(min, "numero");
                             return v;
                         }
-                    } else if (ob6.tipo.equals("caracter") || ob6.tipo.equals("cadena")) {
-
-                        int max = 0;
-                        for (int i = 0; i < a8.size(); i++) {
-                            if (a8.get(i).toString().codePointAt(0) > max) {
-                                max = a8.get(i).toString().codePointAt(0);
-                            }
-                        }
-                        int min = max;
-                        for (int i = 0; i < a8.size(); i++) {
-                            if (a8.get(i).toString().codePointAt(0) < min) {
-                                min = a8.get(i).toString().codePointAt(0);
-                            }
-                        }
-                        ultimoValor = min;
-                        char c = (char) min;
-                        System.out.println("min " + c);
-                        Valor v = new Valor(c, "caracter");
-                        return v;
-                    } else { //numero
-                        Double max = 0.00;
-                        for (int i = 0; i < a8.size(); i++) {
-                            if (Integer.parseInt(a8.get(i).toString()) > max) {
-                                max = Double.parseDouble(a8.get(i).toString());
-                            }
-                        }
-                        Double min = max;
-                        for (int i = 0; i < a8.size(); i++) {
-                            if (Integer.parseInt(a8.get(i).toString()) < min) {
-                                min = Double.parseDouble(a8.get(i).toString());
-                            }
-                        }
-                        ultimoValor = min;
-                        System.out.println("min " + min);
-                        Valor v = new Valor(min, "numero");
+                    } catch (Exception e) {
+                        Valor v = new Valor("no es una lista", "");
                         return v;
                     }
 
                 case "Product":
-                    Valor ob7 = (Valor) concatena.Listas(exp.hijos.get(0));
-                    ArrayList a7 = (ArrayList) ob7.valor;
-                    if (a7.get(0) instanceof ArrayList) {
-                        if (ob7.tipo.equals("caracter") || ob7.tipo.equals("cadena")) {
+                    try {
+                        Valor ob7 = (Valor) concatena.Listas(exp.hijos.get(0));
+                        ArrayList a7 = (ArrayList) ob7.valor;
+                        if (a7.get(0) instanceof ArrayList) {
+                            if (ob7.tipo.equals("caracter") || ob7.tipo.equals("cadena")) {
+
+                                BigInteger multiplica = BigInteger.ONE;
+                                for (int i = 0; i < a7.size(); i++) {
+                                    ArrayList temp = (ArrayList) a7.get(i);
+                                    for (int j = 0; j < temp.size(); j++) {
+                                        BigInteger h2 = new BigInteger(temp.get(j).toString().codePointAt(0) + "");
+                                        multiplica = multiplica.multiply(h2);
+                                    }
+                                }
+                                ultimoValor = multiplica;
+                                System.out.println("mult " + multiplica);
+                                Valor v = new Valor(multiplica, "numero");
+                                return v;
+                            } else { //numero
+                                BigInteger multiplica = BigInteger.ONE;
+                                for (int i = 0; i < a7.size(); i++) {
+                                    ArrayList temp = (ArrayList) a7.get(i);
+                                    for (int j = 0; j < temp.size(); j++) {
+                                        BigInteger h2 = new BigInteger(temp.get(j).toString().codePointAt(0) + "");
+                                        multiplica = multiplica.multiply(h2);
+
+                                    }
+                                }
+                                ultimoValor = multiplica;
+                                System.out.println("mult " + multiplica);
+                                Valor v = new Valor(multiplica, "numero");
+                                return v;
+                            }
+                        } else if (ob7.tipo.equals("caracter") || ob7.tipo.equals("cadena")) {
 
                             BigInteger multiplica = BigInteger.ONE;
+                            System.out.println("dd " + multiplica);
                             for (int i = 0; i < a7.size(); i++) {
-                                ArrayList temp = (ArrayList) a7.get(i);
-                                for (int j = 0; j < temp.size(); j++) {
-                                    BigInteger h2 = new BigInteger(temp.get(j).toString().codePointAt(0) + "");
-                                    multiplica = multiplica.multiply(h2);
-                                }
+                                BigInteger h2 = new BigInteger(a7.get(i).toString().codePointAt(0) + "");
+                                System.out.println("h2 " + h2);
+                                multiplica = multiplica.multiply(h2);
+                                System.out.println("res " + multiplica);
                             }
                             ultimoValor = multiplica;
                             System.out.println("mult " + multiplica);
@@ -237,41 +285,16 @@ public class ExpresionHaskell {
                         } else { //numero
                             BigInteger multiplica = BigInteger.ONE;
                             for (int i = 0; i < a7.size(); i++) {
-                                ArrayList temp = (ArrayList) a7.get(i);
-                                for (int j = 0; j < temp.size(); j++) {
-                                    BigInteger h2 = new BigInteger(temp.get(j).toString().codePointAt(0) + "");
-                                    multiplica = multiplica.multiply(h2);
-
-                                }
+                                BigInteger h2 = new BigInteger(a7.get(i).toString().codePointAt(0) + "");
+                                multiplica = multiplica.multiply(h2);
                             }
                             ultimoValor = multiplica;
                             System.out.println("mult " + multiplica);
                             Valor v = new Valor(multiplica, "numero");
                             return v;
                         }
-                    } else if (ob7.tipo.equals("caracter") || ob7.tipo.equals("cadena")) {
-
-                        BigInteger multiplica = BigInteger.ONE;
-                        System.out.println("dd " + multiplica);
-                        for (int i = 0; i < a7.size(); i++) {
-                            BigInteger h2 = new BigInteger(a7.get(i).toString().codePointAt(0) + "");
-                            System.out.println("h2 " + h2);
-                            multiplica = multiplica.multiply(h2);
-                            System.out.println("res " + multiplica);
-                        }
-                        ultimoValor = multiplica;
-                        System.out.println("mult " + multiplica);
-                        Valor v = new Valor(multiplica, "numero");
-                        return v;
-                    } else { //numero
-                        BigInteger multiplica = BigInteger.ONE;
-                        for (int i = 0; i < a7.size(); i++) {
-                            BigInteger h2 = new BigInteger(a7.get(i).toString().codePointAt(0) + "");
-                            multiplica = multiplica.multiply(h2);
-                        }
-                        ultimoValor = multiplica;
-                        System.out.println("mult " + multiplica);
-                        Valor v = new Valor(multiplica, "numero");
+                    } catch (Exception e) {
+                        Valor v = new Valor("no es una lista", "");
                         return v;
                     }
 
@@ -285,27 +308,54 @@ public class ExpresionHaskell {
                         System.out.println("succ: " + num);
                         tmp = new Valor(num, "numero");
                         return tmp;
-                    } else {
+                    } else if (ob8.tipo.equals("numero")) {
                         Double ob18 = Double.parseDouble(ob8.valor.toString());
                         Double num = ob18 + 1;
                         ultimoValor = num;
                         System.out.println("succ: " + num);
                         tmp = new Valor(num, "numero");
                         return tmp;
+                    } else {
+                        Valor v = new Valor("el ultimo valor es nulo", "");
+                        return v;
                     }
 
                 case "Sum":
-                    Valor ob9 = (Valor) concatena.Listas(exp.hijos.get(0));
-                    ArrayList a9 = (ArrayList) ob9.valor;
-                    if (a9.get(0) instanceof ArrayList) {
-                        if (ob9.tipo.equals("caracter") || ob9.tipo.equals("cadena")) {
+                    try {
+                        Valor ob9 = (Valor) concatena.Listas(exp.hijos.get(0));
+                        ArrayList a9 = (ArrayList) ob9.valor;
+                        if (a9.get(0) instanceof ArrayList) {
+                            if (ob9.tipo.equals("caracter") || ob9.tipo.equals("cadena")) {
+
+                                int sum = 0;
+                                for (int i = 0; i < a9.size(); i++) {
+                                    ArrayList temp = (ArrayList) a9.get(i);
+                                    for (int j = 0; j < temp.size(); j++) {
+                                        sum = sum + temp.get(j).toString().codePointAt(0);
+                                    }
+                                }
+                                ultimoValor = sum;
+                                System.out.println("sum " + sum);
+                                Valor v = new Valor(sum, "numero");
+                                return v;
+                            } else { //numero
+                                int sum = 0;
+                                for (int i = 0; i < a9.size(); i++) {
+                                    ArrayList temp = (ArrayList) a9.get(i);
+                                    for (int j = 0; j < temp.size(); j++) {
+                                        sum = sum + Integer.parseInt(temp.get(j).toString());
+                                    }
+                                }
+                                ultimoValor = sum;
+                                System.out.println("sum " + sum);
+                                Valor v = new Valor(sum, "numero");
+                                return v;
+                            }
+                        } else if (ob9.tipo.equals("caracter") || ob9.tipo.equals("cadena")) {
 
                             int sum = 0;
                             for (int i = 0; i < a9.size(); i++) {
-                                ArrayList temp = (ArrayList) a9.get(i);
-                                for (int j = 0; j < temp.size(); j++) {
-                                    sum = sum + temp.get(j).toString().codePointAt(0);
-                                }
+                                sum = sum + a9.get(i).toString().codePointAt(0);
                             }
                             ultimoValor = sum;
                             System.out.println("sum " + sum);
@@ -314,40 +364,26 @@ public class ExpresionHaskell {
                         } else { //numero
                             int sum = 0;
                             for (int i = 0; i < a9.size(); i++) {
-                                ArrayList temp = (ArrayList) a9.get(i);
-                                for (int j = 0; j < temp.size(); j++) {
-                                    sum = sum + Integer.parseInt(temp.get(j).toString());
-                                }
+                                sum = sum + Integer.parseInt(a9.get(i).toString());
                             }
                             ultimoValor = sum;
                             System.out.println("sum " + sum);
                             Valor v = new Valor(sum, "numero");
                             return v;
                         }
-                    } else if (ob9.tipo.equals("caracter") || ob9.tipo.equals("cadena")) {
-
-                        int sum = 0;
-                        for (int i = 0; i < a9.size(); i++) {
-                            sum = sum + a9.get(i).toString().codePointAt(0);
-                        }
-                        ultimoValor = sum;
-                        System.out.println("sum " + sum);
-                        Valor v = new Valor(sum, "numero");
-                        return v;
-                    } else { //numero
-                        int sum = 0;
-                        for (int i = 0; i < a9.size(); i++) {
-                            sum = sum + Integer.parseInt(a9.get(i).toString());
-                        }
-                        ultimoValor = sum;
-                        System.out.println("sum " + sum);
-                        Valor v = new Valor(sum, "numero");
+                    } catch (Exception e) {
+                        Valor v = new Valor("no es una lista", "");
                         return v;
                     }
 
                 case "porcentaje":
-                    Valor v4 = new Valor(ultimoValor, "numero");
-                    return v4;
+                    if (ultimoValor != null) {
+                        Valor v4 = new Valor(ultimoValor, "numero");
+                        return v4;
+                    } else {
+                        Valor v = new Valor("el ultimo valor es nulo", "");
+                        return v;
+                    }
 
                 case "Unario":
                     Valor v5 = (Valor) Expresion(exp);
@@ -379,14 +415,15 @@ public class ExpresionHaskell {
             switch (raiz.valor.toString()) {
 
                 case "LlamaFunc":
-                    /////////////////////////////////////////////////////////////////////////////
+                    String nombreFuncion = raiz.hijos.get(0).valor.toString();
+                    //Map<String, FuncionHaskell> fun = agrega.ObtenerListaFunciones();
                     break;
 
                 case "Indice":
                     String nombreLista = raiz.hijos.get(0).valor.toString();
 
                     Valor ob = (Valor) Expresion(raiz.hijos.get(1));
-                    int indice = Integer.parseInt(ob.valor.toString().replace(".0",""));
+                    int indice = Integer.parseInt(ob.valor.toString().replace(".0", ""));
                     //buscar en la lista de listas
 
                     Map<String, Variable> l = lista.ObtenerListaListas();
@@ -417,25 +454,35 @@ public class ExpresionHaskell {
                     izq = (Valor) Expresion(raiz.hijos.get(0));
                     der = (Valor) Expresion(raiz.hijos.get(1));
                     if (izq != null || der != null) {
-                        if (izq.tipo.equals(der.tipo)) {
-                            if (izq.tipo.equals("numero")) {
-                                Double num1 = Double.parseDouble(izq.valor.toString());
-                                Double num2 = Double.parseDouble(der.valor.toString());
-                                resultado = num1 + num2;
-                                Valor v = new Valor(resultado, "numero");
-                                return v;
-                            } else if (izq.tipo.equals("caracter")) {
-                                Object o = izq.valor.toString().codePointAt(0);
-                                Object m = der.valor.toString().codePointAt(0);
-                                Double num1 = new Double(o.toString());
-                                Double num2 = new Double(m.toString());
-                                resultado = num1 + num2;
-                                Valor v = new Valor(resultado, "numero");
-                                return v;
+                        if (izq.valor != "el ultimo valor es nulo" && der.valor != "el ultimo valor es nulo") {
+                            if (izq.tipo.equals(der.tipo)) {
+                                if (izq.tipo.equals("numero")) {
+                                    Double num1 = Double.parseDouble(izq.valor.toString());
+                                    Double num2 = Double.parseDouble(der.valor.toString());
+                                    resultado = num1 + num2;
+                                    Valor v = new Valor(resultado, "numero");
+                                    return v;
+                                } else if (izq.tipo.equals("caracter")) {
+                                    Object o = izq.valor.toString().codePointAt(0);
+                                    Object m = der.valor.toString().codePointAt(0);
+                                    Double num1 = new Double(o.toString());
+                                    Double num2 = new Double(m.toString());
+                                    resultado = num1 + num2;
+                                    Valor v = new Valor(resultado, "numero");
+                                    return v;
+                                } else {
+                                    //error
+                                    Valor v = new Valor("el ultimo valor es nulo", "");
+                                    return v;
+                                }
                             } else {
-                                //error
                                 System.out.println("no son del mismo tipo");
+                                Valor v = new Valor("hay algun nulo", "");
+                                return v;
                             }
+                        } else {
+                            Valor v = new Valor("el ultimo valor es nulo", "");
+                            return v;
                         }
                     } else {
                         System.out.println("los valores tienen nulo");
@@ -444,25 +491,34 @@ public class ExpresionHaskell {
                     izq = (Valor) Expresion(raiz.hijos.get(0));
                     der = (Valor) Expresion(raiz.hijos.get(1));
                     if (izq != null || der != null) {
-                        if (izq.tipo.equals(der.tipo)) {
-                            if (izq.tipo.equals("numero")) {
-                                Double num1 = Double.parseDouble(izq.valor.toString());
-                                Double num2 = Double.parseDouble(der.valor.toString());
-                                resultado = num1 - num2;
-                                Valor v = new Valor(resultado, "numero");
-                                return v;
-                            } else if (izq.tipo.equals("caracter")) {
-                                Object o = izq.valor.toString().codePointAt(0);
-                                Object m = der.valor.toString().codePointAt(0);
-                                Double num1 = new Double(o.toString());
-                                Double num2 = new Double(m.toString());
-                                resultado = num1 - num2;
-                                Valor v = new Valor(resultado, "numero");
-                                return v;
+                        if (izq.valor != "el ultimo valor es nulo" && der.valor != "el ultimo valor es nulo") {
+                            if (izq.tipo.equals(der.tipo)) {
+                                if (izq.tipo.equals("numero")) {
+                                    Double num1 = Double.parseDouble(izq.valor.toString());
+                                    Double num2 = Double.parseDouble(der.valor.toString());
+                                    resultado = num1 - num2;
+                                    Valor v = new Valor(resultado, "numero");
+                                    return v;
+                                } else if (izq.tipo.equals("caracter")) {
+                                    Object o = izq.valor.toString().codePointAt(0);
+                                    Object m = der.valor.toString().codePointAt(0);
+                                    Double num1 = new Double(o.toString());
+                                    Double num2 = new Double(m.toString());
+                                    resultado = num1 - num2;
+                                    Valor v = new Valor(resultado, "numero");
+                                    return v;
+                                } else {
+                                    //error
+                                    System.out.println("no son del mismo tipo");
+                                }
                             } else {
-                                //error
                                 System.out.println("no son del mismo tipo");
+                                Valor v = new Valor("hay algun nulo", "");
+                                return v;
                             }
+                        } else {
+                            Valor v = new Valor("el ultimo valor es nulo", "");
+                            return v;
                         }
                     } else {
                         System.out.println("los valores tienen nulo");
@@ -472,25 +528,34 @@ public class ExpresionHaskell {
                     izq = (Valor) Expresion(raiz.hijos.get(0));
                     der = (Valor) Expresion(raiz.hijos.get(1));
                     if (izq != null || der != null) {
-                        if (izq.tipo.equals(der.tipo)) {
-                            if (izq.tipo.equals("numero")) {
-                                Double num1 = Double.parseDouble(izq.valor.toString());
-                                Double num2 = Double.parseDouble(der.valor.toString());
-                                resultado = num1 * num2;
-                                Valor v = new Valor(resultado, "numero");
-                                return v;
-                            } else if (izq.tipo.equals("caracter")) {
-                                Object o = izq.valor.toString().codePointAt(0);
-                                Object m = der.valor.toString().codePointAt(0);
-                                Double num1 = new Double(o.toString());
-                                Double num2 = new Double(m.toString());
-                                resultado = num1 * num2;
-                                Valor v = new Valor(resultado, "numero");
-                                return v;
+                        if (izq.valor != "el ultimo valor es nulo" && der.valor != "el ultimo valor es nulo") {
+                            if (izq.tipo.equals(der.tipo)) {
+                                if (izq.tipo.equals("numero")) {
+                                    Double num1 = Double.parseDouble(izq.valor.toString());
+                                    Double num2 = Double.parseDouble(der.valor.toString());
+                                    resultado = num1 * num2;
+                                    Valor v = new Valor(resultado, "numero");
+                                    return v;
+                                } else if (izq.tipo.equals("caracter")) {
+                                    Object o = izq.valor.toString().codePointAt(0);
+                                    Object m = der.valor.toString().codePointAt(0);
+                                    Double num1 = new Double(o.toString());
+                                    Double num2 = new Double(m.toString());
+                                    resultado = num1 * num2;
+                                    Valor v = new Valor(resultado, "numero");
+                                    return v;
+                                } else {
+                                    //error
+                                    System.out.println("no son del mismo tipo");
+                                }
                             } else {
-                                //error
                                 System.out.println("no son del mismo tipo");
+                                Valor v = new Valor("hay algun nulo", "");
+                                return v;
                             }
+                        } else {
+                            Valor v = new Valor("el ultimo valor es nulo", "");
+                            return v;
                         }
                     } else {
                         System.out.println("los valores tienen nulo");
@@ -500,25 +565,34 @@ public class ExpresionHaskell {
                     izq = (Valor) Expresion(raiz.hijos.get(0));
                     der = (Valor) Expresion(raiz.hijos.get(1));
                     if (izq != null || der != null) {
-                        if (izq.tipo.equals(der.tipo)) {
-                            if (izq.tipo.equals("numero")) {
-                                Double num1 = Double.parseDouble(izq.valor.toString());
-                                Double num2 = Double.parseDouble(der.valor.toString());
-                                resultado = num1 / num2;
-                                Valor v = new Valor(resultado, "numero");
-                                return v;
-                            } else if (izq.tipo.equals("caracter")) {
-                                Object o = izq.valor.toString().codePointAt(0);
-                                Object m = der.valor.toString().codePointAt(0);
-                                Double num1 = new Double(o.toString());
-                                Double num2 = new Double(m.toString());
-                                resultado = num1 / num2;
-                                Valor v = new Valor(resultado, "numero");
-                                return v;
+                        if (izq.valor != "el ultimo valor es nulo" && der.valor != "el ultimo valor es nulo") {
+                            if (izq.tipo.equals(der.tipo)) {
+                                if (izq.tipo.equals("numero")) {
+                                    Double num1 = Double.parseDouble(izq.valor.toString());
+                                    Double num2 = Double.parseDouble(der.valor.toString());
+                                    resultado = num1 / num2;
+                                    Valor v = new Valor(resultado, "numero");
+                                    return v;
+                                } else if (izq.tipo.equals("caracter")) {
+                                    Object o = izq.valor.toString().codePointAt(0);
+                                    Object m = der.valor.toString().codePointAt(0);
+                                    Double num1 = new Double(o.toString());
+                                    Double num2 = new Double(m.toString());
+                                    resultado = num1 / num2;
+                                    Valor v = new Valor(resultado, "numero");
+                                    return v;
+                                } else {
+                                    //error
+                                    System.out.println("no son del mismo tipo");
+                                }
                             } else {
-                                //error
                                 System.out.println("no son del mismo tipo");
+                                Valor v = new Valor("hay algun nulo", "");
+                                return v;
                             }
+                        } else {
+                            Valor v = new Valor("el ultimo valor es nulo", "");
+                            return v;
                         }
                     } else {
                         System.out.println("los valores tienen nulo");
@@ -528,25 +602,34 @@ public class ExpresionHaskell {
                     izq = (Valor) Expresion(raiz.hijos.get(0));
                     der = (Valor) Expresion(raiz.hijos.get(1));
                     if (izq != null || der != null) {
-                        if (izq.tipo.equals(der.tipo)) {
-                            if (izq.tipo.equals("numero")) {
-                                Double num1 = Double.parseDouble(izq.valor.toString());
-                                Double num2 = Double.parseDouble(der.valor.toString());
-                                resultado = num1 % num2;
-                                Valor v = new Valor(resultado, "numero");
-                                return v;
-                            } else if (izq.tipo.equals("caracter")) {
-                                Object o = izq.valor.toString().codePointAt(0);
-                                Object m = der.valor.toString().codePointAt(0);
-                                Double num1 = new Double(o.toString());
-                                Double num2 = new Double(m.toString());
-                                resultado = num1 % num2;
-                                Valor v = new Valor(resultado, "numero");
-                                return v;
+                        if (izq.valor != "el ultimo valor es nulo" && der.valor != "el ultimo valor es nulo") {
+                            if (izq.tipo.equals(der.tipo)) {
+                                if (izq.tipo.equals("numero")) {
+                                    Double num1 = Double.parseDouble(izq.valor.toString());
+                                    Double num2 = Double.parseDouble(der.valor.toString());
+                                    resultado = num1 % num2;
+                                    Valor v = new Valor(resultado, "numero");
+                                    return v;
+                                } else if (izq.tipo.equals("caracter")) {
+                                    Object o = izq.valor.toString().codePointAt(0);
+                                    Object m = der.valor.toString().codePointAt(0);
+                                    Double num1 = new Double(o.toString());
+                                    Double num2 = new Double(m.toString());
+                                    resultado = num1 % num2;
+                                    Valor v = new Valor(resultado, "numero");
+                                    return v;
+                                } else {
+                                    //error
+                                    System.out.println("no son del mismo tipo");
+                                }
                             } else {
-                                //error
                                 System.out.println("no son del mismo tipo");
+                                Valor v = new Valor("hay algun nulo", "");
+                                return v;
                             }
+                        } else {
+                            Valor v = new Valor("el ultimo valor es nulo", "");
+                            return v;
                         }
                     } else {
                         System.out.println("los valores tienen nulo");
@@ -556,25 +639,34 @@ public class ExpresionHaskell {
                     izq = (Valor) Expresion(raiz.hijos.get(0));
                     der = (Valor) Expresion(raiz.hijos.get(1));
                     if (izq != null || der != null) {
-                        if (izq.tipo.equals(der.tipo)) {
-                            if (izq.tipo.equals("numero")) {
-                                Double num1 = Double.parseDouble(izq.valor.toString());
-                                Double num2 = Double.parseDouble(der.valor.toString());
-                                resultado = Math.pow(num2, 1 / num1);
-                                Valor v = new Valor(resultado, "numero");
-                                return v;
-                            } else if (izq.tipo.equals("caracter")) {
-                                Object o = izq.valor.toString().codePointAt(0);
-                                Object m = der.valor.toString().codePointAt(0);
-                                Double num1 = new Double(o.toString());
-                                Double num2 = new Double(m.toString());
-                                resultado = Math.pow(num2, 1 / num1);
-                                Valor v = new Valor(resultado, "numero");
-                                return v;
+                        if (izq.valor != "el ultimo valor es nulo" && der.valor != "el ultimo valor es nulo") {
+                            if (izq.tipo.equals(der.tipo)) {
+                                if (izq.tipo.equals("numero")) {
+                                    Double num1 = Double.parseDouble(izq.valor.toString());
+                                    Double num2 = Double.parseDouble(der.valor.toString());
+                                    resultado = Math.pow(num2, 1 / num1);
+                                    Valor v = new Valor(resultado, "numero");
+                                    return v;
+                                } else if (izq.tipo.equals("caracter")) {
+                                    Object o = izq.valor.toString().codePointAt(0);
+                                    Object m = der.valor.toString().codePointAt(0);
+                                    Double num1 = new Double(o.toString());
+                                    Double num2 = new Double(m.toString());
+                                    resultado = Math.pow(num2, 1 / num1);
+                                    Valor v = new Valor(resultado, "numero");
+                                    return v;
+                                } else {
+                                    //error
+                                    System.out.println("no son del mismo tipo");
+                                }
                             } else {
-                                //error
                                 System.out.println("no son del mismo tipo");
+                                Valor v = new Valor("hay algun nulo", "");
+                                return v;
                             }
+                        } else {
+                            Valor v = new Valor("el ultimo valor es nulo", "");
+                            return v;
                         }
                     } else {
                         System.out.println("los valores tienen nulo");
@@ -584,25 +676,35 @@ public class ExpresionHaskell {
                     izq = (Valor) Expresion(raiz.hijos.get(0));
                     der = (Valor) Expresion(raiz.hijos.get(1));
                     if (izq != null || der != null) {
-                        if (izq.tipo.equals(der.tipo)) {
-                            if (izq.tipo.equals("numero")) {
-                                Double num1 = Double.parseDouble(izq.valor.toString());
-                                Double num2 = Double.parseDouble(der.valor.toString());
-                                resultado = Math.pow(num1, num2);
-                                Valor v = new Valor(resultado, "numero");
-                                return v;
-                            } else if (izq.tipo.equals("caracter")) {
-                                Object o = izq.valor.toString().codePointAt(0);
-                                Object m = der.valor.toString().codePointAt(0);
-                                Double num1 = new Double(o.toString());
-                                Double num2 = new Double(m.toString());
-                                resultado = Math.pow(num1, num2);
-                                Valor v = new Valor(resultado, "numero");
-                                return v;
+                        if (izq.valor != "el ultimo valor es nulo" && der.valor != "el ultimo valor es nulo") {
+                            if (izq.tipo.equals(der.tipo)) {
+
+                                if (izq.tipo.equals("numero")) {
+                                    Double num1 = Double.parseDouble(izq.valor.toString());
+                                    Double num2 = Double.parseDouble(der.valor.toString());
+                                    resultado = Math.pow(num1, num2);
+                                    Valor v = new Valor(resultado, "numero");
+                                    return v;
+                                } else if (izq.tipo.equals("caracter")) {
+                                    Object o = izq.valor.toString().codePointAt(0);
+                                    Object m = der.valor.toString().codePointAt(0);
+                                    Double num1 = new Double(o.toString());
+                                    Double num2 = new Double(m.toString());
+                                    resultado = Math.pow(num1, num2);
+                                    Valor v = new Valor(resultado, "numero");
+                                    return v;
+                                } else {
+                                    //error
+                                    System.out.println("no son del mismo tipo");
+                                }
                             } else {
-                                //error
                                 System.out.println("no son del mismo tipo");
+                                Valor v = new Valor("hay algun nulo", "");
+                                return v;
                             }
+                        } else {
+                            Valor v = new Valor("el ultimo valor es nulo", "");
+                            return v;
                         }
                     } else {
                         System.out.println("los valores tienen nulo");
@@ -611,21 +713,44 @@ public class ExpresionHaskell {
                 case "||":
                     izq = (Valor) Expresion(raiz.hijos.get(0));
                     der = (Valor) Expresion(raiz.hijos.get(1));
-                    uno = Boolean.parseBoolean(izq.valor.toString());
-                    dos = Boolean.parseBoolean(der.valor.toString());
-                    res = uno || dos;
-                    Valor v = new Valor(res, "bool");
-                    return v;
-
+                    if (izq != null && der != null) {
+                        if (izq.tipo.equals(der.tipo)) {
+                            if (izq.tipo.equals("bool")) {
+                                uno = Boolean.parseBoolean(izq.valor.toString());
+                                dos = Boolean.parseBoolean(der.valor.toString());
+                                res = uno || dos;
+                                Valor v = new Valor(res, "bool");
+                                return v;
+                            } else {
+                                Valor v2 = new Valor("no es tipo bool -> ||", "");
+                                return v2;
+                            }
+                        } else {
+                            Valor v2 = new Valor("diferentes tipos en comparacion -> ||", "");
+                            return v2;
+                        }
+                    }
                 case "&&":
                     izq = (Valor) Expresion(raiz.hijos.get(0));
                     der = (Valor) Expresion(raiz.hijos.get(1));
-                    uno = Boolean.parseBoolean(izq.valor.toString());
-                    dos = Boolean.parseBoolean(der.valor.toString());
-                    res = uno && dos;
-                    Valor v2 = new Valor(res, "bool");
-                    return v2;
-
+                    if (izq != null && der != null) {
+                        if (izq.tipo.equals(der.tipo)) {
+                            if (izq.tipo.equals("bool")) {
+                                uno = Boolean.parseBoolean(izq.valor.toString());
+                                dos = Boolean.parseBoolean(der.valor.toString());
+                                res = uno && dos;
+                                Valor v2 = new Valor(res, "bool");
+                                return v2;
+                            } else {
+                                Valor v2 = new Valor("no es tipo bool -> ||", "");
+                                return v2;
+                            }
+                        } else {
+                            Valor v2 = new Valor("diferentes tipos en comparacion -> ||", "");
+                            return v2;
+                        }
+                    }
+                    
                 case "<":
                     izq = (Valor) Expresion(raiz.hijos.get(0));
                     der = (Valor) Expresion(raiz.hijos.get(1));
@@ -788,7 +913,7 @@ public class ExpresionHaskell {
                             if (izq.tipo.equals("numero")) {
                                 Double num1 = Double.parseDouble(izq.valor.toString());
                                 Double num2 = Double.parseDouble(der.valor.toString());
-                                if (!num1.equals(num2)) {
+                                if (num1 != num2) {
                                     Valor val = new Valor(true, "bool");
                                     return val;
                                 } else {
@@ -800,7 +925,7 @@ public class ExpresionHaskell {
                                 Object oo = (Object) der.valor.toString().codePointAt(0);
                                 Double num1 = new Double(o.toString());
                                 Double num2 = new Double(oo.toString());
-                                if (!num1.equals(num2)) {
+                                if (num1 != num2) {
                                     Valor val = new Valor(true, "bool");
                                     return val;
                                 } else {
@@ -821,8 +946,8 @@ public class ExpresionHaskell {
                     String nombreLista = raiz.hijos.get(0).valor.toString();
                     Valor i1 = (Valor) Expresion(raiz.hijos.get(1));
                     Valor i2 = (Valor) Expresion(raiz.hijos.get(2));
-                    int j1 = Integer.parseInt(i1.valor.toString().replace(".0",""));
-                    int j2 = Integer.parseInt(i2.valor.toString().replace(".0",""));
+                    int j1 = Integer.parseInt(i1.valor.toString().replace(".0", ""));
+                    int j2 = Integer.parseInt(i2.valor.toString().replace(".0", ""));
 
                     Map<String, Variable> l = lista.ObtenerListaListas();
                     if (l != null) {
@@ -831,7 +956,7 @@ public class ExpresionHaskell {
                                 Boolean g = lista.getKey(nombreLista);
                                 if (g.equals(true)) {
                                     ArrayList valores = (ArrayList) l.get(nombreLista).valor;
-                                    ArrayList nivel1 = (ArrayList)valores.get(j1);
+                                    ArrayList nivel1 = (ArrayList) valores.get(j1);
                                     String nivel2 = nivel1.get(j2).toString();
                                     if (l.get(nombreLista).tipo.equals("numero")) {
                                         ultimoValor = nivel2;
@@ -844,31 +969,10 @@ public class ExpresionHaskell {
                                     }
                                 }
                             }
-                        }else{
+                        } else {
                             System.out.println("ninguna lista declarada aun");
                         }
                     }
-                    
-                    
-                  /*  if (l.size() > 0) {
-                            for (int i = 0; i < l.size(); i++) {
-                                Boolean g = lista.getKey(nombreLista);
-                                if (g.equals(true)) {
-                                    ArrayList valores = (ArrayList) l.get(nombreLista).valor;
-                                    String pos = valores.get(indice).toString();
-                                    if (l.get(nombreLista).tipo.equals("numero")) {
-                                        ultimoValor = pos;
-                                        Valor val = new Valor(pos, "numero");
-                                        return val;
-                                    } else {
-                                        ultimoValor = pos;
-                                        Valor val = new Valor(pos, "caracter");
-                                        return val;
-                                    }
-                                }
-                            }
-                        }*/
-
             }
         }
 
