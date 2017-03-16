@@ -52,57 +52,88 @@ public class RecorreHaskell {
         
             switch(raiz.valor.toString()){
                 
-                    case "D_Lista": //siempre trae dos hijos
+                    case "D_Lista":
                         String nombrelista = raiz.hijos.get(0).valor.toString();
-                        if(raiz.hijos.get(1).hijos.size()==1)
-                        { //id, cadena, Lista, 2Niveles
-                            Valor val = (Valor)funPropias.Recorrer(raiz.hijos.get(1));
-                            if(val!=null){
-                               
-                                variable = new Variable(nombrelista,val.valor,val.tipo);
-                                agrega.AgregarVariable(nombrelista, variable);
-                                String texto="";
-                                ArrayList a = (ArrayList)val.valor;
-                                if(a!=null){
-                                
-                                    if(val.tipo.equals("numero")){
+                         //id, cadena, Lista, 2Niveles
+                        Valor val = (Valor)funPropias.Recorrer(raiz.hijos.get(1));
+                        if(val!=null){
 
-                                        for (int i = 0; i < a.size(); i++) {
-                                            texto += a.get(i).toString()+",";
-                                        }
+                            variable = new Variable(nombrelista,val.valor,val.tipo);
+                            agrega.AgregarVariable(nombrelista, variable);
+                            String texto="";
+                            ArrayList a = (ArrayList)val.valor;
+                            if(a!=null){
 
-                                        if(texto.lastIndexOf(",")==texto.length()-1){
-                                            texto = texto.substring(0,texto.length()-1);
-                                        }
-                                        texto = "["+texto+"]";
-                                        Valor v= new Valor(texto,"");
-                                        return v;
-                                    }else if(val.tipo.equals("cadena")){
-                                        for (int i = 0; i < a.size(); i++) {
-                                            texto += "'"+a.get(i).toString()+"'"+",";
-                                        }
+                                if(val.tipo.equals("numero")){
 
-                                        if(texto.lastIndexOf(",")==texto.length()-1){
-                                            texto = texto.substring(0,texto.length()-1);
-                                        }
-                                        texto = "["+texto+"]";
-                                        Valor v = new Valor(texto,"");
-                                        return v;
-                                    }else if(val.tipo.equals("caracter")){
-                                        for (int i = 0; i < a.size(); i++) {
-                                            texto += a.get(i).toString();
-                                        }
-                                        texto = "\""+texto+"\"";
-                                        Valor v = new Valor(texto,"");
-                                        return v;
+                                    for (int i = 0; i < a.size(); i++) {
+                                        texto += a.get(i).toString()+",";
                                     }
+
+                                    if(texto.lastIndexOf(",")==texto.length()-1){
+                                        texto = texto.substring(0,texto.length()-1);
+                                    }
+                                    texto = "["+texto+"]";
+                                    Valor v= new Valor(texto,"");
+                                    return v;
+                                }else if(val.tipo.equals("cadena")){
+                                    for (int i = 0; i < a.size(); i++) {
+                                        texto += a.get(i).toString();
+                                    }
+                                    texto = "\""+texto+"\"";
+                                    Valor v = new Valor(texto,"");
+                                    return v;
+                                }else if(val.tipo.equals("caracter")){
+                                    for (int i = 0; i < a.size(); i++) {
+                                        texto += a.get(i).toString();
+                                    }
+                                    texto = "\""+texto+"\"";
+                                    Valor v = new Valor(texto,"");
+                                    return v;
                                 }
                             }
                         }
                         
+                        
                     case "Calcular":
                         System.out.println("entro a Calcular");
                         break;
+                        
+                    case "Concatena":
+                        Valor valconca = (Valor)funPropias.Recorrer(raiz);
+                        String texto="";
+                        ArrayList a = (ArrayList)valconca.valor;
+                            if(a!=null){
+
+                                if(valconca.tipo.equals("numero")){
+
+                                    for (int i = 0; i < a.size(); i++) {
+                                        texto += a.get(i).toString()+",";
+                                    }
+
+                                    if(texto.lastIndexOf(",")==texto.length()-1){
+                                        texto = texto.substring(0,texto.length()-1);
+                                    }
+                                    texto = "["+texto+"]";
+                                    Valor v= new Valor(texto,"");
+                                    return v;
+                                }else if(valconca.tipo.equals("cadena")){
+                                    for (int i = 0; i < a.size(); i++) {
+                                        texto += a.get(i).toString();
+                                    }
+                                    texto = "\""+texto+"\"";
+                                    Valor v = new Valor(texto,"");
+                                    return v;
+                                }else if(valconca.tipo.equals("caracter")){
+                                    for (int i = 0; i < a.size(); i++) {
+                                        texto += a.get(i).toString();
+                                    }
+                                    texto = "\""+texto+"\"";
+                                    Valor v = new Valor(texto,"");
+                                    return v;
+                                }
+                            }
+                        //return valconca;
         }
         
         return null;

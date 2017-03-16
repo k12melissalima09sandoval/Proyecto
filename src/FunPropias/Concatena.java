@@ -23,6 +23,33 @@ public class Concatena {
     
     
     public Object Recorrer(Nodo raiz){
+        ArrayList<Object> paso = new ArrayList();
+        String tipo="";
+        for(Nodo c: raiz.hijos){
+            Valor val = (Valor)Listas(c);
+            if(val!=null){
+                if(val.tipo.equals("cadena")){
+                    ArrayList a = (ArrayList)val.valor;
+                    for (int i = 0; i < a.size(); i++) {
+                        paso.add(a.get(i).toString());
+                        tipo=val.tipo;
+                    }
+                    paso.add(" ");
+                }else{
+                    ArrayList a = (ArrayList)val.valor;
+                    for (int i = 0; i < a.size(); i++) {
+                        paso.add(a.get(i).toString());
+                        tipo=val.tipo;
+                    }
+                }
+            }
+        }
+        Valor fin = new Valor(paso,tipo);
+        return fin;
+        
+    }
+    
+    public Object Listas(Nodo raiz){
         String temp= raiz.valor.toString();
         if(temp.equals("id"))
         {

@@ -43,7 +43,7 @@ public class FuncionesPropiasHaskell {
                 break;
                 
             case "Concatena":
-                Valor obj3 = (Valor)concatena.Recorrer(raiz.hijos.get(0));
+                Valor obj3 = (Valor)concatena.Recorrer(raiz);
                 return obj3;
                 
             case "Decc":
