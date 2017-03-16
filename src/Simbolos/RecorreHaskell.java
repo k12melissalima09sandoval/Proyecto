@@ -134,7 +134,21 @@ public class RecorreHaskell {
                                     return v;
                                 }
                             }
-                        //return valconca;
+                    case "Succ":
+                        Valor valsucc = (Valor)funPropias.Recorrer(raiz);
+                        return valsucc;
+                        
+                    case "Decc":
+                        Valor valdecc = (Valor)funPropias.Recorrer(raiz);
+                        return valdecc;
+                        
+                    case "Min":
+                        Valor valmin = (Valor)funPropias.Recorrer(raiz);
+                        return valmin;
+                        
+                    case "Max":
+                        Valor valmax = (Valor)funPropias.Recorrer(raiz);
+                        return valmax;
         }
         
         return null;

@@ -30,7 +30,7 @@ public class Concatena {
             if(val!=null){
                 if(val.tipo.equals("cadena")){
                     ArrayList a = (ArrayList)val.valor;
-                    if(a.size()>1){
+                    if(a.get(0) instanceof ArrayList){
                         for (int i = 0; i < a.size(); i++) {
                             ArrayList temp=(ArrayList)a.get(i);
                             for (int j = 0; j < temp.size(); j++) {

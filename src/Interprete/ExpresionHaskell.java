@@ -68,7 +68,7 @@ public class ExpresionHaskell {
                 case "Max":
                     Valor ob5 = (Valor)concatena.Listas(exp);
                     ArrayList a = (ArrayList)ob5.valor;
-                    if(a.size()>1){
+                    if(a.get(0) instanceof ArrayList){
                         //2 NIVELES
                         if(ob5.tipo.equals("caracter")||ob5.tipo.equals("cadena")){
 
@@ -127,8 +127,8 @@ public class ExpresionHaskell {
 
                 case "Min":
                     Valor ob6 = (Valor)concatena.Listas(exp);
-                    ArrayList a8 = (ArrayList)ob6.valor;
-                    if(a8.size()>1){
+                    ArrayList a8=(ArrayList)ob6.valor;
+                    if(a8.get(0) instanceof ArrayList){
                         if(ob6.tipo.equals("caracter")||ob6.tipo.equals("cadena")){
 
                             int max=0;
@@ -222,7 +222,7 @@ public class ExpresionHaskell {
                 case "Product":
                     Valor ob7 = (Valor)concatena.Listas(exp.hijos.get(0));
                     ArrayList a7 = (ArrayList)ob7.valor;
-                    if(a7.size()>1){
+                    if(a7.get(0) instanceof ArrayList){
                         if(ob7.tipo.equals("caracter")||ob7.tipo.equals("cadena")){
 
                             int multiplica=1;
@@ -294,7 +294,7 @@ public class ExpresionHaskell {
                 case "Sum":
                     Valor ob9 = (Valor)concatena.Listas(exp.hijos.get(0));
                     ArrayList a9 = (ArrayList)ob9.valor;
-                    if(a9.size()>1){
+                    if(a9.get(0) instanceof ArrayList){
                         if(ob9.tipo.equals("caracter")||ob9.tipo.equals("cadena")){
 
                             int sum=0;

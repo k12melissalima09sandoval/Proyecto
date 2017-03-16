@@ -37,7 +37,8 @@ public class FuncionesPropiasHaskell {
                 return obj3;
                 
             case "Decc":
-                break;
+                Valor obj4=(Valor)exp.Expresion(raiz);
+                return obj4;
                 
             case "D_Lista":
                 break;
@@ -58,10 +59,12 @@ public class FuncionesPropiasHaskell {
                 break;
                 
             case "Max":
-                break;
+                Valor obj11=(Valor)exp.Expresion(raiz);
+                return obj11;
                 
             case "Min":
-                break;
+                Valor obj12=(Valor)exp.Expresion(raiz);
+                return obj12;
                 
             case "Par":
                 break;
@@ -73,7 +76,8 @@ public class FuncionesPropiasHaskell {
                 break;
                 
             case "Succ":
-                break;
+                Valor obj16=(Valor)exp.Expresion(raiz);
+                return obj16;
                 
             case "Sum":
                 break;

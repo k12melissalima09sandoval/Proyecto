@@ -50,7 +50,7 @@ non terminal Nodo INICIO;
 non terminal Nodo L_PARAM, PARAMETROS, C_L;
 non terminal Nodo FUNCIONES_PROPIAS, LLAMA_FUNCION;
 non terminal Nodo DECLARA_LISTA, LISTA, LISTAS, MAS_CORCH, EXPRESIONES, EXP;
-non terminal Nodo CALCULAR, SUCC, DECC, MIN, MAX, M;
+non terminal Nodo CALCULAR, SUCC, DECC, MIN, MAX, M, IN;
 non terminal Nodo SUM, PRODUCT, REVERS, IMPR, PAR, ASC, DESC, LENGTH, CONCATENA, INDICE;
 
 precedence left mas, menos;
@@ -263,7 +263,7 @@ C_L ::= LISTA:lista
             RESULT = nuevo; :}
      ;
 
-INDICE ::= id:id indice EXP:exp
+INDICE ::= id:id indice EXP:exp //IN:in
             {:
                 Nodo nuevo = new Nodo("Indice");
                 Nodo nombre = new Nodo(id);
@@ -274,6 +274,14 @@ INDICE ::= id:id indice EXP:exp
                 RESULT = nuevo;
             :}
         ;
+IN ::= indice EXP:exp
+        {:
+            Nodo nuevo = new Nodo("Exp");
+            Nodo n = new Nodo(exp);
+            nuevo.Hijo(n);
+            RESULT = nuevo;
+        :}
+    ;
 
 LISTA ::= corAbre LISTAS:listas corCierra
             {: RESULT = listas; :}
