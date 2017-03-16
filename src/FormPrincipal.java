@@ -6,6 +6,7 @@ import Analizadores.Haskell.HaskellSintactico;
 import Analizadores.Consola.ConsolaLexico;
 import Analizadores.Consola.ConsolaSintactico;
 import Ast.Nodo;
+import Interprete.Valor;
 import Simbolos.RecorreHaskell;
 import Simbolos.TablaSimbolosHaskell;
 import java.awt.Color;
@@ -18,6 +19,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
@@ -41,6 +44,8 @@ public class FormPrincipal extends javax.swing.JFrame{
     
     public static ArrayList<RTextScrollPane> listaPestañas = new ArrayList();
     public static int nuevo;
+    
+    static RecorreHaskell consola = new RecorreHaskell();
     int contadorPestañas =0;
     String anterior;
     
@@ -62,7 +67,11 @@ public class FormPrincipal extends javax.swing.JFrame{
                         txtSalidaConsola.setText(anterior+">"+txtEntradaConsola.getText().toString()+"\n");
                         txtEntradaConsola.setText("$ $");
                         
-                        RecorreHaskell.Consola(ConsolaSintactico.raiz);
+                        Valor v= (Valor)consola.Consola(ConsolaSintactico.raiz);
+                        
+                        anterior=txtSalidaConsola.getText();
+                        txtSalidaConsola.setText("");
+                        txtSalidaConsola.setText(anterior+">"+v.valor.toString()+"\n");
                         
                         
                     }catch(Exception ex){

@@ -48,7 +48,7 @@ public class RecorreHaskell {
     
     
     //------------------------------------OPERACIONES EN CONSOLA ------------------------------
-    public static void Consola(Nodo raiz){
+    public Object Consola(Nodo raiz){
         
             switch(raiz.valor.toString()){
                 
@@ -57,20 +57,54 @@ public class RecorreHaskell {
                         if(raiz.hijos.get(1).hijos.size()==1)
                         { //id, cadena, Lista, 2Niveles
                             Valor val = (Valor)funPropias.Recorrer(raiz.hijos.get(1));
-                            variable = new Variable(nombrelista,val.valor,val.tipo);
-                            agrega.AgregarVariable(nombrelista, variable);
-                            
-                            /*
-                            else if(raiz.hijos.get(1).hijos.get(0).valor.toString()=="2Niveles"){
+                            if(val!=null){
+                               
+                                variable = new Variable(nombrelista,val.valor,val.tipo);
+                                agrega.AgregarVariable(nombrelista, variable);
+                                String texto="";
+                                ArrayList a = (ArrayList)val.valor;
+                                if(a!=null){
                                 
-                            }*/
+                                    if(val.tipo.equals("numero")){
+
+                                        for (int i = 0; i < a.size(); i++) {
+                                            texto += a.get(i).toString()+",";
+                                        }
+
+                                        if(texto.lastIndexOf(",")==texto.length()-1){
+                                            texto = texto.substring(0,texto.length()-1);
+                                        }
+                                        texto = "["+texto+"]";
+                                        Valor v= new Valor(texto,"");
+                                        return v;
+                                    }else if(val.tipo.equals("cadena")){
+                                        for (int i = 0; i < a.size(); i++) {
+                                            texto += "'"+a.get(i).toString()+"'"+",";
+                                        }
+
+                                        if(texto.lastIndexOf(",")==texto.length()-1){
+                                            texto = texto.substring(0,texto.length()-1);
+                                        }
+                                        texto = "["+texto+"]";
+                                        Valor v = new Valor(texto,"");
+                                        return v;
+                                    }else if(val.tipo.equals("caracter")){
+                                        for (int i = 0; i < a.size(); i++) {
+                                            texto += a.get(i).toString();
+                                        }
+                                        texto = "\""+texto+"\"";
+                                        Valor v = new Valor(texto,"");
+                                        return v;
+                                    }
+                                }
+                            }
                         }
-                        break;
                         
                     case "Calcular":
                         System.out.println("entro a Calcular");
                         break;
         }
         
+        return null;
     }
 }

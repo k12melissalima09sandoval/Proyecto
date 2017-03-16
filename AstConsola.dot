@@ -1,11 +1,21 @@
 digraph G {node[shape=box, style=filled]; edge[color=red]
-node111715498[label="D_Lista"];
- node111715498->node1514586625;node1514586625[label="lis"];
- node111715498->node80074393;node80074393[label="Concatena"];
- node80074393->node547581205;node547581205[label="Lista"];
- node547581205->node1676476511;node1676476511[label="Succ"];
- node1676476511->node257396969;node257396969[label="Exp"];
- node257396969->node629993092;node629993092[label="porcentaje"];
- node629993092->node519890149;node519890149[label="%"];
+node1754306842[label="D_Lista"];
+ node1754306842->node450556035;node450556035[label="lista"];
+ node1754306842->node1673737516;node1673737516[label="Concatena"];
+ node1673737516->node1509188528;node1509188528[label="Lista"];
+ node1509188528->node901802461;node901802461[label="caracter"];
+ node901802461->node2027145486;node2027145486[label="'m'"];
+ node1509188528->node38005101;node38005101[label="caracter"];
+ node38005101->node2026955638;node2026955638[label="'e'"];
+ node1509188528->node1323885360;node1323885360[label="caracter"];
+ node1323885360->node672520282;node672520282[label="'l'"];
+ node1509188528->node889210036;node889210036[label="caracter"];
+ node889210036->node1244973617;node1244973617[label="'i'"];
+ node1509188528->node1129074980;node1129074980[label="caracter"];
+ node1129074980->node1167955487;node1167955487[label="'s'"];
+ node1509188528->node1913606140;node1913606140[label="caracter"];
+ node1913606140->node512124622;node512124622[label="'s'"];
+ node1509188528->node1071825227;node1071825227[label="caracter"];
+ node1071825227->node384206278;node384206278[label="'a'"];
 
 }

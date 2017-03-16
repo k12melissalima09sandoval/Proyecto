@@ -45,6 +45,7 @@ public class Concatena {
                         }
                     }
             
+        
         }else if(temp.equals("cadena")){
             
             ArrayList<Object> cadena=new ArrayList();
@@ -53,11 +54,11 @@ public class Concatena {
                 char letra = valor.charAt(i);
                 cadena.add(letra);
             }
-            Valor v = new Valor(cadena,"caracter");
+            Valor v = new Valor(cadena,"cadena");
             return v;
             
         }else if(temp.equals("Lista")){
-            
+            //recorrer hijos para la concatenacion
             ArrayList<Object> cadena = new ArrayList();
             String tipo="";
             for(Nodo nodo: raiz.hijos){
