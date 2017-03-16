@@ -47,6 +47,7 @@ public class RecorreHaskell {
     }
     
     
+    
     //------------------------------------OPERACIONES EN CONSOLA ------------------------------
     public Object Consola(Nodo raiz){
         

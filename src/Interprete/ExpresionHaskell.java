@@ -41,7 +41,7 @@ public class ExpresionHaskell {
                     
                 case "Decc":
                     Valor ob3 = (Valor)Expresion(exp);
-                    if(ob3.tipo.equals("caracter")){
+                    if(ob3.tipo.equals("caracter")||ob3.tipo.equals("cadena")){
                         int num = ob3.valor.toString().codePointAt(0);
                         num = num-1;
                         ultimoValor = num;
@@ -68,113 +68,214 @@ public class ExpresionHaskell {
                 case "Max":
                     Valor ob5 = (Valor)concatena.Listas(exp);
                     ArrayList a = (ArrayList)ob5.valor;
-                    if(ob5.tipo.equals("caracter")){
-                        
-                        int max=0;
-                        for (int i = 0; i <a.size(); i++) {
-                            if(a.get(i).toString().codePointAt(0) > max){
-                                max = a.get(i).toString().codePointAt(0);
+                    if(a.size()>1){
+                        //2 NIVELES
+                        if(ob5.tipo.equals("caracter")||ob5.tipo.equals("cadena")){
+
+                            int max=0;
+                            for (int i = 0; i <a.size(); i++) {
+                                ArrayList temp = (ArrayList)a.get(i);
+                                for (int j = 0; j < temp.size(); j++) {
+                                    if(temp.get(j).toString().codePointAt(0) > max){
+                                        max = temp.get(j).toString().codePointAt(0);
+                                    }
+                                }
                             }
+                            ultimoValor=max;
+                            char c = (char)max;
+                            Valor v = new Valor(c,"caracter");
+                            return v;
+                        }else {
+                            Double max=0.00;
+                            for (int i = 0; i <a.size(); i++) {
+                                ArrayList temp = (ArrayList)a.get(i);
+                                for (int j = 0; j < temp.size(); j++) {
+                                    if(Integer.parseInt(temp.get(j).toString()) > max){
+                                        max = Double.parseDouble(temp.get(j).toString());
+                                    }
+                                }
+                            }
+                            ultimoValor=max;
+                            Valor v = new Valor(max,"numero");
+                            return v;
                         }
-                        ultimoValor=max;
-                        char c = (char)max;
-                        System.out.println("max "+c);
-                        Valor v = new Valor(c,"caracter");
-                        return v;
-                    }else if(ob5.tipo.equals("cadena")){
-                        
-                        int max=0;
-                        for (int i = 0; i <a.size(); i++) {
-                            if(a.get(i).toString().codePointAt(0) > max){
-                                max = a.get(i).toString().codePointAt(0);
+                    }else{
+                        if(ob5.tipo.equals("caracter")||ob5.tipo.equals("cadena")){
+
+                            int max=0;
+                            for (int i = 0; i <a.size(); i++) {
+                                if(a.get(i).toString().codePointAt(0) > max){
+                                    max = a.get(i).toString().codePointAt(0);
+                                }
                             }
+                            ultimoValor=max;
+                            char c = (char)max;
+                            Valor v = new Valor(c,"caracter");
+                            return v;
+                        }else {
+                            Double max=0.00;
+                            for (int i = 0; i <a.size(); i++) {
+                                if(Integer.parseInt(a.get(i).toString()) > max){
+                                    max = Double.parseDouble(a.get(i).toString());
+                                }
+                            }
+                            ultimoValor=max;
+                            Valor v = new Valor(max,"numero");
+                            return v;
                         }
-                        ultimoValor=max;
-                        char c = (char)max;
-                        System.out.println("max "+c);
-                        Valor v = new Valor(c,"caracter");
-                        return v;
-                    }else {
-                        Double max=0.00;
-                        for (int i = 0; i <a.size(); i++) {
-                            if(Integer.parseInt(a.get(i).toString()) > max){
-                                max = Double.parseDouble(a.get(i).toString());
-                            }
-                        }System.out.println("max "+max);
-                        ultimoValor=max;
-                        Valor v = new Valor(max,"numero");
-                        return v;
                     }
 
                 case "Min":
                     Valor ob6 = (Valor)concatena.Listas(exp);
                     ArrayList a8 = (ArrayList)ob6.valor;
-                    if(ob6.tipo.equals("caracter")){
+                    if(a8.size()>1){
+                        if(ob6.tipo.equals("caracter")||ob6.tipo.equals("cadena")){
+
+                            int max=0;
+                            for (int i = 0; i <a8.size(); i++) {
+                                ArrayList temp = (ArrayList)a8.get(i);
+                                for (int j = 0; j < temp.size(); j++) {
+                                    if(temp.get(j).toString().codePointAt(0) > max){
+                                        max = temp.get(j).toString().codePointAt(0);
+                                    }
+                                }
+                            }
+                            int min=max;
+                            for (int i = 0; i <a8.size(); i++) {
+                                ArrayList temp = (ArrayList)a8.get(i);
+                                for (int j = 0; j < temp.size(); j++) {
+                                    if(temp.get(j).toString().codePointAt(0) < min){
+                                        min = temp.get(j).toString().codePointAt(0);
+                                    }
+                                }
+                            }
+                            ultimoValor = min;
+                            char c = (char)min;
+                            System.out.println("min "+c);
+                            Valor v = new Valor(c,"caracter");
+                            return v;
+                        }else { //numero
+                            Double max=0.00;
+                            for (int i = 0; i <a8.size(); i++) {
+                                ArrayList temp = (ArrayList)a8.get(i);
+                                for (int j = 0; j < temp.size(); j++) {
+                                    if(Integer.parseInt(temp.get(j).toString()) > max){
+                                        max = Double.parseDouble(temp.get(j).toString());
+                                    }
+                                }
+                            }
+                            Double min =max;
+                            for (int i = 0; i <a8.size(); i++) {
+                                ArrayList temp = (ArrayList)a8.get(i);
+                                for (int j = 0; j < temp.size(); j++) {
+                                    if(Integer.parseInt(temp.get(j).toString()) < min){
+                                        min = Double.parseDouble(temp.get(j).toString());
+                                    }
+                                }
+                            }
+                            ultimoValor = min;
+                            System.out.println("min "+min);
+                            Valor v = new Valor(min,"numero");
+                            return v;
+                        }
+                    } else{
                         
-                        int max=0;
-                        for (int i = 0; i <a8.size(); i++) {
-                            if(a8.get(i).toString().codePointAt(0) > max){
-                                max = a8.get(i).toString().codePointAt(0);
+                        if(ob6.tipo.equals("caracter")||ob6.tipo.equals("cadena")){
+
+                            int max=0;
+                            for (int i = 0; i <a8.size(); i++) {
+                                if(a8.get(i).toString().codePointAt(0) > max){
+                                    max = a8.get(i).toString().codePointAt(0);
+                                }
                             }
-                        }
-                        int min=max;
-                        for (int i = 0; i < a8.size(); i++) {
-                            if(a8.get(i).toString().codePointAt(0) < min){
-                                min = a8.get(i).toString().codePointAt(0);
+                            int min=max;
+                            for (int i = 0; i < a8.size(); i++) {
+                                if(a8.get(i).toString().codePointAt(0) < min){
+                                    min = a8.get(i).toString().codePointAt(0);
+                                }
                             }
-                        }
-                        ultimoValor = min;
-                        char c = (char)min;
-                        System.out.println("min "+c);
-                        Valor v = new Valor(c,"caracter");
-                        return v;
-                    }else { //numero
-                        Double max=0.00;
-                        for (int i = 0; i <a8.size(); i++) {
-                            if(Integer.parseInt(a8.get(i).toString()) > max){
-                                max = Double.parseDouble(a8.get(i).toString());
+                            ultimoValor = min;
+                            char c = (char)min;
+                            System.out.println("min "+c);
+                            Valor v = new Valor(c,"caracter");
+                            return v;
+                        }else { //numero
+                            Double max=0.00;
+                            for (int i = 0; i <a8.size(); i++) {
+                                if(Integer.parseInt(a8.get(i).toString()) > max){
+                                    max = Double.parseDouble(a8.get(i).toString());
+                                }
                             }
-                        }
-                        Double min =max;
-                        for (int i = 0; i < a8.size(); i++) {
-                            if(Integer.parseInt(a8.get(i).toString()) < min){
-                                min = Double.parseDouble(a8.get(i).toString());
+                            Double min =max;
+                            for (int i = 0; i < a8.size(); i++) {
+                                if(Integer.parseInt(a8.get(i).toString()) < min){
+                                    min = Double.parseDouble(a8.get(i).toString());
+                                }
                             }
+                            ultimoValor = min;
+                            System.out.println("min "+min);
+                            Valor v = new Valor(min,"numero");
+                            return v;
                         }
-                        ultimoValor = min;
-                        System.out.println("min "+min);
-                        Valor v = new Valor(min,"numero");
-                        return v;
                     }
 
                 case "Product":
                     Valor ob7 = (Valor)concatena.Listas(exp.hijos.get(0));
                     ArrayList a7 = (ArrayList)ob7.valor;
-                    if(ob7.tipo.equals("caracter")){
-                        
-                        int multiplica=1;
-                        for (int i = 0; i <a7.size(); i++) {
-                            multiplica = multiplica * a7.get(i).toString().codePointAt(0);
+                    if(a7.size()>1){
+                        if(ob7.tipo.equals("caracter")||ob7.tipo.equals("cadena")){
+
+                            int multiplica=1;
+                            for (int i = 0; i <a7.size(); i++) {
+                                ArrayList temp = (ArrayList)a7.get(i);
+                                for (int j = 0; j < temp.size(); j++) {
+                                    multiplica = multiplica * temp.get(j).toString().codePointAt(0);
+                                }
+                            }
+                            ultimoValor = multiplica;
+                            System.out.println("mult "+multiplica);
+                            Valor v = new Valor(multiplica,"numero");
+                            return v;
+                        }else { //numero
+                            int multiplica=1;
+                            for (int i = 0; i <a7.size(); i++) {
+                                ArrayList temp = (ArrayList)a7.get(i);
+                                for (int j = 0; j < temp.size(); j++) {
+                                    multiplica = multiplica*Integer.parseInt(temp.get(j).toString());
+                                }
+                            }
+                            ultimoValor = multiplica;
+                            System.out.println("mult "+multiplica);
+                            Valor v = new Valor(multiplica,"numero");
+                            return v;
                         }
-                        ultimoValor = multiplica;
-                        System.out.println("mult "+multiplica);
-                        Valor v = new Valor(multiplica,"numero");
-                        return v;
-                    }else { //numero
-                        int multiplica=1;
-                        for (int i = 0; i <a7.size(); i++) {
-                            multiplica = multiplica*Integer.parseInt(a7.get(i).toString());
+                    }else{
+                        if(ob7.tipo.equals("caracter")||ob7.tipo.equals("cadena")){
+
+                            int multiplica=1;
+                            for (int i = 0; i <a7.size(); i++) {
+                                multiplica = multiplica * a7.get(i).toString().codePointAt(0);
+                            }
+                            ultimoValor = multiplica;
+                            System.out.println("mult "+multiplica);
+                            Valor v = new Valor(multiplica,"numero");
+                            return v;
+                        }else { //numero
+                            int multiplica=1;
+                            for (int i = 0; i <a7.size(); i++) {
+                                multiplica = multiplica*Integer.parseInt(a7.get(i).toString());
+                            }
+                            ultimoValor = multiplica;
+                            System.out.println("mult "+multiplica);
+                            Valor v = new Valor(multiplica,"numero");
+                            return v;
                         }
-                        ultimoValor = multiplica;
-                        System.out.println("mult "+multiplica);
-                        Valor v = new Valor(multiplica,"numero");
-                        return v;
                     }
 
                 case "Succ":
                     Valor ob8 = (Valor)Expresion(exp);
                     
-                    if(ob8.tipo.equals("caracter")){
+                    if(ob8.tipo.equals("caracter")||ob8.tipo.equals("cadena")){
                         int num = ob8.valor.toString().codePointAt(0);
                         num =num+1;
                         ultimoValor = num;
@@ -191,27 +292,56 @@ public class ExpresionHaskell {
                     }
                     
                 case "Sum":
-                    Valor ob9 = (Valor)concatena.Recorrer(exp.hijos.get(0));
+                    Valor ob9 = (Valor)concatena.Listas(exp.hijos.get(0));
                     ArrayList a9 = (ArrayList)ob9.valor;
-                    if(ob9.tipo.equals("caracter")){
-                        
-                        int sum=0;
-                        for (int i = 0; i <a9.size(); i++) {
-                            sum = sum + a9.get(i).toString().codePointAt(0);
+                    if(a9.size()>1){
+                        if(ob9.tipo.equals("caracter")||ob9.tipo.equals("cadena")){
+
+                            int sum=0;
+                            for (int i = 0; i <a9.size(); i++) {
+                                ArrayList temp = (ArrayList)a9.get(i);
+                                for (int j = 0; j < temp.size(); j++) {
+                                    sum = sum + temp.get(j).toString().codePointAt(0);
+                                }
+                            }
+                            ultimoValor=sum;
+                            System.out.println("sum "+sum);
+                            Valor v = new Valor(sum,"numero");
+                            return v;
+                        }else { //numero
+                            int sum=0;
+                            for (int i = 0; i <a9.size(); i++) {
+                                ArrayList temp = (ArrayList)a9.get(i);
+                                for (int j = 0; j < temp.size(); j++) {
+                                    sum = sum+ Integer.parseInt(temp.get(j).toString());
+                                }
+                            }
+                            ultimoValor = sum;
+                            System.out.println("sum "+sum);
+                            Valor v = new Valor(sum,"numero");
+                            return v;
                         }
-                        ultimoValor=sum;
-                        System.out.println("sum "+sum);
-                        Valor v = new Valor(sum,"numero");
-                        return v;
-                    }else { //numero
-                        int sum=0;
-                        for (int i = 0; i <a9.size(); i++) {
-                            sum = sum+ Integer.parseInt(a9.get(i).toString());
+                    }else{
+                        if(ob9.tipo.equals("caracter")||ob9.tipo.equals("cadena")){
+
+                            int sum=0;
+                            for (int i = 0; i <a9.size(); i++) {
+                                sum = sum + a9.get(i).toString().codePointAt(0);
+                            }
+                            ultimoValor=sum;
+                            System.out.println("sum "+sum);
+                            Valor v = new Valor(sum,"numero");
+                            return v;
+                        }else { //numero
+                            int sum=0;
+                            for (int i = 0; i <a9.size(); i++) {
+                                sum = sum+ Integer.parseInt(a9.get(i).toString());
+                            }
+                            ultimoValor = sum;
+                            System.out.println("sum "+sum);
+                            Valor v = new Valor(sum,"numero");
+                            return v;
                         }
-                        ultimoValor = sum;
-                        System.out.println("sum "+sum);
-                        Valor v = new Valor(sum,"numero");
-                        return v;
                     }
                     
                 case "porcentaje":

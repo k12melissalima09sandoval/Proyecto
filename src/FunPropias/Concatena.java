@@ -30,16 +30,38 @@ public class Concatena {
             if(val!=null){
                 if(val.tipo.equals("cadena")){
                     ArrayList a = (ArrayList)val.valor;
-                    for (int i = 0; i < a.size(); i++) {
-                        paso.add(a.get(i).toString());
-                        tipo=val.tipo;
+                    if(a.size()>1){
+                        for (int i = 0; i < a.size(); i++) {
+                            ArrayList temp=(ArrayList)a.get(i);
+                            for (int j = 0; j < temp.size(); j++) {
+                                paso.add(temp.get(j).toString());
+                                tipo=val.tipo;
+                            }
+                        }
+                    }else{
+                        for (int i = 0; i < a.size(); i++) {
+                            paso.add(a.get(i).toString());
+                            tipo=val.tipo;
+                        }
                     }
-                    paso.add(" ");
                 }else{
+                    
                     ArrayList a = (ArrayList)val.valor;
-                    for (int i = 0; i < a.size(); i++) {
-                        paso.add(a.get(i).toString());
-                        tipo=val.tipo;
+                    if(a.size()>1){
+                        for (int i = 0; i < a.size(); i++) {
+                            //ArrayList temp=(ArrayList)a.get(i);
+                            ArrayList temp=new ArrayList();
+                            temp.add(a.get(i));
+                            for (int j = 0; j < temp.size(); j++) {
+                                paso.add(temp.get(j));
+                                tipo=val.tipo;
+                            }
+                        }
+                    }else {
+                        for (int i = 0; i < a.size(); i++) {
+                            paso.add(a.get(i));
+                            tipo=val.tipo;
+                        }
                     }
                 }
             }

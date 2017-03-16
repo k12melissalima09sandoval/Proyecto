@@ -1,14 +1,9 @@
 digraph G {node[shape=box, style=filled]; edge[color=red]
-node1208452244[label="D_Lista"];
- node1208452244->node778175396;node778175396[label="liii"];
- node1208452244->node202177840;node202177840[label="Concatena"];
- node202177840->node1611416467;node1611416467[label="Lista"];
- node1611416467->node341530658;node341530658[label="Length"];
- node341530658->node714741294;node714741294[label="Concatena"];
- node714741294->node1100254000;node1100254000[label="id"];
- node1100254000->node1124489290;node1124489290[label="lista"];
- node1611416467->node231899712;node231899712[label="Min"];
- node231899712->node1996738226;node1996738226[label="id"];
- node1996738226->node313202281;node313202281[label="lista"];
+node125840024[label="Calcular"];
+ node125840024->node1458222994;node1458222994[label="Exp"];
+ node1458222994->node1173573432;node1173573432[label="Sum"];
+ node1173573432->node372935910;node372935910[label="Concatena"];
+ node372935910->node283680851;node283680851[label="id"];
+ node283680851->node331203579;node331203579[label="lista"];
 
 }
