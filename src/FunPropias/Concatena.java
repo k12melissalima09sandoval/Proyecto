@@ -7,6 +7,8 @@ package FunPropias;
 
 import Ast.Nodo;
 import Interprete.ExpresionHaskell;
+import Interprete.FuncionHaskell;
+import Interprete.Parametros;
 import Interprete.Valor;
 import Interprete.Variable;
 import Simbolos.TablaSimbolosHaskell;
@@ -19,8 +21,8 @@ import java.util.Map;
  */
 public class Concatena {
 
-    static ExpresionHaskell exp = new ExpresionHaskell();
     static TablaSimbolosHaskell lista = new TablaSimbolosHaskell();
+    static ExpresionHaskell exp = new ExpresionHaskell();
 
     public Object Recorrer(Nodo raiz) {
         ArrayList<Object> paso = new ArrayList();
@@ -72,7 +74,7 @@ public class Concatena {
                         System.out.println("Tipos diferentes para la concatenacion");
                         ArrayList temp = new ArrayList();
                         temp.add("tipos diferentes");
-                        Valor v = new Valor(temp,"");
+                        Valor v = new Valor(temp, "");
                         return v;
                     }
                 } else if (val.tipo.equals("cadena")) {
@@ -132,11 +134,72 @@ public class Concatena {
                             Object obtener = (Object) l.get(nombre).valor;
                             Valor val = new Valor(obtener, l.get(nombre).tipo);
                             return val;
+                        } else {
+                            /// mando a traer los parametros y busco la variable
+                            Map<String, FuncionHaskell> fun = lista.ObtenerListaFunciones();
+
+                            if (fun != null) {
+                                if (fun.size() > 0) {
+                                    for (int j = 0; j < fun.size(); j++) {
+                                        if (!"".equals(ExpresionHaskell.nombreFuncion)) {
+                                            Boolean g2 = lista.getKeyFunciones(ExpresionHaskell.nombreFuncion);
+                                            if (g2.equals(true)) {
+                                                ArrayList<Parametros> parametros = (ArrayList) fun.get(ExpresionHaskell.nombreFuncion).getParametros();
+
+                                                for (int k = 0; k < parametros.size(); k++) {
+                                                    if (nombre.equals(parametros.get(k).nombre)) {
+                                                        Valor val = new Valor(parametros.get(k).valor, parametros.get(k).tipo);
+                                                        return val;
+                                                    }
+                                                }
+                                            } else {
+                                                Valor vi = new Valor(ExpresionHaskell.nombreFuncion + " no declarada", "");
+                                                return vi;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    Valor v2 = new Valor(nombre, "id");
+                                    return v2;
+                                }
+                            } else {
+                                Valor v2 = new Valor(nombre, "id");
+                                return v2;
+                            }
+
                         }
+
                     }
                 } else {
-                    System.out.println("no hay ninguna lista declarada");
-                    return null;
+                    Map<String, FuncionHaskell> fun = lista.ObtenerListaFunciones();
+                    if (fun != null) {
+                        if (fun.size() > 0) {
+                            for (int j = 0; j < fun.size(); j++) {
+                                if (!"".equals(ExpresionHaskell.nombreFuncion)) {
+                                    Boolean g3 = lista.getKeyFunciones(ExpresionHaskell.nombreFuncion);
+                                    if (g3.equals(true)) {
+                                        ArrayList<Parametros> parametros = (ArrayList) fun.get(ExpresionHaskell.nombreFuncion).getParametros();
+
+                                        for (int k = 0; k < parametros.size(); k++) {
+                                            if (nombre.equals(parametros.get(k).nombre)) {
+                                                Valor val = new Valor(parametros.get(k).valor, parametros.get(k).tipo);
+                                                return val;
+                                            }
+                                        }
+                                    } else {
+                                        Valor vi = new Valor(ExpresionHaskell.nombreFuncion + " no declarada", "");
+                                        return vi;
+                                    }
+                                }
+                            }
+                        } else {
+                            Valor v2 = new Valor(nombre, "id");
+                            return v2;
+                        }
+                    } else {
+                        Valor v2 = new Valor(nombre, "id");
+                        return v2;
+                    }
                 }
             }
 

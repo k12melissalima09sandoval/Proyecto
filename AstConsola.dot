@@ -1,8 +1,15 @@
 digraph G {node[shape=box, style=filled]; edge[color=red]
-node1649682954[label="LlamaFunc"];
- node1649682954->node1715850258;node1715850258[label="Polinomial3"];
- node1649682954->node619272279;node619272279[label="Parametros"];
- node619272279->node1068287169;node1068287169[label="numero"];
- node1068287169->node2095824196;node2095824196[label="55"];
+node1659128368[label="LlamaFunc"];
+ node1659128368->node1454559372;node1454559372[label="melissa"];
+ node1659128368->node251356365;node251356365[label="Parametros"];
+ node251356365->node1423980506;node1423980506[label="Lista"];
+ node1423980506->node336937660;node336937660[label="caracter"];
+ node336937660->node1415824898;node1415824898[label="'m'"];
+ node1423980506->node23797071;node23797071[label="caracter"];
+ node23797071->node1415623775;node1415623775[label="'e'"];
+ node1423980506->node1792937165;node1792937165[label="caracter"];
+ node1792937165->node549946434;node549946434[label="'l'"];
+ node1423980506->node2040489072;node2040489072[label="caracter"];
+ node2040489072->node680326480;node680326480[label="'i'"];
 
 }

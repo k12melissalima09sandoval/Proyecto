@@ -55,10 +55,19 @@ public class RecorreHaskell {
     
     
     //------------------------------------OPERACIONES EN CONSOLA ------------------------------
-    public Object Consola(Nodo raiz){
+    public static Object Consola(Nodo raiz){
         
             switch(raiz.valor.toString()){
 
+                case "Sentencias":
+                    Valor vSent=new Valor("","");
+                    for(Nodo c: raiz.hijos){
+                        vSent = (Valor)funPropias.Recorrer(c);
+                    }
+                    Valor vFinSent = new Valor(vSent.valor,vSent.tipo);
+                    ExpresionHaskell.ultimoValor=vSent.valor;
+                    return vFinSent;
+                    
                 case "Revers":
                 case "Impr":
                 case "Par":
