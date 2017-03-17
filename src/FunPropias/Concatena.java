@@ -231,18 +231,24 @@ public class Concatena {
             return v;
 
         } else if (temp.equals("2Niveles")) {
-            ArrayList<Object> nivel1 = new ArrayList();
-            ArrayList<Object> nivel2 = new ArrayList();
+            Valor val=new Valor("","");
+            ArrayList<Object> nivel = new ArrayList();
             ArrayList<Object> juntos = new ArrayList();
             //voy a traer las dos listas
-            Valor val = (Valor) Listas(raiz.hijos.get(0));
+            for(Nodo c: raiz.hijos){
+                nivel = new ArrayList();
+                val = (Valor) Listas(c);
+                nivel = (ArrayList) val.valor;
+                juntos.add(nivel);
+            }
+            /*Valor val = (Valor) Listas(raiz.hijos.get(0));
             Valor val2 = (Valor) Listas(raiz.hijos.get(1));
 
             nivel1 = (ArrayList) val.valor;
             nivel2 = (ArrayList) val2.valor;
 
             juntos.add(nivel1);
-            juntos.add(nivel2);
+            juntos.add(nivel2);*/
 
             Valor v = new Valor(juntos, val.tipo);
             return v;

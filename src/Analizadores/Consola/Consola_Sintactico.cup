@@ -47,7 +47,7 @@ terminal sum, product, revers, impr, par, asc, desc, tam;
 terminal entero, cadena, caracter, id;
 
 non terminal Nodo INICIO;
-non terminal Nodo L_PARAM, PARAMETROS, C_L;
+non terminal Nodo L_PARAM, PARAMETROS, C_L, DIM;
 non terminal Nodo FUNCIONES_PROPIAS, LLAMA_FUNCION;
 non terminal Nodo DECLARA_LISTA, LISTA, LISTAS, MAS_CORCH, EXPRESIONES, EXP;
 non terminal Nodo CALCULAR, SUCC, DECC, MIN, MAX, M, L_INDICE, EXP_INDICE;
@@ -289,7 +289,7 @@ L_INDICE ::= indice EXP_INDICE:exp
                 nuevo.Hijo(exp);
                 RESULT = nuevo;
             :}
-          | //{RESULT = null;}
+          | 
           ;
 
 EXP_INDICE ::= EXP_INDICE:j mas EXP_INDICE:m
@@ -419,13 +419,24 @@ EXPRESIONES ::= EXPRESIONES:lista coma EXP:exp
                 :}
             ;
 
-MAS_CORCH ::= corAbre EXPRESIONES:nivel1 corCierra coma corAbre EXPRESIONES:nivel2 corCierra
+MAS_CORCH ::= MAS_CORCH:nodo coma DIM:dim
+                {:
+                    nodo.Hijo(dim);
+                    RESULT = nodo;
+                :}
+            | DIM:nodo
                 {:Nodo nivel = new Nodo("2Niveles");
-                    nivel.Hijo(nivel1);
-                    nivel.Hijo(nivel2);
+                    nivel.Hijo(nodo);
                     RESULT = nivel;
                 :}
-          ;
+            ; 
+
+DIM ::= corAbre EXPRESIONES:nodo corCierra
+        {:
+            
+            RESULT =nodo;
+        :}
+     ;
 
 EXP ::= EXP:j mas EXP:m
         {:

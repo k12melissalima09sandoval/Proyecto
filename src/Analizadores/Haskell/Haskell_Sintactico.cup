@@ -60,7 +60,7 @@ terminal entero, cadena, caracter, id;
 non terminal Nodo INICIO;
 non terminal Nodo L_PARAM, PARAMETROS;
 non terminal Nodo FUNCION,L_FUNCION, FUNCIONES_PROPIAS, LLAMA_FUNCION;
-non terminal Nodo CUERPO, L_CUERPO;
+non terminal Nodo CUERPO, L_CUERPO, DIM;
 non terminal Nodo DECLARA_LISTA, LISTA, LISTAS, MAS_CORCH, EXPRESIONES, EXP_CASO;
 non terminal Nodo EXP,CALCULAR, EXP_INDICE, L_INDICE;
 non terminal Nodo IF, CASE, CASOS, L_CASOS;
@@ -550,13 +550,24 @@ EXPRESIONES ::= EXPRESIONES:lista coma EXP:exp
                 :}
             ;
 
-MAS_CORCH ::= corAbre EXPRESIONES:nivel1 corCierra coma corAbre EXPRESIONES:nivel2 corCierra
+MAS_CORCH ::= MAS_CORCH:nodo coma DIM:dim
+                {:
+                    nodo.Hijo(dim);
+                    RESULT = nodo;
+                :}
+            | DIM:nodo
                 {:Nodo nivel = new Nodo("2Niveles");
-                    nivel.Hijo(nivel1);
-                    nivel.Hijo(nivel2);
+                    nivel.Hijo(nodo);
                     RESULT = nivel;
                 :}
-          ;
+            ; 
+
+DIM ::= corAbre EXPRESIONES:nodo corCierra
+        {:
+            
+            RESULT =nodo;
+        :}
+     ;
 
 EXP ::= EXP:j mas EXP:m
         {:
