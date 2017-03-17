@@ -24,6 +24,7 @@ public class ExpresionHaskell {
     Boolean dos;
     static Concatena concatena = new Concatena();
     static TablaSimbolosHaskell lista = new TablaSimbolosHaskell();
+    static Parametros param;
 
     public Object Expresion(Nodo raiz) {
         if (raiz.hijos.size() == 1) {
@@ -82,7 +83,6 @@ public class ExpresionHaskell {
                         if (a.get(0) instanceof ArrayList) {
                             //2 NIVELES
                             if (ob5.tipo.equals("caracter") || ob5.tipo.equals("cadena")) {
-
                                 int max = 0;
                                 for (int i = 0; i < a.size(); i++) {
                                     ArrayList temp = (ArrayList) a.get(i);
@@ -416,7 +416,42 @@ public class ExpresionHaskell {
 
                 case "LlamaFunc":
                     String nombreFuncion = raiz.hijos.get(0).valor.toString();
-                    //Map<String, FuncionHaskell> fun = agrega.ObtenerListaFunciones();
+                    ArrayList<Parametros> obtenerParam = new ArrayList();
+                    for (Nodo c: raiz.hijos.get(1).hijos) {
+                        Valor v = (Valor)Expresion(c.hijos.get(0)); 
+                        Parametros pp = new Parametros(v.valor , v.tipo.toString());
+                        obtenerParam.add(pp);
+                    }
+                    Map<String, FuncionHaskell> fun = lista.ObtenerListaFunciones();
+                    if (fun != null) {
+                        if (fun.size() > 0) {
+                            for (int i = 0; i < fun.size(); i++) {
+                                Boolean g = lista.getKeyFunciones(nombreFuncion);
+                                if(g.equals(true)){
+                                    ArrayList<Parametros> parametros = (ArrayList) fun.get(nombreFuncion).getParametros();
+                                    if(parametros.size()==obtenerParam.size()){
+                                        for (int j = 0; j < parametros.size(); j++) {
+                                            Object p = obtenerParam.get(j);
+                                            parametros.get(j).valor = p;                                        }
+                                    }else{
+                                        System.out.println("parametros cantidad invalidos");
+                                        Valor v=new Valor("cantidad de parametros no coincide","");
+                                        return v;
+                                    }
+                                    
+                                    
+                                } else {
+                                    Valor v = new Valor(nombreFuncion + " no declarada", "");
+                                    return v;
+                                }
+                            }
+                        }else {
+                            System.out.println("no hay ninguna funcion declarada");
+                            Valor v = new Valor("no hay ninguna funcion declarada", "");
+                            return v;
+                        }
+                    }
+
                     break;
 
                 case "Indice":
@@ -430,7 +465,7 @@ public class ExpresionHaskell {
                     if (l != null) {
                         if (l.size() > 0) {
                             for (int i = 0; i < l.size(); i++) {
-                                Boolean g = lista.getKey(nombreLista);
+                                Boolean g = lista.getKeyListas(nombreLista);
                                 if (g.equals(true)) {
                                     ArrayList valores = (ArrayList) l.get(nombreLista).valor;
                                     String pos = valores.get(indice).toString();
@@ -443,11 +478,19 @@ public class ExpresionHaskell {
                                         Valor val = new Valor(pos, "caracter");
                                         return val;
                                     }
+                                } else {
+                                    Valor v = new Valor(nombreLista + " no declarada", "");
+                                    return v;
                                 }
                             }
                         } else {
                             System.out.println("no hay ninguna lista declarada");
+                            Valor v = new Valor("no hay ninguna lista declarada", "");
+                            return v;
                         }
+                    } else {
+                        Valor v = new Valor("no hay ninguna lista declarada", "");
+                        return v;
                     }
 
                 case "+":
@@ -750,7 +793,7 @@ public class ExpresionHaskell {
                             return v2;
                         }
                     }
-                    
+
                 case "<":
                     izq = (Valor) Expresion(raiz.hijos.get(0));
                     der = (Valor) Expresion(raiz.hijos.get(1));
@@ -953,7 +996,7 @@ public class ExpresionHaskell {
                     if (l != null) {
                         if (l.size() > 0) {
                             for (int i = 0; i < l.size(); i++) {
-                                Boolean g = lista.getKey(nombreLista);
+                                Boolean g = lista.getKeyListas(nombreLista);
                                 if (g.equals(true)) {
                                     ArrayList valores = (ArrayList) l.get(nombreLista).valor;
                                     ArrayList nivel1 = (ArrayList) valores.get(j1);

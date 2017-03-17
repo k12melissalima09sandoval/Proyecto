@@ -1,7 +1,8 @@
 digraph G {node[shape=box, style=filled]; edge[color=red]
-node2059126253[label="Decc"];
- node2059126253->node558353340;node558353340[label="Exp"];
- node558353340->node1494913153;node1494913153[label="porcentaje"];
- node1494913153->node1232902540;node1232902540[label="%"];
+node1649682954[label="LlamaFunc"];
+ node1649682954->node1715850258;node1715850258[label="Polinomial3"];
+ node1649682954->node619272279;node619272279[label="Parametros"];
+ node619272279->node1068287169;node1068287169[label="numero"];
+ node1068287169->node2095824196;node2095824196[label="55"];
 
 }

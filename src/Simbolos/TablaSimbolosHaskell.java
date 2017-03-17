@@ -27,8 +27,12 @@ public class TablaSimbolosHaskell {
         
     }
     
-    public Boolean getKey(String val){
+    public Boolean getKeyListas(String val){
         Boolean valor = listaListasConsola.containsKey(val);
+        return valor;
+    }
+    public Boolean getKeyFunciones(String val){
+        Boolean valor = listaFunciones.containsKey(val);
         return valor;
     }
     

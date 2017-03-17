@@ -11,9 +11,9 @@ package Interprete;
  */
 public class Parametros {
     
-    String tipo;
-    String nombre;
-    Object valor;
+    public String tipo;
+    public String nombre;
+    public Object valor;
     
     public Parametros(String nombre){
         this.nombre = nombre;
@@ -22,6 +22,11 @@ public class Parametros {
     public Parametros(String tipo,String nombre){
         this.tipo=tipo;
         this.nombre = nombre;
+    }
+    
+    public Parametros(Object val, String tipo){
+        this.valor = val;
+        this.tipo = tipo;
     }
     
     public void setValor(Object val){

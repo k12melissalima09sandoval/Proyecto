@@ -126,7 +126,7 @@ public class Concatena {
             if (l != null) {
                 if (l.size() > 0) {
                     for (int i = 0; i < l.size(); i++) {
-                        Boolean g = lista.getKey(nombre);
+                        Boolean g = lista.getKeyListas(nombre);
                         if (g.equals(true)) {
 
                             Object obtener = (Object) l.get(nombre).valor;
