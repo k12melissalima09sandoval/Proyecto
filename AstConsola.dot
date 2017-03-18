@@ -1,14 +1,8 @@
 digraph G {node[shape=box, style=filled]; edge[color=red]
-node1059078174[label="LlamaFunc"];
- node1059078174->node1087070454;node1087070454[label="mel"];
- node1059078174->node1166778180;node1166778180[label="Parametros"];
- node1166778180->node1409898833;node1409898833[label="LlamaFunc"];
- node1409898833->node1762972542;node1762972542[label="mel"];
- node1409898833->node1925436026;node1925436026[label="Parametros"];
- node1925436026->node1806369497;node1806369497[label="LlamaFunc"];
- node1806369497->node1979059500;node1979059500[label="mel"];
- node1806369497->node976662479;node976662479[label="Parametros"];
- node976662479->node1451948785;node1451948785[label="numero"];
- node1451948785->node1703188275;node1703188275[label="5"];
+node127541189[label="LlamaFunc"];
+ node127541189->node872554162;node872554162[label="Fibonacci"];
+ node127541189->node341044600;node341044600[label="Parametros"];
+ node341044600->node1315087587;node1315087587[label="numero"];
+ node1315087587->node424804061;node424804061[label="5"];
 
 }

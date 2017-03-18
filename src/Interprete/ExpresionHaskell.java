@@ -31,6 +31,7 @@ public class ExpresionHaskell {
     //public String nombreFuncion = "";
 
     public Object Expresion(Nodo raiz, String nombreFuncion) {
+        
         if (raiz.hijos.size() == 1) {
             //Double temp;
             Valor tmp;
@@ -40,7 +41,7 @@ public class ExpresionHaskell {
                 case "LlamaFunc":
                     String nombreFun = raiz.hijos.get(0).valor.toString();
                     Map<String, FuncionHaskell> fun2 = lista.ObtenerListaFunciones();
-
+                    
                     if (fun2 != null) {
                         if (fun2.size() > 0) {
                             for (int i = 0; i < fun2.size(); i++) {
@@ -1033,11 +1034,11 @@ public class ExpresionHaskell {
                                 Valor v2 = new Valor(res, "bool");
                                 return v2;
                             } else {
-                                Valor v2 = new Valor("no es tipo bool -> ||", "");
+                                Valor v2 = new Valor("no es tipo bool -> &&", "");
                                 return v2;
                             }
                         } else {
-                            Valor v2 = new Valor("diferentes tipos en comparacion -> ||", "");
+                            Valor v2 = new Valor("diferentes tipos en comparacion -> &&", "");
                             return v2;
                         }
                     }
