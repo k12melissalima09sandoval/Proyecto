@@ -67,7 +67,7 @@ public class FormPrincipal extends javax.swing.JFrame{
                         txtSalidaConsola.setText(anterior+">"+txtEntradaConsola.getText().toString()+"\n");
                         txtEntradaConsola.setText("$ $");
                         
-                        Valor v= (Valor)consola.Consola(ConsolaSintactico.raiz);
+                        Valor v= (Valor)consola.Consola(ConsolaSintactico.raiz,"");
                         
                         anterior=txtSalidaConsola.getText();
                         txtSalidaConsola.setText("");

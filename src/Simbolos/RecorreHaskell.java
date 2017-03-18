@@ -24,10 +24,12 @@ public class RecorreHaskell {
     public static ArrayList<Parametros> parametros;
     static FuncionHaskell nueva;
     static FuncionesPropiasHaskell funPropias = new FuncionesPropiasHaskell();
+    static ExpresionHaskell exp = new ExpresionHaskell();
     static Concatena concatena = new Concatena();
     static TablaSimbolosHaskell agrega = new TablaSimbolosHaskell();
     static Variable variable;
     public static String ambito = "consola";
+    
     //-------------------------------------AGREGANDO FUNCIONES---------------------------------
     public static void Recorrido(Nodo raiz) {
 
@@ -60,71 +62,80 @@ public class RecorreHaskell {
     }
 
     //------------------------------------OPERACIONES EN CONSOLA ------------------------------
-    public static Object Consola(Nodo raiz) {
+    public static Object Consola(Nodo raiz,String nombreFuncion) {
 
         System.out.println("ambito " + ambito);
         
         switch (raiz.valor.toString()) {
             
             case "Sentencias":
-                ambito=ExpresionHaskell.nombreFuncion;
+                ambito=nombreFuncion;
                 Valor vSent = new Valor("", "");
                 for (Nodo c : raiz.hijos) {
-                    vSent = (Valor) Consola(c);
+                    vSent = (Valor)Consola(c,nombreFuncion);
                 }
                 Valor vFinSent = new Valor(vSent.valor, vSent.tipo);
-                ExpresionHaskell.ultimoValor = vSent.valor;
+                //ExpresionHaskell.ultimoValor = vSent.valor;
                 return vFinSent;
 
+            case "If":
+                Valor valif = (Valor)exp.Expresion(raiz.hijos.get(0),nombreFuncion);
+                
+               /* if(valif!=null){
+                    if(valif)
+                }
+                */
+                
+//----------------------------------------FUNCIONES PROPIAS---------------------------------------
             case "Revers":
             case "Impr":
             case "Par":
             case "Asc":
             case "Desc":
             case "LlamaFunc":
-                Valor valfun = (Valor) funPropias.Recorrer(raiz);
+                Valor valfun = (Valor) funPropias.Recorrer(raiz,nombreFuncion);
                 return valfun;
 
             case "Calcular":
-                Valor valcalc = (Valor) funPropias.Recorrer(raiz);
+                Valor valcalc = (Valor) funPropias.Recorrer(raiz,nombreFuncion);
                 return valcalc;
 
             case "Succ":
-                Valor valsucc = (Valor) funPropias.Recorrer(raiz);
+                Valor valsucc = (Valor) funPropias.Recorrer(raiz,nombreFuncion);
                 return valsucc;
 
             case "Decc":
-                Valor valdecc = (Valor) funPropias.Recorrer(raiz);
+                Valor valdecc = (Valor) funPropias.Recorrer(raiz,nombreFuncion);
                 return valdecc;
 
             case "Min":
-                Valor valmin = (Valor) funPropias.Recorrer(raiz);
+                Valor valmin = (Valor) funPropias.Recorrer(raiz,nombreFuncion);
                 return valmin;
 
             case "Max":
-                Valor valmax = (Valor) funPropias.Recorrer(raiz);
+                Valor valmax = (Valor) funPropias.Recorrer(raiz,nombreFuncion);
                 return valmax;
 
             case "Sum":
-                Valor valsum = (Valor) funPropias.Recorrer(raiz);
+                Valor valsum = (Valor) funPropias.Recorrer(raiz,nombreFuncion);
                 return valsum;
 
             case "Product":
-                Valor valpro = (Valor) funPropias.Recorrer(raiz);
+                Valor valpro = (Valor) funPropias.Recorrer(raiz,nombreFuncion);
                 return valpro;
 
             case "Length":
-                Valor valtam = (Valor) funPropias.Recorrer(raiz);
+                Valor valtam = (Valor) funPropias.Recorrer(raiz,nombreFuncion);
                 return valtam;
 
             case "Indice":
-                Valor valindice = (Valor) funPropias.Recorrer(raiz);
+                Valor valindice = (Valor) funPropias.Recorrer(raiz,nombreFuncion);
                 return valindice;
 
             case "D_Lista":
                 String nombrelista = raiz.hijos.get(0).valor.toString();
                 //id, cadena, Lista, 2Niveles
-                Valor val = (Valor) funPropias.Recorrer(raiz.hijos.get(1));
+                Valor val = (Valor) funPropias.Recorrer(raiz.hijos.get(1),nombreFuncion);
                 if (val != null) {
 
                     if (val.tipo.equals("")) {
@@ -132,7 +143,7 @@ public class RecorreHaskell {
                         return v;
                     }
 
-                    variable = new Variable(nombrelista, val.valor, val.tipo,ambito);
+                    variable = new Variable(nombrelista, val.valor, val.tipo);
                     agrega.AgregarVariable(nombrelista+"_"+ambito, variable);
                     ExpresionHaskell.ultimoValor = val.valor;
                     String texto = "";
@@ -140,7 +151,7 @@ public class RecorreHaskell {
                     if (a != null) {
 
                         if (val.tipo.equals("numero")) {
-
+                            ExpresionHaskell.ultimoTipo="numero";
                             for (int i = 0; i < a.size(); i++) {
                                 texto += a.get(i).toString() + ",";
                             }
@@ -152,6 +163,7 @@ public class RecorreHaskell {
                             Valor v = new Valor(texto, "");
                             return v;
                         } else if (val.tipo.equals("cadena")) {
+                            ExpresionHaskell.ultimoTipo="cadena";
                             for (int i = 0; i < a.size(); i++) {
                                 texto += a.get(i).toString();
                             }
@@ -159,6 +171,7 @@ public class RecorreHaskell {
                             Valor v = new Valor(texto, "");
                             return v;
                         } else if (val.tipo.equals("caracter")) {
+                            ExpresionHaskell.ultimoTipo="caracter";
                             for (int i = 0; i < a.size(); i++) {
                                 texto += a.get(i).toString();
                             }
@@ -170,7 +183,7 @@ public class RecorreHaskell {
                 }
 
             case "Concatena":
-                Valor valconca = (Valor) funPropias.Recorrer(raiz);
+                Valor valconca = (Valor) funPropias.Recorrer(raiz,nombreFuncion);
                 String texto = "";
                 ArrayList a = (ArrayList) valconca.valor;
                 ExpresionHaskell.ultimoValor = valconca.valor;

@@ -22,26 +22,23 @@ public class FuncionesPropiasHaskell {
     static LlamaFuncion llamaF = new LlamaFuncion();
     
     
-    public Object Recorrer(Nodo raiz){
+    public Object Recorrer(Nodo raiz,String nombreFuncion){
         switch(raiz.valor.toString()){
             
             case "Asc":
                 break;
                 
             case "Calcular":
-                Valor obj2 = (Valor)exp.Expresion(raiz);
+                Valor obj2 = (Valor)exp.Expresion(raiz,nombreFuncion);
                 return obj2;
                 
             case "Concatena":
-                Valor obj3 = (Valor)concatena.Recorrer(raiz);
+                Valor obj3 = (Valor)concatena.Recorrer(raiz,nombreFuncion);
                 return obj3;
                 
             case "Decc":
-                Valor obj4=(Valor)exp.Expresion(raiz);
+                Valor obj4=(Valor)exp.Expresion(raiz,nombreFuncion);
                 return obj4;
-                
-            case "D_Lista":
-                break;
                 
             case "Desc":
                 break;
@@ -50,41 +47,41 @@ public class FuncionesPropiasHaskell {
                 break;
                 
             case "Indice":
-                Valor obj8=(Valor)exp.Expresion(raiz);
+                Valor obj8=(Valor)exp.Expresion(raiz,nombreFuncion);
                 return obj8;
                 
             case "Length":
-                Valor obj9=(Valor)exp.Expresion(raiz);
+                Valor obj9=(Valor)exp.Expresion(raiz,nombreFuncion);
                 return obj9;
                 
             case "LlamaFunc":
-                Valor obj10=(Valor)exp.Expresion(raiz);
+                Valor obj10=(Valor)exp.Expresion(raiz,nombreFuncion);
                 return obj10;
                 
             case "Max":
-                Valor obj11=(Valor)exp.Expresion(raiz);
+                Valor obj11=(Valor)exp.Expresion(raiz,nombreFuncion);
                 return obj11;
                 
             case "Min":
-                Valor obj12=(Valor)exp.Expresion(raiz);
+                Valor obj12=(Valor)exp.Expresion(raiz,nombreFuncion);
                 return obj12;
                 
             case "Par":
                 break;
                 
             case "Product":
-                Valor obj14=(Valor)exp.Expresion(raiz);
+                Valor obj14=(Valor)exp.Expresion(raiz,nombreFuncion);
                 return obj14;
                 
             case "Revers":
                 break;
                 
             case "Succ":
-                Valor obj16=(Valor)exp.Expresion(raiz);
+                Valor obj16=(Valor)exp.Expresion(raiz,nombreFuncion);
                 return obj16;
                 
             case "Sum":
-                Valor obj17=(Valor)exp.Expresion(raiz);
+                Valor obj17=(Valor)exp.Expresion(raiz,nombreFuncion);
                 return obj17;
                 
         }

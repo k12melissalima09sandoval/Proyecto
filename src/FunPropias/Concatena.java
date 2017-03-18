@@ -5,6 +5,7 @@
  */
 package FunPropias;
 
+import Analizadores.SimbolosGraphik;
 import Ast.Nodo;
 import Interprete.ExpresionHaskell;
 import Interprete.FuncionHaskell;
@@ -25,11 +26,11 @@ public class Concatena {
     static TablaSimbolosHaskell lista = new TablaSimbolosHaskell();
     static ExpresionHaskell exp = new ExpresionHaskell();
 
-    public Object Recorrer(Nodo raiz) {
+    public Object Recorrer(Nodo raiz,String nombreFuncion) {
         ArrayList<Object> paso = new ArrayList();
         String tipo = "inicia";
         for (Nodo c : raiz.hijos) {
-            Valor val = (Valor) Listas(c);
+            Valor val = (Valor) Listas(c,nombreFuncion);
             if (val != null) {
                 if(val.tipo.equals("")){
                     Valor v= new Valor(val.valor,val.tipo);
@@ -134,7 +135,7 @@ public class Concatena {
 
     }
 
-    public Object Listas(Nodo raiz) {
+    public Object Listas(Nodo raiz,String nombreFuncion) {
         String temp = raiz.valor.toString();
         if (temp.equals("id")) {
             String nombre = raiz.hijos.get(0).valor.toString();
@@ -156,11 +157,11 @@ public class Concatena {
                             if (fun != null) {
                                 if (fun.size() > 0) {
                                     for (int j = 0; j < fun.size(); j++) {
-                                        if (!"".equals(ExpresionHaskell.nombreFuncion)) {
-                                            Boolean g2 = lista.getKeyFunciones(ExpresionHaskell.nombreFuncion);
+                                        if (!"".equals(nombreFuncion)) {
+                                            Boolean g2 = lista.getKeyFunciones(nombreFuncion);
                                             if (g2.equals(true)) {
                                                 encontrado=true;
-                                                ArrayList<Parametros> parametros = (ArrayList) fun.get(ExpresionHaskell.nombreFuncion).getParametros();
+                                                ArrayList<Parametros> parametros = (ArrayList) fun.get(nombreFuncion).getParametros();
 
                                                 for (int k = 0; k < parametros.size(); k++) {
                                                     if (nombre.equals(parametros.get(k).nombre)) {
@@ -169,7 +170,7 @@ public class Concatena {
                                                     }
                                                 }
                                             } else {
-                                                Valor vi = new Valor(ExpresionHaskell.nombreFuncion + " no declarada", "");
+                                                Valor vi = new Valor(nombreFuncion + " no declarada", "");
                                                 return vi;
                                             }
                                         }
@@ -191,11 +192,11 @@ public class Concatena {
                     if (fun != null) {
                         if (fun.size() > 0) {
                             for (int j = 0; j < fun.size(); j++) {
-                                if (!"".equals(ExpresionHaskell.nombreFuncion)) {
-                                    Boolean g3 = lista.getKeyFunciones(ExpresionHaskell.nombreFuncion);
+                                if (!"".equals(nombreFuncion)) {
+                                    Boolean g3 = lista.getKeyFunciones(nombreFuncion);
                                     if (g3.equals(true)) {
                                         encontrado=true;
-                                        ArrayList<Parametros> parametros = (ArrayList) fun.get(ExpresionHaskell.nombreFuncion).getParametros();
+                                        ArrayList<Parametros> parametros = (ArrayList) fun.get(nombreFuncion).getParametros();
 
                                         for (int k = 0; k < parametros.size(); k++) {
                                             if (nombre.equals(parametros.get(k).nombre)) {
@@ -205,7 +206,7 @@ public class Concatena {
                                             }
                                         }
                                     } else {
-                                        Valor vi = new Valor(ExpresionHaskell.nombreFuncion + " no declarada", "");
+                                        Valor vi = new Valor(nombreFuncion + " no declarada", "");
                                         return vi;
                                     }
                                 }
@@ -227,7 +228,7 @@ public class Concatena {
             }
 
         } else if (temp.equals("porcentaje")) {
-            Valor v = (Valor) exp.Expresion(raiz);
+            Valor v = (Valor) exp.Expresion(raiz,nombreFuncion);
             return v;
 
         } else if (temp.equals("cadena")) {
@@ -246,7 +247,7 @@ public class Concatena {
             ArrayList<Object> cadena = new ArrayList();
             String tipo = "";
             for (Nodo nodo : raiz.hijos) {
-                Valor valor = (Valor) exp.Expresion(nodo);
+                Valor valor = (Valor) exp.Expresion(nodo,nombreFuncion);
                 if(valor.tipo.equals("")){
                     Valor v = new Valor(valor.valor,valor.tipo);
                     return v;
@@ -264,7 +265,7 @@ public class Concatena {
             //voy a traer las dos listas
             for (Nodo c : raiz.hijos) {
                 nivel = new ArrayList();
-                val = (Valor) Listas(c);
+                val = (Valor) Listas(c,nombreFuncion);
                 nivel = (ArrayList) val.valor;
                 juntos.add(nivel);
             }

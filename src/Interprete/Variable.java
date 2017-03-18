@@ -12,7 +12,6 @@ public class Variable {
     public String nombre;
     public Object valor;
     public String tipo;
-    public String ambito;
     
 
     public Variable(String tipo, String nombre, String valor) {
@@ -22,18 +21,12 @@ public class Variable {
     }
     
     
-    /*public Variable(String nombre, Object valor, String tipoLista){
+    public Variable(String nombre, Object valor, String tipoLista){
         this.nombre = nombre;
         this.valor = valor;
         this.tipo = tipoLista;
-    }*/
-    //cuando declaro listas en haskell
-    public Variable(String nombre, Object valor, String tipoLista, String ambito){
-        this.nombre = nombre;
-        this.valor = valor;
-        this.tipo = tipoLista;
-        this.ambito = ambito;
     }
+    
     
     public String getNombre() {
         return nombre;

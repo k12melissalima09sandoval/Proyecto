@@ -170,6 +170,12 @@ M ::= id:id
     | LISTA:lista
         {: //Nodo nuevo = new Nodo("M"); nuevo.Hijo(lista); 
             RESULT = lista; :}
+    | porcentaje:porcentaje
+    {: Nodo nuevo = new Nodo("porcentaje");
+            Nodo por = new Nodo(porcentaje);
+            nuevo.Hijo(por);
+            RESULT = nuevo; 
+    :}
     ;
 
 SUM ::= dolar sum CONCATENA:exp dolar
