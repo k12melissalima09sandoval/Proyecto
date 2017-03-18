@@ -41,13 +41,13 @@ action code
 
 terminal mas, menos, por, div, residuo, sqrt, pot;
 terminal igual, dolar, concatena, indice, coma, porcentaje; 
-terminal corAbre, corCierra, parenAbre, parenCierra;
+terminal corAbre, corCierra, parenAbre, parenCierra,llaveAbre, llaveCierra;
 terminal succ, decc, let, min, max, calcular;
 terminal sum, product, revers, impr, par, asc, desc, tam;
 terminal entero, cadena, caracter, id;
 
 non terminal Nodo INICIO;
-non terminal Nodo L_PARAM, PARAMETROS, C_L, DIM;
+non terminal Nodo L_PARAM, PARAMETROS, C_L, DIM, P;
 non terminal Nodo FUNCIONES_PROPIAS, LLAMA_FUNCION;
 non terminal Nodo DECLARA_LISTA, LISTA, LISTAS, MAS_CORCH, EXPRESIONES, EXP;
 non terminal Nodo CALCULAR, SUCC, DECC, MIN, MAX, M, L_INDICE, EXP_INDICE;
@@ -283,7 +283,7 @@ INDICE ::= id:id indice EXP_INDICE:exp L_INDICE:otro
             :}
         ;
 
-L_INDICE ::= indice EXP_INDICE:exp
+L_INDICE ::=  indice EXP_INDICE:exp
             {:
                 Nodo nuevo = new Nodo("Exp");
                 nuevo.Hijo(exp);
@@ -543,15 +543,21 @@ EXP ::= EXP:j mas EXP:m
             RESULT = nuevo; :}
      ;
 
-LLAMA_FUNCION ::= dolar id:id PARAMETROS:param dolar
+LLAMA_FUNCION ::= dolar id:id llaveAbre P:param llaveCierra dolar
                 {:
                     Nodo nuevo = new Nodo("LlamaFunc");
                     Nodo nombre = new Nodo(id);
                     nuevo.Hijo(nombre);
-                    nuevo.Hijo(param);
+                    if(param!=null){
+                        nuevo.Hijo(param);
+                    }
                     RESULT = nuevo;
                 :}
                ;
+
+P ::= PARAMETROS:nodo {:RESULT= nodo; :}
+    | 
+    ;
 
 PARAMETROS ::= PARAMETROS:param coma L_PARAM:p
                 {:  

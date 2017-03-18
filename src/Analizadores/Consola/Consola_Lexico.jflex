@@ -60,6 +60,10 @@ id = {letra} ({letra} | {digito})*
                                    return new Symbol(SimbolosConsola.corAbre, yyline, yycolumn, yytext());}
     "]"                         {//System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.corCierra, yyline, yycolumn, yytext());}
+    "{"                         {//System.out.println("Reconocio: "+yytext());  
+                                   return new Symbol(SimbolosConsola.llaveAbre, yyline, yycolumn, yytext());}
+    "}"                         {//System.out.println("Reconocio: "+yytext());  
+                                   return new Symbol(SimbolosConsola.llaveCierra, yyline, yycolumn, yytext());}
     "("                         {//System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.parenAbre, yyline, yycolumn, yytext());}
     ")"                         {//System.out.println("Reconocio: "+yytext());  

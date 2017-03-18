@@ -21,6 +21,10 @@ public class FuncionHaskell {
         this.parametros = Parametros;
         this.cuerpo = corpo;
     }
+    public FuncionHaskell(String nombre, Nodo corpo){
+        this.nombre = nombre;
+        this.cuerpo = corpo;
+    }
 
     public String getNombre() {
         return nombre;

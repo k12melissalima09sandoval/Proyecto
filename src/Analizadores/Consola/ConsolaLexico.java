@@ -37,15 +37,15 @@ public class ConsolaLexico implements java_cup.runtime.Scanner {
    * Translates characters to character classes
    */
   private static final char [] ZZ_CMAP = {
-     0,  0,  0,  0,  0,  0,  0,  0,  0, 42, 41, 43, 43, 40,  0,  0, 
+     0,  0,  0,  0,  0,  0,  0,  0,  0, 44, 43, 45, 45, 42,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-    42, 26,  4,  0, 20, 25,  0,  5, 23, 24,  8,  6, 27,  7,  2,  9, 
+    44, 28,  4,  0, 20, 27,  0,  5, 25, 26,  8,  6, 29,  7,  2,  9, 
      1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  0,  0,  0, 19,  0,  0, 
-     0, 35,  3, 29, 12, 30,  3, 38, 39, 33,  3,  3, 31, 10, 34, 11, 
-    18, 15, 16, 14, 17, 28, 37,  3, 36,  3,  3, 21,  0, 22,  0,  3, 
-     0, 35,  3, 29, 12, 30,  3, 38, 39, 33,  3,  3, 31, 10, 34, 11, 
-    18, 15, 16, 14, 17, 28, 37,  3, 36,  3,  3,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0, 43,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+     0, 37,  3, 31, 12, 32,  3, 40, 41, 35,  3,  3, 33, 10, 36, 11, 
+    18, 15, 16, 14, 17, 30, 39,  3, 38,  3,  3, 21,  0, 22,  0,  3, 
+     0, 37,  3, 31, 12, 32,  3, 40, 41, 35,  3,  3, 33, 10, 36, 11, 
+    18, 15, 16, 14, 17, 30, 39,  3, 38,  3,  3, 23,  0, 24,  0,  0, 
+     0,  0,  0,  0,  0, 45,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  3,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
@@ -63,17 +63,17 @@ public class ConsolaLexico implements java_cup.runtime.Scanner {
   private static final String ZZ_ACTION_PACKED_0 =
     "\1\0\1\1\1\2\1\3\2\1\1\4\1\5\1\6"+
     "\1\7\2\3\1\1\3\3\1\10\1\11\1\12\1\13"+
-    "\1\14\1\15\1\16\1\1\1\17\2\3\1\1\2\3"+
-    "\1\0\2\20\2\0\1\21\4\0\1\22\1\0\3\3"+
-    "\1\0\4\3\1\23\2\3\1\0\1\3\1\0\1\3"+
-    "\1\2\1\24\3\0\2\25\1\26\1\0\2\3\1\27"+
-    "\1\0\1\27\3\3\1\30\1\3\1\31\1\3\1\0"+
-    "\1\3\2\32\3\0\2\33\1\34\2\35\4\3\2\36"+
-    "\1\37\1\0\1\40\4\3\1\41\2\42\2\3\1\43"+
-    "\1\44\1\3\1\45";
+    "\1\14\1\15\1\16\1\17\1\20\1\1\1\21\2\3"+
+    "\1\1\2\3\1\0\2\22\2\0\1\23\4\0\1\24"+
+    "\1\0\3\3\1\0\4\3\1\25\2\3\1\0\1\3"+
+    "\1\0\1\3\1\2\1\26\3\0\2\27\1\30\1\0"+
+    "\2\3\1\31\1\0\1\31\3\3\1\32\1\3\1\33"+
+    "\1\3\1\0\1\3\2\34\3\0\2\35\1\36\2\37"+
+    "\4\3\2\40\1\41\1\0\1\42\4\3\1\43\2\44"+
+    "\2\3\1\45\1\46\1\3\1\47";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[112];
+    int [] result = new int[114];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -98,23 +98,24 @@ public class ConsolaLexico implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\54\0\130\0\204\0\260\0\334\0\u0108\0\54"+
-    "\0\54\0\54\0\u0134\0\u0160\0\u018c\0\u01b8\0\u01e4\0\u0210"+
-    "\0\54\0\54\0\54\0\54\0\54\0\54\0\54\0\u023c"+
-    "\0\54\0\u0268\0\u0294\0\u02c0\0\u02ec\0\u0318\0\u0344\0\u0370"+
-    "\0\u039c\0\u03c8\0\260\0\54\0\u03f4\0\u0420\0\u044c\0\u0478"+
-    "\0\54\0\u04a4\0\u04d0\0\u04fc\0\u0528\0\u0554\0\u0580\0\u05ac"+
-    "\0\u05d8\0\u0604\0\54\0\u0630\0\u065c\0\u0688\0\u06b4\0\u06e0"+
-    "\0\u070c\0\u03c8\0\54\0\u0738\0\u0764\0\u0790\0\54\0\204"+
-    "\0\204\0\u07bc\0\u07e8\0\u0814\0\54\0\u0840\0\204\0\u086c"+
-    "\0\u0898\0\u08c4\0\204\0\u08f0\0\204\0\u091c\0\u0948\0\u0974"+
-    "\0\54\0\204\0\u09a0\0\u09cc\0\u09f8\0\54\0\204\0\204"+
-    "\0\54\0\204\0\u0a24\0\u0a50\0\u0a7c\0\u0aa8\0\54\0\204"+
-    "\0\54\0\u0ad4\0\54\0\u0b00\0\u0b2c\0\u0b58\0\u0b84\0\54"+
-    "\0\54\0\204\0\u0bb0\0\u0bdc\0\204\0\204\0\u0c08\0\204";
+    "\0\0\0\56\0\134\0\212\0\270\0\346\0\u0114\0\56"+
+    "\0\56\0\56\0\u0142\0\u0170\0\u019e\0\u01cc\0\u01fa\0\u0228"+
+    "\0\56\0\56\0\56\0\56\0\56\0\56\0\56\0\56"+
+    "\0\56\0\u0256\0\56\0\u0284\0\u02b2\0\u02e0\0\u030e\0\u033c"+
+    "\0\u036a\0\u0398\0\u03c6\0\u03f4\0\270\0\56\0\u0422\0\u0450"+
+    "\0\u047e\0\u04ac\0\56\0\u04da\0\u0508\0\u0536\0\u0564\0\u0592"+
+    "\0\u05c0\0\u05ee\0\u061c\0\u064a\0\56\0\u0678\0\u06a6\0\u06d4"+
+    "\0\u0702\0\u0730\0\u075e\0\u03f4\0\56\0\u078c\0\u07ba\0\u07e8"+
+    "\0\56\0\212\0\212\0\u0816\0\u0844\0\u0872\0\56\0\u08a0"+
+    "\0\212\0\u08ce\0\u08fc\0\u092a\0\212\0\u0958\0\212\0\u0986"+
+    "\0\u09b4\0\u09e2\0\56\0\212\0\u0a10\0\u0a3e\0\u0a6c\0\56"+
+    "\0\212\0\212\0\56\0\212\0\u0a9a\0\u0ac8\0\u0af6\0\u0b24"+
+    "\0\56\0\212\0\56\0\u0b52\0\56\0\u0b80\0\u0bae\0\u0bdc"+
+    "\0\u0c0a\0\56\0\56\0\212\0\u0c38\0\u0c66\0\212\0\212"+
+    "\0\u0c94\0\212";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[112];
+    int [] result = new int[114];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -140,90 +141,91 @@ public class ConsolaLexico implements java_cup.runtime.Scanner {
     "\1\2\1\3\1\2\1\4\1\5\1\6\1\7\1\10"+
     "\1\11\1\12\1\13\1\4\1\14\1\15\1\16\1\4"+
     "\1\17\1\4\1\20\1\21\1\22\1\23\1\24\1\25"+
-    "\1\26\1\27\1\30\1\31\1\4\1\32\1\4\1\33"+
-    "\1\34\1\35\1\4\1\36\4\4\1\37\1\40\1\41"+
-    "\56\0\1\3\1\42\52\0\1\4\1\0\1\4\6\0"+
-    "\3\4\1\0\5\4\11\0\4\4\1\0\7\4\4\0"+
-    "\4\43\1\44\47\43\5\45\1\0\4\45\1\46\2\45"+
-    "\2\47\3\45\1\50\31\45\6\0\1\51\46\0\1\4"+
-    "\1\0\1\4\6\0\3\4\1\0\5\4\11\0\4\4"+
-    "\1\52\1\53\1\4\1\54\4\4\5\0\1\4\1\0"+
-    "\1\4\6\0\3\4\1\0\5\4\11\0\2\4\1\55"+
-    "\1\4\1\0\7\4\40\0\1\56\20\0\1\4\1\0"+
-    "\1\4\6\0\3\4\1\0\5\4\11\0\1\57\3\4"+
+    "\1\26\1\27\1\30\1\31\1\32\1\33\1\4\1\34"+
+    "\1\4\1\35\1\36\1\37\1\4\1\40\4\4\1\41"+
+    "\1\42\1\43\60\0\1\3\1\44\54\0\1\4\1\0"+
+    "\1\4\6\0\3\4\1\0\5\4\13\0\4\4\1\0"+
+    "\7\4\4\0\4\45\1\46\51\45\5\47\1\0\4\47"+
+    "\1\50\2\47\2\51\3\47\1\52\33\47\6\0\1\53"+
+    "\50\0\1\4\1\0\1\4\6\0\3\4\1\0\5\4"+
+    "\13\0\4\4\1\54\1\55\1\4\1\56\4\4\5\0"+
+    "\1\4\1\0\1\4\6\0\3\4\1\0\5\4\13\0"+
+    "\2\4\1\57\1\4\1\0\7\4\42\0\1\60\20\0"+
+    "\1\4\1\0\1\4\6\0\3\4\1\0\5\4\13\0"+
+    "\1\61\3\4\1\0\7\4\5\0\1\4\1\0\1\4"+
+    "\6\0\3\4\1\0\5\4\13\0\2\4\1\62\1\4"+
     "\1\0\7\4\5\0\1\4\1\0\1\4\6\0\3\4"+
-    "\1\0\5\4\11\0\2\4\1\60\1\4\1\0\7\4"+
-    "\5\0\1\4\1\0\1\4\6\0\3\4\1\0\2\4"+
-    "\1\61\2\4\11\0\4\4\1\0\2\4\1\62\4\4"+
-    "\36\0\1\63\22\0\1\4\1\0\1\4\6\0\3\4"+
-    "\1\0\5\4\11\0\4\4\1\0\2\4\1\64\4\4"+
-    "\5\0\1\4\1\0\1\4\6\0\3\4\1\0\5\4"+
-    "\11\0\2\4\1\65\1\4\1\0\7\4\16\0\1\66"+
-    "\42\0\1\4\1\0\1\4\6\0\1\67\2\4\1\0"+
-    "\5\4\11\0\4\4\1\0\7\4\5\0\1\4\1\0"+
-    "\1\4\6\0\3\4\1\70\1\71\4\4\11\0\4\4"+
-    "\1\0\7\4\55\0\1\40\52\0\1\37\1\40\54\0"+
-    "\1\41\2\0\1\72\57\0\1\73\53\0\1\73\5\0"+
-    "\1\74\45\0\1\73\11\0\1\75\41\0\1\73\5\0"+
-    "\1\76\102\0\1\77\12\0\1\4\1\0\1\4\6\0"+
-    "\3\4\1\0\5\4\11\0\4\4\1\0\1\4\1\100"+
-    "\5\4\5\0\1\4\1\0\1\4\6\0\3\4\1\0"+
-    "\5\4\11\0\4\4\1\0\3\4\1\101\3\4\5\0"+
-    "\1\4\1\0\1\4\6\0\3\4\1\102\1\103\4\4"+
-    "\11\0\1\4\1\104\2\4\1\0\7\4\16\0\1\105"+
-    "\22\0\1\106\17\0\1\4\1\0\1\4\6\0\1\107"+
-    "\2\4\1\0\5\4\11\0\1\4\1\110\2\4\1\0"+
-    "\7\4\5\0\1\4\1\0\1\4\6\0\3\4\1\0"+
-    "\5\4\11\0\4\4\1\0\4\4\1\111\2\4\5\0"+
-    "\1\4\1\0\1\4\6\0\1\4\1\112\1\4\1\0"+
-    "\5\4\11\0\4\4\1\0\7\4\5\0\1\4\1\0"+
-    "\1\4\6\0\3\4\1\0\2\4\1\113\2\4\11\0"+
-    "\4\4\1\0\7\4\5\0\1\4\1\0\1\4\6\0"+
-    "\3\4\1\0\5\4\11\0\3\4\1\114\1\0\7\4"+
-    "\5\0\1\4\1\0\1\4\6\0\3\4\1\0\3\4"+
-    "\1\115\1\4\11\0\4\4\1\0\1\4\1\116\5\4"+
-    "\26\0\1\117\32\0\1\4\1\0\1\4\6\0\3\4"+
-    "\1\0\4\4\1\120\11\0\4\4\1\0\7\4\41\0"+
-    "\1\121\17\0\1\4\1\0\1\4\6\0\3\4\1\0"+
-    "\5\4\11\0\1\4\1\122\2\4\1\0\7\4\20\0"+
-    "\1\123\57\0\1\124\54\0\1\125\67\0\1\126\17\0"+
-    "\1\4\1\0\1\4\6\0\3\4\1\0\5\4\11\0"+
-    "\1\4\1\127\2\4\1\0\7\4\5\0\1\4\1\0"+
-    "\1\4\6\0\3\4\1\0\5\4\11\0\1\4\1\130"+
-    "\2\4\1\0\7\4\41\0\1\131\17\0\1\4\1\0"+
-    "\1\4\6\0\3\4\1\0\5\4\11\0\1\4\1\132"+
+    "\1\0\2\4\1\63\2\4\13\0\4\4\1\0\2\4"+
+    "\1\64\4\4\40\0\1\65\22\0\1\4\1\0\1\4"+
+    "\6\0\3\4\1\0\5\4\13\0\4\4\1\0\2\4"+
+    "\1\66\4\4\5\0\1\4\1\0\1\4\6\0\3\4"+
+    "\1\0\5\4\13\0\2\4\1\67\1\4\1\0\7\4"+
+    "\16\0\1\70\44\0\1\4\1\0\1\4\6\0\1\71"+
+    "\2\4\1\0\5\4\13\0\4\4\1\0\7\4\5\0"+
+    "\1\4\1\0\1\4\6\0\3\4\1\72\1\73\4\4"+
+    "\13\0\4\4\1\0\7\4\57\0\1\42\54\0\1\41"+
+    "\1\42\56\0\1\43\2\0\1\74\61\0\1\75\55\0"+
+    "\1\75\5\0\1\76\47\0\1\75\11\0\1\77\43\0"+
+    "\1\75\5\0\1\100\106\0\1\101\12\0\1\4\1\0"+
+    "\1\4\6\0\3\4\1\0\5\4\13\0\4\4\1\0"+
+    "\1\4\1\102\5\4\5\0\1\4\1\0\1\4\6\0"+
+    "\3\4\1\0\5\4\13\0\4\4\1\0\3\4\1\103"+
+    "\3\4\5\0\1\4\1\0\1\4\6\0\3\4\1\104"+
+    "\1\105\4\4\13\0\1\4\1\106\2\4\1\0\7\4"+
+    "\16\0\1\107\24\0\1\110\17\0\1\4\1\0\1\4"+
+    "\6\0\1\111\2\4\1\0\5\4\13\0\1\4\1\112"+
     "\2\4\1\0\7\4\5\0\1\4\1\0\1\4\6\0"+
-    "\3\4\1\0\5\4\11\0\2\4\1\133\1\4\1\0"+
-    "\7\4\5\0\1\4\1\0\1\4\6\0\2\4\1\134"+
-    "\1\0\5\4\11\0\4\4\1\0\7\4\5\0\1\4"+
-    "\1\0\1\4\6\0\3\4\1\0\5\4\11\0\1\4"+
-    "\1\135\2\4\1\0\7\4\5\0\1\4\1\0\1\4"+
-    "\6\0\3\4\1\0\5\4\11\0\4\4\1\0\5\4"+
-    "\1\136\1\4\24\0\1\137\34\0\1\4\1\0\1\4"+
-    "\6\0\3\4\1\0\2\4\1\140\2\4\11\0\4\4"+
-    "\1\0\7\4\11\0\1\141\67\0\1\142\37\0\1\143"+
-    "\47\0\1\4\1\0\1\4\6\0\3\4\1\0\2\4"+
-    "\1\144\2\4\11\0\4\4\1\0\7\4\5\0\1\4"+
-    "\1\0\1\4\6\0\3\4\1\0\5\4\11\0\1\145"+
-    "\3\4\1\0\7\4\5\0\1\4\1\0\1\4\6\0"+
-    "\3\4\1\0\5\4\11\0\1\146\3\4\1\0\7\4"+
-    "\5\0\1\4\1\0\1\4\6\0\3\4\1\0\3\4"+
-    "\1\147\1\4\11\0\4\4\1\0\7\4\11\0\1\150"+
-    "\47\0\1\4\1\0\1\4\6\0\3\4\1\151\1\152"+
-    "\4\4\11\0\4\4\1\0\7\4\5\0\1\4\1\0"+
-    "\1\4\6\0\3\4\1\0\5\4\11\0\1\4\1\153"+
-    "\2\4\1\0\7\4\5\0\1\4\1\0\1\4\6\0"+
-    "\3\4\1\0\5\4\11\0\3\4\1\154\1\0\7\4"+
+    "\3\4\1\0\5\4\13\0\4\4\1\0\4\4\1\113"+
+    "\2\4\5\0\1\4\1\0\1\4\6\0\1\4\1\114"+
+    "\1\4\1\0\5\4\13\0\4\4\1\0\7\4\5\0"+
+    "\1\4\1\0\1\4\6\0\3\4\1\0\2\4\1\115"+
+    "\2\4\13\0\4\4\1\0\7\4\5\0\1\4\1\0"+
+    "\1\4\6\0\3\4\1\0\5\4\13\0\3\4\1\116"+
+    "\1\0\7\4\5\0\1\4\1\0\1\4\6\0\3\4"+
+    "\1\0\3\4\1\117\1\4\13\0\4\4\1\0\1\4"+
+    "\1\120\5\4\26\0\1\121\34\0\1\4\1\0\1\4"+
+    "\6\0\3\4\1\0\4\4\1\122\13\0\4\4\1\0"+
+    "\7\4\43\0\1\123\17\0\1\4\1\0\1\4\6\0"+
+    "\3\4\1\0\5\4\13\0\1\4\1\124\2\4\1\0"+
+    "\7\4\20\0\1\125\61\0\1\126\56\0\1\127\73\0"+
+    "\1\130\17\0\1\4\1\0\1\4\6\0\3\4\1\0"+
+    "\5\4\13\0\1\4\1\131\2\4\1\0\7\4\5\0"+
+    "\1\4\1\0\1\4\6\0\3\4\1\0\5\4\13\0"+
+    "\1\4\1\132\2\4\1\0\7\4\43\0\1\133\17\0"+
+    "\1\4\1\0\1\4\6\0\3\4\1\0\5\4\13\0"+
+    "\1\4\1\134\2\4\1\0\7\4\5\0\1\4\1\0"+
+    "\1\4\6\0\3\4\1\0\5\4\13\0\2\4\1\135"+
+    "\1\4\1\0\7\4\5\0\1\4\1\0\1\4\6\0"+
+    "\2\4\1\136\1\0\5\4\13\0\4\4\1\0\7\4"+
     "\5\0\1\4\1\0\1\4\6\0\3\4\1\0\5\4"+
-    "\11\0\4\4\1\0\6\4\1\155\5\0\1\4\1\0"+
-    "\1\4\6\0\3\4\1\0\3\4\1\156\1\4\11\0"+
-    "\4\4\1\0\7\4\5\0\1\4\1\0\1\4\6\0"+
-    "\3\4\1\0\5\4\11\0\4\4\1\0\2\4\1\157"+
-    "\4\4\5\0\1\4\1\0\1\4\6\0\3\4\1\0"+
-    "\2\4\1\160\2\4\11\0\4\4\1\0\7\4\4\0";
+    "\13\0\1\4\1\137\2\4\1\0\7\4\5\0\1\4"+
+    "\1\0\1\4\6\0\3\4\1\0\5\4\13\0\4\4"+
+    "\1\0\5\4\1\140\1\4\24\0\1\141\36\0\1\4"+
+    "\1\0\1\4\6\0\3\4\1\0\2\4\1\142\2\4"+
+    "\13\0\4\4\1\0\7\4\11\0\1\143\71\0\1\144"+
+    "\41\0\1\145\51\0\1\4\1\0\1\4\6\0\3\4"+
+    "\1\0\2\4\1\146\2\4\13\0\4\4\1\0\7\4"+
+    "\5\0\1\4\1\0\1\4\6\0\3\4\1\0\5\4"+
+    "\13\0\1\147\3\4\1\0\7\4\5\0\1\4\1\0"+
+    "\1\4\6\0\3\4\1\0\5\4\13\0\1\150\3\4"+
+    "\1\0\7\4\5\0\1\4\1\0\1\4\6\0\3\4"+
+    "\1\0\3\4\1\151\1\4\13\0\4\4\1\0\7\4"+
+    "\11\0\1\152\51\0\1\4\1\0\1\4\6\0\3\4"+
+    "\1\153\1\154\4\4\13\0\4\4\1\0\7\4\5\0"+
+    "\1\4\1\0\1\4\6\0\3\4\1\0\5\4\13\0"+
+    "\1\4\1\155\2\4\1\0\7\4\5\0\1\4\1\0"+
+    "\1\4\6\0\3\4\1\0\5\4\13\0\3\4\1\156"+
+    "\1\0\7\4\5\0\1\4\1\0\1\4\6\0\3\4"+
+    "\1\0\5\4\13\0\4\4\1\0\6\4\1\157\5\0"+
+    "\1\4\1\0\1\4\6\0\3\4\1\0\3\4\1\160"+
+    "\1\4\13\0\4\4\1\0\7\4\5\0\1\4\1\0"+
+    "\1\4\6\0\3\4\1\0\5\4\13\0\4\4\1\0"+
+    "\2\4\1\161\4\4\5\0\1\4\1\0\1\4\6\0"+
+    "\3\4\1\0\2\4\1\162\2\4\13\0\4\4\1\0"+
+    "\7\4\4\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[3124];
+    int [] result = new int[3266];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -261,7 +263,7 @@ public class ConsolaLexico implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\5\1\3\11\6\1\7\11\1\1\1\11"+
+    "\1\0\1\11\5\1\3\11\6\1\11\11\1\1\1\11"+
     "\5\1\1\0\2\1\2\0\1\11\4\0\1\11\1\0"+
     "\3\1\1\0\4\1\1\11\2\1\1\0\1\1\1\0"+
     "\2\1\1\11\3\0\1\11\2\1\1\0\2\1\1\11"+
@@ -270,7 +272,7 @@ public class ConsolaLexico implements java_cup.runtime.Scanner {
     "\4\1\2\11\7\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[112];
+    int [] result = new int[114];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -719,186 +721,196 @@ public class ConsolaLexico implements java_cup.runtime.Scanner {
           case 1: 
             { System.out.println("ErrorLexico: "+yytext()+"Linea: "+yyline+" Columna: "+yycolumn);
             }
-          case 38: break;
+          case 40: break;
           case 2: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.entero, yyline, yycolumn, yytext());
             }
-          case 39: break;
+          case 41: break;
           case 3: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.id, yyline, yycolumn, yytext());
             }
-          case 40: break;
+          case 42: break;
           case 4: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.mas, yyline, yycolumn, yytext());
             }
-          case 41: break;
+          case 43: break;
           case 5: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.menos, yyline, yycolumn, yytext());
             }
-          case 42: break;
+          case 44: break;
           case 6: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.por, yyline, yycolumn, yytext());
             }
-          case 43: break;
+          case 45: break;
           case 7: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.div, yyline, yycolumn, yytext());
             }
-          case 44: break;
+          case 46: break;
           case 8: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.igual, yyline, yycolumn, yytext());
             }
-          case 45: break;
+          case 47: break;
           case 9: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.dolar, yyline, yycolumn, yytext());
             }
-          case 46: break;
+          case 48: break;
           case 10: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.corAbre, yyline, yycolumn, yytext());
             }
-          case 47: break;
+          case 49: break;
           case 11: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.corCierra, yyline, yycolumn, yytext());
             }
-          case 48: break;
+          case 50: break;
           case 12: 
+            { //System.out.println("Reconocio: "+yytext());  
+                                   return new Symbol(SimbolosConsola.llaveAbre, yyline, yycolumn, yytext());
+            }
+          case 51: break;
+          case 13: 
+            { //System.out.println("Reconocio: "+yytext());  
+                                   return new Symbol(SimbolosConsola.llaveCierra, yyline, yycolumn, yytext());
+            }
+          case 52: break;
+          case 14: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.parenAbre, yyline, yycolumn, yytext());
             }
-          case 49: break;
-          case 13: 
+          case 53: break;
+          case 15: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.parenCierra, yyline, yycolumn, yytext());
             }
-          case 50: break;
-          case 14: 
+          case 54: break;
+          case 16: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.porcentaje, yyline, yycolumn, yytext());
             }
-          case 51: break;
-          case 15: 
+          case 55: break;
+          case 17: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.coma, yyline, yycolumn, yytext());
             }
-          case 52: break;
-          case 16: 
+          case 56: break;
+          case 18: 
             { 
             }
-          case 53: break;
-          case 17: 
+          case 57: break;
+          case 19: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.cadena, yyline, yycolumn, yytext());
             }
-          case 54: break;
-          case 18: 
+          case 58: break;
+          case 20: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.concatena, yyline, yycolumn, yytext());
             }
-          case 55: break;
-          case 19: 
+          case 59: break;
+          case 21: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.indice, yyline, yycolumn, yytext());
             }
-          case 56: break;
-          case 20: 
+          case 60: break;
+          case 22: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.caracter, yyline, yycolumn, yytext());
             }
-          case 57: break;
-          case 21: 
+          case 61: break;
+          case 23: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.min, yyline, yycolumn, yytext());
             }
-          case 58: break;
-          case 22: 
+          case 62: break;
+          case 24: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.max, yyline, yycolumn, yytext());
             }
-          case 59: break;
-          case 23: 
+          case 63: break;
+          case 25: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.sum, yyline, yycolumn, yytext());
             }
-          case 60: break;
-          case 24: 
+          case 64: break;
+          case 26: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.par, yyline, yycolumn, yytext());
             }
-          case 61: break;
-          case 25: 
+          case 65: break;
+          case 27: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.let, yyline, yycolumn, yytext());
             }
-          case 62: break;
-          case 26: 
+          case 66: break;
+          case 28: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.asc, yyline, yycolumn, yytext());
             }
-          case 63: break;
-          case 27: 
+          case 67: break;
+          case 29: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.desc, yyline, yycolumn, yytext());
             }
-          case 64: break;
-          case 28: 
+          case 68: break;
+          case 30: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.decc, yyline, yycolumn, yytext());
             }
-          case 65: break;
-          case 29: 
+          case 69: break;
+          case 31: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.succ, yyline, yycolumn, yytext());
             }
-          case 66: break;
-          case 30: 
+          case 70: break;
+          case 32: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.impr, yyline, yycolumn, yytext());
             }
-          case 67: break;
-          case 31: 
+          case 71: break;
+          case 33: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.residuo, yyline, yycolumn, yytext());
             }
-          case 68: break;
-          case 32: 
+          case 72: break;
+          case 34: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.pot, yyline, yycolumn, yytext());
             }
-          case 69: break;
-          case 33: 
+          case 73: break;
+          case 35: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.sqrt, yyline, yycolumn, yytext());
             }
-          case 70: break;
-          case 34: 
+          case 74: break;
+          case 36: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.revers, yyline, yycolumn, yytext());
             }
-          case 71: break;
-          case 35: 
+          case 75: break;
+          case 37: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.tam, yyline, yycolumn, yytext());
             }
-          case 72: break;
-          case 36: 
+          case 76: break;
+          case 38: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.product, yyline, yycolumn, yytext());
             }
-          case 73: break;
-          case 37: 
+          case 77: break;
+          case 39: 
             { //System.out.println("Reconocio: "+yytext());  
                                    return new Symbol(SimbolosConsola.calcular, yyline, yycolumn, yytext());
             }
-          case 74: break;
+          case 78: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

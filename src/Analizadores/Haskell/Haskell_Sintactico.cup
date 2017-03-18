@@ -60,7 +60,7 @@ terminal entero, cadena, caracter, id;
 non terminal Nodo INICIO;
 non terminal Nodo L_PARAM, PARAMETROS;
 non terminal Nodo FUNCION,L_FUNCION, FUNCIONES_PROPIAS, LLAMA_FUNCION;
-non terminal Nodo CUERPO, L_CUERPO, DIM;
+non terminal Nodo CUERPO, L_CUERPO, DIM, P;
 non terminal Nodo DECLARA_LISTA, LISTA, LISTAS, MAS_CORCH, EXPRESIONES, EXP_CASO;
 non terminal Nodo EXP,CALCULAR, EXP_INDICE, L_INDICE;
 non terminal Nodo IF, CASE, CASOS, L_CASOS;
@@ -99,19 +99,24 @@ FUNCION ::= FUNCION:nodo L_FUNCION:fun
             :}
         ;
 
-L_FUNCION ::= id:name PARAMETROS:param igual CUERPO:corpo fin
+L_FUNCION ::= id:name P:param igual CUERPO:corpo fin
                 {:
                     Nodo nuevo = new Nodo("Funcion");
                     Nodo nombre = new Nodo(name);
                     Nodo cuerpo = new Nodo("CuerpoFuncion");
                     cuerpo.Hijo(corpo);
                     nuevo.Hijo(nombre);
-                    nuevo.Hijo(param);
+                    if(param!=null){
+                        nuevo.Hijo(param);
+                    }
                     nuevo.Hijo(cuerpo);
                     RESULT = nuevo;
                 :}
             ;
 
+P ::= PARAMETROS:nodo {:RESULT = nodo;:}
+    | 
+    ;
 PARAMETROS ::= PARAMETROS:param coma L_PARAM:p
                 {:  
                     param.Hijo(p); 
@@ -723,7 +728,7 @@ EXP ::= EXP:j mas EXP:m
             RESULT = nuevo; :}
      ;
 
-LLAMA_FUNCION ::= dolar id:id llaveAbre PARAMETROS:param llaveCierra dolar
+LLAMA_FUNCION ::= dolar id:id llaveAbre P:param llaveCierra dolar
                 {:
                     Nodo nuevo = new Nodo("LlamaFunc");
                     Nodo nombre = new Nodo(id);

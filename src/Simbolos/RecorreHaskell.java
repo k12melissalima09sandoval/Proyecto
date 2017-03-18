@@ -14,191 +14,199 @@ import Interprete.ExpresionHaskell;
 import Interprete.Parametros;
 import Interprete.Valor;
 import Interprete.Variable;
+
 /**
  *
  * @author MishaPks
  */
 public class RecorreHaskell {
-    
+
     public static ArrayList<Parametros> parametros;
     static FuncionHaskell nueva;
     static FuncionesPropiasHaskell funPropias = new FuncionesPropiasHaskell();
     static Concatena concatena = new Concatena();
     static TablaSimbolosHaskell agrega = new TablaSimbolosHaskell();
     static Variable variable;
-    
+
     //-------------------------------------AGREGANDO FUNCIONES---------------------------------
-    public static void Recorrido(Nodo raiz){
-        
+    public static void Recorrido(Nodo raiz) {
+
         for (int i = 0; i < raiz.hijos.size(); i++) {
             //nombre de la funcion
             String nombreFunc = raiz.hijos.get(i).hijos.get(0).valor.toString();
-            
-            //parametros que recibe la funcion
-            parametros = new ArrayList();
-            Nodo param=raiz.hijos.get(i).hijos.get(1);
-            for (int j = 0; j < param.hijos.size(); j++) {
-                Parametros p = new Parametros("",param.hijos.get(j).hijos.get(0).valor.toString());
-                p.setValor(null);
-                parametros.add(p);
-            }
-            
-            //nodo del cuerpo de la funcion
-            Nodo cuerpo = raiz.hijos.get(i).hijos.get(2).hijos.get(0);
-            
-            nueva = new FuncionHaskell(nombreFunc,parametros,cuerpo);
-            agrega.AgregarFuncion(nombreFunc, nueva); 
-        }
-        //Map<String, FuncionHaskell> l = agrega.ObtenerListaFunciones();
-    }
-    
-    
-    
-    //------------------------------------OPERACIONES EN CONSOLA ------------------------------
-    public static Object Consola(Nodo raiz){
-        
-            switch(raiz.valor.toString()){
+            if (raiz.hijos.get(i).hijos.size() == 3) {
+                //parametros que recibe la funcion
+                parametros = new ArrayList();
+                Nodo param = raiz.hijos.get(i).hijos.get(1);
+                for (int j = 0; j < param.hijos.size(); j++) {
+                    Parametros p = new Parametros("", param.hijos.get(j).hijos.get(0).valor.toString());
+                    p.setValor(null);
+                    parametros.add(p);
 
-                case "Sentencias":
-                    Valor vSent=new Valor("","");
-                    for(Nodo c: raiz.hijos){
-                        vSent = (Valor)funPropias.Recorrer(c);
-                    }
-                    Valor vFinSent = new Valor(vSent.valor,vSent.tipo);
-                    ExpresionHaskell.ultimoValor=vSent.valor;
-                    return vFinSent;
-                    
-                case "Revers":
-                case "Impr":
-                case "Par":
-                case "Asc":
-                case "Desc":
-                case "LlamaFunc":
-                    Valor valfun=(Valor)funPropias.Recorrer(raiz);
-                    return valfun;
-
+                }
+                Nodo cuerpo = raiz.hijos.get(i).hijos.get(2).hijos.get(0);
+                nueva = new FuncionHaskell(nombreFunc, parametros, cuerpo);
+                agrega.AgregarFuncion(nombreFunc, nueva);
+            } else if (raiz.hijos.get(i).hijos.size() == 2) {
+                //nodo del cuerpo de la funcion
                 
-                case "Calcular":
-                    Valor valcalc=(Valor)funPropias.Recorrer(raiz);
-                    return valcalc;
+                Nodo cuerpo = raiz.hijos.get(i).hijos.get(1).hijos.get(0);
 
-                case "Succ":
-                    Valor valsucc = (Valor)funPropias.Recorrer(raiz);
-                    return valsucc;
+                nueva = new FuncionHaskell(nombreFunc, cuerpo);
+                agrega.AgregarFuncion(nombreFunc, nueva);
+            }
 
-                case "Decc":
-                    Valor valdecc = (Valor)funPropias.Recorrer(raiz);
-                    return valdecc;
+        }
+    }
 
-                case "Min":
-                    Valor valmin = (Valor)funPropias.Recorrer(raiz);
-                    return valmin;
+    //------------------------------------OPERACIONES EN CONSOLA ------------------------------
+    public static Object Consola(Nodo raiz) {
 
-                case "Max":
-                    Valor valmax = (Valor)funPropias.Recorrer(raiz);
-                    return valmax;
+        switch (raiz.valor.toString()) {
 
-                case "Sum":
-                    Valor valsum = (Valor)funPropias.Recorrer(raiz);
-                    return valsum;
+            case "Sentencias":
+                Valor vSent = new Valor("", "");
+                for (Nodo c : raiz.hijos) {
+                    vSent = (Valor) Consola(c);
+                }
+                Valor vFinSent = new Valor(vSent.valor, vSent.tipo);
+                ExpresionHaskell.ultimoValor = vSent.valor;
+                return vFinSent;
 
-                case "Product":
-                    Valor valpro = (Valor)funPropias.Recorrer(raiz);
-                    return valpro;
+            case "Revers":
+            case "Impr":
+            case "Par":
+            case "Asc":
+            case "Desc":
+            case "LlamaFunc":
+                Valor valfun = (Valor) funPropias.Recorrer(raiz);
+                return valfun;
 
-                case "Length":
-                    Valor valtam = (Valor)funPropias.Recorrer(raiz);
-                    return valtam;
+            case "Calcular":
+                Valor valcalc = (Valor) funPropias.Recorrer(raiz);
+                return valcalc;
 
-                case "Indice":
-                    Valor valindice = (Valor)funPropias.Recorrer(raiz);
-                    return valindice;
+            case "Succ":
+                Valor valsucc = (Valor) funPropias.Recorrer(raiz);
+                return valsucc;
 
+            case "Decc":
+                Valor valdecc = (Valor) funPropias.Recorrer(raiz);
+                return valdecc;
 
-                case "D_Lista":
-                    String nombrelista = raiz.hijos.get(0).valor.toString();
-                     //id, cadena, Lista, 2Niveles
-                    Valor val = (Valor)funPropias.Recorrer(raiz.hijos.get(1));
-                    if(val!=null){
+            case "Min":
+                Valor valmin = (Valor) funPropias.Recorrer(raiz);
+                return valmin;
 
-                        variable = new Variable(nombrelista,val.valor,val.tipo);
-                        agrega.AgregarVariable(nombrelista, variable);
-                        ExpresionHaskell.ultimoValor = val.valor;
-                        String texto="";
-                        ArrayList a = (ArrayList)val.valor;
-                        if(a!=null){
+            case "Max":
+                Valor valmax = (Valor) funPropias.Recorrer(raiz);
+                return valmax;
 
-                            if(val.tipo.equals("numero")){
+            case "Sum":
+                Valor valsum = (Valor) funPropias.Recorrer(raiz);
+                return valsum;
 
-                                for (int i = 0; i < a.size(); i++) {
-                                    texto += a.get(i).toString()+",";
-                                }
+            case "Product":
+                Valor valpro = (Valor) funPropias.Recorrer(raiz);
+                return valpro;
 
-                                if(texto.lastIndexOf(",")==texto.length()-1){
-                                    texto = texto.substring(0,texto.length()-1);
-                                }
-                                texto = "["+texto+"]";
-                                Valor v= new Valor(texto,"");
-                                return v;
-                            }else if(val.tipo.equals("cadena")){
-                                for (int i = 0; i < a.size(); i++) {
-                                    texto += a.get(i).toString();
-                                }
-                                texto = "\""+texto+"\"";
-                                Valor v = new Valor(texto,"");
-                                return v;
-                            }else if(val.tipo.equals("caracter")){
-                                for (int i = 0; i < a.size(); i++) {
-                                    texto += a.get(i).toString();
-                                }
-                                texto = "\""+texto+"\"";
-                                Valor v = new Valor(texto,"");
-                                return v;
-                            }
-                        }
+            case "Length":
+                Valor valtam = (Valor) funPropias.Recorrer(raiz);
+                return valtam;
+
+            case "Indice":
+                Valor valindice = (Valor) funPropias.Recorrer(raiz);
+                return valindice;
+
+            case "D_Lista":
+                String nombrelista = raiz.hijos.get(0).valor.toString();
+                //id, cadena, Lista, 2Niveles
+                Valor val = (Valor) funPropias.Recorrer(raiz.hijos.get(1));
+                if (val != null) {
+
+                    if (val.tipo.equals("")) {
+                        Valor v = new Valor(val.valor, val.tipo);
+                        return v;
                     }
 
-                case "Concatena":
-                    Valor valconca = (Valor)funPropias.Recorrer(raiz);
-                    String texto="";
-                    ArrayList a = (ArrayList)valconca.valor;
-                    ExpresionHaskell.ultimoValor=valconca.valor;
-                        if(a!=null){
+                    variable = new Variable(nombrelista, val.valor, val.tipo);
+                    agrega.AgregarVariable(nombrelista, variable);
+                    ExpresionHaskell.ultimoValor = val.valor;
+                    String texto = "";
+                    ArrayList a = (ArrayList) val.valor;
+                    if (a != null) {
 
-                            if(valconca.tipo.equals("numero")){
+                        if (val.tipo.equals("numero")) {
 
-                                for (int i = 0; i < a.size(); i++) {
-                                    texto += a.get(i).toString()+",";
-                                }
-
-                                if(texto.lastIndexOf(",")==texto.length()-1){
-                                    texto = texto.substring(0,texto.length()-1);
-                                }
-                                texto = "["+texto+"]";
-                                Valor v= new Valor(texto,"");
-                                return v;
-                            }else if(valconca.tipo.equals("cadena")){
-                                for (int i = 0; i < a.size(); i++) {
-                                    texto += a.get(i).toString();
-                                }
-                                texto = "\""+texto+"\"";
-                                Valor v = new Valor(texto,"");
-                                return v;
-                            }else if(valconca.tipo.equals("caracter")){
-                                for (int i = 0; i < a.size(); i++) {
-                                    texto += a.get(i).toString();
-                                }
-                                texto = "\""+texto+"\"";
-                                Valor v = new Valor(texto,"");
-                                return v;
-                                
-                            }else{
-                                Valor v = new Valor(a.get(0).toString(),"");
-                                return v;
+                            for (int i = 0; i < a.size(); i++) {
+                                texto += a.get(i).toString() + ",";
                             }
+
+                            if (texto.lastIndexOf(",") == texto.length() - 1) {
+                                texto = texto.substring(0, texto.length() - 1);
+                            }
+                            texto = "[" + texto + "]";
+                            Valor v = new Valor(texto, "");
+                            return v;
+                        } else if (val.tipo.equals("cadena")) {
+                            for (int i = 0; i < a.size(); i++) {
+                                texto += a.get(i).toString();
+                            }
+                            texto = "\"" + texto + "\"";
+                            Valor v = new Valor(texto, "");
+                            return v;
+                        } else if (val.tipo.equals("caracter")) {
+                            for (int i = 0; i < a.size(); i++) {
+                                texto += a.get(i).toString();
+                            }
+                            texto = "\"" + texto + "\"";
+                            Valor v = new Valor(texto, "");
+                            return v;
                         }
+                    }
+                }
+
+            case "Concatena":
+                Valor valconca = (Valor) funPropias.Recorrer(raiz);
+                String texto = "";
+                ArrayList a = (ArrayList) valconca.valor;
+                ExpresionHaskell.ultimoValor = valconca.valor;
+                if (a != null) {
+
+                    if (valconca.tipo.equals("numero")) {
+
+                        for (int i = 0; i < a.size(); i++) {
+                            texto += a.get(i).toString() + ",";
+                        }
+
+                        if (texto.lastIndexOf(",") == texto.length() - 1) {
+                            texto = texto.substring(0, texto.length() - 1);
+                        }
+                        texto = "[" + texto + "]";
+                        Valor v = new Valor(texto, "");
+                        return v;
+                    } else if (valconca.tipo.equals("cadena")) {
+                        for (int i = 0; i < a.size(); i++) {
+                            texto += a.get(i).toString();
+                        }
+                        texto = "\"" + texto + "\"";
+                        Valor v = new Valor(texto, "");
+                        return v;
+                    } else if (valconca.tipo.equals("caracter")) {
+                        for (int i = 0; i < a.size(); i++) {
+                            texto += a.get(i).toString();
+                        }
+                        texto = "\"" + texto + "\"";
+                        Valor v = new Valor(texto, "");
+                        return v;
+
+                    } else {
+                        Valor v = new Valor(a.get(0).toString(), "");
+                        return v;
+                    }
+                }
         }
-        
+
         return null;
     }
 }

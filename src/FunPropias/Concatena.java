@@ -30,6 +30,10 @@ public class Concatena {
         for (Nodo c : raiz.hijos) {
             Valor val = (Valor) Listas(c);
             if (val != null) {
+                if(val.tipo.equals("")){
+                    Valor v= new Valor(val.valor,val.tipo);
+                    return v;
+                }
                 if (!tipo.equals("inicia")) {
                     System.out.println("" + val.tipo + " " + tipo);
                     if (val.tipo.equals(tipo)) {
@@ -97,15 +101,24 @@ public class Concatena {
 
                     ArrayList a = (ArrayList) val.valor;
                     if (a.size() > 1) {
-                        for (int i = 0; i < a.size(); i++) {
-                            //ArrayList temp=(ArrayList)a.get(i);
-                            ArrayList temp = new ArrayList();
-                            temp.add(a.get(i));
-                            for (int j = 0; j < temp.size(); j++) {
-                                paso.add(temp.get(j));
+                        if (a.get(0) instanceof ArrayList) {
+                            for (int i = 0; i < a.size(); i++) {
+                                ArrayList temp = (ArrayList) a.get(i);
+                                for (int j = 0; j < temp.size(); j++) {
+                                    paso.add(temp.get(j).toString());
+                                    tipo = val.tipo;
+                                }
+                            }
+                        } else {
+                            for (int i = 0; i < a.size(); i++) {
+                                paso.add(a.get(i).toString());
                                 tipo = val.tipo;
                             }
                         }
+
+                    } else if(val.tipo.equals("")){
+                        Valor v = new Valor("lista no declarada",val.tipo);
+                        return v;
                     } else {
                         for (int i = 0; i < a.size(); i++) {
                             paso.add(a.get(i));
@@ -125,12 +138,13 @@ public class Concatena {
         if (temp.equals("id")) {
             String nombre = raiz.hijos.get(0).valor.toString();
             Map<String, Variable> l = lista.ObtenerListaListas();
+            Boolean encontrado= false;
             if (l != null) {
                 if (l.size() > 0) {
                     for (int i = 0; i < l.size(); i++) {
                         Boolean g = lista.getKeyListas(nombre);
                         if (g.equals(true)) {
-
+                            encontrado = true;
                             Object obtener = (Object) l.get(nombre).valor;
                             Valor val = new Valor(obtener, l.get(nombre).tipo);
                             return val;
@@ -144,6 +158,7 @@ public class Concatena {
                                         if (!"".equals(ExpresionHaskell.nombreFuncion)) {
                                             Boolean g2 = lista.getKeyFunciones(ExpresionHaskell.nombreFuncion);
                                             if (g2.equals(true)) {
+                                                encontrado=true;
                                                 ArrayList<Parametros> parametros = (ArrayList) fun.get(ExpresionHaskell.nombreFuncion).getParametros();
 
                                                 for (int k = 0; k < parametros.size(); k++) {
@@ -163,7 +178,7 @@ public class Concatena {
                                     return v2;
                                 }
                             } else {
-                                Valor v2 = new Valor(nombre, "id");
+                                Valor v2 = new Valor("lista no declarada", "");
                                 return v2;
                             }
 
@@ -178,11 +193,13 @@ public class Concatena {
                                 if (!"".equals(ExpresionHaskell.nombreFuncion)) {
                                     Boolean g3 = lista.getKeyFunciones(ExpresionHaskell.nombreFuncion);
                                     if (g3.equals(true)) {
+                                        encontrado=true;
                                         ArrayList<Parametros> parametros = (ArrayList) fun.get(ExpresionHaskell.nombreFuncion).getParametros();
 
                                         for (int k = 0; k < parametros.size(); k++) {
                                             if (nombre.equals(parametros.get(k).nombre)) {
                                                 Valor val = new Valor(parametros.get(k).valor, parametros.get(k).tipo);
+                                                
                                                 return val;
                                             }
                                         }
@@ -193,13 +210,18 @@ public class Concatena {
                                 }
                             }
                         } else {
-                            Valor v2 = new Valor(nombre, "id");
+                            Valor v2 = new Valor("lista no declarada", "");
                             return v2;
                         }
                     } else {
                         Valor v2 = new Valor(nombre, "id");
                         return v2;
                     }
+                }
+                
+                if(encontrado.equals(false)){
+                    Valor v2 = new Valor("lista no declarada", "");
+                    return v2;
                 }
             }
 
@@ -224,6 +246,10 @@ public class Concatena {
             String tipo = "";
             for (Nodo nodo : raiz.hijos) {
                 Valor valor = (Valor) exp.Expresion(nodo);
+                if(valor.tipo.equals("")){
+                    Valor v = new Valor(valor.valor,valor.tipo);
+                    return v;
+                }
                 cadena.add(valor.valor);
                 tipo = valor.tipo;
             }
@@ -231,11 +257,11 @@ public class Concatena {
             return v;
 
         } else if (temp.equals("2Niveles")) {
-            Valor val=new Valor("","");
+            Valor val = new Valor("", "");
             ArrayList<Object> nivel = new ArrayList();
             ArrayList<Object> juntos = new ArrayList();
             //voy a traer las dos listas
-            for(Nodo c: raiz.hijos){
+            for (Nodo c : raiz.hijos) {
                 nivel = new ArrayList();
                 val = (Valor) Listas(c);
                 nivel = (ArrayList) val.valor;

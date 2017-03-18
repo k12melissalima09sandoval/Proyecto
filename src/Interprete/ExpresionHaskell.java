@@ -35,6 +35,45 @@ public class ExpresionHaskell {
             Valor tmp;
             Nodo exp = raiz.hijos.get(0);
             switch (raiz.valor.toString()) {
+                
+                case "LlamaFunc":
+                    nombreFuncion = raiz.hijos.get(0).valor.toString();
+                    ArrayList<Parametros> obtenerParam = new ArrayList();
+                    Map<String, FuncionHaskell> fun2 = lista.ObtenerListaFunciones();
+                    
+                        if (fun2 != null) {
+                            if (fun2.size() > 0) {
+                                for (int i = 0; i < fun2.size(); i++) {
+                                    Boolean g = lista.getKeyFunciones(nombreFuncion);
+                                    if (g.equals(true)) {
+                                        ArrayList<Parametros> parametros = (ArrayList) fun2.get(nombreFuncion).getParametros();
+                                        if (parametros==null && obtenerParam.size()==0) {
+                                            Nodo cuerpo = (Nodo) fun2.get(nombreFuncion).getCuerpo();
+                                            Valor v9 = (Valor) RecorreHaskell.Consola(cuerpo);
+                                            nombreFuncion = "";
+                                            return v9;
+                                        } else {
+                                            System.out.println("parametros cantidad invalidos");
+                                            Valor v = new Valor("cantidad de parametros no coincide", "");
+                                            return v;
+                                        }
+                                    } else {
+                                        Valor v = new Valor(nombreFuncion + " no declarada", "");
+                                        return v;
+                                    }
+                                }
+                            } else {
+                                System.out.println("no hay ninguna funcion declarada");
+                                Valor v = new Valor("no hay funciones cargadas", "");
+                                return v;
+                            }
+                        } else {
+                            Valor v = new Valor("no hay funciones cargadas", "");
+                            return v;
+                        }
+                    
+                    
+                    
 
                 case "Exp":
                     Valor ob1 = (Valor) Expresion(exp);
@@ -82,6 +121,11 @@ public class ExpresionHaskell {
                 case "Max":
                     try {
                         Valor ob5 = (Valor) concatena.Listas(exp);
+
+                        if (ob5.tipo.equals("")) {
+                            Valor v = new Valor(ob5.valor, ob5.tipo);
+                            return v;
+                        }
                         ArrayList a = (ArrayList) ob5.valor;
                         if (a.get(0) instanceof ArrayList) {
                             //2 NIVELES
@@ -128,7 +172,7 @@ public class ExpresionHaskell {
                         } else {
                             Double max = 0.00;
                             for (int i = 0; i < a.size(); i++) {
-                                if (Integer.parseInt(a.get(i).toString()) > max) {
+                                if (Double.parseDouble(a.get(i).toString()) > max) {
                                     max = Double.parseDouble(a.get(i).toString());
                                 }
                             }
@@ -144,6 +188,10 @@ public class ExpresionHaskell {
                 case "Min":
                     try {
                         Valor ob6 = (Valor) concatena.Listas(exp);
+                        if (ob6.tipo.equals("")) {
+                            Valor v = new Valor(ob6.valor, ob6.tipo);
+                            return v;
+                        }
                         ArrayList a8 = (ArrayList) ob6.valor;
                         if (a8.get(0) instanceof ArrayList) {
                             if (ob6.tipo.equals("caracter") || ob6.tipo.equals("cadena")) {
@@ -217,13 +265,13 @@ public class ExpresionHaskell {
                         } else { //numero
                             Double max = 0.00;
                             for (int i = 0; i < a8.size(); i++) {
-                                if (Integer.parseInt(a8.get(i).toString()) > max) {
+                                if (Double.parseDouble(a8.get(i).toString()) > max) {
                                     max = Double.parseDouble(a8.get(i).toString());
                                 }
                             }
                             Double min = max;
                             for (int i = 0; i < a8.size(); i++) {
-                                if (Integer.parseInt(a8.get(i).toString()) < min) {
+                                if (Double.parseDouble(a8.get(i).toString()) < min) {
                                     min = Double.parseDouble(a8.get(i).toString());
                                 }
                             }
@@ -240,6 +288,10 @@ public class ExpresionHaskell {
                 case "Product":
                     try {
                         Valor ob7 = (Valor) concatena.Listas(exp.hijos.get(0));
+                        if (ob7.tipo.equals("")) {
+                            Valor v = new Valor(ob7.valor, ob7.tipo);
+                            return v;
+                        }
                         ArrayList a7 = (ArrayList) ob7.valor;
                         if (a7.get(0) instanceof ArrayList) {
                             if (ob7.tipo.equals("caracter") || ob7.tipo.equals("cadena")) {
@@ -326,6 +378,10 @@ public class ExpresionHaskell {
                 case "Sum":
                     try {
                         Valor ob9 = (Valor) concatena.Listas(exp.hijos.get(0));
+                        if (ob9.tipo.equals("")) {
+                            Valor v = new Valor(ob9.valor, ob9.tipo);
+                            return v;
+                        }
                         ArrayList a9 = (ArrayList) ob9.valor;
                         if (a9.get(0) instanceof ArrayList) {
                             if (ob9.tipo.equals("caracter") || ob9.tipo.equals("cadena")) {
@@ -430,12 +486,14 @@ public class ExpresionHaskell {
                                 }
                             }
                         } else {
-                            Valor v2 = new Valor(v0, "id");
-                            return v2;
+                            Valor vi = new Valor("no hay funciones cargadas ", "");
+                            return vi;
+                            // return v2;
                         }
                     } else {
-                        Valor v2 = new Valor(v0, "id");
-                        return v2;
+                        Valor vi = new Valor("no hay funciones cargadas ", "");
+                        return vi;
+                        //  return v2;
                     }
 
             }
@@ -448,52 +506,89 @@ public class ExpresionHaskell {
                 case "LlamaFunc":
                     nombreFuncion = raiz.hijos.get(0).valor.toString();
                     ArrayList<Parametros> obtenerParam = new ArrayList();
-                    for (Nodo c : raiz.hijos.get(1).hijos) {
-                        if (c.valor.equals("cadena")|| c.valor.equals("Lista") || c.valor.equals("2Niveles")) {
-                            Valor v = (Valor) concatena.Listas(c);
-                            Parametros pp = new Parametros(v.valor, v.tipo);
-                            obtenerParam.add(pp);
-                        } else {
-                            Valor v = (Valor) Expresion(c);
-                            Parametros pp = new Parametros(v.valor, v.tipo);
-                            obtenerParam.add(pp);
-                        }
-                    }
                     Map<String, FuncionHaskell> fun = lista.ObtenerListaFunciones();
-                    if (fun != null) {
-                        if (fun.size() > 0) {
-                            for (int i = 0; i < fun.size(); i++) {
-                                Boolean g = lista.getKeyFunciones(nombreFuncion);
-                                if (g.equals(true)) {
-                                    ArrayList<Parametros> parametros = (ArrayList) fun.get(nombreFuncion).getParametros();
-                                    if (parametros.size() == obtenerParam.size()) {
-                                        for (int j = 0; j < parametros.size(); j++) {
-                                            Parametros p = obtenerParam.get(j);
-                                            parametros.get(j).valor = p.valor;
-                                            parametros.get(j).tipo = p.tipo;
+                    if (raiz.hijos.size() == 2) {
+                        for (Nodo c : raiz.hijos.get(1).hijos) {
+                            if (c.valor.equals("cadena") || c.valor.equals("Lista") || c.valor.equals("2Niveles")) {
+                                Valor v = (Valor) concatena.Listas(c);
+                                Parametros pp = new Parametros(v.valor, v.tipo);
+                                obtenerParam.add(pp);
+                            } else {
+                                Valor v = (Valor) Expresion(c);
+                                Parametros pp = new Parametros(v.valor, v.tipo);
+                                obtenerParam.add(pp);
+                            }
+                        }
 
+                        if (fun != null) {
+                            if (fun.size() > 0) {
+                                for (int i = 0; i < fun.size(); i++) {
+                                    Boolean g = lista.getKeyFunciones(nombreFuncion);
+                                    if (g.equals(true)) {
+                                        ArrayList<Parametros> parametros = (ArrayList) fun.get(nombreFuncion).getParametros();
+                                        if (parametros.size() == obtenerParam.size()) {
+                                            for (int j = 0; j < parametros.size(); j++) {
+                                                Parametros p = obtenerParam.get(j);
+                                                parametros.get(j).valor = p.valor;
+                                                parametros.get(j).tipo = p.tipo;
+
+                                            }
+                                        } else {
+                                            System.out.println("parametros cantidad invalidos");
+                                            Valor v = new Valor("cantidad de parametros no coincide", "");
+                                            return v;
                                         }
                                     } else {
-                                        System.out.println("parametros cantidad invalidos");
-                                        Valor v = new Valor("cantidad de parametros no coincide", "");
+                                        Valor v = new Valor(nombreFuncion + " no declarada", "");
                                         return v;
                                     }
-                                } else {
-                                    Valor v = new Valor(nombreFuncion + " no declarada", "");
-                                    return v;
                                 }
+                            } else {
+                                System.out.println("no hay ninguna funcion declarada");
+                                Valor v = new Valor("no hay funciones cargadas", "");
+                                return v;
                             }
                         } else {
-                            System.out.println("no hay ninguna funcion declarada");
-                            Valor v = new Valor("no hay ninguna funcion declarada", "");
+                            Valor v = new Valor("no hay funciones cargadas", "");
+                            return v;
+                        }
+
+                        Nodo cuerpo = (Nodo) fun.get(nombreFuncion).getCuerpo();
+                        Valor v9 = (Valor) RecorreHaskell.Consola(cuerpo);
+                        nombreFuncion = "";
+                        return v9;
+                    } else if(raiz.hijos.size()==1){ 
+                        if (fun != null) {
+                            if (fun.size() > 0) {
+                                for (int i = 0; i < fun.size(); i++) {
+                                    Boolean g = lista.getKeyFunciones(nombreFuncion);
+                                    if (g.equals(true)) {
+                                        ArrayList<Parametros> parametros = (ArrayList) fun.get(nombreFuncion).getParametros();
+                                        if (parametros.size() == obtenerParam.size()) {
+                                            Nodo cuerpo = (Nodo) fun.get(nombreFuncion).getCuerpo();
+                                            Valor v9 = (Valor) RecorreHaskell.Consola(cuerpo);
+                                            nombreFuncion = "";
+                                            return v9;
+                                        } else {
+                                            System.out.println("parametros cantidad invalidos");
+                                            Valor v = new Valor("cantidad de parametros no coincide", "");
+                                            return v;
+                                        }
+                                    } else {
+                                        Valor v = new Valor(nombreFuncion + " no declarada", "");
+                                        return v;
+                                    }
+                                }
+                            } else {
+                                System.out.println("no hay ninguna funcion declarada");
+                                Valor v = new Valor("no hay funciones cargadas", "");
+                                return v;
+                            }
+                        } else {
+                            Valor v = new Valor("no hay funciones cargadas", "");
                             return v;
                         }
                     }
-                    Nodo cuerpo = (Nodo) fun.get(nombreFuncion).getCuerpo();
-                    Valor v9 = (Valor) RecorreHaskell.Consola(cuerpo);
-
-                    nombreFuncion = "";
-                    return v9;
 
                 case "Indice":
                     String nombreLista = raiz.hijos.get(0).valor.toString();
@@ -525,12 +620,12 @@ public class ExpresionHaskell {
                                 }
                             }
                         } else {
-                            System.out.println("no hay ninguna lista declarada");
-                            Valor v = new Valor("no hay ninguna lista declarada", "");
+                            System.out.println("no hay listas declaradas");
+                            Valor v = new Valor("no hay listas declaradas", "");
                             return v;
                         }
                     } else {
-                        Valor v = new Valor("no hay ninguna lista declarada", "");
+                        Valor v = new Valor("no hay listas declaradas", "");
                         return v;
                     }
 
