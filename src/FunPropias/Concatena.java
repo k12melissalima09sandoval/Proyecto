@@ -11,6 +11,7 @@ import Interprete.FuncionHaskell;
 import Interprete.Parametros;
 import Interprete.Valor;
 import Interprete.Variable;
+import Simbolos.RecorreHaskell;
 import Simbolos.TablaSimbolosHaskell;
 import java.util.ArrayList;
 import java.util.Map;
@@ -142,11 +143,11 @@ public class Concatena {
             if (l != null) {
                 if (l.size() > 0) {
                     for (int i = 0; i < l.size(); i++) {
-                        Boolean g = lista.getKeyListas(nombre);
+                        Boolean g = lista.getKeyListas(nombre+"_"+RecorreHaskell.ambito);
                         if (g.equals(true)) {
                             encontrado = true;
-                            Object obtener = (Object) l.get(nombre).valor;
-                            Valor val = new Valor(obtener, l.get(nombre).tipo);
+                            Object obtener = (Object) l.get(nombre+"_"+RecorreHaskell.ambito).valor;
+                            Valor val = new Valor(obtener, l.get(nombre+"_"+RecorreHaskell.ambito).tipo);
                             return val;
                         } else {
                             /// mando a traer los parametros y busco la variable

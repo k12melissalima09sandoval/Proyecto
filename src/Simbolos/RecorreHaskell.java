@@ -27,7 +27,7 @@ public class RecorreHaskell {
     static Concatena concatena = new Concatena();
     static TablaSimbolosHaskell agrega = new TablaSimbolosHaskell();
     static Variable variable;
-
+    public static String ambito = "consola";
     //-------------------------------------AGREGANDO FUNCIONES---------------------------------
     public static void Recorrido(Nodo raiz) {
 
@@ -62,9 +62,12 @@ public class RecorreHaskell {
     //------------------------------------OPERACIONES EN CONSOLA ------------------------------
     public static Object Consola(Nodo raiz) {
 
+        System.out.println("ambito " + ambito);
+        
         switch (raiz.valor.toString()) {
-
+            
             case "Sentencias":
+                ambito=ExpresionHaskell.nombreFuncion;
                 Valor vSent = new Valor("", "");
                 for (Nodo c : raiz.hijos) {
                     vSent = (Valor) Consola(c);
@@ -129,8 +132,8 @@ public class RecorreHaskell {
                         return v;
                     }
 
-                    variable = new Variable(nombrelista, val.valor, val.tipo);
-                    agrega.AgregarVariable(nombrelista, variable);
+                    variable = new Variable(nombrelista, val.valor, val.tipo,ambito);
+                    agrega.AgregarVariable(nombrelista+"_"+ambito, variable);
                     ExpresionHaskell.ultimoValor = val.valor;
                     String texto = "";
                     ArrayList a = (ArrayList) val.valor;

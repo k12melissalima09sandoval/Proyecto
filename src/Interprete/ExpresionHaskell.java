@@ -35,45 +35,42 @@ public class ExpresionHaskell {
             Valor tmp;
             Nodo exp = raiz.hijos.get(0);
             switch (raiz.valor.toString()) {
-                
+
                 case "LlamaFunc":
                     nombreFuncion = raiz.hijos.get(0).valor.toString();
-                    ArrayList<Parametros> obtenerParam = new ArrayList();
                     Map<String, FuncionHaskell> fun2 = lista.ObtenerListaFunciones();
                     
-                        if (fun2 != null) {
-                            if (fun2.size() > 0) {
-                                for (int i = 0; i < fun2.size(); i++) {
-                                    Boolean g = lista.getKeyFunciones(nombreFuncion);
-                                    if (g.equals(true)) {
-                                        ArrayList<Parametros> parametros = (ArrayList) fun2.get(nombreFuncion).getParametros();
-                                        if (parametros==null && obtenerParam.size()==0) {
-                                            Nodo cuerpo = (Nodo) fun2.get(nombreFuncion).getCuerpo();
-                                            Valor v9 = (Valor) RecorreHaskell.Consola(cuerpo);
-                                            nombreFuncion = "";
-                                            return v9;
-                                        } else {
-                                            System.out.println("parametros cantidad invalidos");
-                                            Valor v = new Valor("cantidad de parametros no coincide", "");
-                                            return v;
-                                        }
+                    if (fun2 != null) {
+                        if (fun2.size() > 0) {
+                            for (int i = 0; i < fun2.size(); i++) {
+                                Boolean g = lista.getKeyFunciones(nombreFuncion);
+                                if (g.equals(true)) {
+                                    ArrayList<Parametros> parametros = (ArrayList) fun2.get(nombreFuncion).getParametros();
+                                    if (parametros == null) {
+                                        Nodo cuerpo = (Nodo) fun2.get(nombreFuncion).getCuerpo();
+                                        Valor v9 = (Valor) RecorreHaskell.Consola(cuerpo);
+                                        nombreFuncion = "";
+                                        RecorreHaskell.ambito="consola";
+                                        return v9;
                                     } else {
-                                        Valor v = new Valor(nombreFuncion + " no declarada", "");
+                                        System.out.println("parametros cantidad invalidos");
+                                        Valor v = new Valor("cantidad de parametros no coincide", "");
                                         return v;
                                     }
+                                } else {
+                                    Valor v = new Valor(nombreFuncion + " no declarada", "");
+                                    return v;
                                 }
-                            } else {
-                                System.out.println("no hay ninguna funcion declarada");
-                                Valor v = new Valor("no hay funciones cargadas", "");
-                                return v;
                             }
                         } else {
+                            System.out.println("no hay ninguna funcion declarada");
                             Valor v = new Valor("no hay funciones cargadas", "");
                             return v;
                         }
-                    
-                    
-                    
+                    } else {
+                        Valor v = new Valor("no hay funciones cargadas", "");
+                        return v;
+                    }
 
                 case "Exp":
                     Valor ob1 = (Valor) Expresion(exp);
@@ -313,7 +310,7 @@ public class ExpresionHaskell {
                                 for (int i = 0; i < a7.size(); i++) {
                                     ArrayList temp = (ArrayList) a7.get(i);
                                     for (int j = 0; j < temp.size(); j++) {
-                                        BigInteger h2 = new BigInteger(temp.get(j).toString().codePointAt(0) + "");
+                                        BigInteger h2 = new BigInteger(temp.get(j).toString() + "");
                                         multiplica = multiplica.multiply(h2);
 
                                     }
@@ -340,7 +337,7 @@ public class ExpresionHaskell {
                         } else { //numero
                             BigInteger multiplica = BigInteger.ONE;
                             for (int i = 0; i < a7.size(); i++) {
-                                BigInteger h2 = new BigInteger(a7.get(i).toString().codePointAt(0) + "");
+                                BigInteger h2 = new BigInteger(a7.get(i).toString()+ "");
                                 multiplica = multiplica.multiply(h2);
                             }
                             ultimoValor = multiplica;
@@ -526,6 +523,10 @@ public class ExpresionHaskell {
                                     Boolean g = lista.getKeyFunciones(nombreFuncion);
                                     if (g.equals(true)) {
                                         ArrayList<Parametros> parametros = (ArrayList) fun.get(nombreFuncion).getParametros();
+                                        if (parametros == null) {
+                                            Valor v = new Valor("cantidad de parametros no coincide", "");
+                                            return v;
+                                        }
                                         if (parametros.size() == obtenerParam.size()) {
                                             for (int j = 0; j < parametros.size(); j++) {
                                                 Parametros p = obtenerParam.get(j);
@@ -537,6 +538,7 @@ public class ExpresionHaskell {
                                             System.out.println("parametros cantidad invalidos");
                                             Valor v = new Valor("cantidad de parametros no coincide", "");
                                             return v;
+
                                         }
                                     } else {
                                         Valor v = new Valor(nombreFuncion + " no declarada", "");
@@ -557,7 +559,7 @@ public class ExpresionHaskell {
                         Valor v9 = (Valor) RecorreHaskell.Consola(cuerpo);
                         nombreFuncion = "";
                         return v9;
-                    } else if(raiz.hijos.size()==1){ 
+                    } else if (raiz.hijos.size() == 1) {
                         if (fun != null) {
                             if (fun.size() > 0) {
                                 for (int i = 0; i < fun.size(); i++) {
@@ -601,11 +603,11 @@ public class ExpresionHaskell {
                     if (l != null) {
                         if (l.size() > 0) {
                             for (int i = 0; i < l.size(); i++) {
-                                Boolean g = lista.getKeyListas(nombreLista);
+                                Boolean g = lista.getKeyListas(nombreLista+"_"+RecorreHaskell.ambito);
                                 if (g.equals(true)) {
-                                    ArrayList valores = (ArrayList) l.get(nombreLista).valor;
+                                    ArrayList valores = (ArrayList) l.get(nombreLista+"_"+RecorreHaskell.ambito).valor;
                                     String pos = valores.get(indice).toString();
-                                    if (l.get(nombreLista).tipo.equals("numero")) {
+                                    if (l.get(nombreLista+"_"+RecorreHaskell.ambito).tipo.equals("numero")) {
                                         ultimoValor = pos;
                                         Valor val = new Valor(pos, "numero");
                                         return val;
@@ -1132,12 +1134,12 @@ public class ExpresionHaskell {
                     if (l != null) {
                         if (l.size() > 0) {
                             for (int i = 0; i < l.size(); i++) {
-                                Boolean g = lista.getKeyListas(nombreLista);
+                                Boolean g = lista.getKeyListas(nombreLista+"_"+RecorreHaskell.ambito);
                                 if (g.equals(true)) {
-                                    ArrayList valores = (ArrayList) l.get(nombreLista).valor;
+                                    ArrayList valores = (ArrayList) l.get(nombreLista+"_"+RecorreHaskell.ambito).valor;
                                     ArrayList nivel1 = (ArrayList) valores.get(j1);
                                     String nivel2 = nivel1.get(j2).toString();
-                                    if (l.get(nombreLista).tipo.equals("numero")) {
+                                    if (l.get(nombreLista+"_"+RecorreHaskell.ambito).tipo.equals("numero")) {
                                         ultimoValor = nivel2;
                                         Valor val = new Valor(nivel2, "numero");
                                         return val;
