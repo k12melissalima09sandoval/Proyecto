@@ -11,10 +11,13 @@ import java.util.ArrayList;
 import Interprete.FuncionHaskell;
 import FunPropias.FuncionesPropiasHaskell;
 import Interprete.ExpresionHaskell;
+import static Interprete.ExpresionHaskell.ultimoValor;
 import Interprete.FuncionHaskellTemp;
 import Interprete.Parametros;
 import Interprete.Valor;
 import Interprete.Variable;
+import java.util.Collections;
+import java.util.List;
 
 /**
  *
@@ -108,12 +111,43 @@ public class RecorreHaskell {
                     return v;
                 }
                 
+            case "Case":
+                Valor valcase = (Valor) exp.Expresion(raiz.hijos.get(0), nombreFuncion);
+                
                 
 //----------------------------------------FUNCIONES PROPIAS---------------------------------------
             case "Revers":
+                try {
+                        Valor ob4 = (Valor) concatena.Listas(raiz.hijos.get(0).hijos.get(0), nombreFuncion);
+                        ArrayList vals = (ArrayList) ob4.valor;
+                        List va = (List)vals;
+                        Collections.reverse(va);
+                        ultimoValor = va;
+                        Valor val4 = new Valor(va, "numero");
+                        return val4;
+                    } catch (Exception e) {
+                        Valor v = new Valor("no es una lista", "");
+                        return v;
+                    }
+                
+                
             case "Impr":
+                
             case "Par":
+                
             case "Asc":
+                try {
+                        Valor ob4 = (Valor) concatena.Listas(raiz.hijos.get(0).hijos.get(0), nombreFuncion);
+                        ArrayList vals = (ArrayList) ob4.valor;
+                        List va = (List)vals;
+                        Collections.sort(va);
+                        ultimoValor = va;
+                        Valor val4 = new Valor(va, "numero");
+                        return val4;
+                    } catch (Exception e) {
+                        Valor v = new Valor("no es una lista", "");
+                        return v;
+                    }
             case "Desc":
             case "LlamaFunc":
                 Valor valfun = (Valor) funPropias.Recorrer(raiz, nombreFuncion);

@@ -11,6 +11,8 @@ import Simbolos.RecorreHaskell;
 import Simbolos.TablaSimbolosHaskell;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -115,6 +117,11 @@ public class ExpresionHaskell {
                     try {
                         Valor ob4 = (Valor) concatena.Listas(exp.hijos.get(0), nombreFuncion);
                         ArrayList vals = (ArrayList) ob4.valor;
+                        List va = (List)vals;
+                        System.out.println("revers "+Collections.max(vals));
+                        System.out.println("revers "+Collections.min(vals));
+                        Collections.reverse(va);
+                        System.out.println("revers "+va);
                         int tamaño = vals.size();
                         ultimoValor = tamaño;
                         Valor val4 = new Valor(tamaño, "numero");

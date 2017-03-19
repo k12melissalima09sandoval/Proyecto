@@ -1,8 +1,7 @@
 digraph G {node[shape=box, style=filled]; edge[color=red]
-node1828077998[label="LlamaFunc"];
- node1828077998->node1789455359;node1789455359[label="Invertir"];
- node1828077998->node575528609;node575528609[label="Parametros"];
- node575528609->node1470272745;node1470272745[label="porcentaje"];
- node1470272745->node159859842;node159859842[label="%"];
+node175381202[label="Revers"];
+ node175381202->node969102597;node969102597[label="Concatena"];
+ node969102597->node592210110;node592210110[label="porcentaje"];
+ node592210110->node1982922236;node1982922236[label="%"];
 
 }
