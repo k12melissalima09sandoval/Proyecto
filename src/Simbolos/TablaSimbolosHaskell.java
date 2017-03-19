@@ -6,6 +6,7 @@
 package Simbolos;
 
 import Interprete.FuncionHaskell;
+import Interprete.FuncionHaskellTemp;
 import Interprete.Variable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -18,6 +19,7 @@ import java.util.Map;
 public class TablaSimbolosHaskell {
     
     public static Map<String, FuncionHaskell> listaFunciones = new LinkedHashMap<>();
+    public static Map<String, FuncionHaskellTemp> listaFuncionesTemp = new LinkedHashMap<>();
     public static Map<String, Variable> listaListasConsola = new LinkedHashMap<>();
       
     
@@ -35,6 +37,10 @@ public class TablaSimbolosHaskell {
         Boolean valor = listaFunciones.containsKey(val);
         return valor;
     }
+    public Boolean getKeyFuncionesTemp(String val){
+        Boolean valor = listaFuncionesTemp.containsKey(val);
+        return valor;
+    }
     
     public ArrayList<String> getValores(int i){
         ArrayList<String> a = (ArrayList)listaListasConsola.get("lista").valor;
@@ -46,10 +52,19 @@ public class TablaSimbolosHaskell {
     
     public void AgregarFuncion(String nombre, FuncionHaskell fun){
         listaFunciones.put(nombre, fun);
+        
+    }
+    public void AgregarFuncionTemp(String nombre, FuncionHaskellTemp fun){
+        
+        listaFuncionesTemp.put(nombre,fun);
     }
     
     public Map<String, FuncionHaskell> ObtenerListaFunciones(){
         return listaFunciones;
+    }
+
+    public Map<String, FuncionHaskellTemp> ObtenerListaFuncionesTemp(){
+        return listaFuncionesTemp;
     }
     public Map<String, Variable> ObtenerListaListas(){
         return listaListasConsola;

@@ -13,15 +13,24 @@ public class Parametros {
     
     public String tipo;
     public String nombre;
+    public String tipoTemp;
+    public String nombreTemp;
     public Object valor;
     
     public Parametros(String nombre){
         this.nombre = nombre;
     }
+    public Parametros(){
+     
+    }
     
     public Parametros(String tipo,String nombre){
         this.tipo=tipo;
         this.nombre = nombre;
+    }
+    public void ParametrosTemp(String tipo,String nombre){
+        this.tipoTemp=tipo;
+        this.nombreTemp = nombre;
     }
     
     public Parametros(Object val, String tipo){

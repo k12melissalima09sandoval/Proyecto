@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import Interprete.FuncionHaskell;
 import FunPropias.FuncionesPropiasHaskell;
 import Interprete.ExpresionHaskell;
+import Interprete.FuncionHaskellTemp;
 import Interprete.Parametros;
 import Interprete.Valor;
 import Interprete.Variable;
@@ -22,7 +23,9 @@ import Interprete.Variable;
 public class RecorreHaskell {
 
     public static ArrayList<Parametros> parametros;
+    public static ArrayList<Parametros> parametrosTemp;
     static FuncionHaskell nueva;
+    static FuncionHaskellTemp nuevaTemp;
     static FuncionesPropiasHaskell funPropias = new FuncionesPropiasHaskell();
     static ExpresionHaskell exp = new ExpresionHaskell();
     static Concatena concatena = new Concatena();
@@ -39,23 +42,32 @@ public class RecorreHaskell {
             if (raiz.hijos.get(i).hijos.size() == 3) {
                 //parametros que recibe la funcion
                 parametros = new ArrayList();
+                parametrosTemp = new ArrayList();
                 Nodo param = raiz.hijos.get(i).hijos.get(1);
                 for (int j = 0; j < param.hijos.size(); j++) {
                     Parametros p = new Parametros("", param.hijos.get(j).hijos.get(0).valor.toString());
+                    Parametros pTemp = new Parametros();
+                    pTemp.ParametrosTemp("", param.hijos.get(j).hijos.get(0).valor.toString());
                     p.setValor(null);
+                    pTemp.setValor(null);
                     parametros.add(p);
+                    parametrosTemp.add(pTemp);
 
                 }
                 Nodo cuerpo = raiz.hijos.get(i).hijos.get(2).hijos.get(0);
                 nueva = new FuncionHaskell(nombreFunc, parametros, cuerpo);
+                nuevaTemp = new FuncionHaskellTemp(nombreFunc+"_Temp", parametrosTemp, cuerpo);
                 agrega.AgregarFuncion(nombreFunc, nueva);
+                agrega.AgregarFuncionTemp(nombreFunc+"_Temp", nuevaTemp);
             } else if (raiz.hijos.get(i).hijos.size() == 2) {
                 //nodo del cuerpo de la funcion
 
                 Nodo cuerpo = raiz.hijos.get(i).hijos.get(1).hijos.get(0);
 
                 nueva = new FuncionHaskell(nombreFunc, cuerpo);
+                nuevaTemp = new FuncionHaskellTemp(nombreFunc, cuerpo);
                 agrega.AgregarFuncion(nombreFunc, nueva);
+                agrega.AgregarFuncionTemp(nombreFunc, nuevaTemp);
             }
 
         }
