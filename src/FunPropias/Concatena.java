@@ -38,7 +38,7 @@ public class Concatena {
                     System.out.println("" + val.tipo + " " + tipo);
                     if (val.tipo.equals(tipo)) {
 
-                        if (val.tipo.equals("cadena")) {
+                        if (val.tipo.equals("caracter")) {
                             ArrayList a = (ArrayList) val.valor;
                             if (a.get(0) instanceof ArrayList) {
                                 for (int i = 0; i < a.size(); i++) {
@@ -81,7 +81,7 @@ public class Concatena {
                         Valor v = new Valor(temp, "");
                         return v;
                     }
-                } else if (val.tipo.equals("cadena")) {
+                } else if (val.tipo.equals("caracter")) {
                     ArrayList a = (ArrayList) val.valor;
                     if (a.get(0) instanceof ArrayList) {
                         for (int i = 0; i < a.size(); i++) {
@@ -235,6 +235,93 @@ public class Concatena {
                         return val;
                     }
                 }
+                Map<String, Variable> l = lista.ObtenerListaListas();
+                Boolean encontrado = false;
+                if (l != null) {
+                    if (l.size() > 0) {
+                        for (int i = 0; i < l.size(); i++) {
+                            Boolean g = lista.getKeyListas(nombre + "_" + RecorreHaskell.ambito);
+                            if (g.equals(true)) {
+                                encontrado = true;
+                                Object obtener = (Object) l.get(nombre + "_" + RecorreHaskell.ambito).valor;
+                                Valor val = new Valor(obtener, l.get(nombre + "_" + RecorreHaskell.ambito).tipo);
+                                return val;
+                            } else {
+                                /// mando a traer los parametros y busco la variable
+                                Map<String, FuncionHaskell> fun = lista.ObtenerListaFunciones();
+
+                                if (fun != null) {
+                                    if (fun.size() > 0) {
+                                        for (int j = 0; j < fun.size(); j++) {
+                                            if (!"".equals(nombreFuncion)) {
+                                                Boolean g2 = lista.getKeyFunciones(nombreFuncion);
+                                                if (g2.equals(true)) {
+                                                    encontrado = true;
+                                                    ArrayList<Parametros> parametros = (ArrayList) fun.get(nombreFuncion).getParametros();
+
+                                                    for (int k = 0; k < parametros.size(); k++) {
+                                                        if (nombre.equals(parametros.get(k).nombre)) {
+                                                            Valor val = new Valor(parametros.get(k).valor, parametros.get(k).tipo);
+                                                            return val;
+                                                        }
+                                                    }
+                                                } else {
+                                                    Valor vi = new Valor(nombreFuncion + " no declarada", "");
+                                                    return vi;
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        Valor v2 = new Valor(nombre, "id");
+                                        return v2;
+                                    }
+                                } else {
+                                    Valor v2 = new Valor("lista no declarada", "");
+                                    return v2;
+                                }
+
+                            }
+
+                        }
+                    } else {
+                        Map<String, FuncionHaskell> fun = lista.ObtenerListaFunciones();
+                        if (fun != null) {
+                            if (fun.size() > 0) {
+                                for (int j = 0; j < fun.size(); j++) {
+                                    if (!"".equals(nombreFuncion)) {
+                                        Boolean g3 = lista.getKeyFunciones(nombreFuncion);
+                                        if (g3.equals(true)) {
+                                            encontrado = true;
+                                            ArrayList<Parametros> parametros = (ArrayList) fun.get(nombreFuncion).getParametros();
+
+                                            for (int k = 0; k < parametros.size(); k++) {
+                                                if (nombre.equals(parametros.get(k).nombre)) {
+                                                    Valor val = new Valor(parametros.get(k).valor, parametros.get(k).tipo);
+
+                                                    return val;
+                                                }
+                                            }
+                                        } else {
+                                            Valor vi = new Valor(nombreFuncion + " no declarada", "");
+                                            return vi;
+                                        }
+                                    }
+                                }
+                            } else {
+                                Valor v2 = new Valor("lista no declarada", "");
+                                return v2;
+                            }
+                        } else {
+                            Valor v2 = new Valor(nombre, "id");
+                            return v2;
+                        }
+                    }
+
+                    if (encontrado.equals(false)) {
+                        Valor v2 = new Valor("lista no declarada", "");
+                        return v2;
+                    }
+                }
                 if (bandera != true) {
                     Valor v2 = new Valor("el parametro no existe", "");
                     return v2;
@@ -255,7 +342,7 @@ public class Concatena {
                 char letra = valor.charAt(i);
                 cadena.add(letra);
             }
-            Valor v = new Valor(cadena, "cadena");
+            Valor v = new Valor(cadena, "caracter");
             return v;
 
         } else if (temp.equals(

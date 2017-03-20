@@ -6,10 +6,8 @@
 package FunPropias;
 
 import Ast.Nodo;
-import FunPropias.Concatena;
 import java.util.ArrayList;
 import Interprete.Haskell.FuncionHaskell;
-import FunPropias.FuncionesPropiasHaskell;
 import Interprete.Haskell.ExpresionHaskell;
 import static Interprete.Haskell.ExpresionHaskell.ultimoValor;
 import static Interprete.Haskell.ExpresionHaskell.ultimoTipo;
@@ -129,7 +127,7 @@ public class RecorreHaskell {
                                             return v;
                                         }
                                     } else {
-                                        Valor v = new Valor("en el case no coiciden los tipos", "");
+                                        Valor v = new Valor("en el case no coinciden los tipos", "");
                                         return v;
                                     }
 
@@ -384,6 +382,7 @@ public class RecorreHaskell {
                     variable = new Variable(nombrelista, val.valor, val.tipo);
                     agrega.AgregarVariable(nombrelista + "_" + ambito, variable);
                     ExpresionHaskell.ultimoValor = val.valor;
+                    
                     String texto = "";
                     ArrayList a = (ArrayList) val.valor;
                     if (a != null) {
