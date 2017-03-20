@@ -67,8 +67,8 @@ End
 
 
 Saludo n, nombre = 
-	Let hola = ['h','o','l','a',' ']
-	Let adios = ['a','d','i','o','s',' ']
+	$Let hola = ['h','o','l','a',' ']$
+	$Let adios = ['a','d','i','o','s',' ']$
 	Case n
 		'a': hola ++ nombre;
 		'b': adios ++ nombre;
@@ -105,7 +105,7 @@ OperarCadena cadena, op =
 					if op == $calcular 5$ then
 						$desc cadena$
 					else
-						let vacio = cadena
+						$let vacio = cadena$
 					End
 				End
 			End
@@ -115,8 +115,14 @@ End
 
 
 InvertirLista5_3 tamanio, lista =
-	let ordenada = [[lista !! 4 !! 2 , lista !! 4 !! 1, lista !! 4 !! 0],[lista !! 3 !! 2 , lista !! 3 !! 1, lista !! 3 !! 0],[lista !! 2 !! 2 , lista !! 2 !! 1, lista !! 2 !! 0],[lista !! 1 !! 2 , lista !! 1 !! 1, lista !! 1 !! 0],[lista !! 0 !! 2 , lista !! 0 !! 1, lista !! 0 !! 0]]
+	$let ordenada = [[lista !! 4 !! 2 , lista !! 4 !! 1, lista !! 4 !! 0],[lista !! 3 !! 2 , lista !! 3 !! 1, lista !! 3 !! 0],[lista !! 2 !! 2 , lista !! 2 !! 1, lista !! 2 !! 0],[lista !! 1 !! 2 , lista !! 1 !! 1, lista !! 1 !! 0],[lista !! 0 !! 2 , lista !! 0 !! 1, lista !! 0 !! 0]]$
 End
+
+Invertir lista =
+	$let ordenada = [lista !! 2 , lista !! 1 , lista !! 0 ]$
+End
+
+entrada $ InvertirLista5_3 { [[5,8,7],[2,3,6],[1,4,9],[10,84,63],[58,98,0]]}$
 
 
 

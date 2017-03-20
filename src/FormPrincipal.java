@@ -5,31 +5,17 @@ import Analizadores.Haskell.HaskellLexico;
 import Analizadores.Haskell.HaskellSintactico;
 import Analizadores.Consola.ConsolaLexico;
 import Analizadores.Consola.ConsolaSintactico;
+import Analizadores.Graphik.GraphikLexico;
+import Analizadores.Graphik.GraphikSintactico;
 import Ast.Nodo;
 import Interprete.Valor;
 import FunPropias.RecorreHaskell;
-import Simbolos.TablaSimbolosHaskell;
-import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.ByteArrayInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import javax.swing.BorderFactory;
-import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import org.fife.ui.rsyntaxtextarea.AbstractTokenMakerFactory;
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.SyntaxScheme;
-import org.fife.ui.rsyntaxtextarea.Token;
-import org.fife.ui.rsyntaxtextarea.TokenMakerFactory;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 /**
@@ -219,6 +205,12 @@ public class FormPrincipal extends javax.swing.JFrame{
                 }
                 //viene graphik    
                 else if(listaPestañas.get(actual).getTextArea().getName().equals(".gk")){
+                    GraphikLexico scan = new GraphikLexico(new BufferedReader( new StringReader(a)));
+                    GraphikSintactico parser = new GraphikSintactico(scan);
+                    parser.parse();
+                    Graficar(recorrido(GraphikSintactico.raiz),"AstGraphik");
+                    //RecorreHaskell.Recorrido(HaskellSintactico.raiz);
+                    
                     System.out.println("entro a graphik");
                 }
             } catch (Exception ex) {

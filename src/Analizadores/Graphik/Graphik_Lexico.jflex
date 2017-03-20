@@ -1,6 +1,6 @@
 /*------------ Codigo de Usuario ---------*/
 //------> Paquetes,importaciones
-package Analizadores;
+package Analizadores.Graphik;
 import java_cup.runtime.*;
 import java.util.LinkedList;
 
@@ -8,7 +8,7 @@ import java.util.LinkedList;
 %%
 %{
     //----> Codigo de usuario en sintaxis java
-    public static LinkedList<Errores> Err = new LinkedList<Errores>();
+    public static LinkedList<Analizadores.Errores> Err = new LinkedList<Analizadores.Errores>();
 %}
 
 //-------> Directivas
@@ -22,6 +22,7 @@ import java.util.LinkedList;
 %ignorecase
 %unicode
 %line
+//%debug
 
 
 //------> Expresiones Regulares
@@ -32,8 +33,8 @@ letras      = [a-zA-ZñÑ]+
 id          ={letras}({numero}|"_"|{letras})*
 decimal     ={numero}"."{numero}
 nombreArchivo = {id}".gk"
-comentarios = "#/" ([^]*) "/#" 
-comentario  = "#" ([^]*)
+comentarios = "#/" ([^\#]*) "/#" 
+comentario  = "#" ([^\#]*)
 
 
 %%
@@ -130,6 +131,9 @@ comentario  = "#" ([^]*)
 "Continuar"     {   System.out.println("Entro Continuar");
                     return new Symbol(SimbolosGraphik.continuar, yyline, yycolumn, new String(yytext()));
                 }
+"Datos"         {   System.out.println("Entro Datos");
+                    return new Symbol(SimbolosGraphik.datos, yyline, yycolumn, new String(yytext()));
+                }
 "Terminar"      {   System.out.println("Entro Terminar");
                     return new Symbol(SimbolosGraphik.terminar, yyline, yycolumn, new String(yytext()));
                 }
@@ -171,7 +175,7 @@ comentario  = "#" ([^]*)
 {numero}        {   System.out.println("Entro numero");
                     return new Symbol(SimbolosGraphik.num, yyline, yycolumn, new String(yytext()));
                 }
-{id}            {   System.out.println("Entro id");
+{id}            {   System.out.println("Entro "+yytext());
                     return new Symbol(SimbolosGraphik.id, yyline, yycolumn, new String(yytext()));
                 }
 {decimal}       {   System.out.println("Entro decimal");
@@ -181,6 +185,8 @@ comentario  = "#" ([^]*)
                     System.out.println("Entro Caracter");
                     return new Symbol(SimbolosGraphik.carac, yyline, yycolumn, new String(yytext()));
                 }
+{comentarios}   {}
+{comentario}    {}
 
 
 //OPERADORES VALIDOS
@@ -270,8 +276,7 @@ comentario  = "#" ([^]*)
                 }
 
 
-{comentarios}   {yycolumn = yycolumn+1;}
-{comentario}    {}
+
 
 //------> Espacios
     (\r\n | \n )+               {}

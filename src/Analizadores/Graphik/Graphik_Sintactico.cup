@@ -1,15 +1,16 @@
 /*------------ Codigo de Usuario ---------*/
 //------> Paquetes,importaciones
-package Analizadores;
+package Analizadores.Graphik;
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
+import Ast.Nodo;
 
 //------> Parser, Variables y Metodos
 
 parser code
 {: 
-    public static LinkedList<Errores> Err = new LinkedList<Errores>();
-    
+    public static LinkedList<Analizadores.Errores> Err = new LinkedList<Analizadores.Errores>();
+    public static Nodo raiz;
     public void syntax_error(Symbol s)
     {
         String texto = s.value.toString();
@@ -17,7 +18,7 @@ parser code
         int columna = s.left;
         
         System.out.println("Error Sintactico Recuperado: "+texto+" Fila: "+fila+" Columna: " +columna);
-        Errores err = new Errores("Sintactico: ","No se esperaba: ",texto,fila,columna);
+        Analizadores.Errores err = new Analizadores.Errores("Sintactico: ","No se esperaba: ",texto,fila,columna);
         Err.add(err);
 
     }
@@ -29,7 +30,7 @@ parser code
         int columna = s.left;
         
         System.out.println("Error Sintactico Modo Panico: "+texto+" Fila: "+fila+" Columna: " +columna);
-        Errores err = new Errores("Sintactico: ","No se esperaba: ",texto,fila,columna);
+        Analizadores.Errores err = new Analizadores.Errores("Sintactico: ","No se esperaba: ",texto,fila,columna);
         Err.add(err);
     }
 :}  
@@ -57,7 +58,7 @@ terminal protegido, privado, publico;
 terminal importar, hereda, var, nuevo, retornar, llamar;
 terminal inicio, llamarHK, incluirHK, graphikar;
 terminal si, seleccion, sino, caso, defecto, para, mientras, hacer, continuar, terminar;
-terminal columna, procesar, donde, dondecada, dondetodo, imprimir;
+terminal columna, procesar, donde, dondecada, dondetodo, imprimir,datos;
 terminal cad, id, num, dec, carac, verdadero, falso,nombreArchivo;
 terminal corAbre, corCierra, llaveAbre, llaveCierra, parenAbre, parenCierra;
 terminal mas, menos, por, div, potencia;
@@ -66,26 +67,26 @@ terminal mayorq, menorq, mayorigualq, menorigualq, igualigual, diferente;
 terminal incremento, decremento;
 terminal igual, dospuntos, punto, coma, fin; 
 
-non terminal INICIO, CUERPO_ALS, L_ALS, ALS;
+non terminal INICIO, CUERPO_ALS, L_ALS, ALS, IN, IM, LLAMAR_INSTANCIA;
 non terminal IMPORTACIONES, L_IMPORTACIONES, INCLUYE_HK, L_INCLUYE;
-non terminal VISIBILIDAD, SENTENCIAS, L_SENT, HEREDA;
-non terminal DECLARACION_GLOBAL, L_GLOBALES, L_VAR, ASIGNACION;
-non terminal DECLARACION_LOCAL, ASIGNA, GRAPHIKAR;
-non terminal TIPO_DATO, OPCION, EXP, DATOS, ATRIBUTO;
+non terminal VISIBILIDAD, SENTENCIAS, L_SENT, HEREDA, L_DATOS;
+non terminal DECLARACION_GLOBAL, L_VAR, ASIGNACION;
+non terminal DECLARACION_LOCAL, ASIGNA, GRAPHIKAR, ACCESO,L_ACCESO;
+non terminal TIPO_DATO, OPCION, EXP, DATOS, CUERPO_DATOS, ATRIBUTO;
 non terminal COLUMNA, PROCESAR, DONDE, DONDECADA, DONDETODO;
 non terminal ARREGLO, L_DIMENSIONES, ASIGNACION_ARREGLO, L_POS, POSICIONES;
-non terminal METODO_INICIO, METODOS_DEFINIDOS, METODOS, PARAMETROS;
-non terminal INSTANCIA_OBJETOS, LLAMAR, LLAMARHK, PARAM_LLAMA;
-non terminal RETORNA, SENTENCIA_SI, SENTENCIA_SINO;
+non terminal METODO_INICIO, METODOS, PARAMETROS, LLAMADA_ARREGLO;
+non terminal LLAMAR, LLAMARHK, PARAM_LLAMA, L_CUERPO;
+non terminal RETORNA, SENTENCIA_SI, SENTENCIA_SINO, ARR_GRAPHIK;
 non terminal SENTENCIA_PARA, ASIGNA_PARA, CONDICION,DECLARACION_PARA;
-non terminal SENTENCIA_HMIENTRAS, SENTENCIA_MIENTRAS;
+non terminal SENTENCIA_HMIENTRAS, SENTENCIA_MIENTRAS, L_GRAPHIK;
 non terminal SENTENCIA_SELECCION, CASOS, L_CASO, DEFECTO;
-non terminal TERMINAR, CONTINUAR,IMPRIMIR;
+non terminal TERMINAR, CONTINUAR, IMPRIMIR, L_PARAMETROS, PARAM;
  
 precedence left or;
 precedence left xor;
 precedence left and;
-precedence left not;
+precedence right not;
 precedence left igualigual, diferente, mayorq, menorq, mayorigualq, menorigualq;
 precedence left mas, menos;
 precedence left por, div;
@@ -94,12 +95,20 @@ precedence left incremento, decremento;
 
 start with INICIO; 
 
-INICIO ::= IMPORTACIONES INCLUYE_HK L_ALS
+INICIO ::= IM IN L_ALS
         ;
+IM ::= IMPORTACIONES
+    |
+    ;
+
+IN ::= INCLUYE_HK
+    | 
+    ;
 
 IMPORTACIONES ::= IMPORTACIONES L_IMPORTACIONES
                  | L_IMPORTACIONES
                  ;
+
 L_IMPORTACIONES ::= importar nombreArchivo fin
                  ;
 
@@ -127,18 +136,30 @@ VISIBILIDAD ::= dospuntos publico
             | //por defecto es publico
             ;
 
-CUERPO_ALS ::= DECLARACION_GLOBAL 
-            | METODO_INICIO
-            | DATOS 
-            | METODOS_DEFINIDOS
+CUERPO_ALS ::= CUERPO_ALS L_CUERPO
+            | L_CUERPO
             ;
 
-DATOS ::= COLUMNA
-        | PROCESAR
-        | DONDE 
-        | DONDECADA 
-        | DONDETODO
-        ;
+L_CUERPO ::= DECLARACION_GLOBAL 
+            | METODO_INICIO
+            | DATOS 
+            | METODOS
+            ;
+
+
+DATOS ::= Tvacio datos parenAbre parenCierra llaveAbre CUERPO_DATOS llaveCierra
+       ;
+
+CUERPO_DATOS ::= CUERPO_DATOS L_DATOS
+              | L_DATOS
+              ;
+
+L_DATOS ::= COLUMNA
+         | PROCESAR
+         | DONDE 
+         | DONDECADA 
+         | DONDETODO
+            ;
 
 COLUMNA ::= columna parenAbre EXP parenCierra
          ;
@@ -155,19 +176,20 @@ DONDECADA ::= dondecada parenAbre EXP parenCierra fin
 DONDETODO ::= dondetodo parenAbre EXP parenCierra fin
            ;
 
-DECLARACION_GLOBAL ::= DECLARACION_GLOBAL L_GLOBALES
-                    | L_GLOBALES
-                    ;
-
-L_GLOBALES ::= var TIPO_DATO id VISIBILIDAD OPCION fin
+DECLARACION_GLOBAL ::= var TIPO_DATO id VISIBILIDAD OPCION fin
             | var TIPO_DATO id ARREGLO VISIBILIDAD ASIGNACION_ARREGLO fin
+            | var TIPO_DATO id VISIBILIDAD igual nuevo LLAMAR_INSTANCIA fin
             ;
 
 OPCION ::= coma L_VAR 
         | ASIGNACION
         | 
         ;
-
+		
+L_VAR ::= L_VAR coma id VISIBILIDAD
+       | id VISIBILIDAD
+       ;
+	   
 ARREGLO ::= ARREGLO L_DIMENSIONES 
         | L_DIMENSIONES
         ;
@@ -182,6 +204,7 @@ TIPO_DATO ::= Tentero
            | Tbool
            | Tals
            | Tvacio
+           | id
            ;
 
 ASIGNACION_ARREGLO ::= igual POSICIONES
@@ -199,19 +222,15 @@ L_POS ::= llaveAbre POSICIONES llaveCierra
 ASIGNACION ::= igual EXP
             ;
 
-L_VAR ::= L_VAR coma id VISIBILIDAD
-       | id VISIBILIDAD
-       ;
-
-METODO_INICIO ::= Tvacio inicio parenAbre parenCierra SENTENCIAS llaveAbre llaveCierra
+METODO_INICIO ::= Tvacio inicio parenAbre parenCierra llaveAbre SENTENCIAS llaveCierra
                ;
 
-METODOS_DEFINIDOS ::= METODOS_DEFINIDOS METODOS
-                   | METODOS
-                   ;
-
-METODOS ::= TIPO_DATO id parenAbre PARAMETROS parenCierra VISIBILIDAD llaveAbre SENTENCIAS llaveCierra
+METODOS ::= TIPO_DATO id parenAbre L_PARAMETROS parenCierra VISIBILIDAD llaveAbre SENTENCIAS llaveCierra
          ;
+
+L_PARAMETROS ::= PARAMETROS
+              |
+              ;
 
 PARAMETROS ::= PARAMETROS coma TIPO_DATO id
             | TIPO_DATO id
@@ -222,8 +241,7 @@ SENTENCIAS ::= SENTENCIAS L_SENT
             ;
 
 L_SENT ::= DECLARACION_LOCAL fin
-        | INSTANCIA_OBJETOS
-        | LLAMAR
+        | LLAMAR fin
         | LLAMARHK
         | ASIGNA fin
         | RETORNA
@@ -238,8 +256,17 @@ L_SENT ::= DECLARACION_LOCAL fin
         | GRAPHIKAR
         ;
 
-GRAPHIKAR ::= graphikar parenAbre id parenCierra fin
+GRAPHIKAR ::= graphikar parenAbre ARR_GRAPHIK parenCierra fin
            ;
+
+ARR_GRAPHIK ::= id
+             | llaveAbre L_GRAPHIK llaveCierra
+	     ;
+		   
+L_GRAPHIK ::= L_GRAPHIK coma EXP
+	   | EXP
+	   ;
+
 
 IMPRIMIR ::= imprimir parenAbre EXP parenCierra fin
           ;
@@ -266,7 +293,7 @@ ASIGNA_PARA ::= DECLARACION_PARA dospuntos
              | ASIGNA dospuntos
              ;
 
-DECLARACION_PARA ::= var TIPO_DATO id igual EXP
+DECLARACION_PARA ::= TIPO_DATO id igual EXP
                   ;
 
 SENTENCIA_SELECCION ::= seleccion parenAbre EXP parenCierra llaveAbre CASOS DEFECTO llaveCierra
@@ -294,27 +321,40 @@ RETORNA ::= retornar EXP fin
 
 DECLARACION_LOCAL ::= var TIPO_DATO id VISIBILIDAD OPCION
             | var TIPO_DATO id ARREGLO VISIBILIDAD ASIGNACION_ARREGLO
+            | var TIPO_DATO id VISIBILIDAD igual nuevo LLAMAR_INSTANCIA
             ;
 
-ASIGNA ::= id ATRIBUTO igual EXP
-        ;
+LLAMAR_INSTANCIA ::= id L_ACCESO parenAbre PARAM_LLAMA parenCierra
+                  ;
 
-ATRIBUTO ::= punto id
-          | 
+ASIGNA ::= id L_ACCESO igual EXP
+        | id L_ACCESO igual nuevo LLAMAR_INSTANCIA 
+        ;
+		
+L_ACCESO ::= ACCESO
+	  | 
+	  ;
+
+ACCESO ::= ACCESO ATRIBUTO
+	| ATRIBUTO
+	;
+		
+ATRIBUTO ::= punto id 
           ;
 
-LLAMAR ::= llamar id parenAbre PARAM_LLAMA parenCierra fin
+LLAMAR ::= llamar id L_ACCESO parenAbre PARAM_LLAMA parenCierra 
         ;
 
 LLAMARHK ::= llamarHK id parenAbre PARAM_LLAMA parenCierra fin
         ;
 
-PARAM_LLAMA ::= PARAM_LLAMA coma EXP
-             | EXP
+PARAM_LLAMA ::= PARAM
+             | 
              ;
 
-INSTANCIA_OBJETOS ::= var id id igual nuevo id parenAbre parenCierra fin
-                   ;
+PARAM ::= PARAM coma EXP
+       | EXP
+       ;
 
 EXP ::= EXP mas EXP
      | EXP menos EXP
@@ -335,7 +375,11 @@ EXP ::= EXP mas EXP
      | EXP decremento
      | menos EXP
      | parenAbre EXP parenCierra
-    // | LLAMAR falta hk
+     | LLAMAR 
+     | LLAMADA_ARREGLO
+     | LLAMARHK
+     | id ACCESO
+     | id LLAMADA_ARREGLO
      | num
      | cad
      | dec
@@ -344,3 +388,7 @@ EXP ::= EXP mas EXP
      | falso
      | verdadero
      ;
+
+LLAMADA_ARREGLO ::= LLAMADA_ARREGLO corAbre EXP corCierra
+                | corAbre EXP corCierra
+                ;
