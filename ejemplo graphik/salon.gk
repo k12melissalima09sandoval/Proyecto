@@ -1,0 +1,34 @@
+importar estudiante.gk?
+
+ALS salon:publico {
+    
+    
+    vacio cargar_estudiantes():publico{
+    
+        llamar estudiante estudiante1 = nuevo estudiante()?
+        llamar estudiante1.ingresar_datos("Luis", 22, 201754321)?
+        llamar estudiante1.ingresar_detalle("3 calle", "5551223", "1234")?
+        
+        llamar estudiante estudiante2 = nuevo estudiante()?
+        llamar estudiante2.ingresar_datos("Pedro", 20, 201754322)?
+        llamar estudiante2.ingresar_detalle("2 calle", "5551224", "444555333")?
+        
+        llamar estudiante estudiante3 = nuevo estudiante()?
+        llamar estudiante3.ingresar_datos("Juan", 19, 201754323)?
+        llamar estudiante3.ingresar_detalle("primera avenida", "2551224", "44435333")?
+        
+        llamar estudiante1.siguiente_semestre()?
+        llamar estudiante2.siguiente_semestre()?
+        llamar estudiante3.siguiente_semestre()?
+        
+        
+        imprimir("Datos de estudiantes")?
+        
+        imprimir(estudiante1.nombre + " tiene " + estudiante1.edad + " años, vide en: " + estudiante1.d.direccion)?
+        imprimir(estudiante2.nombre + " tiene " + estudiante1.edad + " años, vide en: " + estudiante2.d.direccion)?
+        imprimir(estudiante3.nombre + " tiene " + estudiante1.edad + " años, vide en: " + estudiante3.d.direccion)?
+        
+        
+    }
+    
+}

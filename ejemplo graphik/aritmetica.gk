@@ -1,0 +1,90 @@
+
+ALS aritmetica:publico {
+    
+    decimal pi:privado = 3.1516?
+    decimal h:privado?
+    
+    vacio aritmetica1():publico{
+    
+        imprimir("Salida aritmética1: ")?
+        imprimir(  (10+41*(-1)^2 - (14/2)^3) + 15.6  )?
+        imprimir("Resultado = 40.6")?
+        
+    }
+    
+    vacio aritmetica2():publico{
+        
+        entero b = 15 + 13*(2) - 16?
+        entero c, a?
+        c = 11 - 3 * (6^4) + 16?
+        a = ((b^2) + (c^2))?
+        
+        imprimir("Salida aritmética2: ")?
+        imprimir("a^2 = " + ((b^2) + (c^2)))?
+        imprimir("Resultado = 50")?        
+    }
+    
+    vacio aritmetica3():publico{
+        entero r = 25?
+        decimal a = pi * (r^2)?
+        
+        imprimir("Salida aritmética3: ")?
+        imprimir("El área de un circulo es: " + a)?
+        imprimir("Resultado = 85.0932")?        
+        
+        h = 16.75?
+        
+        decimal f = a + h/4 * (20 - 3^2)?
+        imprimir("Segunda salida aritmética3: ")?
+        imprimir("Valor de f = " + f)?
+        imprimir("Resultado = 164.65")?        
+    }
+    
+    entero operacion(entero a, entero b, entero c):publico{
+        
+        entero x, y, z?
+        
+        x = 105*2-(5^1) + a?
+        y = 24^3 + b?
+        z = (x + y)/10 + c?
+        imprimir("valor de z = " + z)?
+        
+        retornar z?
+    }
+    
+    entero ciclo1(entero i):publico{
+        Para(entero x=0;x<10;x++){
+            Si(i>20 && i>x){
+                i = i + (i * 2)?
+            }Sino{
+                i = i + (i * 2)?
+            }
+        }        
+        retornar i?
+    }
+    
+    bool ciclo2():publico{
+        
+        entero conteo = 1?
+        Mientras (conteo < 11) {
+            Si(conteo == 2 || conteo == 4 || conteo == 6 || conteo == 8){
+                imprimir("Numero par menor a 10")?
+            }
+            Sino{
+                imprimir("Conteo es: " + conteo)?
+            }
+            conteo=conteo+1?
+        }
+        retornar verdadero?
+    }  
+    
+    vacio arreglo():publico{
+        imprimir("----- Arreglo -----")?
+        entero arreglo[] = {5,6,9,2,10}?
+        Para(entero i=0;i<5;i++){
+          imprimir(arreglo[i]+" ")?
+        }
+    }
+    
+    
+}

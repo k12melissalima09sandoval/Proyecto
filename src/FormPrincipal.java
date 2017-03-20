@@ -7,7 +7,7 @@ import Analizadores.Consola.ConsolaLexico;
 import Analizadores.Consola.ConsolaSintactico;
 import Ast.Nodo;
 import Interprete.Valor;
-import Simbolos.RecorreHaskell;
+import FunPropias.RecorreHaskell;
 import Simbolos.TablaSimbolosHaskell;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;

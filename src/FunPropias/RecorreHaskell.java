@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Simbolos;
+package FunPropias;
 
 import Ast.Nodo;
 import FunPropias.Concatena;
 import java.util.ArrayList;
-import Interprete.FuncionHaskell;
+import Interprete.Haskell.FuncionHaskell;
 import FunPropias.FuncionesPropiasHaskell;
-import Interprete.ExpresionHaskell;
-import static Interprete.ExpresionHaskell.ultimoValor;
-import Interprete.FuncionHaskellTemp;
+import Interprete.Haskell.ExpresionHaskell;
+import static Interprete.Haskell.ExpresionHaskell.ultimoValor;
 import Interprete.Parametros;
 import Interprete.Valor;
 import Interprete.Variable;
+import Simbolos.TablaSimbolosHaskell;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,7 +28,6 @@ public class RecorreHaskell {
     public static ArrayList<Parametros> parametros;
     public static ArrayList<Parametros> parametrosTemp;
     static FuncionHaskell nueva;
-    static FuncionHaskellTemp nuevaTemp;
     static FuncionesPropiasHaskell funPropias = new FuncionesPropiasHaskell();
     static ExpresionHaskell exp = new ExpresionHaskell();
     static Concatena concatena = new Concatena();
@@ -110,45 +109,87 @@ public class RecorreHaskell {
                     Valor v = new Valor("la condicion if devuelve un nulo", "");
                     return v;
                 }
-                
+
             case "Case":
                 Valor valcase = (Valor) exp.Expresion(raiz.hijos.get(0), nombreFuncion);
-                
-                
+
+                if (valcase != null) {
+                    if (valcase.valor != null) {
+                        Nodo casos = raiz.hijos.get(1);
+
+                        for (Nodo c : casos.hijos) {
+                            Valor val = (Valor) exp.Expresion(c.hijos.get(0), nombreFuncion);
+                            if (val != null) {
+                                if (val.valor != null) {
+                                    //coincide con el caso
+                                    if (valcase.tipo.equals(val.tipo)) {
+                                        if(valcase.valor.equals(val.valor)){
+                                            Valor v = (Valor)Consola(c.hijos.get(1),nombreFuncion);
+                                            return v;
+                                        }
+                                    }else {
+                                        Valor v = new Valor("en el case no coiciden los tipos","");
+                                            return v;
+                                    }
+
+                                }
+                            }
+                        }
+                        
+                        if(valcase.tipo.equals("numero")){
+                            
+                        }
+                    }
+                }
+
 //----------------------------------------FUNCIONES PROPIAS---------------------------------------
             case "Revers":
                 try {
-                        Valor ob4 = (Valor) concatena.Listas(raiz.hijos.get(0).hijos.get(0), nombreFuncion);
-                        ArrayList vals = (ArrayList) ob4.valor;
-                        List va = (List)vals;
-                        Collections.reverse(va);
-                        ultimoValor = va;
-                        Valor val4 = new Valor(va, "numero");
-                        return val4;
-                    } catch (Exception e) {
-                        Valor v = new Valor("no es una lista", "");
-                        return v;
-                    }
-                
-                
+                    Valor ob4 = (Valor) concatena.Listas(raiz.hijos.get(0).hijos.get(0), nombreFuncion);
+                    ArrayList vals = (ArrayList) ob4.valor;
+                    List va = (List) vals;
+                    Collections.reverse(va);
+                    ultimoValor = va;
+                    Valor val4 = new Valor(va, "numero");
+                    return val4;
+                } catch (Exception e) {
+                    Valor v = new Valor("no es una lista", "");
+                    return v;
+                }
+
             case "Impr":
-                
+
             case "Par":
-                
+
             case "Asc":
                 try {
-                        Valor ob4 = (Valor) concatena.Listas(raiz.hijos.get(0).hijos.get(0), nombreFuncion);
-                        ArrayList vals = (ArrayList) ob4.valor;
-                        List va = (List)vals;
-                        Collections.sort(va);
-                        ultimoValor = va;
-                        Valor val4 = new Valor(va, "numero");
-                        return val4;
-                    } catch (Exception e) {
-                        Valor v = new Valor("no es una lista", "");
-                        return v;
-                    }
+                    Valor ob4 = (Valor) concatena.Listas(raiz.hijos.get(0).hijos.get(0), nombreFuncion);
+                    ArrayList vals = (ArrayList) ob4.valor;
+                    List va = (List) vals;
+                    Collections.sort(va);
+                    ultimoValor = va;
+                    Valor val4 = new Valor(va, "numero");
+                    return val4;
+                } catch (Exception e) {
+                    Valor v = new Valor("no es una lista", "");
+                    return v;
+                }
+
             case "Desc":
+                try {
+                    Valor ob4 = (Valor) concatena.Listas(raiz.hijos.get(0).hijos.get(0), nombreFuncion);
+                    ArrayList vals = (ArrayList) ob4.valor;
+                    List va = (List) vals;
+                    Collections.sort(va);
+                    Collections.reverse(va);
+                    ultimoValor = va;
+                    Valor val4 = new Valor(va, "numero");
+                    return val4;
+                } catch (Exception e) {
+                    Valor v = new Valor("no es una lista", "");
+                    return v;
+                }
+
             case "LlamaFunc":
                 Valor valfun = (Valor) funPropias.Recorrer(raiz, nombreFuncion);
                 return valfun;

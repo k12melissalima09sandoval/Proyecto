@@ -7,7 +7,7 @@ package FunPropias;
 
 //import FunPropias.*;
 import Ast.Nodo;
-import Interprete.ExpresionHaskell;
+import Interprete.Haskell.ExpresionHaskell;
 import Interprete.Valor;
 
 /**
@@ -19,15 +19,11 @@ public class FuncionesPropiasHaskell {
   
     static Concatena concatena= new Concatena();
     static ExpresionHaskell exp = new ExpresionHaskell();
-    static LlamaFuncion llamaF = new LlamaFuncion();
     
     
     public Object Recorrer(Nodo raiz,String nombreFuncion){
         switch(raiz.valor.toString()){
-            
-            case "Asc":
-                break;
-                
+
             case "Calcular":
                 Valor obj2 = (Valor)exp.Expresion(raiz,nombreFuncion);
                 return obj2;
@@ -39,12 +35,6 @@ public class FuncionesPropiasHaskell {
             case "Decc":
                 Valor obj4=(Valor)exp.Expresion(raiz,nombreFuncion);
                 return obj4;
-                
-            case "Desc":
-                break;
-                
-            case "Impr":
-                break;
                 
             case "Indice":
                 Valor obj8=(Valor)exp.Expresion(raiz,nombreFuncion);
@@ -66,15 +56,9 @@ public class FuncionesPropiasHaskell {
                 Valor obj12=(Valor)exp.Expresion(raiz,nombreFuncion);
                 return obj12;
                 
-            case "Par":
-                break;
-                
             case "Product":
                 Valor obj14=(Valor)exp.Expresion(raiz,nombreFuncion);
                 return obj14;
-                
-            case "Revers":
-                break;
                 
             case "Succ":
                 Valor obj16=(Valor)exp.Expresion(raiz,nombreFuncion);

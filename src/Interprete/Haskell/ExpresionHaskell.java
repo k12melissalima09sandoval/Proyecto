@@ -3,17 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Interprete;
+package Interprete.Haskell;
 
 import Ast.Nodo;
 import FunPropias.Concatena;
-import Simbolos.RecorreHaskell;
+import FunPropias.RecorreHaskell;
+import Interprete.Parametros;
+import Interprete.Valor;
+import Interprete.Variable;
 import Simbolos.TablaSimbolosHaskell;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Stack;
 
 /**
@@ -1181,7 +1185,7 @@ public class ExpresionHaskell {
                             if (izq.tipo.equals("numero")) {
                                 Double num1 = Double.parseDouble(izq.valor.toString());
                                 Double num2 = Double.parseDouble(der.valor.toString());
-                                if (num1 != num2) {
+                                if (!Objects.equals(num1, num2)) {
                                     Valor val = new Valor(true, "bool");
                                     return val;
                                 } else {
@@ -1193,7 +1197,7 @@ public class ExpresionHaskell {
                                 Object oo = (Object) der.valor.toString().codePointAt(0);
                                 Double num1 = new Double(o.toString());
                                 Double num2 = new Double(oo.toString());
-                                if (num1 != num2) {
+                                if (!Objects.equals(num1, num2)) {
                                     Valor val = new Valor(true, "bool");
                                     return val;
                                 } else {
@@ -1218,7 +1222,7 @@ public class ExpresionHaskell {
                     int j2 = Integer.parseInt(i2.valor.toString().replace(".0", ""));
 
                     Map<String, Variable> l = lista.ObtenerListaListas();
-                    if (l != null) {
+                    if (l  != null) {
                         if (l.size() > 0) {
                             for (int i = 0; i < l.size(); i++) {
                                 Boolean g = lista.getKeyListas(nombreLista + "_" + RecorreHaskell.ambito);

@@ -28,10 +28,10 @@ import java.util.LinkedList;
 digito = [0-9]
 entero = {digito}+
 decimal={entero}"."{entero}
-letra = [a-zA-Z_Ññ]
 cadena = "\"" ([^\"]*)"\""
 caracter = "'" ([^\']) "'"
-id = {letra} ({letra} | {digito})*
+letras      = [a-zA-ZñÑ]+
+id          ={letras}({entero}|"_"|{letras})*
 
 %%
 /*------------ Reglas Lexicas ---------*/

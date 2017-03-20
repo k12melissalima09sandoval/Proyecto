@@ -5,14 +5,12 @@
  */
 package FunPropias;
 
-import Analizadores.SimbolosGraphik;
 import Ast.Nodo;
-import Interprete.ExpresionHaskell;
-import Interprete.FuncionHaskell;
+import Interprete.Haskell.ExpresionHaskell;
+import Interprete.Haskell.FuncionHaskell;
 import Interprete.Parametros;
 import Interprete.Valor;
 import Interprete.Variable;
-import Simbolos.RecorreHaskell;
 import Simbolos.TablaSimbolosHaskell;
 import java.util.ArrayList;
 import java.util.Map;

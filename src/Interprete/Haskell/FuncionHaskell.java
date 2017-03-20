@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Interprete;
+package Interprete.Haskell;
 
 import Ast.Nodo;
 
@@ -11,17 +11,17 @@ import Ast.Nodo;
  *
  * @author MishaPks
  */
-public class FuncionHaskellTemp {
+public class FuncionHaskell {
     String nombre;
     public Object parametros;
     Nodo cuerpo;
     
-    public FuncionHaskellTemp(String nombre, Object Parametros, Nodo corpo){
+    public FuncionHaskell(String nombre, Object Parametros, Nodo corpo){
         this.nombre = nombre;
         this.parametros = Parametros;
         this.cuerpo = corpo;
     }
-    public FuncionHaskellTemp(String nombre, Nodo corpo){
+    public FuncionHaskell(String nombre, Nodo corpo){
         this.nombre = nombre;
         this.cuerpo = corpo;
     }
@@ -49,5 +49,6 @@ public class FuncionHaskellTemp {
     public void setCuerpo(Nodo cuerpo) {
         this.cuerpo = cuerpo;
     }
+    
     
 }
