@@ -12,11 +12,13 @@ import Interprete.Haskell.FuncionHaskell;
 import FunPropias.FuncionesPropiasHaskell;
 import Interprete.Haskell.ExpresionHaskell;
 import static Interprete.Haskell.ExpresionHaskell.ultimoValor;
+import static Interprete.Haskell.ExpresionHaskell.ultimoTipo;
 import Interprete.Parametros;
 import Interprete.Valor;
 import Interprete.Variable;
 import Simbolos.TablaSimbolosHaskell;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -81,7 +83,6 @@ public class RecorreHaskell {
                     vSent = (Valor) Consola(c, nombreFuncion);
                 }
                 Valor vFinSent = new Valor(vSent.valor, vSent.tipo);
-                //ExpresionHaskell.ultimoValor = vSent.valor;
                 ambito = "consola";
                 return vFinSent;
 
@@ -123,21 +124,21 @@ public class RecorreHaskell {
                                 if (val.valor != null) {
                                     //coincide con el caso
                                     if (valcase.tipo.equals(val.tipo)) {
-                                        if(valcase.valor.equals(val.valor)){
-                                            Valor v = (Valor)Consola(c.hijos.get(1),nombreFuncion);
+                                        if (valcase.valor.equals(val.valor)) {
+                                            Valor v = (Valor) Consola(c.hijos.get(1), nombreFuncion);
                                             return v;
                                         }
-                                    }else {
-                                        Valor v = new Valor("en el case no coiciden los tipos","");
-                                            return v;
+                                    } else {
+                                        Valor v = new Valor("en el case no coiciden los tipos", "");
+                                        return v;
                                     }
 
                                 }
                             }
                         }
-                        
-                        if(valcase.tipo.equals("numero")){
-                            
+
+                        if (valcase.tipo.equals("numero")) {
+
                         }
                     }
                 }
@@ -146,12 +147,23 @@ public class RecorreHaskell {
             case "Revers":
                 try {
                     Valor ob4 = (Valor) concatena.Listas(raiz.hijos.get(0).hijos.get(0), nombreFuncion);
+                   if (ob4.tipo.equals("cadena") || ob4.tipo.equals("caracter")) {
                     ArrayList vals = (ArrayList) ob4.valor;
                     List va = (List) vals;
                     Collections.reverse(va);
                     ultimoValor = va;
+                    ultimoTipo = "cadena";
+                    Valor val4 = new Valor(va, "cadena");
+                    return val4;
+                   }else{
+                        ArrayList vals = (ArrayList) ob4.valor;
+                    List va = (List) vals;
+                    Collections.reverse(va);
+                    ultimoValor = va;
+                    ultimoTipo ="numero";
                     Valor val4 = new Valor(va, "numero");
                     return val4;
+                   }
                 } catch (Exception e) {
                     Valor v = new Valor("no es una lista", "");
                     return v;
@@ -159,17 +171,132 @@ public class RecorreHaskell {
 
             case "Impr":
 
-            case "Par":
+                try {
+                    Valor ob4 = (Valor) concatena.Listas(raiz.hijos.get(0).hijos.get(0), nombreFuncion);
+                    
+                    if (ob4.tipo.equals("cadena") || ob4.tipo.equals("caracter")) {
+                        ArrayList impar = new ArrayList();
+                        ArrayList temp = (ArrayList) ob4.valor;
+                        for (int i = 0; i < temp.size(); i++) {
+                            String letra = temp.get(i).toString();
+                            Boolean impr = esImpar(letra);
+                            if (impr) {
+                                impar.add(letra);
+                            }
 
+                        }
+                        if (impar.isEmpty()) {
+                            Valor v = new Valor("[ ]","caracter");
+                            return v;
+                            
+                        } else {
+                            ultimoValor=impar;
+                            ultimoTipo="caracter";
+                            Valor v = new Valor(impar, "caracter");
+                            return v;
+                        }
+                    } else {
+                        ArrayList impar = new ArrayList();
+                        ArrayList temp = (ArrayList) ob4.valor;
+                        for (int i = 0; i < temp.size(); i++) {
+                            int num = Integer.parseInt(temp.get(i).toString());
+                            Boolean impr = esImpar(num);
+                            if (impr) {
+                                impar.add(num);
+                            }
+
+                        }
+                        if (impar.isEmpty()) {
+                            Valor v = new Valor("[ ]","numero");
+                            return v;
+                            
+                        } else {
+                            ultimoValor=impar;
+                            ultimoTipo="numero";
+                            Valor v = new Valor(impar, "numero");
+                            return v;
+                        }
+                    }
+                } catch (Exception e) {
+                    Valor v = new Valor("no es una lista", "");
+                    return v;
+                }
+            case "Par":
+                try {
+                    Valor ob4 = (Valor) concatena.Listas(raiz.hijos.get(0).hijos.get(0), nombreFuncion);
+                    
+                    if (ob4.tipo.equals("cadena") || ob4.tipo.equals("caracter")) {
+                        ArrayList par = new ArrayList();
+                        ArrayList temp = (ArrayList) ob4.valor;
+                        for (int i = 0; i < temp.size(); i++) {
+                            String letra = temp.get(i).toString();
+                            Boolean p = esPar(letra);
+                            if (p) {
+                                par.add(letra);
+                            }
+
+                        }
+                        if (par.isEmpty()) {
+                            Valor v = new Valor("[ ]","caracter");
+                            return v;
+                            
+                        } else {
+                            ultimoValor=par;
+                            ultimoTipo="caracter";
+                            Valor v = new Valor(par, "caracter");
+                            return v;
+                        }
+                    } else {
+                        ArrayList par = new ArrayList();
+                        ArrayList temp = (ArrayList) ob4.valor;
+                        for (int i = 0; i < temp.size(); i++) {
+                            int num = Integer.parseInt(temp.get(i).toString());
+                            Boolean p = esPar(num);
+                            if (p) {
+                                par.add(num);
+                            }
+
+                        }
+                        if (par.isEmpty()) {
+                            Valor v = new Valor("[ ]","numero");
+                            return v;
+                            
+                        } else {
+                            ultimoValor=par;
+                            ultimoTipo="numero";
+                            Valor v = new Valor(par, "numero");
+                            return v;
+                        }
+                    }
+                } catch (Exception e) {
+                    Valor v = new Valor("no es una lista", "");
+                    return v;
+                }
+                
             case "Asc":
                 try {
                     Valor ob4 = (Valor) concatena.Listas(raiz.hijos.get(0).hijos.get(0), nombreFuncion);
-                    ArrayList vals = (ArrayList) ob4.valor;
-                    List va = (List) vals;
-                    Collections.sort(va);
-                    ultimoValor = va;
-                    Valor val4 = new Valor(va, "numero");
-                    return val4;
+                    if (ob4.tipo.equals("cadena") || ob4.tipo.equals("caracter")) {
+                        ArrayList vals = (ArrayList) ob4.valor;
+                        List va = (List) vals;
+                        Collections.sort(va);
+                        ultimoValor = va;
+                        ultimoTipo = "caracter";
+                        Valor val4 = new Valor(va, "caracter");
+                        return val4;
+                    } else {
+                        ArrayList vals = (ArrayList) ob4.valor;
+
+                        ArrayList v = burbuja(vals);
+                        List vv = (List) v;
+                        Collections.reverse(vv);
+                        ArrayList nuevo = (ArrayList) vv;
+                        ultimoValor = nuevo;
+                        ultimoTipo= "numero";
+                        Valor vvv = new Valor(nuevo, "numero");
+                        return vvv;
+                    }
+
                 } catch (Exception e) {
                     Valor v = new Valor("no es una lista", "");
                     return v;
@@ -178,13 +305,26 @@ public class RecorreHaskell {
             case "Desc":
                 try {
                     Valor ob4 = (Valor) concatena.Listas(raiz.hijos.get(0).hijos.get(0), nombreFuncion);
-                    ArrayList vals = (ArrayList) ob4.valor;
-                    List va = (List) vals;
-                    Collections.sort(va);
-                    Collections.reverse(va);
-                    ultimoValor = va;
-                    Valor val4 = new Valor(va, "numero");
-                    return val4;
+                    if (ob4.tipo.equals("cadena") || ob4.tipo.equals("caracter")) {
+                        ArrayList vals = (ArrayList) ob4.valor;
+
+                        List va = (List) vals;
+                        Comparator<Integer> comparador = Collections.reverseOrder();
+                        Collections.sort(va, comparador);
+                        ultimoValor = va;
+                        ultimoTipo = "cadena";
+                        Valor val4 = new Valor(va, "cadena");
+                        return val4;
+                    } else {
+                        ArrayList vals = (ArrayList) ob4.valor;
+
+                        ArrayList v = burbuja(vals);
+
+                        ultimoValor = v;
+                        ultimoTipo = "numero";
+                        Valor vvv = new Valor(v, "numero");
+                        return vvv;
+                    }
                 } catch (Exception e) {
                     Valor v = new Valor("no es una lista", "");
                     return v;
@@ -296,6 +436,7 @@ public class RecorreHaskell {
                         if (texto.lastIndexOf(",") == texto.length() - 1) {
                             texto = texto.substring(0, texto.length() - 1);
                         }
+                        ultimoTipo="numero";
                         texto = "[" + texto + "]";
                         Valor v = new Valor(texto, "");
                         return v;
@@ -303,6 +444,7 @@ public class RecorreHaskell {
                         for (int i = 0; i < a.size(); i++) {
                             texto += a.get(i).toString();
                         }
+                        ultimoTipo = "cadena";
                         texto = "\"" + texto + "\"";
                         Valor v = new Valor(texto, "");
                         return v;
@@ -310,6 +452,7 @@ public class RecorreHaskell {
                         for (int i = 0; i < a.size(); i++) {
                             texto += a.get(i).toString();
                         }
+                        ultimoTipo = "caracter";
                         texto = "\"" + texto + "\"";
                         Valor v = new Valor(texto, "");
                         return v;
@@ -322,5 +465,38 @@ public class RecorreHaskell {
         }
 
         return null;
+    }
+
+    static ArrayList burbuja(ArrayList arreglo) {
+        ArrayList a = new ArrayList();
+        for (int i = 0; i < arreglo.size() - 1; i++) {
+            for (int j = 0; j < arreglo.size() - 1; j++) {
+                if (Integer.parseInt(arreglo.get(j).toString()) < Integer.parseInt(arreglo.get(j + 1).toString())) {
+                    int tmp = Integer.parseInt(arreglo.get(j + 1).toString());
+                    arreglo.set(j + 1, arreglo.get(j).toString());
+                    arreglo.set(j, tmp);
+                }
+            }
+
+        }
+
+        return arreglo;
+    }
+
+    static boolean esImpar(int iNumero) {
+        return iNumero % 2 != 0;
+    }
+
+    static boolean esImpar(String letra) {
+        int l = letra.codePointAt(0);
+        return l % 2 != 0;
+    }
+    static boolean esPar(int iNumero) {
+        return iNumero % 2 == 0;
+    }
+
+    static boolean esPar(String letra) {
+        int l = letra.codePointAt(0);
+        return l % 2 == 0;
     }
 }

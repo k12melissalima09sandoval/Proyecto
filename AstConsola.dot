@@ -1,12 +1,7 @@
 digraph G {node[shape=box, style=filled]; edge[color=red]
-node1544816704[label="LlamaFunc"];
- node1544816704->node2137685707;node2137685707[label="Operacion"];
- node1544816704->node1359959873;node1359959873[label="Parametros"];
- node1359959873->node160999678;node160999678[label="numero"];
- node160999678->node1974663045;node1974663045[label="2"];
- node1359959873->node1501709278;node1501709278[label="numero"];
- node1501709278->node1922872048;node1922872048[label="2"];
- node1359959873->node1049574149;node1049574149[label="numero"];
- node1049574149->node1550056846;node1550056846[label="7"];
+node986992446[label="Par"];
+ node986992446->node1925604360;node1925604360[label="Concatena"];
+ node1925604360->node363594841;node363594841[label="cadena"];
+ node363594841->node19341258;node19341258[label="me"];
 
 }

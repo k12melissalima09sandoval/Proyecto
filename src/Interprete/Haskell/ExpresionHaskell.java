@@ -94,6 +94,7 @@ public class ExpresionHaskell {
                 case "Calcular":
                     Valor ob2 = (Valor) Expresion(exp, nombreFuncion);
                     ultimoValor = ob2.valor.toString();
+                    ultimoTipo = ob2.tipo;
                     return ob2;
 
                 case "Decc":
@@ -102,6 +103,7 @@ public class ExpresionHaskell {
                         int num = ob3.valor.toString().codePointAt(0);
                         num = num - 1;
                         ultimoValor = num;
+                        ultimoTipo = "numero";
                         System.out.println("decc: " + num);
                         tmp = new Valor(num, "numero");
                         return tmp;
@@ -109,6 +111,7 @@ public class ExpresionHaskell {
                         Double ob18 = Double.parseDouble(ob3.valor.toString());
                         Double num = ob18 - 1;
                         ultimoValor = num;
+                        ultimoTipo = "numero";
                         System.out.println("decc: " + num);
                         tmp = new Valor(num, "numero");
                         return tmp;
@@ -121,13 +124,14 @@ public class ExpresionHaskell {
                     try {
                         Valor ob4 = (Valor) concatena.Listas(exp.hijos.get(0), nombreFuncion);
                         ArrayList vals = (ArrayList) ob4.valor;
-                        List va = (List)vals;
-                        System.out.println("revers "+Collections.max(vals));
-                        System.out.println("revers "+Collections.min(vals));
+                        List va = (List) vals;
+                        System.out.println("revers " + Collections.max(vals));
+                        System.out.println("revers " + Collections.min(vals));
                         Collections.reverse(va);
-                        System.out.println("revers "+va);
+                        System.out.println("revers " + va);
                         int tamaño = vals.size();
                         ultimoValor = tamaño;
+                        ultimoTipo = "numero";
                         Valor val4 = new Valor(tamaño, "numero");
                         return val4;
                     } catch (Exception e) {
@@ -157,8 +161,9 @@ public class ExpresionHaskell {
                                     }
                                 }
                                 ultimoValor = max;
+                                ultimoTipo = "numero";
                                 char c = (char) max;
-                                Valor v = new Valor(c, "caracter");
+                                Valor v = new Valor(c, "numero");
                                 return v;
                             } else {
                                 Double max = 0.00;
@@ -171,6 +176,7 @@ public class ExpresionHaskell {
                                     }
                                 }
                                 ultimoValor = max;
+                                ultimoTipo = "numero";
                                 Valor v = new Valor(max, "numero");
                                 return v;
                             }
@@ -183,8 +189,9 @@ public class ExpresionHaskell {
                                 }
                             }
                             ultimoValor = max;
+                            ultimoTipo = "numero";
                             char c = (char) max;
-                            Valor v = new Valor(c, "caracter");
+                            Valor v = new Valor(c, "numero");
                             return v;
                         } else {
                             Double max = 0.00;
@@ -194,6 +201,7 @@ public class ExpresionHaskell {
                                 }
                             }
                             ultimoValor = max;
+                            ultimoTipo = "numero";
                             Valor v = new Valor(max, "numero");
                             return v;
                         }
@@ -232,9 +240,10 @@ public class ExpresionHaskell {
                                     }
                                 }
                                 ultimoValor = min;
+                                ultimoTipo = "numero";
                                 char c = (char) min;
                                 System.out.println("min " + c);
-                                Valor v = new Valor(c, "caracter");
+                                Valor v = new Valor(c, "numero");
                                 return v;
                             } else { //numero
                                 Double max = 0.00;
@@ -256,6 +265,7 @@ public class ExpresionHaskell {
                                     }
                                 }
                                 ultimoValor = min;
+                                ultimoTipo = "numero";
                                 System.out.println("min " + min);
                                 Valor v = new Valor(min, "numero");
                                 return v;
@@ -275,9 +285,10 @@ public class ExpresionHaskell {
                                 }
                             }
                             ultimoValor = min;
+                            ultimoTipo = "numero";
                             char c = (char) min;
                             System.out.println("min " + c);
-                            Valor v = new Valor(c, "caracter");
+                            Valor v = new Valor(c, "numero");
                             return v;
                         } else { //numero
                             Double max = 0.00;
@@ -293,6 +304,7 @@ public class ExpresionHaskell {
                                 }
                             }
                             ultimoValor = min;
+                            ultimoTipo = "numero";
                             System.out.println("min " + min);
                             Valor v = new Valor(min, "numero");
                             return v;
@@ -322,6 +334,7 @@ public class ExpresionHaskell {
                                     }
                                 }
                                 ultimoValor = multiplica;
+                                ultimoTipo = "numero";
                                 System.out.println("mult " + multiplica);
                                 Valor v = new Valor(multiplica, "numero");
                                 return v;
@@ -336,6 +349,7 @@ public class ExpresionHaskell {
                                     }
                                 }
                                 ultimoValor = multiplica;
+                                ultimoTipo = "numero";
                                 System.out.println("mult " + multiplica);
                                 Valor v = new Valor(multiplica, "numero");
                                 return v;
@@ -351,6 +365,7 @@ public class ExpresionHaskell {
                                 System.out.println("res " + multiplica);
                             }
                             ultimoValor = multiplica;
+                            ultimoTipo = "numero";
                             System.out.println("mult " + multiplica);
                             Valor v = new Valor(multiplica, "numero");
                             return v;
@@ -361,6 +376,7 @@ public class ExpresionHaskell {
                                 multiplica = multiplica.multiply(h2);
                             }
                             ultimoValor = multiplica;
+                            ultimoTipo = "numero";
                             System.out.println("mult " + multiplica);
                             Valor v = new Valor(multiplica, "numero");
                             return v;
@@ -377,6 +393,7 @@ public class ExpresionHaskell {
                         int num = ob8.valor.toString().codePointAt(0);
                         num = num + 1;
                         ultimoValor = num;
+                        ultimoTipo = "numero";
                         System.out.println("succ: " + num);
                         tmp = new Valor(num, "numero");
                         return tmp;
@@ -384,6 +401,7 @@ public class ExpresionHaskell {
                         Double ob18 = Double.parseDouble(ob8.valor.toString());
                         Double num = ob18 + 1;
                         ultimoValor = num;
+                        ultimoTipo = "numero";
                         System.out.println("succ: " + num);
                         tmp = new Valor(num, "numero");
                         return tmp;
@@ -411,6 +429,7 @@ public class ExpresionHaskell {
                                     }
                                 }
                                 ultimoValor = sum;
+                                ultimoTipo = "numero";
                                 System.out.println("sum " + sum);
                                 Valor v = new Valor(sum, "numero");
                                 return v;
@@ -423,6 +442,7 @@ public class ExpresionHaskell {
                                     }
                                 }
                                 ultimoValor = sum;
+                                ultimoTipo = "numero";
                                 System.out.println("sum " + sum);
                                 Valor v = new Valor(sum, "numero");
                                 return v;
@@ -434,6 +454,7 @@ public class ExpresionHaskell {
                                 sum = sum + a9.get(i).toString().codePointAt(0);
                             }
                             ultimoValor = sum;
+                            ultimoTipo = "numero";
                             System.out.println("sum " + sum);
                             Valor v = new Valor(sum, "numero");
                             return v;
@@ -443,6 +464,7 @@ public class ExpresionHaskell {
                                 sum = sum + Integer.parseInt(a9.get(i).toString());
                             }
                             ultimoValor = sum;
+                            ultimoTipo = "numero";
                             System.out.println("sum " + sum);
                             Valor v = new Valor(sum, "numero");
                             return v;
@@ -487,6 +509,8 @@ public class ExpresionHaskell {
                         try {
                             int mult = Integer.parseInt(v5.valor.toString()) * (-1);
                             Valor v6 = new Valor(mult, "numero");
+                            ultimoValor = mult;
+                            ultimoTipo = "numero";
                             return v6;
                         } catch (Exception e) {
                             Valor v = new Valor("no aplica el unario", "");
@@ -495,14 +519,20 @@ public class ExpresionHaskell {
                     }
                 case "numero":
                     Valor v = new Valor(raiz.hijos.get(0).valor.toString(), "numero");
+                    ultimoValor = v.valor;
+                    ultimoTipo = "numero";
                     return v;
 
                 case "cadena":
                     Valor v1 = new Valor(raiz.hijos.get(0).valor.toString(), "cadena");
+                    ultimoValor = v1.valor;
+                    ultimoTipo = "cadena";
                     return v1;
 
                 case "caracter":
                     Valor v3 = new Valor(raiz.hijos.get(0).valor.toString().replace("'", ""), "caracter");
+                    ultimoValor = v3.valor;
+                    ultimoTipo = "caracter";
                     return v3;
 
                 case "id":
@@ -663,10 +693,12 @@ public class ExpresionHaskell {
                                     String nivel1 = valores.get(j1).toString();
                                     if (l.get(nombreLista + "_" + RecorreHaskell.ambito).tipo.equals("numero")) {
                                         ultimoValor = nivel1;
+                                        ultimoTipo = "numero";
                                         Valor val = new Valor(nivel1, "numero");
                                         return val;
                                     } else {
                                         ultimoValor = nivel1;
+                                        ultimoTipo = "caracter";
                                         Valor val = new Valor(nivel1, "caracter");
                                         return val;
                                     }
@@ -677,10 +709,12 @@ public class ExpresionHaskell {
                                         String nivel1 = valores.get(j1).toString();
                                         if (l.get(nombreLista + "_consola").tipo.equals("numero")) {
                                             ultimoValor = nivel1;
+                                            ultimoTipo = "numero";
                                             Valor val = new Valor(nivel1, "numero");
                                             return val;
                                         } else {
                                             ultimoValor = nivel1;
+                                            ultimoTipo = "caracter";
                                             Valor val = new Valor(nivel1, "caracter");
                                             return val;
                                         }
@@ -701,10 +735,12 @@ public class ExpresionHaskell {
                                         String pos = valores.get(j1).toString();
                                         if (val.tipo.equals("numero")) {
                                             ultimoValor = pos;
+                                            ultimoTipo = "numero";
                                             Valor val1 = new Valor(pos, "numero");
                                             return val1;
                                         } else {
                                             ultimoValor = pos;
+                                            ultimoTipo = "caracter";
                                             Valor val2 = new Valor(pos, "caracter");
                                             return val2;
                                         }
@@ -720,7 +756,6 @@ public class ExpresionHaskell {
                             }
                         }
                     }
-                
 
                 case "+":
                     izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion);
@@ -733,6 +768,8 @@ public class ExpresionHaskell {
                                     Double num2 = Double.parseDouble(der.valor.toString());
                                     resultado = num1 + num2;
                                     Valor v = new Valor(resultado, "numero");
+                                    ultimoValor = resultado;
+                                    ultimoTipo = "numero";
                                     return v;
                                 } else if (izq.tipo.equals("caracter")) {
                                     Object o = izq.valor.toString().codePointAt(0);
@@ -740,6 +777,9 @@ public class ExpresionHaskell {
                                     Double num1 = new Double(o.toString());
                                     Double num2 = new Double(m.toString());
                                     resultado = num1 + num2;
+
+                                    ultimoValor = resultado;
+                                    ultimoTipo = "numero";
                                     Valor v = new Valor(resultado, "numero");
                                     return v;
                                 } else {
@@ -769,6 +809,8 @@ public class ExpresionHaskell {
                                     Double num1 = Double.parseDouble(izq.valor.toString());
                                     Double num2 = Double.parseDouble(der.valor.toString());
                                     resultado = num1 - num2;
+                                    ultimoValor = resultado;
+                                    ultimoTipo = "numero";
                                     Valor v = new Valor(resultado, "numero");
                                     return v;
                                 } else if (izq.tipo.equals("caracter")) {
@@ -777,6 +819,8 @@ public class ExpresionHaskell {
                                     Double num1 = new Double(o.toString());
                                     Double num2 = new Double(m.toString());
                                     resultado = num1 - num2;
+                                    ultimoValor = resultado;
+                                    ultimoTipo = "numero";
                                     Valor v = new Valor(resultado, "numero");
                                     return v;
                                 } else {
@@ -806,6 +850,8 @@ public class ExpresionHaskell {
                                     Double num1 = Double.parseDouble(izq.valor.toString());
                                     Double num2 = Double.parseDouble(der.valor.toString());
                                     resultado = num1 * num2;
+                                    ultimoValor = resultado;
+                                    ultimoTipo = "numero";
                                     Valor v = new Valor(resultado, "numero");
                                     return v;
                                 } else if (izq.tipo.equals("caracter")) {
@@ -814,6 +860,8 @@ public class ExpresionHaskell {
                                     Double num1 = new Double(o.toString());
                                     Double num2 = new Double(m.toString());
                                     resultado = num1 * num2;
+                                    ultimoValor = resultado;
+                                    ultimoTipo = "numero";
                                     Valor v = new Valor(resultado, "numero");
                                     return v;
                                 } else {
@@ -843,6 +891,8 @@ public class ExpresionHaskell {
                                     Double num1 = Double.parseDouble(izq.valor.toString());
                                     Double num2 = Double.parseDouble(der.valor.toString());
                                     resultado = num1 / num2;
+                                    ultimoValor = resultado;
+                                    ultimoTipo = "numero";
                                     Valor v = new Valor(resultado, "numero");
                                     return v;
                                 } else if (izq.tipo.equals("caracter")) {
@@ -851,6 +901,8 @@ public class ExpresionHaskell {
                                     Double num1 = new Double(o.toString());
                                     Double num2 = new Double(m.toString());
                                     resultado = num1 / num2;
+                                    ultimoValor = resultado;
+                                    ultimoTipo = "numero";
                                     Valor v = new Valor(resultado, "numero");
                                     return v;
                                 } else {
@@ -880,6 +932,8 @@ public class ExpresionHaskell {
                                     Double num1 = Double.parseDouble(izq.valor.toString());
                                     Double num2 = Double.parseDouble(der.valor.toString());
                                     resultado = num1 % num2;
+                                    ultimoValor = resultado;
+                                    ultimoTipo = "numero";
                                     Valor v = new Valor(resultado, "numero");
                                     return v;
                                 } else if (izq.tipo.equals("caracter")) {
@@ -888,6 +942,8 @@ public class ExpresionHaskell {
                                     Double num1 = new Double(o.toString());
                                     Double num2 = new Double(m.toString());
                                     resultado = num1 % num2;
+                                    ultimoValor = resultado;
+                                    ultimoTipo = "numero";
                                     Valor v = new Valor(resultado, "numero");
                                     return v;
                                 } else {
@@ -917,6 +973,8 @@ public class ExpresionHaskell {
                                     Double num1 = Double.parseDouble(izq.valor.toString());
                                     Double num2 = Double.parseDouble(der.valor.toString());
                                     resultado = Math.pow(num2, 1 / num1);
+                                    ultimoValor = resultado;
+                                    ultimoTipo = "numero";
                                     Valor v = new Valor(resultado, "numero");
                                     return v;
                                 } else if (izq.tipo.equals("caracter")) {
@@ -925,6 +983,8 @@ public class ExpresionHaskell {
                                     Double num1 = new Double(o.toString());
                                     Double num2 = new Double(m.toString());
                                     resultado = Math.pow(num2, 1 / num1);
+                                    ultimoValor = resultado;
+                                    ultimoTipo = "numero";
                                     Valor v = new Valor(resultado, "numero");
                                     return v;
                                 } else {
@@ -955,6 +1015,8 @@ public class ExpresionHaskell {
                                     Double num1 = Double.parseDouble(izq.valor.toString());
                                     Double num2 = Double.parseDouble(der.valor.toString());
                                     resultado = Math.pow(num1, num2);
+                                    ultimoValor = resultado;
+                                    ultimoTipo = "numero";
                                     Valor v = new Valor(resultado, "numero");
                                     return v;
                                 } else if (izq.tipo.equals("caracter")) {
@@ -963,6 +1025,8 @@ public class ExpresionHaskell {
                                     Double num1 = new Double(o.toString());
                                     Double num2 = new Double(m.toString());
                                     resultado = Math.pow(num1, num2);
+                                    ultimoValor = resultado;
+                                    ultimoTipo = "numero";
                                     Valor v = new Valor(resultado, "numero");
                                     return v;
                                 } else {
@@ -1222,7 +1286,7 @@ public class ExpresionHaskell {
                     int j2 = Integer.parseInt(i2.valor.toString().replace(".0", ""));
 
                     Map<String, Variable> l = lista.ObtenerListaListas();
-                    if (l  != null) {
+                    if (l != null) {
                         if (l.size() > 0) {
                             for (int i = 0; i < l.size(); i++) {
                                 Boolean g = lista.getKeyListas(nombreLista + "_" + RecorreHaskell.ambito);
@@ -1232,10 +1296,12 @@ public class ExpresionHaskell {
                                     String nivel2 = nivel1.get(j2).toString();
                                     if (l.get(nombreLista + "_" + RecorreHaskell.ambito).tipo.equals("numero")) {
                                         ultimoValor = nivel2;
+                                        ultimoTipo = "numero";
                                         Valor val = new Valor(nivel2, "numero");
                                         return val;
                                     } else {
                                         ultimoValor = nivel2;
+                                        ultimoTipo = "caracter";
                                         Valor val = new Valor(nivel2, "caracter");
                                         return val;
                                     }
@@ -1247,15 +1313,17 @@ public class ExpresionHaskell {
                                         String nivel2 = nivel1.get(j2).toString();
                                         if (l.get(nombreLista + "_consola").tipo.equals("numero")) {
                                             ultimoValor = nivel2;
+                                            ultimoTipo = "numero";
                                             Valor val = new Valor(nivel2, "numero");
                                             return val;
                                         } else {
                                             ultimoValor = nivel2;
+                                            ultimoTipo = "caracter";
                                             Valor val = new Valor(nivel2, "caracter");
                                             return val;
                                         }
-                                    }else{
-                                        Valor v=new Valor("lista no declarada","");
+                                    } else {
+                                        Valor v = new Valor("lista no declarada", "");
                                         return v;
                                     }
                                 }
@@ -1272,10 +1340,12 @@ public class ExpresionHaskell {
                                         String pos = nivel1.get(j2).toString();
                                         if (val.tipo.equals("numero")) {
                                             ultimoValor = pos;
+                                            ultimoTipo = "numero";
                                             Valor val1 = new Valor(pos, "numero");
                                             return val1;
                                         } else {
                                             ultimoValor = pos;
+                                            ultimoTipo = "caracter";
                                             Valor val2 = new Valor(pos, "caracter");
                                             return val2;
                                         }
