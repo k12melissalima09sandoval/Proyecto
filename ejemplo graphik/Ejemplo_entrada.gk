@@ -6,25 +6,25 @@ ALS Ejemplo_entrada:publico {
 
     vacio inicio(){
         
-        aritmetica a = nuevo aritmetica()?
+        var aritmetica a = nuevo aritmetica()?
                 
         llamar a.aritmetica1()?
         llamar a.aritmetica2()?
         llamar a.aritmetica3()?
-        entero i = llamar a.operacion(1,2,3)?
-        imprimir("Resultado de operacion: " + i)?
+        var entero i = llamar a.operacion(1,2,3)?
+        imprimir("Resultado de operacion: " + i)? 
         
-        entero j = llamar a.ciclo1(i)?
+        var entero j = llamar a.ciclo1(i)?
         imprimir("Resultado de ciclo 1: " + j)?
         
         
-        bool bandera = llamar a.ciclo2()?
+        var bool bandera = llamar a.ciclo2()?
         imprimir("Valor de bandera: " + bandera)?
         
         
         llamar a.arreglo()?
         
-        salon s = nuevo salon()?
+        var salon s = nuevo salon()?
         llamar s.cargar_estudiantes()?
         
     }   

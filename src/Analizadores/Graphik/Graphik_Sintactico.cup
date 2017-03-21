@@ -67,21 +67,21 @@ terminal mayorq, menorq, mayorigualq, menorigualq, igualigual, diferente;
 terminal incremento, decremento;
 terminal igual, dospuntos, punto, coma, fin; 
 
-non terminal INICIO, CUERPO_ALS, L_ALS, ALS, IN, IM, LLAMAR_INSTANCIA;
-non terminal IMPORTACIONES, L_IMPORTACIONES, INCLUYE_HK, L_INCLUYE;
-non terminal VISIBILIDAD, SENTENCIAS, L_SENT, HEREDA, L_DATOS;
-non terminal DECLARACION_GLOBAL, L_VAR, ASIGNACION;
-non terminal DECLARACION_LOCAL, ASIGNA, GRAPHIKAR, ACCESO,L_ACCESO;
-non terminal TIPO_DATO, OPCION, EXP, DATOS, CUERPO_DATOS, ATRIBUTO;
-non terminal COLUMNA, PROCESAR, DONDE, DONDECADA, DONDETODO;
-non terminal ARREGLO, L_DIMENSIONES, ASIGNACION_ARREGLO, L_POS, POSICIONES;
-non terminal METODO_INICIO, METODOS, PARAMETROS, LLAMADA_ARREGLO;
-non terminal LLAMAR, LLAMARHK, PARAM_LLAMA, L_CUERPO;
-non terminal RETORNA, SENTENCIA_SI, SENTENCIA_SINO, ARR_GRAPHIK;
-non terminal SENTENCIA_PARA, ASIGNA_PARA, CONDICION,DECLARACION_PARA;
-non terminal SENTENCIA_HMIENTRAS, SENTENCIA_MIENTRAS, L_GRAPHIK;
-non terminal SENTENCIA_SELECCION, CASOS, L_CASO, DEFECTO;
-non terminal TERMINAR, CONTINUAR, IMPRIMIR, L_PARAMETROS, PARAM;
+non terminal Nodo INICIO, CUERPO_ALS, L_ALS, ALS, IN, IM, LLAMAR_INSTANCIA;
+non terminal Nodo IMPORTACIONES, L_IMPORTACIONES, INCLUYE_HK, L_INCLUYE;
+non terminal Nodo VISIBILIDAD, SENTENCIAS, L_SENT, HEREDA, L_DATOS;
+non terminal Nodo DECLARACION_GLOBAL, L_VAR, ASIGNACION, DIM;
+non terminal Nodo DECLARACION_LOCAL, ASIGNA, GRAPHIKAR, ACCESO,L_ACCESO;
+non terminal Nodo TIPO_DATO, OPCION, EXP, DATOS, CUERPO_DATOS;
+non terminal Nodo COLUMNA, PROCESAR, DONDE, DONDECADA, DONDETODO;
+non terminal Nodo ARREGLO, ASIGNACION_ARREGLO, L_POS, POSICIONES;
+non terminal Nodo METODO_INICIO, METODOS, PARAMETROS, LLAMADA_ARREGLO;
+non terminal Nodo LLAMAR, LLAMARHK, PARAM_LLAMA, L_CUERPO;
+non terminal Nodo RETORNA, SENTENCIA_SI, SENTENCIA_SINO, ARR_GRAPHIK;
+non terminal Nodo SENTENCIA_PARA, ASIGNA_PARA,DECLARACION_PARA;
+non terminal Nodo SENTENCIA_HMIENTRAS, SENTENCIA_MIENTRAS, L_GRAPHIK;
+non terminal Nodo SENTENCIA_SELECCION, CASOS, L_CASO, DEFECTO;
+non terminal Nodo TERMINAR, CONTINUAR, IMPRIMIR, L_PARAMETROS, PARAM;
  
 precedence left or;
 precedence left xor;
@@ -95,300 +95,822 @@ precedence left incremento, decremento;
 
 start with INICIO; 
 
-INICIO ::= IM IN L_ALS
+INICIO ::= {:System.out.println("Empezo Graphik \n");:}IM:a IN:b L_ALS:c
+            {:Nodo nuevo = new Nodo("Raiz");
+                nuevo.Hijo(a);
+                nuevo.Hijo(b);
+                nuevo.Hijo(c);
+                RESULT = nuevo;
+                System.out.println("Finalizo Graphik \n");
+                parser.raiz=nuevo;
+            :}
         ;
-IM ::= IMPORTACIONES
-    |
+IM ::= IMPORTACIONES:nodo {:RESULT = nodo; :}
+    | {:RESULT = new Nodo("Importa");:}
     ;
 
-IN ::= INCLUYE_HK
-    | 
+IMPORTACIONES ::= IMPORTACIONES:importa L_IMPORTACIONES:nodo {:importa.Hijo(nodo); RESULT =importa;:}
+                 | L_IMPORTACIONES:nodo 
+                    {:Nodo nuevo = new Nodo("Importa"); nuevo.Hijo(nodo);RESULT=nuevo;:}
+                 ;
+
+L_IMPORTACIONES ::= importar nombreArchivo:id fin {:RESULT = new Nodo(id);:}
+                 ;
+
+IN ::= INCLUYE_HK:nodo {:RESULT = nodo; :}
+    | {:RESULT = new Nodo("Incluye");:}
     ;
 
-IMPORTACIONES ::= IMPORTACIONES L_IMPORTACIONES
-                 | L_IMPORTACIONES
-                 ;
-
-L_IMPORTACIONES ::= importar nombreArchivo fin
-                 ;
-
-INCLUYE_HK ::= INCLUYE_HK L_INCLUYE
-            | L_INCLUYE
+INCLUYE_HK ::= INCLUYE_HK:incluye L_INCLUYE:nodo {:incluye.Hijo(nodo); RESULT =incluye;:}
+            | L_INCLUYE:nodo
+                {:Nodo nuevo = new Nodo("Incluye"); nuevo.Hijo(nodo);RESULT=nuevo;:}
             ;
 
-L_INCLUYE ::= incluirHK id fin
+L_INCLUYE ::= incluirHK id:id fin {:RESULT = new Nodo(id);:}
             ;
 
-L_ALS ::= L_ALS ALS
-       | ALS
+L_ALS ::= L_ALS:als ALS:nodo {: als.Hijo(nodo); RESULT = als; :}
+       | ALS:nodo {:Nodo nuevo = new Nodo("ListaAls"); nuevo.Hijo(nodo); RESULT = nuevo;:}
        ;
 
-ALS ::= Tals id VISIBILIDAD HEREDA llaveAbre CUERPO_ALS llaveCierra
+ALS ::= Tals id:id VISIBILIDAD:v HEREDA:h llaveAbre CUERPO_ALS:corpo llaveCierra
+        {:
+            Nodo nuevo = new Nodo("Als");
+            Nodo i = new Nodo(id);
+            nuevo.Hijo(i);
+            nuevo.Hijo(v);
+            nuevo.Hijo(h);
+            nuevo.Hijo(corpo);
+            RESULT = nuevo;
+        :}
      ;
 
-HEREDA ::= hereda id
-        |
+HEREDA ::= hereda id:id 
+        {:  
+            Nodo nuevo = new Nodo("Hereda"); 
+            Nodo i = new Nodo(id);
+            nuevo.Hijo(i); 
+            RESULT = nuevo;
+        :}
+        |{:RESULT = new Nodo("Hereda");:}
         ;
 
-VISIBILIDAD ::= dospuntos publico
-            | dospuntos privado
-            | dospuntos protegido
-            | //por defecto es publico
+VISIBILIDAD ::= dospuntos publico {:RESULT = new Nodo("Publico");:}
+            | dospuntos privado {:RESULT = new Nodo("Privado");:}
+            | dospuntos protegido {:RESULT = new Nodo("Protegido");:}
+            | {:RESULT = new Nodo("Publico");:}
             ;
 
-CUERPO_ALS ::= CUERPO_ALS L_CUERPO
-            | L_CUERPO
+CUERPO_ALS ::= CUERPO_ALS:als L_CUERPO:nodo
+                {:als.Hijo(nodo); RESULT = als;:}
+            | L_CUERPO:nodo
+                {:Nodo nuevo = new Nodo("SentenciasAls");
+                    nuevo.Hijo(nodo);
+                    RESULT = nuevo;
+                :}
             ;
 
-L_CUERPO ::= DECLARACION_GLOBAL 
-            | METODO_INICIO
-            | DATOS 
-            | METODOS
+L_CUERPO ::= DECLARACION_GLOBAL:nodo    {:RESULT = nodo;:}
+            | METODO_INICIO:nodo        {:RESULT = nodo;:}
+            | DATOS:nodo                {:RESULT = nodo;:}
+            | METODOS:nodo              {:RESULT = nodo;:}
             ;
 
 
-DATOS ::= Tvacio datos parenAbre parenCierra llaveAbre CUERPO_DATOS llaveCierra
+DATOS ::= Tvacio datos parenAbre parenCierra llaveAbre CUERPO_DATOS:corpo llaveCierra
+            {:
+                Nodo nuevo = new Nodo("MetodoDatos");
+                Nodo tipo = new Nodo("TipoVacio");
+                nuevo.Hijo(tipo);
+                nuevo.Hijo(corpo);
+                RESULT = nuevo;
+            :}
        ;
 
-CUERPO_DATOS ::= CUERPO_DATOS L_DATOS
-              | L_DATOS
+CUERPO_DATOS ::= CUERPO_DATOS:datos L_DATOS:nodo
+                    {:datos.Hijo(nodo); RESULT = datos;:}
+              | L_DATOS:nodo
+                {:
+                    Nodo nuevo = new Nodo("CuerpoDatos");
+                    nuevo.Hijo(nodo);
+                    RESULT = nuevo;
+                :}
               ;
 
-L_DATOS ::= COLUMNA
-         | PROCESAR
-         | DONDE 
-         | DONDECADA 
-         | DONDETODO
+L_DATOS ::= COLUMNA:nodo    {:RESULT = nodo;:}
+         | PROCESAR:nodo    {:RESULT = nodo;:}
+         | DONDE:nodo       {:RESULT = nodo;:}
+         | DONDECADA:nodo   {:RESULT = nodo;:}
+         | DONDETODO:nodo   {:RESULT = nodo;:}
             ;
 
-COLUMNA ::= columna parenAbre EXP parenCierra
+COLUMNA ::= columna parenAbre EXP:exp parenCierra
+            {:
+                Nodo nuevo = new Nodo("Columna");
+                Nodo e = new Nodo("Exp");
+                e.Hijo(exp);
+                nuevo.Hijo(e);
+                RESULT = nuevo;
+            :}
          ;
 
-PROCESAR ::= procesar igual EXP fin
+PROCESAR ::= procesar igual EXP:exp fin
+            {:
+                Nodo nuevo = new Nodo("Procesar");
+                Nodo e = new Nodo("Exp");
+                e.Hijo(exp);
+                nuevo.Hijo(e);
+                RESULT = nuevo;
+            :}
           ;
 
-DONDE ::= donde parenAbre EXP parenCierra igual EXP fin
+DONDE ::= donde parenAbre EXP:exp parenCierra igual EXP:exp2 fin
+            {:
+                Nodo nuevo = new Nodo("Donde");
+                Nodo e = new Nodo("Exp");
+                Nodo e2 = new Nodo("Exp");
+                e.Hijo(exp);
+                e2.Hijo(exp2);
+                nuevo.Hijo(e);
+                nuevo.Hijo(e2);
+                RESULT = nuevo;
+            :}
        ;
 
-DONDECADA ::= dondecada parenAbre EXP parenCierra fin
+DONDECADA ::= dondecada parenAbre EXP:exp parenCierra fin
+            {:
+                Nodo nuevo = new Nodo("DondeCada");
+                Nodo e = new Nodo("Exp");
+                e.Hijo(exp);
+                nuevo.Hijo(e);
+                RESULT = nuevo;
+            :}
            ;
 
-DONDETODO ::= dondetodo parenAbre EXP parenCierra fin
+DONDETODO ::= dondetodo parenAbre EXP:exp parenCierra fin
+            {:
+                Nodo nuevo = new Nodo("DondeTodo");
+                Nodo e = new Nodo("Exp");
+                e.Hijo(exp);
+                nuevo.Hijo(e);
+                RESULT = nuevo;
+            :}
            ;
 
-DECLARACION_GLOBAL ::= var TIPO_DATO id VISIBILIDAD OPCION fin
-            | var TIPO_DATO id ARREGLO VISIBILIDAD ASIGNACION_ARREGLO fin
-            | var TIPO_DATO id VISIBILIDAD igual nuevo LLAMAR_INSTANCIA fin
+DECLARACION_GLOBAL ::= var TIPO_DATO:t id:id VISIBILIDAD:v OPCION:op fin
+                {: Nodo nuevo = new Nodo("DeclaraLocalVariable");
+                Nodo l= new Nodo("ListaID");
+                Nodo i= new Nodo(id);
+                l.Hijo(i);
+                l.Hijo(v);
+                op.Hijo(l);
+                nuevo.Hijo(t);
+                nuevo.Hijo(op);
+                RESULT = nuevo;
+                :}
+            | var TIPO_DATO:t id:id ARREGLO:a VISIBILIDAD:v ASIGNACION_ARREGLO:nodo fin
+                {: Nodo nuevo = new Nodo("DeclaraLocalArreglo");
+                Nodo l= new Nodo("ListaID");
+                Nodo aa= new Nodo("Dimensiones");
+                Nodo as= new Nodo("AsignaArreglo");
+                Nodo i= new Nodo(id);
+                l.Hijo(i);
+                l.Hijo(v);
+                aa.Hijo(a);
+                as.Hijo(nodo);
+                nuevo.Hijo(t);
+                nuevo.Hijo(l);
+                nuevo.Hijo(aa);
+                nuevo.Hijo(as);
+                RESULT = nuevo;
+                :}
+            | var TIPO_DATO:t id:id VISIBILIDAD:v igual nuevo LLAMAR_INSTANCIA:nodo fin
+                {: Nodo nuevo = new Nodo("InstanciaGlobal");
+                Nodo l= new Nodo("ListaID");
+                Nodo as= new Nodo("Objeto");
+                Nodo i= new Nodo(id);
+                l.Hijo(i);
+                l.Hijo(v);
+                as.Hijo(nodo);
+                nuevo.Hijo(t);
+                nuevo.Hijo(l);
+                nuevo.Hijo(as);
+                RESULT = nuevo;
+                :}
             ;
 
-OPCION ::= coma L_VAR 
-        | ASIGNACION
-        | 
+OPCION ::= coma L_VAR:nodo {:RESULT = nodo;:}
+        | ASIGNACION:nodo {:RESULT = nodo;:}
+        | {:RESULT = new Nodo("niente");:}
         ;
 		
-L_VAR ::= L_VAR coma id VISIBILIDAD
-       | id VISIBILIDAD
+L_VAR ::= L_VAR:v coma id:id VISIBILIDAD:nodo
+            {: Nodo nuevo = new Nodo("ListaID");
+            Nodo i=new Nodo(id);
+            nuevo.Hijo(i);
+            nuevo.Hijo(nodo);
+            v.Hijo(nuevo);
+            RESULT = v;
+            :}
+       | id:id VISIBILIDAD:nodo
+            {:Nodo nuevo = new Nodo("ListaID");
+            Nodo i = new Nodo(id);
+            nuevo.Hijo(i);
+            nuevo.Hijo(nodo);
+            RESULT = nuevo;
+            :}
        ;
 	   
-ARREGLO ::= ARREGLO L_DIMENSIONES 
-        | L_DIMENSIONES
+ARREGLO ::= ARREGLO:arr corAbre EXP:exp corCierra 
+                    {:Nodo nuevo = new Nodo("Exp");
+                        nuevo.Hijo(exp);
+                        arr.Hijo(nuevo);
+                        RESULT=arr;
+                    :}
+        | corAbre EXP:exp corCierra           
+                    {:Nodo nuevo = new Nodo("Exp");
+                        nuevo.Hijo(exp);
+                        RESULT=nuevo;
+                    :}
         ;
 
-L_DIMENSIONES ::= corAbre EXP corCierra
-               ;
-
-TIPO_DATO ::= Tentero
-           | Tdecimal
+TIPO_DATO ::= Tentero:id
+{:  
+            RESULT = new Nodo("TipoEntero"); 
+           :}
+           | Tdecimal:id
+{:  
+           RESULT= new Nodo("TipoDecimal"); 
+            :}
            | Tcaracter
+{:  
+            RESULT = new Nodo("TipoCaracter"); 
+            :}
            | Tcadena
+{:  
+            RESULT = new Nodo("TipoCadena"); 
+             :}
            | Tbool
-           | Tals
+{:  
+            RESULT= new Nodo("TipoBool"); 
+            :}
            | Tvacio
-           | id
+{:  
+            RESULT = new Nodo("TipoVacio"); 
+            :}
+           | id:id
+            {:  
+            Nodo nuevo = new Nodo("Als"); 
+            Nodo i = new Nodo(id);
+            nuevo.Hijo(i);
+            RESULT = nuevo; :}
            ;
 
-ASIGNACION_ARREGLO ::= igual POSICIONES
+ASIGNACION_ARREGLO ::= igual POSICIONES:nodo {:RESULT = nodo;:}
+                    | {:RESULT = new Nodo("Posiciones");:}
                     ;
 
-POSICIONES ::= POSICIONES coma L_POS
-            | L_POS
+POSICIONES ::= POSICIONES:p coma L_POS:nodo {:p.Hijo(nodo); RESULT = p; :}
+            | L_POS:nodo {:Nodo nuevo = new Nodo("Posiciones"); nuevo.Hijo(nodo); RESULT = nuevo;:}
             ;
 
-L_POS ::= llaveAbre POSICIONES llaveCierra
-       | EXP
+L_POS ::= llaveAbre POSICIONES:nodo llaveCierra
+            {:RESULT = nodo;:}
+       | EXP:exp
+        {:Nodo nuevo = new Nodo("Exp");
+            nuevo.Hijo(exp);
+            RESULT = nuevo;
+        :}
        ;
 
 
-ASIGNACION ::= igual EXP
+ASIGNACION ::= igual EXP:exp
+    {:Nodo nuevo = new Nodo("Exp"); nuevo.Hijo(exp); RESULT = nuevo;:}
             ;
 
-METODO_INICIO ::= Tvacio inicio parenAbre parenCierra llaveAbre SENTENCIAS llaveCierra
+METODO_INICIO ::= Tvacio inicio parenAbre parenCierra llaveAbre SENTENCIAS:sent llaveCierra
+                {:
+                    Nodo nuevo = new Nodo("MetodoInicio");
+                Nodo corpo = new Nodo("CuerpoInicio");
+                Nodo tipo = new Nodo("TipoVacio");
+                corpo.Hijo(sent);
+                nuevo.Hijo(tipo);
+                nuevo.Hijo(corpo);
+                RESULT = nuevo;
+                :}
                ;
 
-METODOS ::= TIPO_DATO id parenAbre L_PARAMETROS parenCierra VISIBILIDAD llaveAbre SENTENCIAS llaveCierra
+METODOS ::= TIPO_DATO:t id:id parenAbre L_PARAMETROS:p parenCierra VISIBILIDAD:v llaveAbre SENTENCIAS:s llaveCierra
+            {:
+                Nodo nuevo = new Nodo("Metodo");
+                Nodo corpo = new Nodo("CuerpoMetodo");
+                Nodo i = new Nodo(id);
+                corpo.Hijo(s);
+                nuevo.Hijo(t);
+                nuevo.Hijo(i);
+                nuevo.Hijo(p);
+                nuevo.Hijo(v);
+                nuevo.Hijo(corpo);
+                RESULT = nuevo;
+            :}
          ;
 
-L_PARAMETROS ::= PARAMETROS
-              |
+L_PARAMETROS ::= PARAMETROS:nodo {:RESULT = nodo;:}
+              | {:RESULT = new Nodo("Parametros");:}
               ;
 
-PARAMETROS ::= PARAMETROS coma TIPO_DATO id
-            | TIPO_DATO id
+PARAMETROS ::= PARAMETROS:p coma TIPO_DATO:t id:id
+            {:
+                Nodo nuevo = new Nodo("Parametros");
+                Nodo i = new Nodo(id);
+                nuevo.Hijo(t);
+                nuevo.Hijo(i);
+                p.Hijo(nuevo);
+                RESULT = p;
+            :}
+            | TIPO_DATO:t id:id
+            {:
+                Nodo nuevo = new Nodo("Parametros");
+                Nodo i = new Nodo(id);
+                nuevo.Hijo(t);
+                nuevo.Hijo(i);
+                RESULT = nuevo;
+            :}
             ;
 
-SENTENCIAS ::= SENTENCIAS L_SENT
-            | L_SENT
+SENTENCIAS ::= SENTENCIAS:sent L_SENT:nodo {:sent.Hijo(nodo); RESULT = sent;:}
+            | L_SENT:nodo 
+                {:Nodo n = new Nodo("Sentencias"); n.Hijo(nodo); RESULT = nodo;:}
             ;
 
-L_SENT ::= DECLARACION_LOCAL fin
-        | LLAMAR fin
-        | LLAMARHK
-        | ASIGNA fin
-        | RETORNA
-        | SENTENCIA_SI
-        | SENTENCIA_SELECCION
-        | SENTENCIA_PARA
-        | SENTENCIA_MIENTRAS
-        | SENTENCIA_HMIENTRAS
-        | CONTINUAR
-        | TERMINAR
-        | IMPRIMIR
-        | GRAPHIKAR
+L_SENT ::= DECLARACION_LOCAL:nodo fin       {:RESULT = nodo;:}
+        | LLAMAR:nodo fin                   {:RESULT = nodo;:}
+        | LLAMARHK:nodo                     {:RESULT = nodo;:}
+        | ASIGNA:nodo fin                   {:RESULT = nodo;:}
+        | RETORNA:nodo                      {:RESULT = nodo;:}
+        | SENTENCIA_SI:nodo                 {:RESULT = nodo;:}
+        | SENTENCIA_SELECCION:nodo          {:RESULT = nodo;:}
+        | SENTENCIA_PARA:nodo               {:RESULT = nodo;:}
+        | SENTENCIA_MIENTRAS:nodo           {:RESULT = nodo;:}
+        | SENTENCIA_HMIENTRAS:nodo          {:RESULT = nodo;:}
+        | CONTINUAR:nodo                    {:RESULT = nodo;:}
+        | TERMINAR:nodo                     {:RESULT = nodo;:}
+        | IMPRIMIR:nodo                     {:RESULT = nodo;:}
+        | GRAPHIKAR:nodo                    {:RESULT = nodo;:}
         ;
 
-GRAPHIKAR ::= graphikar parenAbre ARR_GRAPHIK parenCierra fin
+GRAPHIKAR ::= graphikar parenAbre ARR_GRAPHIK:nodo parenCierra fin
+            {:Nodo nuevo = new Nodo("Graphikar");
+                nuevo.Hijo(nodo);
+                RESULT = nuevo;
+            :}
            ;
 
-ARR_GRAPHIK ::= id
-             | llaveAbre L_GRAPHIK llaveCierra
+ARR_GRAPHIK ::= EXP:exp {:Nodo nuevo = new Nodo("Exp"); nuevo.Hijo(exp); RESULT = nuevo;:}
+             | llaveAbre L_GRAPHIK:nodo llaveCierra {:Nodo n = new Nodo("Lista"); n.Hijo(nodo);RESULT = n;:}
 	     ;
 		   
-L_GRAPHIK ::= L_GRAPHIK coma EXP
-	   | EXP
+L_GRAPHIK ::= L_GRAPHIK:nodo coma EXP:exp {:Nodo n =new Nodo("Exp"); n.Hijo(exp); nodo.Hijo(n); RESULT = nodo;:}
+	   | EXP:exp {:Nodo n =new Nodo("Exp"); n.Hijo(exp); RESULT = n;:}
 	   ;
 
 
-IMPRIMIR ::= imprimir parenAbre EXP parenCierra fin
+IMPRIMIR ::= imprimir parenAbre EXP:exp parenCierra fin 
+            {:Nodo nuevo = new Nodo("Imprimir"); 
+            Nodo e = new Nodo("Exp");
+            e.Hijo(exp);
+            nuevo.Hijo(e);
+            RESULT = nuevo;
+            :}
           ;
 
-CONTINUAR ::= continuar fin
+CONTINUAR ::= continuar fin                 {:RESULT = new Nodo("Continuar");:}
            ;
 
-TERMINAR ::= terminar fin
+TERMINAR ::= terminar fin                   {:RESULT = new Nodo("Terminar");:}
           ;
 
-SENTENCIA_HMIENTRAS ::= hacer llaveAbre SENTENCIAS llaveCierra mientras parenAbre EXP parenAbre fin
+SENTENCIA_HMIENTRAS ::= hacer llaveAbre SENTENCIAS:sent llaveCierra mientras parenAbre EXP:cond parenAbre fin
+                        {:Nodo nuevo = new Nodo("SentenciaHacer");
+                            Nodo e = new Nodo("Exp"); 
+                            Nodo s = new Nodo("CuerpoHacer"); 
+                            s.Hijo(sent);
+                            e.Hijo(cond);
+                            nuevo.Hijo(s);
+                            nuevo.Hijo(e);
+                            RESULT = nuevo;
+                        :}
                     ;
 
-SENTENCIA_MIENTRAS ::= mientras parenAbre EXP parenCierra llaveAbre SENTENCIAS llaveCierra
+SENTENCIA_MIENTRAS ::= mientras parenAbre EXP:cond parenCierra llaveAbre SENTENCIAS:sent llaveCierra
+                        {:Nodo nuevo = new Nodo("SentenciaMientras");
+                            Nodo e = new Nodo("Exp"); 
+                            Nodo s = new Nodo("CuerpoMientras"); 
+                            s.Hijo(sent);
+                            e.Hijo(cond);
+                            nuevo.Hijo(e);
+                            nuevo.Hijo(s);
+                            RESULT = nuevo;
+                        :}
                     ;
 
-SENTENCIA_PARA ::= para parenAbre ASIGNA_PARA CONDICION EXP parenCierra llaveAbre SENTENCIAS llaveCierra
+SENTENCIA_PARA ::= para parenAbre ASIGNA_PARA:a EXP:cond dospuntos EXP:exp parenCierra llaveAbre SENTENCIAS:s llaveCierra
+                {:Nodo nuevo = new Nodo("SentenciaSeleccion");
+                            Nodo e = new Nodo("Exp"); 
+                            Nodo e2 = new Nodo("Exp"); 
+                            Nodo sent = new Nodo("CuerpoPara"); 
+                            sent.Hijo(s);
+                            e.Hijo(cond);
+                            e2.Hijo(exp);
+                            nuevo.Hijo(a);
+                            nuevo.Hijo(e);
+                            nuevo.Hijo(e2);
+                            nuevo.Hijo(sent);
+                            RESULT = nuevo;
+                        :}
                 ;
 
-CONDICION ::= EXP dospuntos
-           ;
 
-ASIGNA_PARA ::= DECLARACION_PARA dospuntos
-             | ASIGNA dospuntos
+ASIGNA_PARA ::= DECLARACION_PARA:nodo dospuntos {:RESULT = nodo;:}
+             | ASIGNA:nodo dospuntos            {:RESULT = nodo;:}
              ;
 
-DECLARACION_PARA ::= TIPO_DATO id igual EXP
+DECLARACION_PARA ::= var TIPO_DATO:t id:id igual EXP:exp
+                {: Nodo nuevo = new Nodo("DeclaraLocalVariable");
+                Nodo l= new Nodo("ListaID");
+                Nodo e= new Nodo("Exp");
+                Nodo i= new Nodo(id);
+                l.Hijo(i);
+                e.Hijo(exp);
+                nuevo.Hijo(t);
+                nuevo.Hijo(l);
+                nuevo.Hijo(e);
+                RESULT = nuevo;
+                :}
                   ;
 
-SENTENCIA_SELECCION ::= seleccion parenAbre EXP parenCierra llaveAbre CASOS DEFECTO llaveCierra
+SENTENCIA_SELECCION ::= seleccion parenAbre EXP:exp parenCierra llaveAbre CASOS:casos DEFECTO:def llaveCierra
+                        {:Nodo nuevo = new Nodo("SentenciaSeleccion");
+                            Nodo e = new Nodo("Exp"); 
+                            e.Hijo(exp);
+                            nuevo.Hijo(e);
+                            nuevo.Hijo(casos);
+                            nuevo.Hijo(def);
+                            RESULT = nuevo;
+                        :}
                      ;
 
-CASOS ::= CASOS L_CASO
-       | L_CASO
+CASOS ::= CASOS:caso L_CASO:nodo {:caso.Hijo(nodo); RESULT = caso;:}
+       | L_CASO:nodo {:RESULT = nodo;:}
        ;
 
-DEFECTO ::= defecto dospuntos SENTENCIAS
+L_CASO ::= caso EXP:exp dospuntos SENTENCIAS:sent
+            {:Nodo nuevo = new Nodo("Caso");
+              Nodo e = new Nodo("Exp");
+              Nodo c = new Nodo("CuerpoCaso");
+                e.Hijo(exp); 
+                c.Hijo(sent);
+                RESULT = nuevo;
+                :}
+        ;
+
+DEFECTO ::= defecto dospuntos SENTENCIAS:sent
+            {:Nodo nuevo = new Nodo("CuerpoDefecto"); nuevo.Hijo(sent); RESULT = nuevo;:}
+         |{:RESULT = new Nodo("CuerpoDefecto");:}
          ;
 
-L_CASO ::= caso EXP dospuntos SENTENCIAS
-        ;
 
-SENTENCIA_SI ::= si parenAbre EXP parenCierra llaveAbre SENTENCIAS llaveCierra SENTENCIA_SINO
+SENTENCIA_SI ::= si parenAbre EXP:exp parenCierra llaveAbre SENTENCIAS:corpo llaveCierra SENTENCIA_SINO:corposino
+                {:
+                    Nodo nuevo = new Nodo("SentenciaSi");
+                    Nodo e= new Nodo("Exp");
+                    Nodo si= new Nodo("CuerpoSi");
+                    si.Hijo(corpo);
+                    e.Hijo(exp);
+                    nuevo.Hijo(e);
+                    nuevo.Hijo(si);
+                    nuevo.Hijo(corposino);
+                    RESULT = nuevo;
+                :}
               ;
 
-SENTENCIA_SINO ::= sino llaveAbre SENTENCIAS llaveCierra
-                | 
+SENTENCIA_SINO ::= sino llaveAbre SENTENCIAS:sent llaveCierra
+                  {:Nodo nuevo = new Nodo("CuerpoSino");
+                    nuevo.Hijo(sent);
+                    RESULT = nuevo; :}  
+                | {:RESULT = new Nodo("CuerpoSino");:}
                 ;
 
-RETORNA ::= retornar EXP fin
+RETORNA ::= retornar EXP:exp fin
+        {:Nodo nuevo = new Nodo("Retorno"); 
+            Nodo e = new Nodo("Exp");
+            e.Hijo(exp);
+            nuevo.Hijo(e);
+            RESULT = nuevo;
+        :}
         ;
 
-DECLARACION_LOCAL ::= var TIPO_DATO id VISIBILIDAD OPCION
-            | var TIPO_DATO id ARREGLO VISIBILIDAD ASIGNACION_ARREGLO
-            | var TIPO_DATO id VISIBILIDAD igual nuevo LLAMAR_INSTANCIA
+DECLARACION_LOCAL ::= var TIPO_DATO:t id:id VISIBILIDAD:v OPCION:op
+                {: Nodo nuevo = new Nodo("DeclaraLocalVariable");
+                Nodo l= new Nodo("ListaID");
+                Nodo i= new Nodo(id);
+                l.Hijo(i);
+                l.Hijo(v);
+                op.Hijo(l);
+                nuevo.Hijo(t);
+                nuevo.Hijo(op);
+                RESULT = nuevo;
+                :}
+            | var TIPO_DATO:t id:id ARREGLO:a VISIBILIDAD:v ASIGNACION_ARREGLO:nodo
+                {: Nodo nuevo = new Nodo("DeclaraLocalArreglo");
+                Nodo l= new Nodo("ListaID");
+                Nodo aa= new Nodo("Dimensiones");
+                Nodo as= new Nodo("AsignaArreglo");
+                Nodo i= new Nodo(id);
+                l.Hijo(i);
+                l.Hijo(v);
+                aa.Hijo(a);
+                as.Hijo(nodo);
+                nuevo.Hijo(t);
+                nuevo.Hijo(l);
+                nuevo.Hijo(aa);
+                nuevo.Hijo(as);
+                RESULT = nuevo;
+                :}
+            | var TIPO_DATO:t id:id VISIBILIDAD:v igual nuevo LLAMAR_INSTANCIA:nodo
+                {: Nodo nuevo = new Nodo("InstanciaGlobal");
+                Nodo l= new Nodo("ListaID");
+                Nodo as= new Nodo("Objeto");
+                Nodo i= new Nodo(id);
+                l.Hijo(i);
+                l.Hijo(v);
+                as.Hijo(nodo);
+                nuevo.Hijo(t);
+                nuevo.Hijo(l);
+                nuevo.Hijo(as);
+                RESULT = nuevo;
+                :}
             ;
 
-LLAMAR_INSTANCIA ::= id L_ACCESO parenAbre PARAM_LLAMA parenCierra
+LLAMAR_INSTANCIA ::= id:id parenAbre parenCierra
+                    {:RESULT = new Nodo(id);:}
                   ;
 
-ASIGNA ::= id L_ACCESO igual EXP
-        | id L_ACCESO igual nuevo LLAMAR_INSTANCIA 
+ASIGNA ::= id:id L_ACCESO:nodo igual EXP:exp
+            {:
+                Nodo nuevo = new Nodo("Asignacion");
+                Nodo i= new Nodo(id);
+                Nodo e= new Nodo("Exp");
+                nuevo.Hijo(i);
+                e.Hijo(exp);
+                nuevo.Hijo(nodo);
+                nuevo.Hijo(e);
+                RESULT = nuevo;
+            :}
+        | id:id L_ACCESO:nodo igual nuevo LLAMAR_INSTANCIA:ins
+            {:
+                Nodo nuevo = new Nodo("Asignacion");
+                Nodo i= new Nodo(id);
+                Nodo e= new Nodo("InstanciaLocal");
+                nuevo.Hijo(i);
+                e.Hijo(ins);
+                nuevo.Hijo(nodo);
+                nuevo.Hijo(e);
+                RESULT = nuevo;
+            :}
         ;
 		
-L_ACCESO ::= ACCESO
-	  | 
+L_ACCESO ::= ACCESO:nodo {:Nodo nuevo = new Nodo("Acceso");nuevo.Hijo(nodo);RESULT=nuevo;:}
+	  | {:RESULT= new Nodo("Acceso");:}
 	  ;
 
-ACCESO ::= ACCESO ATRIBUTO
-	| ATRIBUTO
+ACCESO ::= ACCESO:nodo punto id:id
+        {:Nodo nuevo = new Nodo(id); nodo.Hijo(nuevo); RESULT = nuevo;:}
+	| punto id:id
+        {:RESULT= new Nodo(id);:}
 	;
-		
-ATRIBUTO ::= punto id 
-          ;
 
-LLAMAR ::= llamar id L_ACCESO parenAbre PARAM_LLAMA parenCierra 
+LLAMAR ::= llamar id:id L_ACCESO:acceso parenAbre PARAM_LLAMA:nodo parenCierra 
+            {:
+            Nodo nuevo = new Nodo("LlamaFun");
+            Nodo i = new Nodo(id);
+            nuevo.Hijo(i);
+            nuevo.Hijo(acceso);
+            nuevo.Hijo(nodo);
+            RESULT = nuevo;
+            :}
         ;
 
-LLAMARHK ::= llamarHK id parenAbre PARAM_LLAMA parenCierra fin
+LLAMARHK ::= llamarHK id:id parenAbre PARAM_LLAMA:nodo parenCierra fin
+            {:
+            Nodo nuevo = new Nodo("LlamarHK");
+            Nodo i = new Nodo(id);
+            nuevo.Hijo(i);
+            nuevo.Hijo(nodo);
+            :}
         ;
 
-PARAM_LLAMA ::= PARAM
-             | 
+PARAM_LLAMA ::= PARAM:nodo  {:Nodo nuevo = new Nodo("Parametros"); nuevo.Hijo(nodo);RESULT = nuevo;:} 
+             | {:RESULT = new Nodo("Parametros");:}
              ;
 
-PARAM ::= PARAM coma EXP
-       | EXP
+PARAM ::= PARAM:param coma EXP:exp
+            {: param.Hijo(exp);:}
+
+       | EXP:exp
+            {:Nodo nuevo = new Nodo("Exp"); nuevo.Hijo(exp); RESULT = nuevo;:}
        ;
 
-EXP ::= EXP mas EXP
-     | EXP menos EXP
-     | EXP por EXP
-     | EXP div EXP
-     | EXP potencia EXP
-     | EXP or EXP
-     | EXP xor EXP
-     | EXP and EXP
-     | not EXP
-     | EXP menorq EXP
-     | EXP mayorq EXP
-     | EXP menorigualq EXP
-     | EXP mayorigualq EXP
-     | EXP igualigual EXP
-     | EXP diferente EXP
-     | EXP incremento
-     | EXP decremento
-     | menos EXP
-     | parenAbre EXP parenCierra
-     | LLAMAR 
-     | LLAMADA_ARREGLO
-     | LLAMARHK
-     | id ACCESO
-     | id LLAMADA_ARREGLO
-     | num
-     | cad
-     | dec
-     | carac
-     | id
-     | falso
-     | verdadero
+EXP ::= EXP:j mas EXP:m
+        {:
+            Nodo nuevo = new Nodo("+");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j menos EXP:m
+        {:
+            Nodo nuevo = new Nodo("-");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j por EXP:m
+        {:
+            Nodo nuevo = new Nodo("*");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j div EXP:m
+        {:
+            Nodo nuevo = new Nodo("/");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j potencia EXP:m
+        {:
+            Nodo nuevo = new Nodo("potencia");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j or EXP:m
+        {:
+            Nodo nuevo = new Nodo("||");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j xor EXP:m
+        {:
+            Nodo nuevo = new Nodo("&|");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j and EXP:m
+        {:
+            Nodo nuevo = new Nodo("&&");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | not EXP:m
+        {:
+        Nodo nuevo = new Nodo("!");
+        nuevo.Hijo(m);
+        RESULT = nuevo;
+        :}
+     | EXP:j menorq EXP:m
+        {:
+            Nodo nuevo = new Nodo("<");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j mayorq EXP:m
+        {:
+            Nodo nuevo = new Nodo(">");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j menorigualq EXP:m
+        {:
+            Nodo nuevo = new Nodo("<=");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j mayorigualq EXP:m
+        {:
+            Nodo nuevo = new Nodo(">=");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j igualigual EXP:m
+        {:
+            Nodo nuevo = new Nodo("==");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+     | EXP:j diferente EXP:m
+        {:
+            Nodo nuevo = new Nodo("!=");
+            nuevo.Hijo(j);
+            nuevo.Hijo(m);
+            RESULT = nuevo;
+        :}
+
+     | EXP:nodo incremento
+        {:
+        Nodo nuevo = new Nodo("Decremento");
+        nuevo.Hijo(nodo);
+        RESULT = nuevo;
+        :}
+     | EXP:nodo decremento
+        {:
+        Nodo nuevo = new Nodo("Decremento");
+        nuevo.Hijo(nodo);
+        RESULT = nuevo;
+        :}
+     | menos EXP:nodo
+        {:
+        Nodo nuevo = new Nodo("Unario");
+        nuevo.Hijo(nodo);
+        RESULT = nuevo;
+        :}
+
+     | parenAbre EXP:nodo parenCierra  {:RESULT = nodo;:}
+     | LLAMAR:nodo                     {:RESULT = nodo;:} 
+     | LLAMADA_ARREGLO:nodo            {:RESULT = nodo;:}
+     | LLAMARHK:nodo                   {:RESULT = nodo;:}
+     | id:id ACCESO:nodo
+        {:
+        Nodo nuevo = new Nodo("Acceso");
+        Nodo n=new Nodo(id);
+        nuevo.Hijo(n);
+        nuevo.Hijo(nodo);
+        RESULT = nuevo;
+        :}
+        
+     | num:num
+        {:  Nodo nuevo = new Nodo("numero"); 
+            Nodo n = new Nodo(num);
+            nuevo.Hijo(n); 
+            RESULT = nuevo; :}
+     | cad:cad
+        {:  Nodo nuevo = new Nodo("cadena"); 
+            Nodo n = new Nodo(cad.toString().replace("\"", ""));
+            nuevo.Hijo(n); RESULT = nuevo; :}
+     | dec:num
+        {:  Nodo nuevo = new Nodo("decimal"); 
+            Nodo n = new Nodo(num);
+            nuevo.Hijo(n); 
+            RESULT = nuevo; :}
+     | carac:letra
+        {:  Nodo nuevo = new Nodo("caracter"); 
+            Nodo l = new Nodo(letra);
+            nuevo.Hijo(l); 
+            RESULT = nuevo; :}
+     | id:id
+        {:  Nodo nuevo = new Nodo("id"); 
+            Nodo i = new Nodo(id);
+            nuevo.Hijo(i);
+            RESULT = nuevo; :}
+     | falso:id
+        {:  Nodo nuevo = new Nodo("falso"); 
+            Nodo i = new Nodo(id);
+            nuevo.Hijo(i);
+            RESULT = nuevo; :}
+     | verdadero:id
+        {:  Nodo nuevo = new Nodo("verdadero"); 
+            Nodo i = new Nodo(id);
+            nuevo.Hijo(i);
+            RESULT = nuevo; :}
      ;
 
-LLAMADA_ARREGLO ::= LLAMADA_ARREGLO corAbre EXP corCierra
-                | corAbre EXP corCierra
+LLAMADA_ARREGLO ::= id:id DIM:dim
+                {:
+                    Nodo nuevo = new Nodo("LlamaArreglo");
+                    Nodo d = new Nodo("Dimensiones");
+                    Nodo n=new Nodo(id);
+                    d.Hijo(dim);
+                    nuevo.Hijo(n);
+                    nuevo.Hijo(d);
+                    RESULT = nuevo;
+                :}
+        
                 ;
+DIM ::= DIM:dim corAbre EXP:exp corCierra 
+        {:Nodo nuevo = new Nodo("Exp"); nuevo.Hijo(exp); dim.Hijo(nuevo);RESULT = dim;:}
+     | corAbre EXP:exp corCierra 
+     {:Nodo nuevo = new Nodo("Exp"); nuevo.Hijo(exp); RESULT = nuevo;:}
+     ;
+
+
+ 

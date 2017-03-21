@@ -77,11 +77,11 @@ precedence right pot, sqrt;
 start with INICIO;
 
 INICIO ::= {:
-                System.out.println("Empezo\n");
+                System.out.println("Empezo Haskell\n");
            :}
             FUNCION:nodo
             {:
-                System.out.println("Finalizo\n");
+                System.out.println("Finalizo Haskell\n");
                 parser.raiz = nodo;
             :} 
     ;

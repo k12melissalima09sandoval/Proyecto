@@ -1,6 +1,6 @@
 
 ALS detalle:publico{
-    cadena direccion:publico?
-    cadena telefono:publico?
-    cadena dpi:publico?
+    var cadena direccion:publico?
+    var cadena telefono:publico?
+    var cadena dpi:publico?
 }

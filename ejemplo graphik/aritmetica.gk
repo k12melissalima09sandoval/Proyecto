@@ -1,8 +1,8 @@
 
 ALS aritmetica:publico {
     
-    decimal pi:privado = 3.1516?
-    decimal h:privado?
+    var decimal pi:privado = 3.1516?
+    var decimal h:privado?
     
     vacio aritmetica1():publico{
     
@@ -14,8 +14,8 @@ ALS aritmetica:publico {
     
     vacio aritmetica2():publico{
         
-        entero b = 15 + 13*(2) - 16?
-        entero c, a?
+        var entero b = 15 + 13*(2) - 16?
+        var entero c, a?
         c = 11 - 3 * (6^4) + 16?
         a = ((b^2) + (c^2))?
         
@@ -25,8 +25,8 @@ ALS aritmetica:publico {
     }
     
     vacio aritmetica3():publico{
-        entero r = 25?
-        decimal a = pi * (r^2)?
+        var entero r = 25?
+        var decimal a = pi * (r^2)?
         
         imprimir("Salida aritmética3: ")?
         imprimir("El área de un circulo es: " + a)?
@@ -34,7 +34,7 @@ ALS aritmetica:publico {
         
         h = 16.75?
         
-        decimal f = a + h/4 * (20 - 3^2)?
+        var decimal f = a + h/4 * (20 - 3^2)?
         imprimir("Segunda salida aritmética3: ")?
         imprimir("Valor de f = " + f)?
         imprimir("Resultado = 164.65")?        
@@ -42,7 +42,7 @@ ALS aritmetica:publico {
     
     entero operacion(entero a, entero b, entero c):publico{
         
-        entero x, y, z?
+        var entero x, y, z?
         
         x = 105*2-(5^1) + a?
         y = 24^3 + b?
@@ -53,7 +53,7 @@ ALS aritmetica:publico {
     }
     
     entero ciclo1(entero i):publico{
-        Para(entero x=0;x<10;x++){
+        Para(var entero x=0:x<10:x++){
             Si(i>20 && i>x){
                 i = i + (i * 2)?
             }Sino{
@@ -65,7 +65,7 @@ ALS aritmetica:publico {
     
     bool ciclo2():publico{
         
-        entero conteo = 1?
+        var entero conteo = 1?
         Mientras (conteo < 11) {
             Si(conteo == 2 || conteo == 4 || conteo == 6 || conteo == 8){
                 imprimir("Numero par menor a 10")?
@@ -80,8 +80,8 @@ ALS aritmetica:publico {
     
     vacio arreglo():publico{
         imprimir("----- Arreglo -----")?
-        entero arreglo[] = {5,6,9,2,10}?
-        Para(entero i=0;i<5;i++){
+        var entero arreglo[5] = {5,6,9,2,10}?
+        Para(var entero i=0:i<5:i++){
           imprimir(arreglo[i]+" ")?
         }
     }

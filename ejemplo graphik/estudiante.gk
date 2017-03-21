@@ -1,12 +1,12 @@
-importar detalle.gk
+importar detalle.gk?
 
 ALS estudiante:publico {
-    cadena nombre:publico?
-    entero edad:publico?
-    entero carnet:publico?
-    detalle d:publico?
+    var cadena nombre:publico?
+    var entero edad:publico?
+    var entero carnet:publico?
+    var detalle d:publico?
     
-	estudiante():publico{
+	vacio estudiante():publico{
         d = nuevo detalle()?
     }
     

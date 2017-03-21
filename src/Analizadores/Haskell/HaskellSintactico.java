@@ -921,7 +921,7 @@ class CUP$HaskellSintactico$actions {
             {
               Nodo RESULT =null;
 
-                System.out.println("Empezo\n");
+                System.out.println("Empezo Haskell\n");
            
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("NT$0",41, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
             }
@@ -937,7 +937,7 @@ class CUP$HaskellSintactico$actions {
 		int nodoright = ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()).right;
 		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$HaskellSintactico$stack.peek()).value;
 		
-                System.out.println("Finalizo\n");
+                System.out.println("Finalizo Haskell\n");
                 parser.raiz = nodo;
             
               CUP$HaskellSintactico$result = parser.getSymbolFactory().newSymbol("INICIO",0, ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.elementAt(CUP$HaskellSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$HaskellSintactico$stack.peek()), RESULT);
