@@ -1,4 +1,42 @@
 digraph G {node[shape=box, style=filled]; edge[color=red]
-
+node1885800764[label="Raiz"];
+ node1885800764->node299278157;node299278157[label="Importa"];
+ node1885800764->node679997176;node679997176[label="Incluye"];
+ node1885800764->node1569873730;node1569873730[label="ListaAls"];
+ node1569873730->node359957285;node359957285[label="Als"];
+ node359957285->node813521457;node813521457[label="aritmetica"];
+ node359957285->node664437480;node664437480[label="Publico"];
+ node359957285->node1757258006;node1757258006[label="Hereda"];
+ node359957285->node1499556495;node1499556495[label="SentenciasAls"];
+ node1499556495->node51842880;node51842880[label="Metodo"];
+ node51842880->node1885945864;node1885945864[label="TipoEntero"];
+ node51842880->node1968830978;node1968830978[label="ciclo1"];
+ node51842880->node666817332;node666817332[label="Parametros"];
+ node666817332->node476620172;node476620172[label="P"];
+ node476620172->node649842441;node649842441[label="TipoEntero"];
+ node476620172->node478722102;node478722102[label="i"];
+ node51842880->node1308553184;node1308553184[label="Publico"];
+ node51842880->node350447382;node350447382[label="CuerpoMetodo"];
+ node350447382->node1817714948;node1817714948[label="Sentencias"];
+ node1817714948->node893939121;node893939121[label="Graphikar"];
+ node893939121->node259196183;node259196183[label="Lista"];
+ node259196183->node10950712;node10950712[label="Exp"];
+ node10950712->node760895785;node760895785[label="numero"];
+ node760895785->node1527356630;node1527356630[label="1"];
+ node259196183->node1279619357;node1279619357[label="Exp"];
+ node1279619357->node1956365941;node1956365941[label="numero"];
+ node1956365941->node200760030;node200760030[label="2"];
+ node259196183->node470784090;node470784090[label="Exp"];
+ node470784090->node2074464095;node2074464095[label="numero"];
+ node2074464095->node1361511984;node1361511984[label="5"];
+ node259196183->node1622640480;node1622640480[label="Exp"];
+ node1622640480->node1711716;node1711716[label="numero"];
+ node1711716->node1435559439;node1435559439[label="8"];
+ node259196183->node1022323723;node1022323723[label="Exp"];
+ node1022323723->node1614770289;node1614770289[label="numero"];
+ node1614770289->node814136108;node814136108[label="7"];
+ node259196183->node1651807149;node1651807149[label="Exp"];
+ node1651807149->node624702684;node624702684[label="numero"];
+ node624702684->node1050375410;node1050375410[label="6"];
 
 }

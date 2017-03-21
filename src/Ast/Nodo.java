@@ -27,4 +27,8 @@ public class Nodo {
         this.valor = valor;
         this.hijos = new ArrayList();
     }
+    
+    public void setNombre(Object nombre){
+        this.valor = nombre;
+    }
 }

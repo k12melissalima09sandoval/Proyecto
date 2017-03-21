@@ -16,61 +16,59 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 /**
  *
  * @author MishaPks
  */
-public class FormPrincipal extends javax.swing.JFrame{
+public class FormPrincipal extends javax.swing.JFrame {
 
     /**
      * Creates new form FormPrincipal
      */
-    
     public static ArrayList<RTextScrollPane> listaPestañas = new ArrayList();
     public static int nuevo;
-    
+
     static RecorreHaskell consola = new RecorreHaskell();
-    int contadorPestañas =0;
+    int contadorPestañas = 0;
     String anterior;
-    
+
     public FormPrincipal() {
         initComponents();
-        
+
         //PARA LA CONSOLA
-        this.txtEntradaConsola.addKeyListener(new KeyAdapter(){
+        this.txtEntradaConsola.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyReleased(KeyEvent e){
+            public void keyReleased(KeyEvent e) {
                 int tecla = e.getKeyCode();
-                if(tecla == KeyEvent.VK_ENTER ){
-                    try{
-                        ConsolaLexico scan = new ConsolaLexico(new BufferedReader( new StringReader(txtEntradaConsola.getText())));
+                if (tecla == KeyEvent.VK_ENTER) {
+                    try {
+                        ConsolaLexico scan = new ConsolaLexico(new BufferedReader(new StringReader(txtEntradaConsola.getText())));
                         ConsolaSintactico parser = new ConsolaSintactico(scan);
                         parser.parse();
-                        Graficar(recorrido(ConsolaSintactico.raiz),"AstConsola");
+                        Graficar(recorrido(ConsolaSintactico.raiz), "AstConsola");
                         anterior = txtSalidaConsola.getText();
-                        txtSalidaConsola.setText(anterior+">"+txtEntradaConsola.getText().toString()+"\n");
+                        txtSalidaConsola.setText(anterior + ">" + txtEntradaConsola.getText().toString() + "\n");
                         txtEntradaConsola.setText("$ $");
-                        
-                        Valor v= (Valor)consola.Consola(ConsolaSintactico.raiz,"");
-                        
-                        anterior=txtSalidaConsola.getText();
+
+                        Valor v = (Valor) consola.Consola(ConsolaSintactico.raiz, "");
+
+                        anterior = txtSalidaConsola.getText();
                         txtSalidaConsola.setText("");
-                        txtSalidaConsola.setText(anterior+">"+v.valor.toString().replace(".0","")+"\n");
-                        
-                        
-                    }catch(Exception ex){
+                        txtSalidaConsola.setText(anterior + ">" + v.valor.toString().replace(".0", "") + "\n");
+
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 }
             }
         });
-    
-    
+
         //this.txtEntradaConsola.addKeyListener(this);
-       
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -176,7 +174,7 @@ public class FormPrincipal extends javax.swing.JFrame{
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-     
+
     private void btnNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaActionPerformed
         String nombre = "";
         NuevoDocumento ventana = new NuevoDocumento();
@@ -184,46 +182,68 @@ public class FormPrincipal extends javax.swing.JFrame{
     }//GEN-LAST:event_btnNuevaActionPerformed
 
     private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
-        
-        int actual = jTabbedPane1.getSelectedIndex();
-        String a = listaPestañas.get(actual).getTextArea().getText();
-            if(a.isEmpty()){
-                System.err.println("No es posible evaluar una cadena en blanco.");
+        try {
+            int actual = jTabbedPane1.getSelectedIndex();
+            String a = listaPestañas.get(actual).getTextArea().getText();
+            if (a.isEmpty()) {
+                JOptionPane.showMessageDialog(null,
+                        "No hay cadena para analizar!!",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            try { 
+            try {
                 //viene haskell
-                
-                if(listaPestañas.get(actual).getTextArea().getName().equals(".hk")){
-                    
-                    HaskellLexico scan = new HaskellLexico(new BufferedReader( new StringReader(a)));
-                    HaskellSintactico parser = new HaskellSintactico(scan);
-                    parser.parse();
-                    Graficar(recorrido(HaskellSintactico.raiz),"AstHaskell");
-                    RecorreHaskell.Recorrido(HaskellSintactico.raiz);
-                    
-                }
-                //viene graphik    
-                else if(listaPestañas.get(actual).getTextArea().getName().equals(".gk")){
-                    GraphikLexico scan = new GraphikLexico(new BufferedReader( new StringReader(a)));
-                    GraphikSintactico parser = new GraphikSintactico(scan);
-                    parser.parse();
-                    Graficar(recorrido(GraphikSintactico.raiz),"AstGraphik");
-                    //RecorreHaskell.Recorrido(HaskellSintactico.raiz);
-                    
-                    System.out.println("entro a graphik");
+
+                if (listaPestañas.get(actual).getTextArea().getName().equals(".hk")) {
+                    try {
+                        HaskellLexico scan = new HaskellLexico(new BufferedReader(new StringReader(a)));
+                        HaskellSintactico parser = new HaskellSintactico(scan);
+                        parser.parse();
+                        Graficar(recorrido(HaskellSintactico.raiz), "AstHaskell");
+                        RecorreHaskell.Recorrido(HaskellSintactico.raiz);
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null,
+                                "Hay errores en la entrada Haskell!!", "",
+                                JOptionPane.WARNING_MESSAGE);
+                    }
+                } //viene graphik    
+                else if (listaPestañas.get(actual).getTextArea().getName().equals(".gk")) {
+                    try {
+                        GraphikLexico scan = new GraphikLexico(new BufferedReader(new StringReader(a)));
+                        GraphikSintactico parser = new GraphikSintactico(scan);
+                        parser.parse();
+                        Graficar(recorrido(GraphikSintactico.raiz), "AstGraphik");
+                        //RecorreHaskell.Recorrido(HaskellSintactico.raiz);
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null,
+                                "Hay errores en la entrada Graphik!!",
+                                "",
+                                JOptionPane.WARNING_MESSAGE);
+                    }
+
                 }
             } catch (Exception ex) {
-                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null,
+                        "Ups... Algo a salido mal!!",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
+                //ex.printStackTrace();
             }
-        
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                    "No hay ningun archivo para analizar!!",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            //e.printStackTrace();
+        }
     }//GEN-LAST:event_btnEjecutarActionPerformed
 
-    public void Graficar(String cadena,String cad){
+    public void Graficar(String cadena, String cad) {
         FileWriter fichero = null;
         PrintWriter pw = null;
-        String nombre=cad;
-        String archivo=nombre+".dot";
+        String nombre = cad;
+        String archivo = nombre + ".dot";
         try {
             fichero = new FileWriter(archivo);
             pw = new PrintWriter(fichero);
@@ -233,34 +253,33 @@ public class FormPrincipal extends javax.swing.JFrame{
             fichero.close();
         } catch (Exception e) {
             System.out.println(e);
-        } 
+        }
         try {
-            String cmd = "dot.exe -Tpng "+nombre+".dot -o "+nombre+".png"; 
-            Runtime.getRuntime().exec(cmd); 
+            String cmd = "dot.exe -Tpng " + nombre + ".dot -o " + nombre + ".png";
+            Runtime.getRuntime().exec(cmd);
         } catch (IOException ioe) {
-                System.out.println (ioe);
+            System.out.println(ioe);
         }
     }
-    
-    
-    String recorrido(Nodo raiz){
-     
-        String r= ""; 
-        if(raiz!=null){
-            r="node" + raiz.hashCode()+ "[label=\""+raiz.valor+  "\"];";
-            for (int i=0;i<raiz.hijos.size();i++){
-                r+="\n node"+ raiz.hashCode() + "->"+"node"+raiz.hijos.get(i).hashCode() + ";";
-                r+=recorrido(raiz.hijos.get(i));  
+
+    String recorrido(Nodo raiz) {
+
+        String r = "";
+        if (raiz != null) {
+            r = "node" + raiz.hashCode() + "[label=\"" + raiz.valor + "\"];";
+            for (int i = 0; i < raiz.hijos.size(); i++) {
+                r += "\n node" + raiz.hashCode() + "->" + "node" + raiz.hijos.get(i).hashCode() + ";";
+                r += recorrido(raiz.hijos.get(i));
             }
         }
         return r;
     }
-    
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
