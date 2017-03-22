@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package FunPropias;
+package Interprete.Haskell;
 
 //import FunPropias.*;
+import Interprete.Haskell.Concatena;
 import Ast.Nodo;
 import Interprete.Haskell.ExpresionHaskell;
 import Interprete.Valor;

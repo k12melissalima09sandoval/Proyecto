@@ -14,22 +14,22 @@ parser code
     public void syntax_error(Symbol s)
     {
         String texto = s.value.toString();
-        int fila= s.right;
-        int columna = s.left;
+        int fila= s.left+1;
+        int columna = s.right+1;
         
         System.out.println("Error Sintactico Recuperado: "+texto+" Fila: "+fila+" Columna: " +columna);
-        Analizadores.Errores err = new Analizadores.Errores("Sintactico: ","No se esperaba: ",texto,fila,columna);
-        Err.add(err);
+        //Analizadores.Errores err = new Analizadores.Errores("Sintactico: ","No se esperaba: ",texto,fila,columna);
+        //Err.add(err);
 
     }
 
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
     {
         String texto = s.value.toString();
-        int fila= s.right;
-        int columna = s.left;
+        int fila= s.left+1;
+        int columna = s.right+1;
         
-        System.out.println("Error Sintactico Modo Panico: "+texto+" Fila: "+fila+" Columna: " +columna);
+        System.out.println("Error Sintactico: "+texto+" Fila: "+fila+" Columna: " +columna);
         Analizadores.Errores err = new Analizadores.Errores("Sintactico: ","No se esperaba: ",texto,fila,columna);
         Err.add(err);
     }
@@ -74,13 +74,13 @@ non terminal Nodo DECLARACION_GLOBAL, L_VAR, ASIGNACION, DIM,L_POSICIONES;
 non terminal Nodo DECLARACION_LOCAL, ASIGNA, GRAPHIKAR, ACCESO,L_ACCESO;
 non terminal Nodo TIPO_DATO, OPCION, EXP, DATOS, CUERPO_DATOS,ARR;
 non terminal Nodo COLUMNA, PROCESAR, DONDE, DONDECADA, DONDETODO;
-non terminal Nodo ARREGLO, ASIGNACION_ARREGLO, L_POS, POSICIONES;
+non terminal Nodo ARREGLO, ASIGNACION_ARREGLO;
 non terminal Nodo METODO_INICIO, METODOS, PARAMETROS, LLAMADA_ARREGLO;
 non terminal Nodo LLAMAR, LLAMARHK, PARAM_LLAMA, L_CUERPO,D,P,A,V;
 non terminal Nodo RETORNA, SENTENCIA_SI, SENTENCIA_SINO, ARR_GRAPHIK;
 non terminal Nodo SENTENCIA_PARA, ASIGNA_PARA,DECLARACION_PARA, PP;
-non terminal Nodo SENTENCIA_HMIENTRAS, SENTENCIA_MIENTRAS, L_GRAPHIK;
-non terminal Nodo SENTENCIA_SELECCION, CASOS, L_CASO, DEFECTO, LG;
+non terminal Nodo SENTENCIA_HMIENTRAS, SENTENCIA_MIENTRAS;
+non terminal Nodo SENTENCIA_SELECCION, CASOS, L_CASO, DEFECTO;
 non terminal Nodo TERMINAR, CONTINUAR, IMPRIMIR, L_PARAMETROS, PARAM;
  
 precedence left or;
@@ -312,7 +312,7 @@ DECLARACION_GLOBAL ::= var TIPO_DATO:t id:id VISIBILIDAD:v OPCION:op fin
 
 OPCION ::= coma L_VAR:nodo {:RESULT = nodo;:}
         | ASIGNACION:nodo {:Nodo n= new Nodo("Asignacion"); n.Hijo(nodo);RESULT = n;:}
-        | {:RESULT = new Nodo("Niente");:}
+        | {:RESULT = new Nodo("Asignacion");:}
         ;
 		
 L_VAR ::= L_VAR:nodo coma V:v 
@@ -390,36 +390,18 @@ TIPO_DATO ::= Tentero:id
             RESULT = nuevo; :}
            ;
 
-ASIGNACION_ARREGLO ::= igual L_POSICIONES:nodo {:RESULT = nodo;:}
+ASIGNACION_ARREGLO ::= igual EXP:nodo {:RESULT = nodo;:}
                     | {:RESULT = new Nodo("Posiciones");:}
                     ;
 
-L_POSICIONES ::= L_POSICIONES:p coma llaveAbre POSICIONES:nodo llaveCierra
+L_POSICIONES ::= L_POSICIONES:p coma EXP:nodo
                 {:p.Hijo(nodo); RESULT = p;:}
 
-              | llaveAbre POSICIONES:nodo llaveCierra
-              {:Nodo nuevo = new Nodo("Lista"); 
+              | EXP:nodo
+              {:Nodo nuevo = new Nodo("Posiciones"); 
                 nuevo.Hijo(nodo); 
                 RESULT = nuevo;:}
               ;
-
-POSICIONES ::= POSICIONES:p coma L_POS:nodo 
-                {:p.Hijo(nodo); RESULT = p; :}
-            | L_POS:nodo 
-               {:Nodo nuevo = new Nodo("Posiciones"); 
-                nuevo.Hijo(nodo); 
-                RESULT = nuevo;:}
-            ;
-
-L_POS ::= llaveAbre POSICIONES:nodo llaveCierra
-            {: RESULT = nodo;:}
-       | EXP:exp
-        {:Nodo nuevo = new Nodo("Exp");
-            nuevo.Hijo(exp);
-            RESULT = nuevo;
-        :}
-       ;
-
 
 ASIGNACION ::= igual EXP:exp
     {:Nodo nuevo = new Nodo("Exp"); nuevo.Hijo(exp); RESULT = nuevo;:}
@@ -510,16 +492,9 @@ GRAPHIKAR ::= graphikar parenAbre ARR_GRAPHIK:nodo parenCierra fin
            ;
 
 ARR_GRAPHIK ::= EXP:exp {:Nodo nuevo = new Nodo("Exp"); nuevo.Hijo(exp); RESULT = nuevo;:}
-             | llaveAbre L_GRAPHIK:nodo llaveCierra {:RESULT = nodo;:}
+             
 	     ;
 		   
-L_GRAPHIK ::= L_GRAPHIK:nodo coma LG:lg {:nodo.Hijo(lg); RESULT=nodo;:}
-	   | LG:lg {:Nodo n=new Nodo("Lista"); n.Hijo(lg); RESULT = n;:}
-           ;
-
-LG ::= EXP:exp {:Nodo n =new Nodo("Exp"); n.Hijo(exp); RESULT = n;:}
-	   ;
-
 
 IMPRIMIR ::= imprimir parenAbre EXP:exp parenCierra fin 
             {:Nodo nuevo = new Nodo("Imprimir"); 
@@ -917,6 +892,7 @@ EXP ::= EXP:j mas EXP:m
      | LLAMAR:nodo                     {:RESULT = nodo;:} 
      | LLAMADA_ARREGLO:nodo            {:RESULT = nodo;:}
      | LLAMARHK:nodo                   {:RESULT = nodo;:}
+     | llaveAbre L_POSICIONES:nodo llaveCierra {:RESULT = nodo;:}
      | id:id ACCESO:nodo
         {:
         Nodo nuevo = new Nodo("Acceso");

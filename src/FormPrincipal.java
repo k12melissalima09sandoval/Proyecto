@@ -5,11 +5,14 @@ import Analizadores.Haskell.HaskellLexico;
 import Analizadores.Haskell.HaskellSintactico;
 import Analizadores.Consola.ConsolaLexico;
 import Analizadores.Consola.ConsolaSintactico;
+import Analizadores.Errores;
 import Analizadores.Graphik.GraphikLexico;
 import Analizadores.Graphik.GraphikSintactico;
 import Ast.Nodo;
 import Interprete.Valor;
-import FunPropias.RecorreHaskell;
+import Interprete.Graphik.PrimeraPasada;
+import Interprete.Haskell.RecorreHaskell;
+import Simbolos.TablaSimbolosGraphik;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.FileWriter;
@@ -170,6 +173,8 @@ public class FormPrincipal extends javax.swing.JFrame {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
+        getAccessibleContext().setAccessibleDescription("Melissa Lima");
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -210,11 +215,17 @@ public class FormPrincipal extends javax.swing.JFrame {
                 } //viene graphik    
                 else if (listaPestañas.get(actual).getTextArea().getName().equals(".gk")) {
                     try {
+                        PrimeraPasada p = new PrimeraPasada();
                         GraphikLexico scan = new GraphikLexico(new BufferedReader(new StringReader(a)));
                         GraphikSintactico parser = new GraphikSintactico(scan);
                         parser.parse();
                         Graficar(recorrido(GraphikSintactico.raiz), "AstGraphik");
-                        //RecorreHaskell.Recorrido(HaskellSintactico.raiz);
+                        p.Reconocer(GraphikSintactico.raiz);
+                        
+                        Errores err = new Errores();
+                        err.imprimirErrores(TablaSimbolosGraphik.errorSemantico);
+                        
+                        
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(null,
                                 "Hay errores en la entrada Graphik!!",

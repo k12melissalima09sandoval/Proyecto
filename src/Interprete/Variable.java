@@ -10,14 +10,20 @@ package Interprete;
  */
 public class Variable {
     public String nombre;
+    public String visibilidad;
     public Object valor;
     public String tipo;
     
+    public Boolean arreglo;
+    public Boolean instancia;
 
-    public Variable(String tipo, String nombre, String valor) {
-        this.nombre = nombre;
-        this.valor = valor;
+    public Variable(String tipo, String nombre, String visible, Object valor,Boolean arreglo,Boolean instancia) {
         this.tipo = tipo;
+        this.nombre = nombre;
+        this.visibilidad = visible;
+        this.valor = valor;
+        this.arreglo = arreglo;
+        this.instancia = instancia;
     }
     
     

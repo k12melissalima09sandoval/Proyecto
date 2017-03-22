@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package FunPropias;
+package Interprete.Haskell;
 
+import Interprete.Haskell.RecorreHaskell;
 import Ast.Nodo;
 import Interprete.Haskell.ExpresionHaskell;
 import Interprete.Haskell.FuncionHaskell;

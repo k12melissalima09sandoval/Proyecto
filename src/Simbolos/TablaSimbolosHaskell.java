@@ -22,7 +22,6 @@ public class TablaSimbolosHaskell {
     public static Map<String, Variable> listaListasConsola = new LinkedHashMap<>();
       
     
-    private static TablaSimbolosHaskell tabla;
     
     public TablaSimbolosHaskell(){
         
@@ -59,12 +58,12 @@ public class TablaSimbolosHaskell {
     public Map<String, Variable> ObtenerListaListas(){
         return listaListasConsola;
     }
-    public static TablaSimbolosHaskell ObtenerTabla(){
+    /*public static TablaSimbolosHaskell ObtenerTabla(){
         if(tabla==null){
             
             tabla = new TablaSimbolosHaskell();
         }
         return tabla;
-    }
+    }*/
     
 }

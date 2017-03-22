@@ -33,8 +33,8 @@ letras      = [a-zA-ZñÑ]+
 id          ={letras}({numero}|"_"|{letras})*
 decimal     ={numero}"."{numero}
 nombreArchivo = {id}".gk"
-comentarios = "#/" ([^\#]*) "/#" 
-comentario  = "#" ([^\#]*)
+comentarios = "#/" ([^/]*) "/#" 
+comentario  = "#" ([^\n]*)
 
 
 %%

@@ -28,10 +28,7 @@ public class Parametros {
         this.tipo=tipo;
         this.nombre = nombre;
     }
-    public void ParametrosTemp(String tipo,String nombre){
-        this.tipoTemp=tipo;
-        this.nombreTemp = nombre;
-    }
+    
     
     public Parametros(Object val, String tipo){
         this.valor = val;

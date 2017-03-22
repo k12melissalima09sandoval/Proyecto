@@ -6,8 +6,6 @@
 package Interprete.Haskell;
 
 import Ast.Nodo;
-import FunPropias.Concatena;
-import FunPropias.RecorreHaskell;
 import Interprete.Parametros;
 import Interprete.Valor;
 import Interprete.Variable;
