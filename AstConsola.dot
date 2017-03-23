@@ -1,10 +1,8 @@
 digraph G {node[shape=box, style=filled]; edge[color=red]
-node1082103099[label="Calcular"];
- node1082103099->node789104382;node789104382[label="Exp"];
- node789104382->node1931751473;node1931751473[label="+"];
- node1931751473->node327204127;node327204127[label="numero"];
- node327204127->node795485209;node795485209[label="5"];
- node1931751473->node1186736188;node1186736188[label="numero"];
- node1186736188->node348859746;node348859746[label="5"];
+node1439700724[label="LlamaFunc"];
+ node1439700724->node45070207;node45070207[label="Fibonacci"];
+ node1439700724->node317829348;node317829348[label="Parametros"];
+ node317829348->node1455729012;node1455729012[label="numero"];
+ node1455729012->node58094318;node58094318[label="6"];
 
 }

@@ -19,6 +19,7 @@ public class PrimeraPasada {
 
     SentenciasAls sentAls = new SentenciasAls();
     CrearVariables varsGlobales = new CrearVariables();
+    CrearMetodos metodos = new CrearMetodos();
     public static Als nuevo = new Als();
     TablaSimbolosGraphik tabla = new TablaSimbolosGraphik();
 
@@ -43,7 +44,7 @@ public class PrimeraPasada {
             String nombreAls = c.hijos.get(0).valor.toString();
             Boolean key = TablaSimbolosGraphik.getKeyAls(nombreAls);
             if (key) {
-                Errores.ErrorSemantico("El Als <" + nombreAls + "> ya esta definido", 0, 0);
+                Errores.ErrorSemantico("El Als -" + nombreAls + "- ya esta definido", 0, 0);
             } else {
 
                 //Hereda
@@ -69,8 +70,9 @@ public class PrimeraPasada {
                 }
                 Nodo cuerpo = c.hijos.get(3);
                 varsGlobales.CrearVariablesGlobales(cuerpo,nuevo);
-                
+                metodos.CrearMetodos(cuerpo,nuevo);
                 Map<String,Als> ob = TablaSimbolosGraphik.getAls();
+                
                 
                 //get el als para ver si hizo todo bien
             }

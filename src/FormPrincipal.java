@@ -226,11 +226,15 @@ public class FormPrincipal extends javax.swing.JFrame {
                         err.imprimirErrores(TablaSimbolosGraphik.errorSemantico);
                         
                         
+                        
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(null,
-                                "Hay errores en la entrada Graphik!!",
+                                "Algo ha ido mal",
                                 "",
                                 JOptionPane.WARNING_MESSAGE);
+                        e.printStackTrace();
+                        Errores err = new Errores();
+                        err.imprimirErrores(TablaSimbolosGraphik.errorSemantico);
                     }
 
                 }
@@ -239,7 +243,8 @@ public class FormPrincipal extends javax.swing.JFrame {
                         "Ups... Algo a salido mal!!",
                         "Warning",
                         JOptionPane.WARNING_MESSAGE);
-                //ex.printStackTrace();
+                ex.printStackTrace();
+                
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,

@@ -8,6 +8,7 @@ package Interprete.Graphik;
 import Ast.Nodo;
 import Interprete.Parametros;
 import Interprete.Variable;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -19,8 +20,7 @@ public class MetodoGraphik {
     
     String tipo;
     String nombre;
-    public static Map<String, Parametros> listaParametros = new LinkedHashMap<>();
-    public static Map<String, Variable> listaVariables = new LinkedHashMap<>();
+    public static ArrayList<Parametros> listaParametros = new ArrayList();
     String visibilidad;
     Nodo cuerpo;
     
@@ -29,12 +29,12 @@ public class MetodoGraphik {
         this.nombre = nombre;
         this.visibilidad = visible;
         this.cuerpo = cuerpo;
-    }
+    }   
     
-    public void setParametros(String nombre,Parametros p){
-        listaParametros.put(nombre, p);
+    public void setParametros(Parametros p){
+        listaParametros.add(p);
     }
-    public Object getParametros(Object Parametros){
+    public ArrayList getParametros(){
         return listaParametros;
     }
     public Nodo getCuerpo(){

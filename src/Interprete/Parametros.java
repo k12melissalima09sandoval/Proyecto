@@ -13,8 +13,6 @@ public class Parametros {
     
     public String tipo;
     public String nombre;
-    public String tipoTemp;
-    public String nombreTemp;
     public Object valor;
     
     public Parametros(String nombre){

@@ -284,15 +284,13 @@ DECLARACION_GLOBAL ::= var TIPO_DATO:t id:id VISIBILIDAD:v OPCION:op fin
             | var TIPO_DATO:t id:id ARREGLO:a VISIBILIDAD:v ASIGNACION_ARREGLO:nodo fin
                 {: Nodo nuevo = new Nodo("DeclaraGlobalArreglo");
                 Nodo l= new Nodo("ListaID");
-                Nodo as= new Nodo("AsignaArreglo");
                 Nodo i= new Nodo(id);
                 l.Hijo(i);
                 l.Hijo(v);
-                as.Hijo(nodo);
                 nuevo.Hijo(t);
                 nuevo.Hijo(l);
                 nuevo.Hijo(a);
-                nuevo.Hijo(as);
+                nuevo.Hijo(nodo);
                 RESULT = nuevo;
                 :}
             | var TIPO_DATO:t id:id VISIBILIDAD:v igual nuevo LLAMAR_INSTANCIA:nodo fin
@@ -660,15 +658,13 @@ DECLARACION_LOCAL ::= var TIPO_DATO:t id:id VISIBILIDAD:v OPCION:op
             | var TIPO_DATO:t id:id ARREGLO:a VISIBILIDAD:v ASIGNACION_ARREGLO:nodo
                 {: Nodo nuevo = new Nodo("DeclaraLocalArreglo");
                 Nodo l= new Nodo("ListaID");
-                Nodo as= new Nodo("AsignaArreglo");
                 Nodo i= new Nodo(id);
                 l.Hijo(i);
                 l.Hijo(v);
-                as.Hijo(nodo);
                 nuevo.Hijo(t);
                 nuevo.Hijo(l);
                 nuevo.Hijo(a);
-                nuevo.Hijo(as);
+                nuevo.Hijo(nodo);
                 RESULT = nuevo;
                 :}
             | var TIPO_DATO:t id:id VISIBILIDAD:v igual nuevo LLAMAR_INSTANCIA:nodo

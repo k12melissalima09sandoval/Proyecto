@@ -7,6 +7,7 @@ package Interprete.Graphik;
 
 import Analizadores.Errores;
 import Ast.Nodo;
+import Interprete.Arreglo;
 import Interprete.Valor;
 import Interprete.Variable;
 import Simbolos.TablaSimbolosGraphik;
@@ -25,6 +26,7 @@ public class CrearVariables {
         for (Nodo nodo : raiz.hijos) {
             String valor = nodo.valor.toString();
             switch (valor) {
+                
                 case "DeclaraGlobalVariable":
 
                     //DECLARACION LISTA DE VARIABLES
@@ -32,28 +34,29 @@ public class CrearVariables {
                         String tipo = nodo.hijos.get(0).valor.toString();
                         for (Nodo a : nodo.hijos.get(1).hijos) {
                             String nombre = a.hijos.get(0).valor.toString();
-                            if (als.getKeyVarsGlobales(nombre)) {
-                                Errores.ErrorSemantico("La variable <" + nombre + "> ya esta declarada", 0, 0);
+                            if (als.existeVariableG(nombre)) {
+                                Errores.ErrorSemantico("La variable -" + nombre + "- ya esta declarada", 0, 0);
                             } else {
                                 String visible = a.hijos.get(1).valor.toString();
                                 Variable var = new Variable(tipo, nombre, visible, null, false, false);
-                                als.addVarGlobal(nombre, var);
+                                als.addVarGlobal(var);
                             }
                         }
                         //DECLARACION DE UNA VARIABLE CON O SIN ASIGNACION
                     } else //SOLAMENTE DECLARACION
-                     if (nodo.hijos.get(2).hijos.size() == 0) {
+                    {
+                        if (nodo.hijos.get(2).hijos.size() == 0) {
 
                             String tipo = nodo.hijos.get(0).valor.toString();
 
-                            Nodo temp = nodo.hijos.get(1);
+                            Nodo temp = nodo.hijos.get(1).hijos.get(0);
                             String nombre = temp.hijos.get(0).valor.toString();
-                            if (als.getKeyVarsGlobales(nombre)) {
-                                Errores.ErrorSemantico("La variable <" + nombre + "> ya esta declarada", 0, 0);
+                            if (als.existeVariableG(nombre)) {
+                                Errores.ErrorSemantico("La variable -" + nombre + "- ya esta declarada", 0, 0);
                             } else {
                                 String visible = temp.hijos.get(1).valor.toString();
                                 Variable var = new Variable(tipo, nombre, visible, null, false, false);
-                                als.addVarGlobal(nombre, var);
+                                als.addVarGlobal(var);
                             }
 
                         } else { //VIENE CON UNA ASIGNACION
@@ -61,54 +64,84 @@ public class CrearVariables {
 
                             Nodo temp = nodo.hijos.get(1);
                             String nombre = temp.hijos.get(0).valor.toString();
-                            if (als.getKeyVarsGlobales(nombre)) {
-                                Errores.ErrorSemantico("La variable <" + nombre + "> ya esta declarada", 0, 0);
+                            if (als.existeVariableG(nombre)) {
+                                Errores.ErrorSemantico("La variable -" + nombre + "- ya esta declarada", 0, 0);
                             } else {
                                 Nodo expresion = nodo.hijos.get(2);
                                 Valor v = (Valor) exp.RecorrerExpresion(expresion);
                                 if (v != null) {
                                     if (v.valor != null) {
                                         String visible = temp.hijos.get(1).valor.toString();
-//---------------------------CASTEO                                  
+//---------------------------CASTEO      //ASIGNACION CASTEO                            
                                         Variable var = new Variable(tipo, nombre, visible, v.valor, false, false);
-                                        als.addVarGlobal(nombre, var);
+                                        als.addVarGlobal(var);
 
                                     } else {
                                         String visible = temp.hijos.get(1).valor.toString();
 
                                         Variable var = new Variable(tipo, nombre, visible, null, false, false);
-                                        als.addVarGlobal(nombre, var);
+                                        als.addVarGlobal(var);
 
-                                        Errores.ErrorSemantico("El valor en la asignacion <" + nombre + "> "
+                                        Errores.ErrorSemantico("El valor en la asignacion -" + nombre + "- "
                                                 + "devolvio un nulo", 0, 0);
                                     }
                                 } else {
                                     String visible = temp.hijos.get(1).valor.toString();
 
-                                    Variable var = new Variable(tipo, nombre, visible, null,false,false);
-                                    als.addVarGlobal(nombre, var);
+                                    Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                    als.addVarGlobal(var);
 
-                                    Errores.ErrorSemantico("El valor en la asignacion <" + nombre + "> "
+                                    Errores.ErrorSemantico("El valor en la asignacion -" + nombre + "- "
                                             + "devolvio un nulo", 0, 0);
                                 }
                             }
                         }
+                    }
 
-                    
-                    
+                    break;
                 case "DeclaraGlobalArreglo":
+//---------------------------------------------------------------------SIN TERMINAR
+                    Arreglo arr = new Arreglo();
+                    String tipo = nodo.hijos.get(0).valor.toString();
 
-                    String tipo=nodo.hijos.get(0).valor.toString();
-                    
                     String nombre = nodo.hijos.get(1).hijos.get(0).valor.toString();
                     String visibilidad = nodo.hijos.get(1).hijos.get(1).valor.toString();
+                    Nodo dimensiones = nodo.hijos.get(2);
+                    Nodo posiciones = nodo.hijos.get(3);
+
+                    Valor v = (Valor)arr.ValidarArreglo(dimensiones, posiciones);
                     
-                    int dimensiones = nodo.hijos.get(2).hijos.size();
-                    
-                    
-                    
-                    
+                    Variable var = new Variable(tipo, nombre, visibilidad, null, true, false);
+                    als.addVarGlobal(var);
+
+                    break;
+//----------------------------------------------------------------------
                 case "InstanciaGlobal":
+
+                    String tipoObjeto = nodo.hijos.get(0).hijos.get(0).valor.toString();
+                    String nombreN = nodo.hijos.get(1).hijos.get(0).valor.toString();
+                    String visible = nodo.hijos.get(1).hijos.get(1).valor.toString();
+
+                    if (nodo.hijos.get(2).hijos.size() == 0) {
+                        Variable v2 = new Variable(tipoObjeto, nombreN, visible, null, false, true);
+                        als.addVarGlobal(v2);
+                    } else {
+                        String NameObject = nodo.hijos.get(2).hijos.get(0).valor.toString();
+                        if (nodo.hijos.get(2).valor.equals("Objeto")) {
+                            if (tipoObjeto.equals(NameObject)) {
+                                Variable v3 = new Variable(tipoObjeto, nombreN, visible, NameObject, false, true);
+                                als.addVarGlobal( v3);
+                            } else {
+                                Errores.ErrorSemantico("La instancia de -" + nombreN + "- es de "
+                                        + "tipos diferentes (" + tipoObjeto + "," + NameObject + ")", 0, 0);
+
+                            }
+                        } else {
+                            Errores.ErrorSemantico("Asignacion erronea en -" + nombreN + "- ", 0, 0);
+                        }
+                    }
+
+                    break;
 
             }
         }

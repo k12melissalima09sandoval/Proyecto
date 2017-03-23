@@ -91,14 +91,14 @@ public class Errores {
         int minuto = fecha.get(Calendar.MINUTE);
         int segundo = fecha.get(Calendar.SECOND);
 
-        tablasimboloshtml += "<html>\n\t<head>\n\t\t<title>Tabla de Simbolos</title>" + "<meta charset=" + "\"" + "utf-8" + "\"" + ">"
+        tablasimboloshtml += "<html>\n\t<head>\n\t\t<title>Errores</title>" + "<meta charset=" + "\"" + "utf-8" + "\"" + ">"
                 + "\n\t\t<link rel=" + "\"" + "stylesheet" + "\"" + "type=" + "\"" + "text/css" + "\"" + " href=" + "\"" + "Estilo.css"
                 + "\"" + ">\n\t</head>\n\t<body>"
-                + "\n\t\t<div style=" + "\"" + "text-align:left;" + "\"" + ">"
-                + "\n\t\t\t<h1>TABLA DE ERRORES</h1>"
-                + "\n\t\t\t<h2>Dia de ejecución:" + dia + " de " + getMes(mes) + " de " + año + "</h2>"
-                + "\n\t\t\t<h2>Hora de ejecución:" + hora + ":" + minuto + ":" + segundo + " " + getHora(hora) + "</h2>"
-                + "\n\t\t\t<table style=\"margin: margin: 5 auto;\" border=\"2\">\n";
+                + "\n\t\t<div style=" + "\"" + "text-align:center;" + "\"" + ">"
+                + "\n\t\t\t<h2>ERRORES</h2>"
+                + "\n\t\t\t<h3>Fecha:" + dia + " de " + getMes(mes) + " de " + año + "</h3>"
+                + "\n\t\t\t<h3>Hora:" + hora + ":" + minuto + ":" + segundo + " " + getHora(hora) + "</h3>"
+                + "\n\t\t\t<center><table style=\"margin: margin: 5 auto;\" border=\"1\">\n";
         tablasimboloshtml += "\t\t\t\t<TR>\n\t\t\t\t\t<TH>Tipo</TH> <TH>Descripcion</TH> <TH>Fila</TH><TH>Columna</TH>\n\t\t\t\t</TR>";
 
         for (Errores nodo : listaErrores) {
@@ -107,7 +107,7 @@ public class Errores {
             tablasimboloshtml += "\n\t\t\t\t</TR>";
         }
 
-        tablasimboloshtml += "\n\t\t\t</table>\n\t\t</div>\n\t</body>\n</html>";
+        tablasimboloshtml += " \n\t\t\t<h2>Melissa Lima</h2>\n\t\t\t</table></center>\n\t\t</div>\n\t</body>\n</html>";
         return tablasimboloshtml;
     }
      

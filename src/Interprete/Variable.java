@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 package Interprete;
+
+import java.util.ArrayList;
+
 /**
  *
  * @author MishaPks
@@ -15,6 +18,7 @@ public class Variable {
     public String tipo;
     
     public Boolean arreglo;
+    public ArrayList dimensiones;
     public Boolean instancia;
 
     public Variable(String tipo, String nombre, String visible, Object valor,Boolean arreglo,Boolean instancia) {
@@ -56,6 +60,10 @@ public class Variable {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+    
+    public void setDimensiones(ArrayList dim){
+        this.dimensiones = dim;
     }
     
     @Override

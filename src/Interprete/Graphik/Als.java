@@ -6,6 +6,7 @@
 package Interprete.Graphik;
 
 import Interprete.Variable;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -19,9 +20,9 @@ public class Als {
     public static String visibilidad;
     public static Object hereda;
 
-    public static Map<String, Variable> VarsGlobales = new LinkedHashMap<>();
-    
-    public static Map<String, MetodoGraphik> Metodos = new LinkedHashMap<>();
+    public static ArrayList<Variable> VarsGlobales = new ArrayList();
+
+    public static ArrayList<MetodoGraphik> Metodos = new ArrayList();
 
     public Als() {
 
@@ -29,9 +30,9 @@ public class Als {
 
     //-------------------------------------------INICIALIZANDO TODAS LAS VARIABLES POR CADA NUEVO ALS
     public void Inicializar() {
-       
-        VarsGlobales = new LinkedHashMap<>();
-        Metodos = new LinkedHashMap<>();
+
+        VarsGlobales = new ArrayList();
+        Metodos = new ArrayList();
     }
 
     //-----------------------------------------------------------AGREGANDO UN NUEVO ALS
@@ -42,31 +43,68 @@ public class Als {
     }
 
     //---------------------------------------------------------------VARIABLES
-    public  void addVarGlobal(String nombre, Variable var) {
-        
-        VarsGlobales.put(nombre, var);
+    public void addVarGlobal(Variable var) {
+
+        VarsGlobales.add(var);
     }
 
-    public Map<String, Variable> getVarGlobales() {
+    public ArrayList getVarGlobales() {
         return VarsGlobales;
     }
 
-    public  Boolean getKeyVarsGlobales(String val) {
-        Boolean valor = VarsGlobales.containsKey(val);
-        return valor;
+    public Boolean existeVariableG(String val) {
+        if (VarsGlobales.isEmpty()) {
+            return false;
+        } else {
+            for (int i = 0; i < VarsGlobales.size(); i++) {
+                if (val.equals(VarsGlobales.get(i).nombre)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     
-    //-----------------------------------------------------------------METODOS
-    public void addMetodo(String nombre, MetodoGraphik fun) {
-        Metodos.put(nombre, fun);
+    public Variable obtenerVariableG(String nombre) {
+        for (int i = 0; i < VarsGlobales.size(); i++) {
+            if (nombre.equals(VarsGlobales.get(i).nombre)) {
+                Variable encontrada = (Variable) VarsGlobales.get(i);
+                return encontrada;
+            }
+        }
+        return null;
     }
 
-    public Map<String, MetodoGraphik> getMetodos() {
+    //-----------------------------------------------------------------METODOS
+    public void addMetodo(MetodoGraphik fun) {
+        Metodos.add(fun);
+    }
+
+    public ArrayList getMetodos() {
         return Metodos;
     }
 
-    public  Boolean getKeyMetodos(String val) {
-        Boolean valor = Metodos.containsKey(val);
-        return valor;
+    public Boolean existeMetodo(String val) {
+
+        if (Metodos.isEmpty()) {
+            return false;
+        } else {
+            for (int i = 0; i < Metodos.size(); i++) {
+                if (val.equals(Metodos.get(i).nombre)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public MetodoGraphik obtenerMetodo(String nombre) {
+        for (int i = 0; i < Metodos.size(); i++) {
+            if (nombre.equals(Metodos.get(i).nombre)) {
+                MetodoGraphik encontrado = (MetodoGraphik) Metodos.get(i);
+                return encontrado;
+            }
+        }
+        return null;
     }
 }
