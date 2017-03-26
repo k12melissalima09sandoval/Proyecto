@@ -138,7 +138,7 @@ public class NuevoDocumento extends javax.swing.JFrame {
             }
         });
         RTextScrollPane pestaña = new RTextScrollPane(texto);
-        pestaña.setName("Archivo.hk");
+        pestaña.setName("ArchivoHaskell.hk");
         pestaña.setViewportBorder(BorderFactory.createEmptyBorder());
         FormPrincipal.jTabbedPane1.add(pestaña);
         FormPrincipal.listaPestañas.add(pestaña);
@@ -162,24 +162,12 @@ public class NuevoDocumento extends javax.swing.JFrame {
             }
         });
         RTextScrollPane pestaña = new RTextScrollPane(texto);
-        pestaña.setName("Archivo.gk");
+        pestaña.setName("ArchivoGraphik.gk");
         pestaña.setViewportBorder(BorderFactory.createEmptyBorder());
         FormPrincipal.jTabbedPane1.add(pestaña);
         FormPrincipal.listaPestañas.add(pestaña);
         this.setVisible(false);
     }//GEN-LAST:event_btnGraphikActionPerformed
-
-    
-    /*public static void cambiaValorHaskell(int nuevoValor) {
-        try {
-            Field field = ClaseConCampoEstatico.class.getDeclaredField("nuevoHaskell");
-            field.setAccessible(true);
-            field.setInt(null, nuevoValor);
-        } catch (Exception e) {
-            System.out.println("No se pudo cambiar el valor :(");
-            e.printStackTrace(System.out);
-        }
-    }*/
 
     /**
      * @param args the command line arguments

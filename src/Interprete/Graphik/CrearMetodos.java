@@ -8,10 +8,7 @@ package Interprete.Graphik;
 import Analizadores.Errores;
 import Ast.Nodo;
 import Interprete.Parametros;
-import Interprete.Variable;
-import Simbolos.TablaSimbolosGraphik;
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  *

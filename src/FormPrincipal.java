@@ -9,12 +9,14 @@ import Analizadores.Errores;
 import Analizadores.Graphik.GraphikLexico;
 import Analizadores.Graphik.GraphikSintactico;
 import Ast.Nodo;
+import Interprete.Graphik.Ejecucion;
 import Interprete.Valor;
 import Interprete.Graphik.PrimeraPasada;
 import Interprete.Haskell.RecorreHaskell;
 import Simbolos.TablaSimbolosGraphik;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,6 +35,7 @@ public class FormPrincipal extends javax.swing.JFrame {
      */
     public static ArrayList<RTextScrollPane> listaPestañas = new ArrayList();
     public static int nuevo;
+    public static String rutaPestaña;
 
     static RecorreHaskell consola = new RecorreHaskell();
     int contadorPestañas = 0;
@@ -82,15 +85,24 @@ public class FormPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenu1 = new javax.swing.JMenu();
+        jFileChooser1 = new javax.swing.JFileChooser();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         btnNueva = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
         jLabel1 = new javax.swing.JLabel();
         btnEjecutar = new javax.swing.JButton();
         lblColumna = new javax.swing.JLabel();
+        txtEntradaConsola = new javax.swing.JTextField();
+        txtSimbolos = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtSalidaConsola = new javax.swing.JTextArea();
-        txtEntradaConsola = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtErrores = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
+        btnCerrarPestaña = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
+        btnAbrir = new javax.swing.JButton();
 
         jMenu1.setText("jMenu1");
 
@@ -118,11 +130,46 @@ public class FormPrincipal extends javax.swing.JFrame {
 
         lblColumna.setText("----");
 
+        txtEntradaConsola.setText("$ $");
+
         txtSalidaConsola.setColumns(20);
         txtSalidaConsola.setRows(5);
         jScrollPane1.setViewportView(txtSalidaConsola);
 
-        txtEntradaConsola.setText("$ $");
+        txtSimbolos.addTab("Consola", jScrollPane1);
+
+        txtErrores.setColumns(20);
+        txtErrores.setRows(5);
+        jScrollPane2.setViewportView(txtErrores);
+
+        txtSimbolos.addTab("Errores", jScrollPane2);
+
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jScrollPane3.setViewportView(jTextArea2);
+
+        txtSimbolos.addTab("Tabla de Simbolos", jScrollPane3);
+
+        btnCerrarPestaña.setText("Cerrar Actual");
+        btnCerrarPestaña.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarPestañaActionPerformed(evt);
+            }
+        });
+
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
+        btnAbrir.setText("Abrir");
+        btnAbrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAbrirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -130,47 +177,57 @@ public class FormPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtSimbolos)
+                            .addComponent(txtEntradaConsola)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
                                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 801, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnNueva, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(9, 9, 9)
                                         .addComponent(jLabel1)
-                                        .addGap(6, 6, 6)
-                                        .addComponent(lblColumna))
-                                    .addGroup(layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(btnEjecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btnNueva, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addComponent(txtEntradaConsola))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(lblColumna))
+                                    .addComponent(btnCerrarPestaña, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnEjecutar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnAbrir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnNueva)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEjecutar)
-                        .addGap(377, 377, 377)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAbrir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnGuardar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCerrarPestaña)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(lblColumna)))
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtSimbolos, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtEntradaConsola, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("Melissa Lima");
@@ -215,18 +272,25 @@ public class FormPrincipal extends javax.swing.JFrame {
                 } //viene graphik    
                 else if (listaPestañas.get(actual).getTextArea().getName().equals(".gk")) {
                     try {
+                        Ejecucion ejecuta = new Ejecucion();
                         PrimeraPasada p = new PrimeraPasada();
                         GraphikLexico scan = new GraphikLexico(new BufferedReader(new StringReader(a)));
                         GraphikSintactico parser = new GraphikSintactico(scan);
                         parser.parse();
                         Graficar(recorrido(GraphikSintactico.raiz), "AstGraphik");
-                        p.Reconocer(GraphikSintactico.raiz);
-                        
+                        ejecuta.Ejecucion(GraphikSintactico.raiz);
+                        //p.Reconocer(GraphikSintactico.raiz);
+
                         Errores err = new Errores();
+                        String textoErrores = "";
+                        for (int i = 0; i < TablaSimbolosGraphik.errorSemantico.size(); i++) {
+                            textoErrores += TablaSimbolosGraphik.errorSemantico.get(i).tipo + "->" + TablaSimbolosGraphik.errorSemantico.get(i).texto
+                                    + "      |Fila: " + TablaSimbolosGraphik.errorSemantico.get(i).linea
+                                    + ", Columna: " + TablaSimbolosGraphik.errorSemantico.get(i).columna + "|\n";
+                        }
+                        txtErrores.setText(textoErrores);
                         err.imprimirErrores(TablaSimbolosGraphik.errorSemantico);
-                        
-                        
-                        
+
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(null,
                                 "Algo ha ido mal",
@@ -244,7 +308,7 @@ public class FormPrincipal extends javax.swing.JFrame {
                         "Warning",
                         JOptionPane.WARNING_MESSAGE);
                 ex.printStackTrace();
-                
+
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,
@@ -254,6 +318,112 @@ public class FormPrincipal extends javax.swing.JFrame {
             //e.printStackTrace();
         }
     }//GEN-LAST:event_btnEjecutarActionPerformed
+
+    private void btnCerrarPestañaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarPestañaActionPerformed
+        try {
+            int actual = jTabbedPane1.getSelectedIndex();
+            jTabbedPane1.remove(actual);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No hay pestañas abiertas", "Abrir", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnCerrarPestañaActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        int actual = jTabbedPane1.getSelectedIndex();
+        int select = jFileChooser1.showSaveDialog(this);
+        String a = listaPestañas.get(actual).getTextArea().getText();
+
+        if (select == javax.swing.JFileChooser.APPROVE_OPTION) {
+
+            try {
+                fichero = new java.io.File(jFileChooser1.getSelectedFile().getPath());
+                escribir = new java.io.FileWriter(fichero, false);
+                pintar = new java.io.PrintWriter(escribir);
+                pintar.write(a);
+                ruta = fichero.getAbsolutePath();
+
+            } catch (IOException ex) {
+                //Logger.getLogger(ManejoArchivos.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                if (escribir != null) {
+                    try {
+                        escribir.close();
+
+                    } catch (IOException ex) {
+                        //Logger.getLogger(ManejoArchivos.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
+
+        try {
+            int actual = jTabbedPane1.getSelectedIndex();
+            if (JFileChooserDialog()) {
+                String texto = Abierto();
+                if (texto != null) {
+                    listaPestañas.get(actual).getTextArea().setText(texto);
+                    String b = jFileChooser1.getSelectedFile().getAbsolutePath();
+                    listaPestañas.get(actual).setName(b);
+                    PrimeraPasada.ruta = b;
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se pudo Abrir", "Abrir", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Por favor, cree una nueva pestaña primero", "Abrir", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAbrirActionPerformed
+
+    private boolean JFileChooserDialog() {
+        int seleccion = jFileChooser1.showDialog(this, "Selecionar archivo ...");
+
+        if (seleccion == javax.swing.JFileChooser.APPROVE_OPTION) {
+            fichero = jFileChooser1.getSelectedFile();
+            return true;
+        }
+        return false;
+    }
+
+    java.io.File fichero;
+    java.io.FileWriter escribir;
+    java.io.PrintWriter pintar;
+    java.io.BufferedReader leer;
+    java.io.FileReader leerFichero;
+    String ruta;
+
+    public String Abierto() {
+        try {
+            String archivo = "", linea;
+            leerFichero = new java.io.FileReader(fichero);
+            leer = new java.io.BufferedReader(leerFichero);
+            ruta = fichero.getAbsolutePath();
+            linea = leer.readLine();
+            while (linea != null) {
+                archivo += linea;
+                archivo += System.getProperty("line.separator");
+                linea = leer.readLine();
+            }
+
+            return archivo;
+
+        } catch (FileNotFoundException ex) {
+            //Logger.getLogger(ManejoArchivos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            //Logger.getLogger(ManejoArchivos.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (leerFichero != null) {
+                try {
+                    leerFichero.close();
+                } catch (IOException ex) {
+                    // Logger.getLogger(ManejoArchivos.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return null;
+    }
 
     public void Graficar(String cadena, String cad) {
         FileWriter fichero = null;
@@ -323,16 +493,25 @@ public class FormPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAbrir;
+    private javax.swing.JButton btnCerrarPestaña;
     private javax.swing.JButton btnEjecutar;
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNueva;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     public static javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextArea jTextArea2;
     public static javax.swing.JLabel lblColumna;
     private javax.swing.JTextField txtEntradaConsola;
+    public static javax.swing.JTextArea txtErrores;
     private javax.swing.JTextArea txtSalidaConsola;
+    private javax.swing.JTabbedPane txtSimbolos;
     // End of variables declaration//GEN-END:variables
 
 }

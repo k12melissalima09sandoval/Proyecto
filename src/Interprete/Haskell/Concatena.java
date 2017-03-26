@@ -99,7 +99,6 @@ public class Concatena {
                         }
                     }
                 } else {
-
                     ArrayList a = (ArrayList) val.valor;
                     if (a.size() > 1) {
                         if (a.get(0) instanceof ArrayList) {
@@ -116,7 +115,6 @@ public class Concatena {
                                 tipo = val.tipo;
                             }
                         }
-
                     } else if (val.tipo.equals("")) {
                         Valor v = new Valor("lista no declarada", val.tipo);
                         return v;
@@ -183,9 +181,7 @@ public class Concatena {
                                     Valor v2 = new Valor("lista no declarada", "");
                                     return v2;
                                 }
-
                             }
-
                         }
                     } else {
                         Map<String, FuncionHaskell> fun = lista.ObtenerListaFunciones();
@@ -197,7 +193,6 @@ public class Concatena {
                                         if (g3.equals(true)) {
                                             encontrado = true;
                                             ArrayList<Parametros> parametros = (ArrayList) fun.get(nombreFuncion).getParametros();
-
                                             for (int k = 0; k < parametros.size(); k++) {
                                                 if (nombre.equals(parametros.get(k).nombre)) {
                                                     Valor val = new Valor(parametros.get(k).valor, parametros.get(k).tipo);
@@ -220,7 +215,6 @@ public class Concatena {
                             return v2;
                         }
                     }
-
                     if (encontrado.equals(false)) {
                         Valor v2 = new Valor("lista no declarada", "");
                         return v2;
@@ -250,7 +244,6 @@ public class Concatena {
                             } else {
                                 /// mando a traer los parametros y busco la variable
                                 Map<String, FuncionHaskell> fun = lista.ObtenerListaFunciones();
-
                                 if (fun != null) {
                                     if (fun.size() > 0) {
                                         for (int j = 0; j < fun.size(); j++) {
@@ -282,7 +275,6 @@ public class Concatena {
                                 }
 
                             }
-
                         }
                     } else {
                         Map<String, FuncionHaskell> fun = lista.ObtenerListaFunciones();

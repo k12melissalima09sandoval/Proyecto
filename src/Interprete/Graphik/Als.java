@@ -16,13 +16,14 @@ import java.util.Map;
  */
 public class Als {
 
-    public static String nombre;
-    public static String visibilidad;
-    public static Object hereda;
+    public String nombre;
+    public String visibilidad;
+    public Object hereda;
+    public ArrayList<Als> importa = new ArrayList();
 
-    public static ArrayList<Variable> VarsGlobales = new ArrayList();
+    public ArrayList<Variable> VarsGlobales = new ArrayList();
 
-    public static ArrayList<MetodoGraphik> Metodos = new ArrayList();
+    public ArrayList<MetodoGraphik> Metodos = new ArrayList();
 
     public Als() {
 
@@ -33,8 +34,12 @@ public class Als {
 
         VarsGlobales = new ArrayList();
         Metodos = new ArrayList();
+        importa = new ArrayList();
     }
 
+    public void agregarImporta(Als nuevo){
+        importa.add(nuevo);
+    }
     //-----------------------------------------------------------AGREGANDO UN NUEVO ALS
     public Als(String name, String Visibilidad, Object Hereda) {
         nombre = name;

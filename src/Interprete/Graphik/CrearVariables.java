@@ -10,7 +10,6 @@ import Ast.Nodo;
 import Interprete.Arreglo;
 import Interprete.Valor;
 import Interprete.Variable;
-import Simbolos.TablaSimbolosGraphik;
 
 /**
  *
@@ -68,7 +67,7 @@ public class CrearVariables {
                                 Errores.ErrorSemantico("La variable -" + nombre + "- ya esta declarada", 0, 0);
                             } else {
                                 Nodo expresion = nodo.hijos.get(2);
-                                Valor v = (Valor) exp.RecorrerExpresion(expresion);
+                                Valor v = (Valor) exp.Expresion(expresion,nombre);
                                 if (v != null) {
                                     if (v.valor != null) {
                                         String visible = temp.hijos.get(1).valor.toString();
@@ -146,6 +145,12 @@ public class CrearVariables {
             }
         }
 
+        return null;
+    }
+    
+    public Object CrearVariablesLocales(Nodo raiz){
+        
+        
         return null;
     }
 }
