@@ -1,11 +1,13 @@
 digraph G {node[shape=box, style=filled]; edge[color=red]
-node88527401[label="Concatena"];
- node88527401->node686132207;node686132207[label="id"];
- node686132207->node1472554069;node1472554069[label="li"];
- node88527401->node749691181;node749691181[label="Lista"];
- node749691181->node525019403;node525019403[label="numero"];
- node525019403->node460678142;node460678142[label="2"];
- node749691181->node1735285513;node1735285513[label="numero"];
- node1735285513->node815790272;node815790272[label="3"];
+node343724119[label="LlamaFunc"];
+ node343724119->node2062340416;node2062340416[label="Invertir"];
+ node343724119->node354712219;node354712219[label="Parametros"];
+ node354712219->node36020246;node36020246[label="Lista"];
+ node36020246->node1890133613;node1890133613[label="numero"];
+ node1890133613->node1817415657;node1817415657[label="5"];
+ node36020246->node1511379034;node1511379034[label="numero"];
+ node1511379034->node1973419550;node1973419550[label="7"];
+ node36020246->node1287398542;node1287398542[label="numero"];
+ node1287398542->node1012979255;node1012979255[label="3"];
 
 }

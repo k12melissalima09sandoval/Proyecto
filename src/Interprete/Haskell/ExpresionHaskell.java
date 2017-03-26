@@ -5,6 +5,7 @@
  */
 package Interprete.Haskell;
 
+import Analizadores.Errores;
 import Ast.Nodo;
 import Interprete.Parametros;
 import Interprete.Valor;
@@ -122,11 +123,6 @@ public class ExpresionHaskell {
                     try {
                         Valor ob4 = (Valor) concatena.Listas(exp.hijos.get(0), nombreFuncion);
                         ArrayList vals = (ArrayList) ob4.valor;
-                        List va = (List) vals;
-                        System.out.println("revers " + Collections.max(vals));
-                        System.out.println("revers " + Collections.min(vals));
-                        Collections.reverse(va);
-                        System.out.println("revers " + va);
                         int tamaño = vals.size();
                         ultimoValor = tamaño;
                         ultimoTipo = "numero";
@@ -608,7 +604,6 @@ public class ExpresionHaskell {
 
                 //////////////////////////////////////  FUNCION   //////////////////////////////////////////
                 case "LlamaFunc":
-                    System.out.println("entro a funcion");
                     String nombreFun = raiz.hijos.get(0).valor.toString();
                     ArrayList<Parametros> obtenerParam = new ArrayList();
                     Map<String, FuncionHaskell> fun = lista.ObtenerListaFunciones();
@@ -677,12 +672,12 @@ public class ExpresionHaskell {
 
                 case "Indice":
                     String nombreLista = raiz.hijos.get(0).valor.toString();
-
                     Valor i1 = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion);
                     int j1 = Integer.parseInt(i1.valor.toString().replace(".0", ""));
+                    if (pila.empty()) {
 
-                    Map<String, Variable> l = lista.ObtenerListaListas();
-                    if (l != null) {
+                        Map<String, Variable> l = lista.ObtenerListaListas();
+
                         if (l.size() > 0) {
                             for (int i = 0; i < l.size(); i++) {
                                 Boolean g = lista.getKeyListas(nombreLista + "_" + RecorreHaskell.ambito);
@@ -723,35 +718,39 @@ public class ExpresionHaskell {
                                 }
                             }
                         } else {
-                            ArrayList<Variable> variablesenpila = (ArrayList) ExpresionHaskell.pila.peek();
-                            Boolean bandera = false;
-                            for (int i = 0; i < variablesenpila.size(); i++) {
-                                if (nombreLista.equals(variablesenpila.get(i).nombre)) {
-                                    Valor val = new Valor(variablesenpila.get(i).valor, variablesenpila.get(i).tipo);
-                                    try {
-                                        ArrayList valores = (ArrayList) val.valor;
-                                        String pos = valores.get(j1).toString();
-                                        if (val.tipo.equals("numero")) {
-                                            ultimoValor = pos;
-                                            ultimoTipo = "numero";
-                                            Valor val1 = new Valor(pos, "numero");
-                                            return val1;
-                                        } else {
-                                            ultimoValor = pos;
-                                            ultimoTipo = "caracter";
-                                            Valor val2 = new Valor(pos, "caracter");
-                                            return val2;
-                                        }
-                                    } catch (Exception e) {
-                                        Valor v = new Valor("no es una lista", "");
-                                        return v;
+                            Valor v = new Valor("no hay listas declaradas","");
+                            return v;
+                        }
+
+                    } else {
+                        ArrayList<Variable> variablesenpila = (ArrayList) ExpresionHaskell.pila.peek();
+                        Boolean bandera = false;
+                        for (int i = 0; i < variablesenpila.size(); i++) {
+                            if (nombreLista.equals(variablesenpila.get(i).nombre)) {
+                                Valor val = new Valor(variablesenpila.get(i).valor, variablesenpila.get(i).tipo);
+                                try {
+                                    ArrayList valores = (ArrayList) val.valor;
+                                    String pos = valores.get(j1).toString();
+                                    if (val.tipo.equals("numero")) {
+                                        ultimoValor = pos;
+                                        ultimoTipo = "numero";
+                                        Valor val1 = new Valor(pos, "numero");
+                                        return val1;
+                                    } else {
+                                        ultimoValor = pos;
+                                        ultimoTipo = "caracter";
+                                        Valor val2 = new Valor(pos, "caracter");
+                                        return val2;
                                     }
+                                } catch (Exception e) {
+                                    Valor v = new Valor("no es una lista", "");
+                                    return v;
                                 }
                             }
-                            if (bandera != true) {
-                                Valor v2 = new Valor("el parametro no existe", "");
-                                return v2;
-                            }
+                        }
+                        if (bandera != true) {
+                            Valor v2 = new Valor("el parametro no existe", "");
+                            return v2;
                         }
                     }
 
@@ -1282,9 +1281,9 @@ public class ExpresionHaskell {
                     Valor i2 = (Valor) Expresion(raiz.hijos.get(2), nombreFuncion);
                     int j1 = Integer.parseInt(i1.valor.toString().replace(".0", ""));
                     int j2 = Integer.parseInt(i2.valor.toString().replace(".0", ""));
+                    if (pila.empty()) {
+                        Map<String, Variable> l = lista.ObtenerListaListas();
 
-                    Map<String, Variable> l = lista.ObtenerListaListas();
-                    if (l != null) {
                         if (l.size() > 0) {
                             for (int i = 0; i < l.size(); i++) {
                                 Boolean g = lista.getKeyListas(nombreLista + "_" + RecorreHaskell.ambito);
@@ -1326,39 +1325,43 @@ public class ExpresionHaskell {
                                     }
                                 }
                             }
-                        } else {
-                            ArrayList<Variable> variablesenpila = (ArrayList) ExpresionHaskell.pila.peek();
-                            Boolean bandera = false;
-                            for (int i = 0; i < variablesenpila.size(); i++) {
-                                if (nombreLista.equals(variablesenpila.get(i).nombre)) {
-                                    Valor val = new Valor(variablesenpila.get(i).valor, variablesenpila.get(i).tipo);
-                                    try {
-                                        ArrayList valores = (ArrayList) val.valor;
-                                        ArrayList nivel1 = (ArrayList) valores.get(j1);
-                                        String pos = nivel1.get(j2).toString();
-                                        if (val.tipo.equals("numero")) {
-                                            ultimoValor = pos;
-                                            ultimoTipo = "numero";
-                                            Valor val1 = new Valor(pos, "numero");
-                                            return val1;
-                                        } else {
-                                            ultimoValor = pos;
-                                            ultimoTipo = "caracter";
-                                            Valor val2 = new Valor(pos, "caracter");
-                                            return val2;
-                                        }
-                                    } catch (Exception e) {
-                                        Valor v = new Valor("no es una lista", "");
-                                        return v;
+                        }else{
+                            Valor v = new Valor("no hay listas declaradas","");
+                            return v;
+                        }
+                    } else {
+                        ArrayList<Variable> variablesenpila = (ArrayList) ExpresionHaskell.pila.peek();
+                        Boolean bandera = false;
+                        for (int i = 0; i < variablesenpila.size(); i++) {
+                            if (nombreLista.equals(variablesenpila.get(i).nombre)) {
+                                Valor val = new Valor(variablesenpila.get(i).valor, variablesenpila.get(i).tipo);
+                                try {
+                                    ArrayList valores = (ArrayList) val.valor;
+                                    ArrayList nivel1 = (ArrayList) valores.get(j1);
+                                    String pos = nivel1.get(j2).toString();
+                                    if (val.tipo.equals("numero")) {
+                                        ultimoValor = pos;
+                                        ultimoTipo = "numero";
+                                        Valor val1 = new Valor(pos, "numero");
+                                        return val1;
+                                    } else {
+                                        ultimoValor = pos;
+                                        ultimoTipo = "caracter";
+                                        Valor val2 = new Valor(pos, "caracter");
+                                        return val2;
                                     }
+                                } catch (Exception e) {
+                                    Valor v = new Valor("no es una lista", "");
+                                    return v;
                                 }
                             }
-                            if (bandera != true) {
-                                Valor v2 = new Valor("el parametro no existe", "");
-                                return v2;
-                            }
+                        }
+                        if (bandera != true) {
+                            Valor v2 = new Valor("el parametro no existe", "");
+                            return v2;
                         }
                     }
+
             }
         }
 

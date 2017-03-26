@@ -56,10 +56,11 @@ public class Concatena {
                                 }
                             }
                         } else {
-
+///////////////////////////////////////////////////////////////////////////////////
                             ArrayList a = (ArrayList) val.valor;
+                            ArrayList b = (ArrayList)a.clone();
                             if (a.size() > 1) {
-                                for (int i = 0; i < a.size(); i++) {
+                                for (int i = 0; i < b.size(); i++) {
                                     //ArrayList temp=(ArrayList)a.get(i);
                                     ArrayList temp = new ArrayList();
                                     temp.add(a.get(i));
@@ -102,13 +103,15 @@ public class Concatena {
                     ArrayList a = (ArrayList) val.valor;
                     if (a.size() > 1) {
                         if (a.get(0) instanceof ArrayList) {
-                            for (int i = 0; i < a.size(); i++) {
+                            /*for (int i = 0; i < a.size(); i++) {
                                 ArrayList temp = (ArrayList) a.get(i);
                                 for (int j = 0; j < temp.size(); j++) {
                                     paso.add(temp.get(j).toString());
                                     tipo = val.tipo;
                                 }
-                            }
+                            }*/
+                            paso = a;
+                            tipo = val.tipo;
                         } else {
                             for (int i = 0; i < a.size(); i++) {
                                 paso.add(a.get(i).toString());
@@ -342,7 +345,7 @@ public class Concatena {
                 "Lista")) {
             //recorrer hijos para la concatenacion
             ArrayList<Object> cadena = new ArrayList();
-            String tipo = "";
+            String tipo2 = "";
             for (Nodo nodo : raiz.hijos) {
                 Valor valor = (Valor) exp.Expresion(nodo, nombreFuncion);
                 if (valor.tipo.equals("")) {
@@ -350,9 +353,9 @@ public class Concatena {
                     return v;
                 }
                 cadena.add(valor.valor);
-                tipo = valor.tipo;
+                tipo2 = valor.tipo;
             }
-            Valor v = new Valor(cadena, tipo);
+            Valor v = new Valor(cadena, tipo2);
             return v;
 
         } else if (temp.equals(

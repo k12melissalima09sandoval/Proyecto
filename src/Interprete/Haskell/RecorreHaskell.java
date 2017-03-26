@@ -147,15 +147,19 @@ public class RecorreHaskell {
                     Valor ob4 = (Valor) concatena.Listas(raiz.hijos.get(0).hijos.get(0), nombreFuncion);
                    if (ob4.tipo.equals("cadena") || ob4.tipo.equals("caracter")) {
                     ArrayList vals = (ArrayList) ob4.valor;
-                    List va = (List) vals;
+                    ArrayList m = new ArrayList();
+                    m=(ArrayList)vals.clone();
+                    List va = (List) m;
                     Collections.reverse(va);
                     ultimoValor = va;
                     ultimoTipo = "cadena";
                     Valor val4 = new Valor(va, "cadena");
                     return val4;
                    }else{
-                        ArrayList vals = (ArrayList) ob4.valor;
-                    List va = (List) vals;
+                    ArrayList vals = (ArrayList) ob4.valor;
+                    ArrayList m = new ArrayList();
+                    m=(ArrayList)vals.clone();
+                    List va = (List)m;
                     Collections.reverse(va);
                     ultimoValor = va;
                     ultimoTipo ="numero";
