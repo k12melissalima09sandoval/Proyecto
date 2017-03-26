@@ -356,29 +356,29 @@ ARR ::= corAbre EXP:exp corCierra
                     :}
         ;
 
-TIPO_DATO ::= Tentero:id
+TIPO_DATO ::= Tentero
 {:  
-            RESULT = new Nodo("TipoEntero"); 
+            RESULT = new Nodo("numero"); 
            :}
-           | Tdecimal:id
+           | Tdecimal
 {:  
-           RESULT= new Nodo("TipoDecimal"); 
+           RESULT= new Nodo("decimal"); 
             :}
            | Tcaracter
 {:  
-            RESULT = new Nodo("TipoCaracter"); 
+            RESULT = new Nodo("caracter"); 
             :}
            | Tcadena
 {:  
-            RESULT = new Nodo("TipoCadena"); 
+            RESULT = new Nodo("cadena"); 
              :}
            | Tbool
 {:  
-            RESULT= new Nodo("TipoBool"); 
+            RESULT= new Nodo("bool"); 
             :}
            | Tvacio
 {:  
-            RESULT = new Nodo("TipoVacio"); 
+            RESULT = new Nodo("vacio"); 
             :}
            | id:id
             {:  

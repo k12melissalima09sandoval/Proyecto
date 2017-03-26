@@ -13,6 +13,7 @@ import Interprete.Graphik.Ejecucion;
 import Interprete.Valor;
 import Interprete.Graphik.PrimeraPasada;
 import Interprete.Haskell.RecorreHaskell;
+import Interprete.Parametros;
 import Simbolos.TablaSimbolosGraphik;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -56,17 +57,20 @@ public class FormPrincipal extends javax.swing.JFrame {
                         parser.parse();
                         Graficar(recorrido(ConsolaSintactico.raiz), "AstConsola");
                         anterior = txtSalidaConsola.getText();
-                        txtSalidaConsola.setText(anterior + ">" + txtEntradaConsola.getText().toString() + "\n");
+                        txtSalidaConsola.setText(anterior + ">" + txtEntradaConsola.getText() + "\n");
                         txtEntradaConsola.setText("$ $");
 
-                        Valor v = (Valor) consola.Consola(ConsolaSintactico.raiz, "");
+                        Valor v = (Valor) RecorreHaskell.Consola(ConsolaSintactico.raiz, "");
 
                         anterior = txtSalidaConsola.getText();
                         txtSalidaConsola.setText("");
                         txtSalidaConsola.setText(anterior + ">" + v.valor.toString().replace(".0", "") + "\n");
 
                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(null,
+                                "No hay cadena para analizar!!",
+                                "Warning",
+                                JOptionPane.WARNING_MESSAGE);
                     }
                 }
             }
@@ -93,13 +97,13 @@ public class FormPrincipal extends javax.swing.JFrame {
         btnEjecutar = new javax.swing.JButton();
         lblColumna = new javax.swing.JLabel();
         txtEntradaConsola = new javax.swing.JTextField();
-        txtSimbolos = new javax.swing.JTabbedPane();
+        jTabedPane2 = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtSalidaConsola = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtErrores = new javax.swing.JTextArea();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        txtSimbolos = new javax.swing.JTextArea();
         btnCerrarPestaña = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         btnAbrir = new javax.swing.JButton();
@@ -136,19 +140,19 @@ public class FormPrincipal extends javax.swing.JFrame {
         txtSalidaConsola.setRows(5);
         jScrollPane1.setViewportView(txtSalidaConsola);
 
-        txtSimbolos.addTab("Consola", jScrollPane1);
+        jTabedPane2.addTab("Consola", jScrollPane1);
 
         txtErrores.setColumns(20);
         txtErrores.setRows(5);
         jScrollPane2.setViewportView(txtErrores);
 
-        txtSimbolos.addTab("Errores", jScrollPane2);
+        jTabedPane2.addTab("Errores", jScrollPane2);
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane3.setViewportView(jTextArea2);
+        txtSimbolos.setColumns(20);
+        txtSimbolos.setRows(5);
+        jScrollPane3.setViewportView(txtSimbolos);
 
-        txtSimbolos.addTab("Tabla de Simbolos", jScrollPane3);
+        jTabedPane2.addTab("Tabla de Simbolos", jScrollPane3);
 
         btnCerrarPestaña.setText("Cerrar Actual");
         btnCerrarPestaña.addActionListener(new java.awt.event.ActionListener() {
@@ -180,7 +184,7 @@ public class FormPrincipal extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtSimbolos)
+                            .addComponent(jTabedPane2)
                             .addComponent(txtEntradaConsola)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,7 +228,7 @@ public class FormPrincipal extends javax.swing.JFrame {
                             .addComponent(lblColumna)))
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtSimbolos, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtEntradaConsola, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(51, Short.MAX_VALUE))
@@ -284,19 +288,62 @@ public class FormPrincipal extends javax.swing.JFrame {
                         Errores err = new Errores();
                         String textoErrores = "";
                         for (int i = 0; i < TablaSimbolosGraphik.errorSemantico.size(); i++) {
-                            textoErrores += TablaSimbolosGraphik.errorSemantico.get(i).tipo + "->" + TablaSimbolosGraphik.errorSemantico.get(i).texto
-                                    + "      |Fila: " + TablaSimbolosGraphik.errorSemantico.get(i).linea
-                                    + ", Columna: " + TablaSimbolosGraphik.errorSemantico.get(i).columna + "|\n";
+                            textoErrores += TablaSimbolosGraphik.errorSemantico.get(i).tipo + "->"
+                                    + TablaSimbolosGraphik.errorSemantico.get(i).texto + "\n";
+                            //    + "      |Fila: " + TablaSimbolosGraphik.errorSemantico.get(i).linea
+                            //  + ", Columna: " + TablaSimbolosGraphik.errorSemantico.get(i).columna + "|\n";
                         }
                         txtErrores.setText(textoErrores);
                         err.imprimirErrores(TablaSimbolosGraphik.errorSemantico);
+
+                        String simbolos = "";
+                        for (int i = 0; i < TablaSimbolosGraphik.listaAls.size(); i++) {
+                            simbolos += "►Nombre Als: " + TablaSimbolosGraphik.listaAls.get(i).nombre + " \n"
+                                    + "\t →Visibilidad:" + TablaSimbolosGraphik.listaAls.get(i).visibilidad + "\n";
+                            if (TablaSimbolosGraphik.listaAls.get(i).hereda != null) {
+                                simbolos += "\t →Hereda: " + TablaSimbolosGraphik.listaAls.get(i).hereda + "\n";
+                            }
+                            if (!TablaSimbolosGraphik.listaAls.get(i).incluye.isEmpty()) {
+                                simbolos += "\t →Incluye: \n";
+                                for (int j = 0; j < TablaSimbolosGraphik.listaAls.get(i).incluye.size(); j++) {
+                                    simbolos += "\t ├" + TablaSimbolosGraphik.listaAls.get(i).incluye.get(j).getNombre() + "\n";
+                                }
+                            }
+                            if (!TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.isEmpty()) {
+                                simbolos += "\t →Variables Globales: \n";
+                                for (int j = 0; j < TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.size(); j++) {
+                                    simbolos += "\t └Tipo:" + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).tipo + "─Visibilidad:"
+                                            + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).visibilidad + " ─Nombre:"
+                                            + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).nombre + " ─Valor:"
+                                            + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).valor + "\n";
+                                }
+                            }
+                            if (!TablaSimbolosGraphik.listaAls.get(i).Metodos.isEmpty()) {
+                                simbolos += "\t →Metodos: \n";
+                                for (int j = 0; j < TablaSimbolosGraphik.listaAls.get(i).Metodos.size(); j++) {
+                                    simbolos += "\t └Tipo:" + TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).tipo + "─Visibilidad:"
+                                            + TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).visibilidad + " ─Nombre:"
+                                            + TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).nombre + " \n";
+                                    ArrayList<Parametros> param = TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).getParametros();
+                                    if (!param.isEmpty()) {
+                                        simbolos += "\t\t →Parametros: \n";
+                                        for (int k = 0; k < param.size(); k++) {
+                                            simbolos += "\t\t ├ Tipo:"+param.get(k).tipo + "─Nombre: "+param.get(k).nombre+"\n";
+                                        }
+                                        
+                                    }
+                                }
+                            }
+
+                        }
+                        txtSimbolos.setText(simbolos);
 
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(null,
                                 "Algo ha ido mal",
                                 "",
                                 JOptionPane.WARNING_MESSAGE);
-                        e.printStackTrace();
+
                         Errores err = new Errores();
                         err.imprimirErrores(TablaSimbolosGraphik.errorSemantico);
                     }
@@ -307,7 +354,6 @@ public class FormPrincipal extends javax.swing.JFrame {
                         "Ups... Algo a salido mal!!",
                         "Warning",
                         JOptionPane.WARNING_MESSAGE);
-                ex.printStackTrace();
 
             }
         } catch (Exception e) {
@@ -426,17 +472,17 @@ public class FormPrincipal extends javax.swing.JFrame {
     }
 
     public void Graficar(String cadena, String cad) {
-        FileWriter fichero = null;
-        PrintWriter pw = null;
+        FileWriter fichero2;
+        PrintWriter pw;
         String nombre = cad;
         String archivo = nombre + ".dot";
         try {
-            fichero = new FileWriter(archivo);
-            pw = new PrintWriter(fichero);
+            fichero2 = new FileWriter(archivo);
+            pw = new PrintWriter(fichero2);
             pw.println("digraph G {node[shape=box, style=filled]; edge[color=red]");
             pw.println(cadena);
             pw.println("\n}");
-            fichero.close();
+            fichero2.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -473,19 +519,16 @@ public class FormPrincipal extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FormPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
+        //</editor-fold>
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new FormPrincipal().setVisible(true);
             }
@@ -506,12 +549,12 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     public static javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTabbedPane jTabedPane2;
     public static javax.swing.JLabel lblColumna;
     private javax.swing.JTextField txtEntradaConsola;
     public static javax.swing.JTextArea txtErrores;
     private javax.swing.JTextArea txtSalidaConsola;
-    private javax.swing.JTabbedPane txtSimbolos;
+    private javax.swing.JTextArea txtSimbolos;
     // End of variables declaration//GEN-END:variables
 
 }

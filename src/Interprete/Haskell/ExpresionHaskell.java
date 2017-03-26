@@ -5,7 +5,6 @@
  */
 package Interprete.Haskell;
 
-import Analizadores.Errores;
 import Ast.Nodo;
 import Interprete.Parametros;
 import Interprete.Valor;
@@ -13,8 +12,6 @@ import Interprete.Variable;
 import Simbolos.TablaSimbolosHaskell;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Stack;
@@ -539,14 +536,12 @@ public class ExpresionHaskell {
                                 for (int i = 0; i < l.size(); i++) {
                                     Boolean g = lista.getKeyListas(parametro + "_" + RecorreHaskell.ambito);
                                     if (g.equals(true)) {
-                                        encontrado = true;
                                         Object obtener = (Object) l.get(parametro + "_" + RecorreHaskell.ambito).valor;
                                         Valor val = new Valor(obtener, l.get(parametro + "_" + RecorreHaskell.ambito).tipo);
                                         return val;
                                     } else {
                                         Boolean g2 = lista.getKeyListas(parametro + "_consola");
                                         if (g.equals(true)) {
-                                            encontrado = true;
                                             Object obtener = (Object) l.get(parametro + "_consola").valor;
                                             Valor val = new Valor(obtener, l.get(parametro + "_consola").tipo);
                                             return val;
@@ -563,7 +558,6 @@ public class ExpresionHaskell {
                                 for (int i = 0; i < variablesenpila.size(); i++) {
                                     if (parametro.equals(variablesenpila.get(i).nombre)) {
                                         Valor val = new Valor(variablesenpila.get(i).valor, variablesenpila.get(i).tipo);
-                                        bandera = true;
                                         return val;
                                     }
                                 }
@@ -584,7 +578,6 @@ public class ExpresionHaskell {
                         for (int i = 0; i < variablesenpila.size(); i++) {
                             if (parametro.equals(variablesenpila.get(i).nombre)) {
                                 Valor val = new Valor(variablesenpila.get(i).valor, variablesenpila.get(i).tipo);
-                                bandera = true;
                                 return val;
                             }
                         }
@@ -637,7 +630,7 @@ public class ExpresionHaskell {
                                         ArrayList temp = new ArrayList();
                                         for (int j = 0; j < parametros.size(); j++) {
                                             Parametros p = obtenerParam.get(j);
-                                            nueva = new Variable(parametros.get(j).nombre.toString(), p.valor, p.tipo);
+                                            nueva = new Variable(parametros.get(j).nombre, p.valor, p.tipo);
                                             temp.add(nueva);
 
                                         }
@@ -718,7 +711,7 @@ public class ExpresionHaskell {
                                 }
                             }
                         } else {
-                            Valor v = new Valor("no hay listas declaradas","");
+                            Valor v = new Valor("no hay listas declaradas", "");
                             return v;
                         }
 
@@ -781,12 +774,11 @@ public class ExpresionHaskell {
                                     return v;
                                 } else {
                                     //error
-                                    Valor v = new Valor("el ultimo valor es nulo", "");
+                                    Valor v = new Valor("no son del mismo tipo", "");
                                     return v;
                                 }
                             } else {
-                                System.out.println("no son del mismo tipo");
-                                Valor v = new Valor("hay algun nulo", "");
+                                Valor v = new Valor("no son del mismo tipo", "");
                                 return v;
                             }
                         } else {
@@ -794,7 +786,8 @@ public class ExpresionHaskell {
                             return v;
                         }
                     } else {
-                        System.out.println("los valores tienen nulo");
+                       Valor v = new Valor("en la suma hay valor nulo", "");
+                            return v;
                     }
                 case "-":
                     izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion);
@@ -822,11 +815,12 @@ public class ExpresionHaskell {
                                     return v;
                                 } else {
                                     //error
-                                    System.out.println("no son del mismo tipo");
+                                    Valor v = new Valor("no son del mismo tipo", "");
+                                    return v;
                                 }
                             } else {
-                                System.out.println("no son del mismo tipo");
-                                Valor v = new Valor("hay algun nulo", "");
+
+                                Valor v = new Valor("no son del mismo tipo", "");
                                 return v;
                             }
                         } else {
@@ -834,7 +828,8 @@ public class ExpresionHaskell {
                             return v;
                         }
                     } else {
-                        System.out.println("los valores tienen nulo");
+                        Valor v = new Valor("en la resta hay valor nulo", "");
+                        return v;
                     }
 
                 case "*":
@@ -863,11 +858,13 @@ public class ExpresionHaskell {
                                     return v;
                                 } else {
                                     //error
-                                    System.out.println("no son del mismo tipo");
+                                   
+                                    Valor v = new Valor("no son del mismo tipo", "");
+                                    return v;
                                 }
                             } else {
-                                System.out.println("no son del mismo tipo");
-                                Valor v = new Valor("hay algun nulo", "");
+                                
+                                Valor v = new Valor("no son del mismo tipo", "");
                                 return v;
                             }
                         } else {
@@ -875,7 +872,8 @@ public class ExpresionHaskell {
                             return v;
                         }
                     } else {
-                        System.out.println("los valores tienen nulo");
+                        Valor v = new Valor("en la multiplicacion hay valor nulo", "");
+                        return v;
                     }
 
                 case "/":
@@ -904,11 +902,12 @@ public class ExpresionHaskell {
                                     return v;
                                 } else {
                                     //error
-                                    System.out.println("no son del mismo tipo");
+                                    Valor v = new Valor("no son del mismo tipo", "");
+                                    return v;
                                 }
                             } else {
-                                System.out.println("no son del mismo tipo");
-                                Valor v = new Valor("hay algun nulo", "");
+                                
+                                Valor v = new Valor("no son del mismo tipo", "");
                                 return v;
                             }
                         } else {
@@ -916,7 +915,8 @@ public class ExpresionHaskell {
                             return v;
                         }
                     } else {
-                        System.out.println("los valores tienen nulo");
+                       Valor v = new Valor("en la division hay valor nulo", "");
+                        return v;
                     }
 
                 case "mod":
@@ -945,11 +945,12 @@ public class ExpresionHaskell {
                                     return v;
                                 } else {
                                     //error
-                                    System.out.println("no son del mismo tipo");
+                                    Valor v = new Valor("no son del mismo tipo", "");
+                                    return v;
                                 }
                             } else {
-                                System.out.println("no son del mismo tipo");
-                                Valor v = new Valor("hay algun nulo", "");
+                               
+                                Valor v = new Valor("no son del mismo tipo", "");
                                 return v;
                             }
                         } else {
@@ -957,7 +958,8 @@ public class ExpresionHaskell {
                             return v;
                         }
                     } else {
-                        System.out.println("los valores tienen nulo");
+                        Valor v = new Valor("en el residuo hay valor nulo", "");
+                        return v;
                     }
 
                 case "sqrt":
@@ -986,11 +988,12 @@ public class ExpresionHaskell {
                                     return v;
                                 } else {
                                     //error
-                                    System.out.println("no son del mismo tipo");
+                                    Valor v = new Valor("no son del mismo tipo", "");
+                                    return v;
                                 }
                             } else {
-                                System.out.println("no son del mismo tipo");
-                                Valor v = new Valor("hay algun nulo", "");
+                               
+                                Valor v = new Valor("no son del mismo tipo", "");
                                 return v;
                             }
                         } else {
@@ -998,7 +1001,8 @@ public class ExpresionHaskell {
                             return v;
                         }
                     } else {
-                        System.out.println("los valores tienen nulo");
+                       Valor v = new Valor("en la raiz hay valor nulo", "");
+                        return v;
                     }
 
                 case "pot":
@@ -1028,11 +1032,12 @@ public class ExpresionHaskell {
                                     return v;
                                 } else {
                                     //error
-                                    System.out.println("no son del mismo tipo");
+                                    Valor v = new Valor("no son del mismo tipo", "");
+                                    return v;
                                 }
                             } else {
-                                System.out.println("no son del mismo tipo");
-                                Valor v = new Valor("hay algun nulo", "");
+                               
+                                Valor v = new Valor("no son del mismo tipo", "");
                                 return v;
                             }
                         } else {
@@ -1040,7 +1045,8 @@ public class ExpresionHaskell {
                             return v;
                         }
                     } else {
-                        System.out.println("los valores tienen nulo");
+                       Valor v = new Valor("en la potencia hay valor nulo", "");
+                        return v;
                     }
 
                 case "||":
@@ -1112,6 +1118,9 @@ public class ExpresionHaskell {
                                     return val;
                                 }
                             }
+                        } else {
+                            Valor v2 = new Valor("diferentes tipos en comparacion -> <", "");
+                            return v2;
                         }
                     }
 
@@ -1143,6 +1152,9 @@ public class ExpresionHaskell {
                                     return val;
                                 }
                             }
+                        } else {
+                            Valor v2 = new Valor("diferentes tipos en comparacion -> >", "");
+                            return v2;
                         }
                     }
 
@@ -1174,6 +1186,9 @@ public class ExpresionHaskell {
                                     return val;
                                 }
                             }
+                        } else {
+                            Valor v2 = new Valor("diferentes tipos en comparacion -> <=", "");
+                            return v2;
                         }
                     }
 
@@ -1205,6 +1220,9 @@ public class ExpresionHaskell {
                                     return val;
                                 }
                             }
+                        } else {
+                            Valor v2 = new Valor("diferentes tipos en comparacion -> >=", "");
+                            return v2;
                         }
                     }
 
@@ -1236,6 +1254,9 @@ public class ExpresionHaskell {
                                     return val;
                                 }
                             }
+                        } else {
+                            Valor v2 = new Valor("diferentes tipos en comparacion -> ==", "");
+                            return v2;
                         }
                     }
                 case "!=":
@@ -1266,6 +1287,9 @@ public class ExpresionHaskell {
                                     return val;
                                 }
                             }
+                        } else {
+                            Valor v2 = new Valor("diferentes tipos en comparacion -> !=", "");
+                            return v2;
                         }
                     }
             }
@@ -1325,8 +1349,8 @@ public class ExpresionHaskell {
                                     }
                                 }
                             }
-                        }else{
-                            Valor v = new Valor("no hay listas declaradas","");
+                        } else {
+                            Valor v = new Valor("no hay listas declaradas", "");
                             return v;
                         }
                     } else {

@@ -18,10 +18,10 @@ import java.util.Map;
  */
 public class MetodoGraphik {
     
-    String tipo;
-    String nombre;
-    public static ArrayList<Parametros> listaParametros = new ArrayList();
-    String visibilidad;
+    public String tipo;
+    public String nombre;
+    public ArrayList<Parametros> listaParametros = new ArrayList();
+    public String visibilidad;
     Nodo cuerpo;
     
     public MetodoGraphik(String tipo, String nombre, String visible,Nodo cuerpo){

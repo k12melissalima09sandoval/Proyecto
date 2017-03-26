@@ -54,7 +54,7 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="txtSimbolos" max="32767" attributes="0"/>
+                          <Component id="jTabedPane2" max="32767" attributes="0"/>
                           <Component id="txtEntradaConsola" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -111,7 +111,7 @@
                   <Component id="jTabbedPane1" min="-2" pref="383" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="txtSimbolos" min="-2" pref="223" max="-2" attributes="0"/>
+              <Component id="jTabedPane2" min="-2" pref="223" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="txtEntradaConsola" min="-2" pref="30" max="-2" attributes="0"/>
               <EmptySpace pref="51" max="32767" attributes="0"/>
@@ -171,7 +171,7 @@
         <Property name="text" type="java.lang.String" value="$ $"/>
       </Properties>
     </Component>
-    <Container class="javax.swing.JTabbedPane" name="txtSimbolos">
+    <Container class="javax.swing.JTabbedPane" name="jTabedPane2">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
@@ -236,7 +236,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextArea" name="jTextArea2">
+            <Component class="javax.swing.JTextArea" name="txtSimbolos">
               <Properties>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="rows" type="int" value="5"/>

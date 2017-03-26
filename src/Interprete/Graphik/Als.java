@@ -5,10 +5,9 @@
  */
 package Interprete.Graphik;
 
+import Interprete.Haskell.FuncionHaskell;
 import Interprete.Variable;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  *
@@ -20,6 +19,7 @@ public class Als {
     public String visibilidad;
     public Object hereda;
     public ArrayList<Als> importa = new ArrayList();
+    public ArrayList<FuncionHaskell> incluye = new ArrayList();
 
     public ArrayList<Variable> VarsGlobales = new ArrayList();
 
@@ -35,10 +35,14 @@ public class Als {
         VarsGlobales = new ArrayList();
         Metodos = new ArrayList();
         importa = new ArrayList();
+        incluye = new ArrayList();
     }
 
     public void agregarImporta(Als nuevo){
         importa.add(nuevo);
+    }
+    public void agregarIncluye(FuncionHaskell funHas){
+        incluye.add(funHas);
     }
     //-----------------------------------------------------------AGREGANDO UN NUEVO ALS
     public Als(String name, String Visibilidad, Object Hereda) {

@@ -40,6 +40,7 @@ public class PrimeraPasada {
 
     public Object Reconocer(Nodo raiz) {
         Als nuevo = new Als();
+//        nuevo.Inicializar();
         //IMPORTA
         if (!raiz.hijos.get(0).hijos.isEmpty()) {
 
@@ -52,13 +53,13 @@ public class PrimeraPasada {
 
                             String texto = Abierto(ruta + "\\" + nombre);
                             if (texto != null) {
-                                
+
                                 GraphikLexico scan = new GraphikLexico(new BufferedReader(new StringReader(texto)));
                                 GraphikSintactico parser = new GraphikSintactico(scan);
                                 parser.parse();
                                 Graficar(recorrido(GraphikSintactico.raiz), "AstImporta_" + nombre);
-                                Valor v = (Valor)Reconocer(GraphikSintactico.raiz);
-                                Als a=(Als)v.valor;
+                                Valor v = (Valor) Reconocer(GraphikSintactico.raiz);
+                                Als a = (Als) v.valor;
                                 nuevo.agregarImporta(a);
                             } else {
 
@@ -79,22 +80,26 @@ public class PrimeraPasada {
         //INCLUYE
         if (!raiz.hijos.get(1).hijos.isEmpty()) {
             Map<String, FuncionHaskell> funciones = tablaH.ObtenerListaFunciones();
-            for (Nodo c : raiz.hijos.get(1).hijos) {
-                String nombre = c.valor.toString();
-                Boolean existe = tablaH.getKeyFunciones(nombre);
-                if (!existe) {
-                    Errores.ErrorSemantico("La funcion de Haskell -" + nombre + "- no existe", 0, 0);
+            if (!funciones.isEmpty()) {
+                for (Nodo c : raiz.hijos.get(1).hijos) {
+                    String nombre = c.valor.toString();
+                    Boolean existe = tablaH.getKeyFunciones(nombre);
+                    if (!existe) {
+                        nuevo.agregarIncluye(null);
+                        Errores.ErrorSemantico("La funcion de Haskell -" + nombre + "- no existe", 0, 0);
+                    } else {
+                        nuevo.agregarIncluye(funciones.get(nombre));
+                    }
                 }
+            } else {
+                Errores.ErrorSemantico("No hay funciones cargadas, no se pude incluir", 0, 0);
             }
 
-        } else {
-            Errores.ErrorSemantico("No hay funciones cargadas, no se pude incluir", 0, 0);
         }
-
         //LOS ALS
         for (Nodo c : raiz.hijos.get(2).hijos) {
 
-            nuevo.Inicializar();
+            //nuevo.Inicializar();
 
             //nombre clase
             String nombreAls = c.hijos.get(0).valor.toString();
@@ -112,10 +117,11 @@ public class PrimeraPasada {
                 }
                 //visibilidad de clase
                 String visibilidad = c.hijos.get(1).valor.toString();
-                
-                    nuevo = new Als(nombreAls, visibilidad, hereda);
-                    TablaSimbolosGraphik.addAls(nuevo);
-                
+                nuevo.nombre=nombreAls;
+                nuevo.visibilidad = visibilidad;
+                nuevo.hereda = hereda;
+                TablaSimbolosGraphik.addAls(nuevo);
+
                 Nodo cuerpo = c.hijos.get(3);
                 varsGlobales.CrearVariablesGlobales(cuerpo, nuevo);
                 metodos.CrearMetodos(cuerpo, nuevo);

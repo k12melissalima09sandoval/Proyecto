@@ -138,7 +138,7 @@ public class NuevoDocumento extends javax.swing.JFrame {
             }
         });
         RTextScrollPane pestaña = new RTextScrollPane(texto);
-        pestaña.setName("ArchivoHaskell.hk");
+        pestaña.setName("Haskell.hk");
         pestaña.setViewportBorder(BorderFactory.createEmptyBorder());
         FormPrincipal.jTabbedPane1.add(pestaña);
         FormPrincipal.listaPestañas.add(pestaña);
@@ -162,7 +162,7 @@ public class NuevoDocumento extends javax.swing.JFrame {
             }
         });
         RTextScrollPane pestaña = new RTextScrollPane(texto);
-        pestaña.setName("ArchivoGraphik.gk");
+        pestaña.setName("Graphik.gk");
         pestaña.setViewportBorder(BorderFactory.createEmptyBorder());
         FormPrincipal.jTabbedPane1.add(pestaña);
         FormPrincipal.listaPestañas.add(pestaña);

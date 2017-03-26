@@ -1796,11 +1796,8 @@ System.out.println("Empezo Graphik \n");
           case 53: // TIPO_DATO ::= Tentero 
             {
               Nodo RESULT =null;
-		int idleft = ((java_cup.runtime.Symbol)CUP$GraphikSintactico$stack.peek()).left;
-		int idright = ((java_cup.runtime.Symbol)CUP$GraphikSintactico$stack.peek()).right;
-		Object id = (Object)((java_cup.runtime.Symbol) CUP$GraphikSintactico$stack.peek()).value;
 		  
-            RESULT = new Nodo("TipoEntero"); 
+            RESULT = new Nodo("numero"); 
            
               CUP$GraphikSintactico$result = parser.getSymbolFactory().newSymbol("TIPO_DATO",26, ((java_cup.runtime.Symbol)CUP$GraphikSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$GraphikSintactico$stack.peek()), RESULT);
             }
@@ -1810,11 +1807,8 @@ System.out.println("Empezo Graphik \n");
           case 54: // TIPO_DATO ::= Tdecimal 
             {
               Nodo RESULT =null;
-		int idleft = ((java_cup.runtime.Symbol)CUP$GraphikSintactico$stack.peek()).left;
-		int idright = ((java_cup.runtime.Symbol)CUP$GraphikSintactico$stack.peek()).right;
-		Object id = (Object)((java_cup.runtime.Symbol) CUP$GraphikSintactico$stack.peek()).value;
 		  
-           RESULT= new Nodo("TipoDecimal"); 
+           RESULT= new Nodo("decimal"); 
             
               CUP$GraphikSintactico$result = parser.getSymbolFactory().newSymbol("TIPO_DATO",26, ((java_cup.runtime.Symbol)CUP$GraphikSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$GraphikSintactico$stack.peek()), RESULT);
             }
@@ -1825,7 +1819,7 @@ System.out.println("Empezo Graphik \n");
             {
               Nodo RESULT =null;
 		  
-            RESULT = new Nodo("TipoCaracter"); 
+            RESULT = new Nodo("caracter"); 
             
               CUP$GraphikSintactico$result = parser.getSymbolFactory().newSymbol("TIPO_DATO",26, ((java_cup.runtime.Symbol)CUP$GraphikSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$GraphikSintactico$stack.peek()), RESULT);
             }
@@ -1836,7 +1830,7 @@ System.out.println("Empezo Graphik \n");
             {
               Nodo RESULT =null;
 		  
-            RESULT = new Nodo("TipoCadena"); 
+            RESULT = new Nodo("cadena"); 
              
               CUP$GraphikSintactico$result = parser.getSymbolFactory().newSymbol("TIPO_DATO",26, ((java_cup.runtime.Symbol)CUP$GraphikSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$GraphikSintactico$stack.peek()), RESULT);
             }
@@ -1847,7 +1841,7 @@ System.out.println("Empezo Graphik \n");
             {
               Nodo RESULT =null;
 		  
-            RESULT= new Nodo("TipoBool"); 
+            RESULT= new Nodo("bool"); 
             
               CUP$GraphikSintactico$result = parser.getSymbolFactory().newSymbol("TIPO_DATO",26, ((java_cup.runtime.Symbol)CUP$GraphikSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$GraphikSintactico$stack.peek()), RESULT);
             }
@@ -1858,7 +1852,7 @@ System.out.println("Empezo Graphik \n");
             {
               Nodo RESULT =null;
 		  
-            RESULT = new Nodo("TipoVacio"); 
+            RESULT = new Nodo("vacio"); 
             
               CUP$GraphikSintactico$result = parser.getSymbolFactory().newSymbol("TIPO_DATO",26, ((java_cup.runtime.Symbol)CUP$GraphikSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$GraphikSintactico$stack.peek()), RESULT);
             }
