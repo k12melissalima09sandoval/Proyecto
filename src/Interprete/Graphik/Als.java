@@ -36,6 +36,10 @@ public class Als {
         Metodos = new ArrayList();
         importa = new ArrayList();
         incluye = new ArrayList();
+        nombre = "";
+        visibilidad = "";
+        hereda = null;
+        
     }
 
     public void agregarImporta(Als nuevo){

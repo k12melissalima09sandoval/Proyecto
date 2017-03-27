@@ -38,69 +38,12 @@ public class PrimeraPasada {
     TablaSimbolosGraphik tabla = new TablaSimbolosGraphik();
     TablaSimbolosHaskell tablaH = new TablaSimbolosHaskell();
 
-    public Object Reconocer(Nodo raiz) {
-        Als nuevo = new Als();
-//        nuevo.Inicializar();
-        //IMPORTA
-        if (!raiz.hijos.get(0).hijos.isEmpty()) {
+    public Object Reconocer(Nodo raiz, Boolean bandera) {
 
-            for (Nodo c : raiz.hijos.get(0).hijos) {
-                String nombre = c.valor.toString();
-                Boolean existe = VerificarImporaciones(nombre);
-                if (existe) {
-                    try {
-                        try {
-
-                            String texto = Abierto(ruta + "\\" + nombre);
-                            if (texto != null) {
-
-                                GraphikLexico scan = new GraphikLexico(new BufferedReader(new StringReader(texto)));
-                                GraphikSintactico parser = new GraphikSintactico(scan);
-                                parser.parse();
-                                Graficar(recorrido(GraphikSintactico.raiz), "AstImporta_" + nombre);
-                                Valor v = (Valor) Reconocer(GraphikSintactico.raiz);
-                                Als a = (Als) v.valor;
-                                nuevo.agregarImporta(a);
-                            } else {
-
-                            }
-
-                        } catch (Exception e) {
-                            Logger.getLogger(PrimeraPasada.class.getName()).log(Level.SEVERE, null, e);
-                        }
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(PrimeraPasada.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                } else {
-                    Errores.ErrorSemantico("El archivo -" + nombre + "- no existe y no se puede importar", 0, 0);
-                }
-            }
-        }
-        //INCLUYE
-        if (!raiz.hijos.get(1).hijos.isEmpty()) {
-            Map<String, FuncionHaskell> funciones = tablaH.ObtenerListaFunciones();
-            if (!funciones.isEmpty()) {
-                for (Nodo c : raiz.hijos.get(1).hijos) {
-                    String nombre = c.valor.toString();
-                    Boolean existe = tablaH.getKeyFunciones(nombre);
-                    if (!existe) {
-                        nuevo.agregarIncluye(null);
-                        Errores.ErrorSemantico("La funcion de Haskell -" + nombre + "- no existe", 0, 0);
-                    } else {
-                        nuevo.agregarIncluye(funciones.get(nombre));
-                    }
-                }
-            } else {
-                Errores.ErrorSemantico("No hay funciones cargadas, no se pude incluir", 0, 0);
-            }
-
-        }
         //LOS ALS
         for (Nodo c : raiz.hijos.get(2).hijos) {
-
-            //nuevo.Inicializar();
-
+            Als nuevo = new Als();
+            nuevo.Inicializar();
             //nombre clase
             String nombreAls = c.hijos.get(0).valor.toString();
             Boolean key = tabla.existeAls(nombreAls);
@@ -117,7 +60,7 @@ public class PrimeraPasada {
                 }
                 //visibilidad de clase
                 String visibilidad = c.hijos.get(1).valor.toString();
-                nuevo.nombre=nombreAls;
+                nuevo.nombre = nombreAls;
                 nuevo.visibilidad = visibilidad;
                 nuevo.hereda = hereda;
                 TablaSimbolosGraphik.addAls(nuevo);
@@ -126,14 +69,73 @@ public class PrimeraPasada {
                 varsGlobales.CrearVariablesGlobales(cuerpo, nuevo);
                 metodos.CrearMetodos(cuerpo, nuevo);
 
-                Valor v = new Valor(nuevo, "");
-                return v;
-                //get el als para ver si hizo todo bien
+                if (bandera) {
+                    Valor v = new Valor(nuevo, "");
+                    return v;
+                }
             }
 
-        }
+//        nuevo.Inicializar();
+            //IMPORTA
+            if (!raiz.hijos.get(0).hijos.isEmpty()) {
 
-        //ErrorSemantico("Semantico", "El Als "+nombreAls+" ya esta definido", 0, 0);
+                for (Nodo c2 : raiz.hijos.get(0).hijos) {
+                    String nombre = c2.valor.toString();
+                    Boolean existe = VerificarImporaciones(nombre);
+                    if (existe) {
+                        try {
+                            try {
+
+                                String texto = Abierto(ruta + "\\" + nombre);
+                                if (texto != null) {
+
+                                    GraphikLexico scan = new GraphikLexico(new BufferedReader(new StringReader(texto)));
+                                    GraphikSintactico parser = new GraphikSintactico(scan);
+                                    parser.parse();
+                                    Graficar(recorrido(GraphikSintactico.raiz), "AstImporta_" + nombre);
+
+                                    Valor v = (Valor) Reconocer(GraphikSintactico.raiz, true);
+                                    Als a = (Als) v.valor;
+                                    nuevo.agregarImporta(a);
+                                } else {
+
+                                }
+
+                            } catch (Exception e) {
+                                Logger.getLogger(PrimeraPasada.class.getName()).log(Level.SEVERE, null, e);
+                            }
+
+                        } catch (Exception ex) {
+                            Logger.getLogger(PrimeraPasada.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else {
+                        Errores.ErrorSemantico("El archivo -" + nombre + "- no existe y no se puede importar", 0, 0);
+                    }
+                }
+            }
+            //INCLUYE
+            if (!raiz.hijos.get(1).hijos.isEmpty()) {
+                Map<String, FuncionHaskell> funciones = tablaH.ObtenerListaFunciones();
+                if (!funciones.isEmpty()) {
+                    for (Nodo c3 : raiz.hijos.get(1).hijos) {
+                        String nombre = c3.valor.toString();
+                        Boolean existe = tablaH.getKeyFunciones(nombre);
+                        if (!existe) {
+                            nuevo.agregarIncluye(null);
+                            Errores.ErrorSemantico("La funcion de Haskell -" + nombre + "- no existe", 0, 0);
+                        } else {
+                            nuevo.agregarIncluye(funciones.get(nombre));
+                        }
+                    }
+                } else {
+                    Errores.ErrorSemantico("No hay funciones cargadas, no se pude incluir", 0, 0);
+                }
+
+            }
+
+            //ErrorSemantico("Semantico", "El Als "+nombreAls+" ya esta definido", 0, 0);
+            
+        }
         return null;
     }
 

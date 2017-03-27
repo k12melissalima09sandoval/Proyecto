@@ -276,6 +276,11 @@ public class FormPrincipal extends javax.swing.JFrame {
                 } //viene graphik    
                 else if (listaPestañas.get(actual).getTextArea().getName().equals(".gk")) {
                     try {
+                        TablaSimbolosGraphik t = new TablaSimbolosGraphik();
+                        TablaSimbolosGraphik.listaAls.removeAll(TablaSimbolosGraphik.listaAls);
+                        TablaSimbolosGraphik.errorSemantico.removeAll(TablaSimbolosGraphik.errorSemantico);
+                        
+
                         Ejecucion ejecuta = new Ejecucion();
                         PrimeraPasada p = new PrimeraPasada();
                         GraphikLexico scan = new GraphikLexico(new BufferedReader(new StringReader(a)));
@@ -285,7 +290,7 @@ public class FormPrincipal extends javax.swing.JFrame {
                         ejecuta.Ejecucion(GraphikSintactico.raiz);
                         //p.Reconocer(GraphikSintactico.raiz);
 
-                        Errores err = new Errores();
+                        //Errores err = new Errores();
                         String textoErrores = "";
                         for (int i = 0; i < TablaSimbolosGraphik.errorSemantico.size(); i++) {
                             textoErrores += TablaSimbolosGraphik.errorSemantico.get(i).tipo + "->"
@@ -294,7 +299,7 @@ public class FormPrincipal extends javax.swing.JFrame {
                             //  + ", Columna: " + TablaSimbolosGraphik.errorSemantico.get(i).columna + "|\n";
                         }
                         txtErrores.setText(textoErrores);
-                        err.imprimirErrores(TablaSimbolosGraphik.errorSemantico);
+                        //err.imprimirErrores(t.errorSemantico);
 
                         String simbolos = "";
                         for (int i = 0; i < TablaSimbolosGraphik.listaAls.size(); i++) {
@@ -318,19 +323,19 @@ public class FormPrincipal extends javax.swing.JFrame {
                                             + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).valor + "\n";
                                 }
                             }
-                            if (!TablaSimbolosGraphik.listaAls.get(i).Metodos.isEmpty()) {
+                            if (!t.listaAls.get(i).Metodos.isEmpty()) {
                                 simbolos += "\t →Metodos: \n";
-                                for (int j = 0; j < TablaSimbolosGraphik.listaAls.get(i).Metodos.size(); j++) {
-                                    simbolos += "\t └Tipo:" + TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).tipo + "─Visibilidad:"
-                                            + TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).visibilidad + " ─Nombre:"
-                                            + TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).nombre + " \n";
-                                    ArrayList<Parametros> param = TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).getParametros();
+                                for (int j = 0; j < t.listaAls.get(i).Metodos.size(); j++) {
+                                    simbolos += "\t └Tipo:" + t.listaAls.get(i).Metodos.get(j).tipo + "─Visibilidad:"
+                                            + t.listaAls.get(i).Metodos.get(j).visibilidad + " ─Nombre:"
+                                            + t.listaAls.get(i).Metodos.get(j).nombre + " \n";
+                                    ArrayList<Parametros> param = t.listaAls.get(i).Metodos.get(j).getParametros();
                                     if (!param.isEmpty()) {
                                         simbolos += "\t\t →Parametros: \n";
                                         for (int k = 0; k < param.size(); k++) {
-                                            simbolos += "\t\t ├ Tipo:"+param.get(k).tipo + "─Nombre: "+param.get(k).nombre+"\n";
+                                            simbolos += "\t\t ├ Tipo:" + param.get(k).tipo + "─Nombre: " + param.get(k).nombre + "\n";
                                         }
-                                        
+
                                     }
                                 }
                             }
@@ -344,8 +349,6 @@ public class FormPrincipal extends javax.swing.JFrame {
                                 "",
                                 JOptionPane.WARNING_MESSAGE);
 
-                        Errores err = new Errores();
-                        err.imprimirErrores(TablaSimbolosGraphik.errorSemantico);
                     }
 
                 }

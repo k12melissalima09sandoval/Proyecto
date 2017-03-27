@@ -21,9 +21,9 @@ public class Ejecucion {
         //creo los als
         //guardo las variables globales
         //guardo todos los metodos
-        //verifico los incluye y valido si existen -------------
-        //verifico los importa y valido si existen -------------
-        primera.Reconocer(raiz);
+        //verifico los incluye y valido si existen
+        //verifico los importa y valido si existen
+        primera.Reconocer(raiz,false);
 
         //segunda pasada
         //busco los hereda de cada metodo y verifico si existe, si existe lo agrego al als

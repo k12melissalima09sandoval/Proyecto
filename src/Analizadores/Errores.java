@@ -23,7 +23,7 @@ public class Errores {
     public String descripcion;
     public int linea;
     public int columna;
-    
+    static TablaSimbolosGraphik tabla = new TablaSimbolosGraphik();
     public Errores(){
         
     }
@@ -47,7 +47,7 @@ public class Errores {
     public static void ErrorSemantico(String texto, int linea, int columna) {
 
         Errores error = new Errores("Semantico", texto, linea, columna);
-        TablaSimbolosGraphik.AgregarErrores(error);
+        tabla.AgregarErrores(error);
     }
     
     
