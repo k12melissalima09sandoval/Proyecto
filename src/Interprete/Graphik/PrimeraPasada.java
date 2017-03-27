@@ -37,6 +37,7 @@ public class PrimeraPasada {
     //public static Als nuevo = new Als();
     TablaSimbolosGraphik tabla = new TablaSimbolosGraphik();
     TablaSimbolosHaskell tablaH = new TablaSimbolosHaskell();
+    static int paso = 0;
 
     public Object Reconocer(Nodo raiz, Boolean bandera) {
 
@@ -63,16 +64,13 @@ public class PrimeraPasada {
                 nuevo.nombre = nombreAls;
                 nuevo.visibilidad = visibilidad;
                 nuevo.hereda = hereda;
-                TablaSimbolosGraphik.addAls(nuevo);
-
+                if (!bandera) {
+                    TablaSimbolosGraphik.addAls(nuevo);
+                }
                 Nodo cuerpo = c.hijos.get(3);
                 varsGlobales.CrearVariablesGlobales(cuerpo, nuevo);
                 metodos.CrearMetodos(cuerpo, nuevo);
 
-                if (bandera) {
-                    Valor v = new Valor(nuevo, "");
-                    return v;
-                }
             }
 
 //        nuevo.Inicializar();
@@ -133,56 +131,78 @@ public class PrimeraPasada {
 
             }
 
-            //ErrorSemantico("Semantico", "El Als "+nombreAls+" ya esta definido", 0, 0);
-            
+            if (bandera) {
+                Valor v = new Valor(nuevo, "");
+                return v;
+            }
         }
         return null;
     }
 
     private Boolean VerificarImporaciones(String incluye) {
-        int contador = 0;
-        int m = 0;
-        for (int i = 0; i < ruta.length(); i++) {
-            String temp = ruta.substring(m, i + 1);
-            m++;
-            if (temp.equals("\\")) {
-                contador++;
+        if (paso > 0) {
+            String files;
+            File folder = new File(ruta);
+            File[] listOfFiles = folder.listFiles();
+
+            for (int i = 0; i < listOfFiles.length; i++) {
+
+                if (listOfFiles[i].isFile()) {
+                    files = listOfFiles[i].getName();
+                    if (incluye.equals(files)) {
+                        return true;
+                    }
+
+                }
             }
-        }
-        String r = "";
-        int contTemp = 0;
-        m = 0;
-        for (int i = 0; i < ruta.length(); i++) {
-            String temp = ruta.substring(m, i + 1);
-            m++;
-            if (temp.equals("\\")) {
-                contTemp++;
-                if (contador == contTemp) {
-                    break;
+        } else {
+            int contador = 0;
+            int m = 0;
+            for (int i = 0; i < ruta.length(); i++) {
+                String temp = ruta.substring(m, i + 1);
+                m++;
+                if (temp.equals("\\")) {
+                    contador++;
+                }
+            }
+            String r = "";
+            int contTemp = 0;
+            m = 0;
+            for (int i = 0; i < ruta.length(); i++) {
+                String temp = ruta.substring(m, i + 1);
+                m++;
+                if (temp.equals("\\")) {
+                    contTemp++;
+                    if (contador == contTemp) {
+                        break;
+                    } else {
+                        r += temp;
+
+                    }
                 } else {
                     r += temp;
+                }
+               
+            }
+
+            ruta = r;
+            String files;
+            File folder = new File(ruta);
+            File[] listOfFiles = folder.listFiles();
+
+            for (int i = 0; i < listOfFiles.length; i++) {
+
+                if (listOfFiles[i].isFile()) {
+                    files = listOfFiles[i].getName();
+                    if (incluye.equals(files)) {
+                        paso++;
+                        return true;
+                    }
 
                 }
-            } else {
-                r += temp;
             }
-        }
-
-        ruta = r;
-        String files;
-        File folder = new File(ruta);
-        File[] listOfFiles = folder.listFiles();
-
-        for (int i = 0; i < listOfFiles.length; i++) {
-
-            if (listOfFiles[i].isFile()) {
-                files = listOfFiles[i].getName();
-                if (incluye.equals(files)) {
-                    return true;
-                }
-
-            }
-        }
+        } 
+        
         return false;
     }
 

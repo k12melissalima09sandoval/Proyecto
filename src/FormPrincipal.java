@@ -9,6 +9,7 @@ import Analizadores.Errores;
 import Analizadores.Graphik.GraphikLexico;
 import Analizadores.Graphik.GraphikSintactico;
 import Ast.Nodo;
+import Interprete.Graphik.Als;
 import Interprete.Graphik.Ejecucion;
 import Interprete.Valor;
 import Interprete.Graphik.PrimeraPasada;
@@ -276,98 +277,145 @@ public class FormPrincipal extends javax.swing.JFrame {
                 } //viene graphik    
                 else if (listaPestañas.get(actual).getTextArea().getName().equals(".gk")) {
                     try {
-                        TablaSimbolosGraphik t = new TablaSimbolosGraphik();
+                        
                         TablaSimbolosGraphik.listaAls.removeAll(TablaSimbolosGraphik.listaAls);
                         TablaSimbolosGraphik.errorSemantico.removeAll(TablaSimbolosGraphik.errorSemantico);
                         
-
                         Ejecucion ejecuta = new Ejecucion();
-                        PrimeraPasada p = new PrimeraPasada();
                         GraphikLexico scan = new GraphikLexico(new BufferedReader(new StringReader(a)));
                         GraphikSintactico parser = new GraphikSintactico(scan);
                         parser.parse();
                         Graficar(recorrido(GraphikSintactico.raiz), "AstGraphik");
                         ejecuta.Ejecucion(GraphikSintactico.raiz);
-                        //p.Reconocer(GraphikSintactico.raiz);
-
-                        //Errores err = new Errores();
                         String textoErrores = "";
                         for (int i = 0; i < TablaSimbolosGraphik.errorSemantico.size(); i++) {
                             textoErrores += TablaSimbolosGraphik.errorSemantico.get(i).tipo + "->"
                                     + TablaSimbolosGraphik.errorSemantico.get(i).texto + "\n";
-                            //    + "      |Fila: " + TablaSimbolosGraphik.errorSemantico.get(i).linea
-                            //  + ", Columna: " + TablaSimbolosGraphik.errorSemantico.get(i).columna + "|\n";
                         }
                         txtErrores.setText(textoErrores);
-                        //err.imprimirErrores(t.errorSemantico);
-
-                        String simbolos = "";
-                        for (int i = 0; i < TablaSimbolosGraphik.listaAls.size(); i++) {
-                            simbolos += "►Nombre Als: " + TablaSimbolosGraphik.listaAls.get(i).nombre + " \n"
-                                    + "\t →Visibilidad:" + TablaSimbolosGraphik.listaAls.get(i).visibilidad + "\n";
-                            if (TablaSimbolosGraphik.listaAls.get(i).hereda != null) {
-                                simbolos += "\t →Hereda: " + TablaSimbolosGraphik.listaAls.get(i).hereda + "\n";
-                            }
-                            if (!TablaSimbolosGraphik.listaAls.get(i).incluye.isEmpty()) {
-                                simbolos += "\t →Incluye: \n";
-                                for (int j = 0; j < TablaSimbolosGraphik.listaAls.get(i).incluye.size(); j++) {
-                                    simbolos += "\t ├" + TablaSimbolosGraphik.listaAls.get(i).incluye.get(j).getNombre() + "\n";
-                                }
-                            }
-                            if (!TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.isEmpty()) {
-                                simbolos += "\t →Variables Globales: \n";
-                                for (int j = 0; j < TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.size(); j++) {
-                                    simbolos += "\t └Tipo:" + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).tipo + "─Visibilidad:"
-                                            + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).visibilidad + " ─Nombre:"
-                                            + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).nombre + " ─Valor:"
-                                            + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).valor + "\n";
-                                }
-                            }
-                            if (!t.listaAls.get(i).Metodos.isEmpty()) {
-                                simbolos += "\t →Metodos: \n";
-                                for (int j = 0; j < t.listaAls.get(i).Metodos.size(); j++) {
-                                    simbolos += "\t └Tipo:" + t.listaAls.get(i).Metodos.get(j).tipo + "─Visibilidad:"
-                                            + t.listaAls.get(i).Metodos.get(j).visibilidad + " ─Nombre:"
-                                            + t.listaAls.get(i).Metodos.get(j).nombre + " \n";
-                                    ArrayList<Parametros> param = t.listaAls.get(i).Metodos.get(j).getParametros();
-                                    if (!param.isEmpty()) {
-                                        simbolos += "\t\t →Parametros: \n";
-                                        for (int k = 0; k < param.size(); k++) {
-                                            simbolos += "\t\t ├ Tipo:" + param.get(k).tipo + "─Nombre: " + param.get(k).nombre + "\n";
-                                        }
-
-                                    }
-                                }
-                            }
-
-                        }
-                        txtSimbolos.setText(simbolos);
-
+                        ImprimirTabla();
+                        
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(null,
                                 "Algo ha ido mal",
                                 "",
                                 JOptionPane.WARNING_MESSAGE);
-
                     }
-
                 }
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null,
                         "Ups... Algo a salido mal!!",
                         "Warning",
                         JOptionPane.WARNING_MESSAGE);
-
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,
                     "No hay ningun archivo para analizar!!",
                     "Warning",
                     JOptionPane.WARNING_MESSAGE);
-            //e.printStackTrace();
         }
     }//GEN-LAST:event_btnEjecutarActionPerformed
 
+    
+
+    public void ImprimirTabla() {
+        String simbolos = "";
+        for (int i = 0; i < TablaSimbolosGraphik.listaAls.size(); i++) {
+            simbolos += "► Nombre Als: " + TablaSimbolosGraphik.listaAls.get(i).nombre + " \n"
+                    + "\t →Visibilidad:" + TablaSimbolosGraphik.listaAls.get(i).visibilidad + "\n";
+            if (TablaSimbolosGraphik.listaAls.get(i).hereda != null) {
+                simbolos += "\t →Hereda: " + TablaSimbolosGraphik.listaAls.get(i).hereda + "\n";
+            }
+            if (!TablaSimbolosGraphik.listaAls.get(i).importa.isEmpty()) {
+                simbolos += "\t →Importaciones: \n";
+                for (int j = 0; j < TablaSimbolosGraphik.listaAls.get(i).importa.size(); j++) {
+                    String temp = (String)ConcatenaImportas(TablaSimbolosGraphik.listaAls.get(i).importa);
+                    simbolos += temp;
+                }
+            }
+            if (!TablaSimbolosGraphik.listaAls.get(i).incluye.isEmpty()) {
+                simbolos += "\t →Incluye: \n";
+                for (int j = 0; j < TablaSimbolosGraphik.listaAls.get(i).incluye.size(); j++) {
+                    simbolos += "\t ├" + TablaSimbolosGraphik.listaAls.get(i).incluye.get(j).getNombre() + "\n";
+                }
+            }
+            if (!TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.isEmpty()) {
+                simbolos += "\t →Variables Globales: \n";
+                for (int j = 0; j < TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.size(); j++) {
+                    simbolos += "\t\t └Tipo:" + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).tipo + "─Visibilidad:"
+                            + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).visibilidad + " ─Nombre:"
+                            + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).nombre + " ─Valor:"
+                            + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).valor + "\n";
+                }
+            }
+            if (!TablaSimbolosGraphik.listaAls.get(i).Metodos.isEmpty()) {
+                simbolos += "\t →Metodos: \n";
+                for (int j = 0; j < TablaSimbolosGraphik.listaAls.get(i).Metodos.size(); j++) {
+                    simbolos += "\t\t └Tipo:" + TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).tipo + "─Visibilidad:"
+                            + TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).visibilidad + " ─Nombre:"
+                            + TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).nombre + " \n";
+                    ArrayList<Parametros> param = TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).getParametros();
+                    if (!param.isEmpty()) {
+                        simbolos += "\t\t →Parametros: \n";
+                        for (int k = 0; k < param.size(); k++) {
+                            simbolos += "\t\t ├ Tipo:" + param.get(k).tipo + "─Nombre: " + param.get(k).nombre + "\n";
+                        }
+                    }
+                }
+            }
+        }
+        txtSimbolos.setText(simbolos);
+    }
+
+    public String ConcatenaImportas(ArrayList<Als> als){
+        String simbolos = "";
+        for (int i = 0; i < als.size(); i++) {
+            simbolos += "\t\t » Nombre Als: " + als.get(i).nombre + " \n"
+                    + "\t\t\t →Visibilidad:" + als.get(i).visibilidad + "\n";
+            if (als.get(i).hereda != null) {
+                simbolos += "\t\t\t →Hereda: " + als.get(i).hereda + "\n";
+            }
+            if (!als.get(i).importa.isEmpty()) {
+                simbolos += "\t\t\t →Importaciones: \n";
+                for (int j = 0; j < als.get(i).importa.size(); j++) {
+                    String temp = (String)ConcatenaImportas(als.get(i).importa);
+                    simbolos += temp;
+                }
+            }
+            if (!als.get(i).incluye.isEmpty()) {
+                simbolos += "\t\t\t →Incluye: \n";
+                for (int j = 0; j < als.get(i).incluye.size(); j++) {
+                    simbolos += "\t\t\t ├" + als.get(i).incluye.get(j).getNombre() + "\n";
+                }
+            }
+            if (!als.get(i).VarsGlobales.isEmpty()) {
+                simbolos += "\t\t\t →Variables Globales: \n";
+                for (int j = 0; j < als.get(i).VarsGlobales.size(); j++) {
+                    simbolos += "\t\t\t\t └Tipo:" + als.get(i).VarsGlobales.get(j).tipo + "─Visibilidad:"
+                            + als.get(i).VarsGlobales.get(j).visibilidad + " ─Nombre:"
+                            + als.get(i).VarsGlobales.get(j).nombre + " ─Valor:"
+                            + als.get(i).VarsGlobales.get(j).valor + "\n";
+                }
+            }
+            if (!als.get(i).Metodos.isEmpty()) {
+                simbolos += "\t\t\t →Metodos: \n";
+                for (int j = 0; j < als.get(i).Metodos.size(); j++) {
+                    simbolos += "\t\t\t\t └Tipo:" + als.get(i).Metodos.get(j).tipo + "─Visibilidad:"
+                            + als.get(i).Metodos.get(j).visibilidad + " ─Nombre:"
+                            + als.get(i).Metodos.get(j).nombre + " \n";
+                    ArrayList<Parametros> param = als.get(i).Metodos.get(j).getParametros();
+                    if (!param.isEmpty()) {
+                        simbolos += "\t\t\t\t\t →Parametros: \n";
+                        for (int k = 0; k < param.size(); k++) {
+                            simbolos += "\t\t\t\t\t ├ Tipo:" + param.get(k).tipo + "─Nombre: " + param.get(k).nombre + "\n";
+                        }
+                    }
+                }
+            }
+        }
+        return simbolos;    
+    }
+    
     private void btnCerrarPestañaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarPestañaActionPerformed
         try {
             int actual = jTabbedPane1.getSelectedIndex();
@@ -392,7 +440,7 @@ public class FormPrincipal extends javax.swing.JFrame {
                 ruta = fichero.getAbsolutePath();
 
             } catch (IOException ex) {
-                //Logger.getLogger(ManejoArchivos.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(this.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 if (escribir != null) {
                     try {
