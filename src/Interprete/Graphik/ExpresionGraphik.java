@@ -118,6 +118,54 @@ public class ExpresionGraphik {
                         return v2;
                     }
                 }
+                case "Incremento":{
+                    Valor v = (Valor) Expresion(exp, nombreFuncion);
+                    if(v.tipo.equals("error")){
+                        Valor v2 = new Valor("","error");
+                        return v2;
+                    }
+                    if(v.tipo.equals("numero")){
+                        int i = Integer.parseInt(v.valor.toString()) + 1;
+                        Valor v2 = new Valor(i,"numero");
+                        return v2;
+                    }else if(v.tipo.equals("decimal")){
+                        Double i = Double.parseDouble(v.valor.toString()) + 1;
+                        Valor v2 = new Valor(i,"decimal");
+                        return v2;
+                    }else if(v.tipo.equals("caracter")){
+                        int i = v.valor.toString().codePointAt(0) + 1;
+                        Valor v2 = new Valor(i,"numero");
+                        return v2;
+                    }else{
+                        Errores.ErrorSemantico("No se puede incrementar", 0, 0);
+                        Valor v2 = new Valor("","error");
+                        return v2;
+                    }
+                }
+                case "Decremento":{
+                    Valor v = (Valor) Expresion(exp, nombreFuncion);
+                    if(v.tipo.equals("error")){
+                        Valor v2 = new Valor("","error");
+                        return v2;
+                    }
+                    if(v.tipo.equals("numero")){
+                        int i = Integer.parseInt(v.valor.toString()) - 1;
+                        Valor v2 = new Valor(i,"numero");
+                        return v2;
+                    }else if(v.tipo.equals("decimal")){
+                        Double i = Double.parseDouble(v.valor.toString()) - 1;
+                        Valor v2 = new Valor(i,"decimal");
+                        return v2;
+                    }else if(v.tipo.equals("caracter")){
+                        int i = v.valor.toString().codePointAt(0) - 1;
+                        Valor v2 = new Valor(i,"numero");
+                        return v2;
+                    }else{
+                        Errores.ErrorSemantico("No se puede decrementar", 0, 0);
+                        Valor v2 = new Valor("","error");
+                        return v2;
+                    }
+                }
             }
 
         } else if (raiz.hijos.size() == 2) {

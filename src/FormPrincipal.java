@@ -321,10 +321,12 @@ public class FormPrincipal extends javax.swing.JFrame {
     public void ImprimirTabla() {
         String simbolos = "";
         for (int i = 0; i < TablaSimbolosGraphik.listaAls.size(); i++) {
-            simbolos += "► Nombre Als: " + TablaSimbolosGraphik.listaAls.get(i).nombre + " \n"
+            simbolos += "☼ Nombre Als: " + TablaSimbolosGraphik.listaAls.get(i).nombre + " \n"
                     + "\t →Visibilidad:" + TablaSimbolosGraphik.listaAls.get(i).visibilidad + "\n";
-            if (TablaSimbolosGraphik.listaAls.get(i).hereda != null) {
-                simbolos += "\t →Hereda: " + TablaSimbolosGraphik.listaAls.get(i).hereda + "\n";
+            if (!TablaSimbolosGraphik.listaAls.get(i).hereda.isEmpty()) {
+                simbolos += "\t →Hereda: " + TablaSimbolosGraphik.listaAls.get(i).hereda.get(0).nombre + "\n";
+                String temp = (String)ConcatenaImportas(TablaSimbolosGraphik.listaAls.get(i).hereda);
+                simbolos +=temp;
             }
             if (!TablaSimbolosGraphik.listaAls.get(i).importa.isEmpty()) {
                 simbolos += "\t →Importaciones: \n";
@@ -342,28 +344,32 @@ public class FormPrincipal extends javax.swing.JFrame {
             if (!TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.isEmpty()) {
                 simbolos += "\t →Variables Globales: \n";
                 for (int j = 0; j < TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.size(); j++) {
-                    simbolos += "\t\t └Tipo:" + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).tipo + "─Visibilidad:"
-                            + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).visibilidad + " ─Nombre:"
-                            + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).nombre + " ─Valor:"
+                    simbolos += "\t\t └Tipo: " + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).tipo
+                            + " ─ Visibilidad: "
+                            + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).visibilidad + " ─ Nombre: "
+                            + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).nombre + " ─ Valor: "
                             + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).valor + "\n";
                 }
             }
             if (!TablaSimbolosGraphik.listaAls.get(i).Metodos.isEmpty()) {
                 simbolos += "\t →Metodos: \n";
                 for (int j = 0; j < TablaSimbolosGraphik.listaAls.get(i).Metodos.size(); j++) {
-                    simbolos += "\t\t └Tipo:" + TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).tipo + "─Visibilidad:"
-                            + TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).visibilidad + " ─Nombre:"
+                    simbolos += "\t\t └Tipo: " + TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).tipo 
+                            + " ─ Visibilidad: "
+                            + TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).visibilidad + " ─ Nombre: "
                             + TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).nombre + " \n";
                     ArrayList<Parametros> param = TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).getParametros();
                     if (!param.isEmpty()) {
                         simbolos += "\t\t →Parametros: \n";
                         for (int k = 0; k < param.size(); k++) {
-                            simbolos += "\t\t ├ Tipo:" + param.get(k).tipo + "─Nombre: " + param.get(k).nombre + "\n";
+                            simbolos += "\t\t ├ Tipo: " + param.get(k).tipo + " ─ Nombre: " + param.get(k).nombre + "\n";
                         }
                     }
                 }
             }
-            simbolos+="-------------------------------------------------------------- \n";
+            simbolos+="----------------------------------------------------------------"
+                    + "--------------------------------------------------------------------------------------------"
+                    + "------------------------------------------- \n";
         }
         txtSimbolos.setText(simbolos);
     }
@@ -373,16 +379,6 @@ public class FormPrincipal extends javax.swing.JFrame {
         for (int i = 0; i < als.size(); i++) {
             simbolos += "\t\t » Nombre Als: " + als.get(i).nombre + " \n"
                     + "\t\t\t →Visibilidad:" + als.get(i).visibilidad + "\n";
-            if (als.get(i).hereda != null) {
-                simbolos += "\t\t\t →Hereda: " + als.get(i).hereda + "\n";
-            }
-            if (!als.get(i).importa.isEmpty()) {
-                simbolos += "\t\t\t →Importaciones: \n";
-                for (int j = 0; j < als.get(i).importa.size(); j++) {
-                    String temp = (String)ConcatenaImportas(als.get(i).importa);
-                    simbolos += temp;
-                }
-            }
             if (!als.get(i).incluye.isEmpty()) {
                 simbolos += "\t\t\t →Incluye: \n";
                 for (int j = 0; j < als.get(i).incluye.size(); j++) {
@@ -392,27 +388,41 @@ public class FormPrincipal extends javax.swing.JFrame {
             if (!als.get(i).VarsGlobales.isEmpty()) {
                 simbolos += "\t\t\t →Variables Globales: \n";
                 for (int j = 0; j < als.get(i).VarsGlobales.size(); j++) {
-                    simbolos += "\t\t\t\t └Tipo:" + als.get(i).VarsGlobales.get(j).tipo + "─Visibilidad:"
-                            + als.get(i).VarsGlobales.get(j).visibilidad + " ─Nombre:"
-                            + als.get(i).VarsGlobales.get(j).nombre + " ─Valor:"
+                    simbolos += "\t\t\t\t └Tipo: " + als.get(i).VarsGlobales.get(j).tipo + " ─ Visibilidad: "
+                            + als.get(i).VarsGlobales.get(j).visibilidad + " ─ Nombre: "
+                            + als.get(i).VarsGlobales.get(j).nombre + " ─ Valor: "
                             + als.get(i).VarsGlobales.get(j).valor + "\n";
                 }
             }
             if (!als.get(i).Metodos.isEmpty()) {
                 simbolos += "\t\t\t →Metodos: \n";
                 for (int j = 0; j < als.get(i).Metodos.size(); j++) {
-                    simbolos += "\t\t\t\t └Tipo:" + als.get(i).Metodos.get(j).tipo + "─Visibilidad:"
-                            + als.get(i).Metodos.get(j).visibilidad + " ─Nombre:"
+                    simbolos += "\t\t\t\t └Tipo: " + als.get(i).Metodos.get(j).tipo + " ─ Visibilidad: "
+                            + als.get(i).Metodos.get(j).visibilidad + " ─ Nombre: "
                             + als.get(i).Metodos.get(j).nombre + " \n";
                     ArrayList<Parametros> param = als.get(i).Metodos.get(j).getParametros();
                     if (!param.isEmpty()) {
                         simbolos += "\t\t\t\t\t →Parametros: \n";
                         for (int k = 0; k < param.size(); k++) {
-                            simbolos += "\t\t\t\t\t ├ Tipo:" + param.get(k).tipo + "─Nombre: " + param.get(k).nombre + "\n";
+                            simbolos += "\t\t\t\t\t ├Tipo: " + param.get(k).tipo + " ─ Nombre: " 
+                                    + param.get(k).nombre + "\n";
                         }
                     }
                 }
             }
+            if (!als.get(i).hereda.isEmpty()) {
+                simbolos += "\t\t\t →Hereda: " + als.get(i).hereda.get(0).nombre + "\n";
+                String temp = (String) ConcatenaImportas(als.get(i).hereda);
+                simbolos += temp;
+            }
+            if (!als.get(i).importa.isEmpty()) {
+                simbolos += "\t\t\t →Importaciones: \n";
+                for (int j = 0; j < als.get(i).importa.size(); j++) {
+                    String temp = (String)ConcatenaImportas(als.get(i).importa);
+                    simbolos += temp;
+                }
+            }
+            
         }
         return simbolos;    
     }

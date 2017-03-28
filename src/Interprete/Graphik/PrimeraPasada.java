@@ -23,6 +23,7 @@ import java.io.StringReader;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -34,7 +35,6 @@ public class PrimeraPasada {
     SentenciasAls sentAls = new SentenciasAls();
     CrearVariables varsGlobales = new CrearVariables();
     CrearMetodos metodos = new CrearMetodos();
-    //public static Als nuevo = new Als();
     TablaSimbolosGraphik tabla = new TablaSimbolosGraphik();
     TablaSimbolosHaskell tablaH = new TablaSimbolosHaskell();
     static int paso = 0;
@@ -55,7 +55,31 @@ public class PrimeraPasada {
                 //Hereda
                 String hereda;
                 if (!c.hijos.get(2).hijos.isEmpty()) {
-                    hereda = c.hijos.get(2).hijos.get(0).toString();
+                    hereda = c.hijos.get(2).hijos.get(0).valor.toString();
+                    Boolean existe = VerificarImporaciones(hereda+".gk");
+                    if (existe) {
+                        try {
+                            String texto = Abierto(ruta + "\\" + hereda+".gk");
+                                if (texto != null) {
+
+                                    GraphikLexico scan = new GraphikLexico(new BufferedReader(new StringReader(texto)));
+                                    GraphikSintactico parser = new GraphikSintactico(scan);
+                                    parser.parse();
+                                    Graficar(recorrido(GraphikSintactico.raiz), "AstHereda_" + hereda);
+
+                                    Valor v = (Valor) Reconocer(GraphikSintactico.raiz, true);
+                                    Als a = (Als) v.valor;
+                                    nuevo.agregarHereda(a);
+                                } else {
+                                    Errores.ErrorSemantico("El Als -"+hereda+"- esta vacio", paso, paso);
+                                }
+                        }catch (Exception e) {
+                                Logger.getLogger(PrimeraPasada.class.getName()).log(Level.SEVERE, null, e);
+                            }
+                    }else {
+                        Errores.ErrorSemantico("No se puede heredar del Als -" + hereda + "- porque no "
+                                + "existe", 0, 0);
+                    }
                 } else {
                     hereda = null;
                 }
@@ -63,7 +87,6 @@ public class PrimeraPasada {
                 String visibilidad = c.hijos.get(1).valor.toString();
                 nuevo.nombre = nombreAls;
                 nuevo.visibilidad = visibilidad;
-                nuevo.hereda = hereda;
                 if (!bandera) {
                     TablaSimbolosGraphik.addAls(nuevo);
                 }
@@ -73,7 +96,6 @@ public class PrimeraPasada {
 
             }
 
-//        nuevo.Inicializar();
             //IMPORTA
             if (!raiz.hijos.get(0).hijos.isEmpty()) {
 
@@ -81,9 +103,7 @@ public class PrimeraPasada {
                     String nombre = c2.valor.toString();
                     Boolean existe = VerificarImporaciones(nombre);
                     if (existe) {
-                        try {
                             try {
-
                                 String texto = Abierto(ruta + "\\" + nombre);
                                 if (texto != null) {
 
@@ -96,16 +116,12 @@ public class PrimeraPasada {
                                     Als a = (Als) v.valor;
                                     nuevo.agregarImporta(a);
                                 } else {
-
+                                    Errores.ErrorSemantico("El Als -"+nombre+"- esta vacio", paso, paso);
                                 }
 
                             } catch (Exception e) {
                                 Logger.getLogger(PrimeraPasada.class.getName()).log(Level.SEVERE, null, e);
                             }
-
-                        } catch (Exception ex) {
-                            Logger.getLogger(PrimeraPasada.class.getName()).log(Level.SEVERE, null, ex);
-                        }
                     } else {
                         Errores.ErrorSemantico("El archivo -" + nombre + "- no existe y no se puede importar", 0, 0);
                     }
@@ -140,12 +156,18 @@ public class PrimeraPasada {
     }
 
     private Boolean VerificarImporaciones(String incluye) {
+        if(ruta==null){
+            JOptionPane.showMessageDialog(null,
+                                "Se necesita tener una ruta, por favor abra algun archivo", "",
+                                JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
         if (paso > 0) {
             String files;
             File folder = new File(ruta);
             File[] listOfFiles = folder.listFiles();
 
-            for(int i = 0; i < listOfFiles.length; i++) {
+            for (int i = 0; i < listOfFiles.length; i++) {
                 if (listOfFiles[i].isFile()) {
                     files = listOfFiles[i].getName();
                     if (incluye.equals(files)) {
@@ -181,7 +203,7 @@ public class PrimeraPasada {
                 } else {
                     r += temp;
                 }
-               
+
             }
 
             ruta = r;
@@ -200,8 +222,8 @@ public class PrimeraPasada {
 
                 }
             }
-        } 
-        
+        }
+
         return false;
     }
 

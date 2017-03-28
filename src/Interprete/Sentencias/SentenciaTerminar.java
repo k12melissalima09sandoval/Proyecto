@@ -3,23 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Interprete.Graphik;
-
-import Ast.Nodo;
+package Interprete.Sentencias;
 
 /**
  *
  * @author MishaPks
  */
-
-public class SentenciasAls {
-
-    Als als =new Als();
-
-    public Object RecorrerAls(Nodo raiz) {
-
-        
-
-        return null;
-    }
+public class SentenciaTerminar {
+    
 }

@@ -14,7 +14,8 @@ import Ast.Nodo;
 public class Ejecucion {
 
     PrimeraPasada primera = new PrimeraPasada();
-
+    SegundaPasada segunda = new SegundaPasada();
+    
     public void Ejecucion(Nodo raiz) {
 
         //primera pasada
@@ -28,10 +29,12 @@ public class Ejecucion {
         //segunda pasada
         //busco los hereda de cada metodo y verifico si existe, si existe lo agrego al als
         //busco las instancias globales y si hay busco los als y verifico que existan
+        segunda.Reconocer();
         //tercer pasada
         //ejecucion del metodo inicio
         //ejecucion de sentencias
         //creacion de variables locales
+        
     }
 
 }

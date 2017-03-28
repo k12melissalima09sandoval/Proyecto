@@ -17,12 +17,10 @@ public class Als {
 
     public String nombre;
     public String visibilidad;
-    public Object hereda;
+    public ArrayList<Als> hereda = new ArrayList();
     public ArrayList<Als> importa = new ArrayList();
     public ArrayList<FuncionHaskell> incluye = new ArrayList();
-
     public ArrayList<Variable> VarsGlobales = new ArrayList();
-
     public ArrayList<MetodoGraphik> Metodos = new ArrayList();
 
     public Als() {
@@ -36,23 +34,24 @@ public class Als {
         Metodos = new ArrayList();
         importa = new ArrayList();
         incluye = new ArrayList();
+        hereda = new ArrayList();
         nombre = "";
         visibilidad = "";
-        hereda = null;
-        
     }
 
     public void agregarImporta(Als nuevo){
         importa.add(nuevo);
     }
+    public void agregarHereda(Als nuevo){
+        hereda.add(nuevo);
+    }
     public void agregarIncluye(FuncionHaskell funHas){
         incluye.add(funHas);
     }
     //-----------------------------------------------------------AGREGANDO UN NUEVO ALS
-    public Als(String name, String Visibilidad, Object Hereda) {
+    public Als(String name, String Visibilidad) {
         nombre = name;
         visibilidad = Visibilidad;
-        hereda = Hereda;
     }
 
     //---------------------------------------------------------------VARIABLES
