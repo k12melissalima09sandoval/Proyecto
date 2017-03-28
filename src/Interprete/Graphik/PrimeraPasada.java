@@ -145,8 +145,7 @@ public class PrimeraPasada {
             File folder = new File(ruta);
             File[] listOfFiles = folder.listFiles();
 
-            for (int i = 0; i < listOfFiles.length; i++) {
-
+            for(int i = 0; i < listOfFiles.length; i++) {
                 if (listOfFiles[i].isFile()) {
                     files = listOfFiles[i].getName();
                     if (incluye.equals(files)) {

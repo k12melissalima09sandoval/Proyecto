@@ -5,7 +5,6 @@ import Analizadores.Haskell.HaskellLexico;
 import Analizadores.Haskell.HaskellSintactico;
 import Analizadores.Consola.ConsolaLexico;
 import Analizadores.Consola.ConsolaSintactico;
-import Analizadores.Errores;
 import Analizadores.Graphik.GraphikLexico;
 import Analizadores.Graphik.GraphikSintactico;
 import Ast.Nodo;
@@ -291,6 +290,7 @@ public class FormPrincipal extends javax.swing.JFrame {
                         for (int i = 0; i < TablaSimbolosGraphik.errorSemantico.size(); i++) {
                             textoErrores += TablaSimbolosGraphik.errorSemantico.get(i).tipo + "->"
                                     + TablaSimbolosGraphik.errorSemantico.get(i).texto + "\n";
+                            textoErrores+="----------------------------------------------------------------------------\n";
                         }
                         txtErrores.setText(textoErrores);
                         ImprimirTabla();
@@ -363,6 +363,7 @@ public class FormPrincipal extends javax.swing.JFrame {
                     }
                 }
             }
+            simbolos+="-------------------------------------------------------------- \n";
         }
         txtSimbolos.setText(simbolos);
     }
