@@ -7,10 +7,7 @@ package Interprete.Graphik;
 
 import Ast.Nodo;
 import Interprete.Parametros;
-import Interprete.Variable;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  *
@@ -20,6 +17,7 @@ public class MetodoGraphik {
     
     public String tipo;
     public String nombre;
+    Boolean hereda = false;
     public ArrayList<Parametros> listaParametros = new ArrayList();
     public String visibilidad;
     Nodo cuerpo;
@@ -29,8 +27,12 @@ public class MetodoGraphik {
         this.nombre = nombre;
         this.visibilidad = visible;
         this.cuerpo = cuerpo;
+        this.hereda = false;
     }   
     
+    public void setHereda(Boolean si ){
+        this.hereda = true;
+    }
     public void setParametros(Parametros p){
         listaParametros.add(p);
     }

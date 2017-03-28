@@ -16,18 +16,20 @@ public class Variable {
     public String visibilidad;
     public Object valor;
     public String tipo;
-    
+    Boolean hereda = false;
     public Boolean arreglo;
     public ArrayList dimensiones;
     public Boolean instancia;
 
-    public Variable(String tipo, String nombre, String visible, Object valor,Boolean arreglo,Boolean instancia) {
+    public Variable(String tipo, String nombre, String visible, Object valor,
+            Boolean arreglo,Boolean instancia) {
         this.tipo = tipo;
         this.nombre = nombre;
         this.visibilidad = visible;
         this.valor = valor;
         this.arreglo = arreglo;
         this.instancia = instancia;
+        this.hereda = false;
     }
     
     
@@ -44,6 +46,9 @@ public class Variable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+    public void setHereda(Boolean si) {
+        this.hereda = si;
     }
 
     public Object getValor() {

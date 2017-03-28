@@ -7,8 +7,6 @@ package Interprete.Haskell;
 
 import Ast.Nodo;
 import java.util.ArrayList;
-import Interprete.Haskell.FuncionHaskell;
-import Interprete.Haskell.ExpresionHaskell;
 import static Interprete.Haskell.ExpresionHaskell.ultimoValor;
 import static Interprete.Haskell.ExpresionHaskell.ultimoTipo;
 import Interprete.Parametros;

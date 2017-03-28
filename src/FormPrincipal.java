@@ -97,6 +97,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         btnEjecutar = new javax.swing.JButton();
         lblColumna = new javax.swing.JLabel();
         txtEntradaConsola = new javax.swing.JTextField();
+        btnCerrarPestaña = new javax.swing.JButton();
         jTabedPane2 = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtSalidaConsola = new javax.swing.JTextArea();
@@ -104,7 +105,8 @@ public class FormPrincipal extends javax.swing.JFrame {
         txtErrores = new javax.swing.JTextArea();
         jScrollPane3 = new javax.swing.JScrollPane();
         txtSimbolos = new javax.swing.JTextArea();
-        btnCerrarPestaña = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        txtConsolaGraphik = new javax.swing.JTextArea();
         btnGuardar = new javax.swing.JButton();
         btnAbrir = new javax.swing.JButton();
 
@@ -112,7 +114,7 @@ public class FormPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Graphik y Haskell++");
-        setBackground(new java.awt.Color(0, 153, 153));
+        setBackground(new java.awt.Color(255, 255, 204));
         setMinimumSize(new java.awt.Dimension(900, 500));
         setPreferredSize(new java.awt.Dimension(935, 710));
 
@@ -136,30 +138,49 @@ public class FormPrincipal extends javax.swing.JFrame {
 
         txtEntradaConsola.setText("$ $");
 
-        txtSalidaConsola.setColumns(20);
-        txtSalidaConsola.setRows(5);
-        jScrollPane1.setViewportView(txtSalidaConsola);
-
-        jTabedPane2.addTab("Consola", jScrollPane1);
-
-        txtErrores.setColumns(20);
-        txtErrores.setRows(5);
-        jScrollPane2.setViewportView(txtErrores);
-
-        jTabedPane2.addTab("Errores", jScrollPane2);
-
-        txtSimbolos.setColumns(20);
-        txtSimbolos.setRows(5);
-        jScrollPane3.setViewportView(txtSimbolos);
-
-        jTabedPane2.addTab("Tabla de Simbolos", jScrollPane3);
-
         btnCerrarPestaña.setText("Cerrar Actual");
         btnCerrarPestaña.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCerrarPestañaActionPerformed(evt);
             }
         });
+
+        txtSalidaConsola.setBackground(new java.awt.Color(249, 249, 132));
+        txtSalidaConsola.setColumns(20);
+        txtSalidaConsola.setLineWrap(true);
+        txtSalidaConsola.setRows(5);
+        txtSalidaConsola.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(246, 126, 16)));
+        jScrollPane1.setViewportView(txtSalidaConsola);
+
+        jTabedPane2.addTab("Consola", jScrollPane1);
+
+        txtErrores.setBackground(new java.awt.Color(2, 203, 203));
+        txtErrores.setColumns(20);
+        txtErrores.setForeground(new java.awt.Color(0, 0, 0));
+        txtErrores.setLineWrap(true);
+        txtErrores.setRows(5);
+        txtErrores.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 255)));
+        jScrollPane2.setViewportView(txtErrores);
+
+        jTabedPane2.addTab("Errores", jScrollPane2);
+
+        txtSimbolos.setBackground(new java.awt.Color(230, 157, 255));
+        txtSimbolos.setColumns(20);
+        txtSimbolos.setLineWrap(true);
+        txtSimbolos.setRows(5);
+        txtSimbolos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 0, 153)));
+        jScrollPane3.setViewportView(txtSimbolos);
+
+        jTabedPane2.addTab("Tabla de Simbolos", jScrollPane3);
+
+        txtConsolaGraphik.setBackground(new java.awt.Color(204, 255, 204));
+        txtConsolaGraphik.setColumns(20);
+        txtConsolaGraphik.setLineWrap(true);
+        txtConsolaGraphik.setRows(5);
+        txtConsolaGraphik.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 204, 51)));
+        jScrollPane4.setViewportView(txtConsolaGraphik);
+
+        jTabedPane2.addTab("Consola Graphik", jScrollPane4);
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -276,10 +297,10 @@ public class FormPrincipal extends javax.swing.JFrame {
                 } //viene graphik    
                 else if (listaPestañas.get(actual).getTextArea().getName().equals(".gk")) {
                     try {
-                        
+
                         TablaSimbolosGraphik.listaAls.removeAll(TablaSimbolosGraphik.listaAls);
                         TablaSimbolosGraphik.errorSemantico.removeAll(TablaSimbolosGraphik.errorSemantico);
-                        
+
                         Ejecucion ejecuta = new Ejecucion();
                         GraphikLexico scan = new GraphikLexico(new BufferedReader(new StringReader(a)));
                         GraphikSintactico parser = new GraphikSintactico(scan);
@@ -290,11 +311,11 @@ public class FormPrincipal extends javax.swing.JFrame {
                         for (int i = 0; i < TablaSimbolosGraphik.errorSemantico.size(); i++) {
                             textoErrores += TablaSimbolosGraphik.errorSemantico.get(i).tipo + "->"
                                     + TablaSimbolosGraphik.errorSemantico.get(i).texto + "\n";
-                            textoErrores+="----------------------------------------------------------------------------\n";
+                            textoErrores += "----------------------------------------------------------------------------\n";
                         }
                         txtErrores.setText(textoErrores);
                         ImprimirTabla();
-                        
+
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(null,
                                 "Algo ha ido mal",
@@ -316,8 +337,6 @@ public class FormPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEjecutarActionPerformed
 
-    
-
     public void ImprimirTabla() {
         String simbolos = "";
         for (int i = 0; i < TablaSimbolosGraphik.listaAls.size(); i++) {
@@ -325,13 +344,13 @@ public class FormPrincipal extends javax.swing.JFrame {
                     + "\t →Visibilidad:" + TablaSimbolosGraphik.listaAls.get(i).visibilidad + "\n";
             if (!TablaSimbolosGraphik.listaAls.get(i).hereda.isEmpty()) {
                 simbolos += "\t →Hereda: " + TablaSimbolosGraphik.listaAls.get(i).hereda.get(0).nombre + "\n";
-                String temp = (String)ConcatenaImportas(TablaSimbolosGraphik.listaAls.get(i).hereda);
-                simbolos +=temp;
+                String temp = (String) ConcatenaImportas(TablaSimbolosGraphik.listaAls.get(i).hereda);
+                simbolos += temp;
             }
             if (!TablaSimbolosGraphik.listaAls.get(i).importa.isEmpty()) {
                 simbolos += "\t →Importaciones: \n";
                 for (int j = 0; j < TablaSimbolosGraphik.listaAls.get(i).importa.size(); j++) {
-                    String temp = (String)ConcatenaImportas(TablaSimbolosGraphik.listaAls.get(i).importa);
+                    String temp = (String) ConcatenaImportas(TablaSimbolosGraphik.listaAls.get(i).importa);
                     simbolos += temp;
                 }
             }
@@ -347,14 +366,19 @@ public class FormPrincipal extends javax.swing.JFrame {
                     simbolos += "\t\t └Tipo: " + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).tipo
                             + " ─ Visibilidad: "
                             + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).visibilidad + " ─ Nombre: "
-                            + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).nombre + " ─ Valor: "
-                            + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).valor + "\n";
+                            + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).nombre + " ─ Valor: ";
+                    if (TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).instancia) {
+                        simbolos += "(instancia)";
+                        simbolos += TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).tipo + "\n";
+                    } else {
+                        simbolos += TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).valor + "\n";
+                    }
                 }
             }
             if (!TablaSimbolosGraphik.listaAls.get(i).Metodos.isEmpty()) {
                 simbolos += "\t →Metodos: \n";
                 for (int j = 0; j < TablaSimbolosGraphik.listaAls.get(i).Metodos.size(); j++) {
-                    simbolos += "\t\t └Tipo: " + TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).tipo 
+                    simbolos += "\t\t └Tipo: " + TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).tipo
                             + " ─ Visibilidad: "
                             + TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).visibilidad + " ─ Nombre: "
                             + TablaSimbolosGraphik.listaAls.get(i).Metodos.get(j).nombre + " \n";
@@ -367,14 +391,14 @@ public class FormPrincipal extends javax.swing.JFrame {
                     }
                 }
             }
-            simbolos+="----------------------------------------------------------------"
+            simbolos += "----------------------------------------------------------------"
                     + "--------------------------------------------------------------------------------------------"
                     + "------------------------------------------- \n";
         }
         txtSimbolos.setText(simbolos);
     }
 
-    public String ConcatenaImportas(ArrayList<Als> als){
+    public String ConcatenaImportas(ArrayList<Als> als) {
         String simbolos = "";
         for (int i = 0; i < als.size(); i++) {
             simbolos += "\t\t » Nombre Als: " + als.get(i).nombre + " \n"
@@ -388,10 +412,16 @@ public class FormPrincipal extends javax.swing.JFrame {
             if (!als.get(i).VarsGlobales.isEmpty()) {
                 simbolos += "\t\t\t →Variables Globales: \n";
                 for (int j = 0; j < als.get(i).VarsGlobales.size(); j++) {
+
                     simbolos += "\t\t\t\t └Tipo: " + als.get(i).VarsGlobales.get(j).tipo + " ─ Visibilidad: "
                             + als.get(i).VarsGlobales.get(j).visibilidad + " ─ Nombre: "
-                            + als.get(i).VarsGlobales.get(j).nombre + " ─ Valor: "
-                            + als.get(i).VarsGlobales.get(j).valor + "\n";
+                            + als.get(i).VarsGlobales.get(j).nombre + " ─ Valor: ";
+                    if (als.get(i).VarsGlobales.get(j).instancia) {
+                        simbolos += "(instancia)";
+                        simbolos += als.get(i).VarsGlobales.get(j).tipo + "\n";
+                    } else {
+                        simbolos += als.get(i).VarsGlobales.get(j).valor + "\n";
+                    }
                 }
             }
             if (!als.get(i).Metodos.isEmpty()) {
@@ -404,7 +434,7 @@ public class FormPrincipal extends javax.swing.JFrame {
                     if (!param.isEmpty()) {
                         simbolos += "\t\t\t\t\t →Parametros: \n";
                         for (int k = 0; k < param.size(); k++) {
-                            simbolos += "\t\t\t\t\t ├Tipo: " + param.get(k).tipo + " ─ Nombre: " 
+                            simbolos += "\t\t\t\t\t ├Tipo: " + param.get(k).tipo + " ─ Nombre: "
                                     + param.get(k).nombre + "\n";
                         }
                     }
@@ -418,15 +448,15 @@ public class FormPrincipal extends javax.swing.JFrame {
             if (!als.get(i).importa.isEmpty()) {
                 simbolos += "\t\t\t →Importaciones: \n";
                 for (int j = 0; j < als.get(i).importa.size(); j++) {
-                    String temp = (String)ConcatenaImportas(als.get(i).importa);
+                    String temp = (String) ConcatenaImportas(als.get(i).importa);
                     simbolos += temp;
                 }
             }
-            
+
         }
-        return simbolos;    
+        return simbolos;
     }
-    
+
     private void btnCerrarPestañaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarPestañaActionPerformed
         try {
             int actual = jTabbedPane1.getSelectedIndex();
@@ -536,7 +566,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     public void Graficar(String cadena, String cad) {
         FileWriter fichero2;
         PrintWriter pw;
-        String nombre = cad;
+        String nombre = "ImagenesAst/" + cad;
         String archivo = nombre + ".dot";
         try {
             fichero2 = new FileWriter(archivo);
@@ -610,9 +640,11 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     public static javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabedPane2;
     public static javax.swing.JLabel lblColumna;
+    private javax.swing.JTextArea txtConsolaGraphik;
     private javax.swing.JTextField txtEntradaConsola;
     public static javax.swing.JTextArea txtErrores;
     private javax.swing.JTextArea txtSalidaConsola;

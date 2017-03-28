@@ -1,0 +1,33 @@
+digraph G {node[shape=box, style=filled]; edge[color=red]
+node2071095992[label="Raiz"];
+ node2071095992->node648498524;node648498524[label="Importa"];
+ node2071095992->node288351535;node288351535[label="Incluye"];
+ node2071095992->node1969376302;node1969376302[label="ListaAls"];
+ node1969376302->node497930128;node497930128[label="Als"];
+ node497930128->node24952020;node24952020[label="detalle1"];
+ node497930128->node1863595849;node1863595849[label="Publico"];
+ node497930128->node141563321;node141563321[label="Hereda"];
+ node497930128->node2069011048;node2069011048[label="SentenciasAls"];
+ node2069011048->node531370954;node531370954[label="DeclaraGlobalVariable"];
+ node531370954->node1363984649;node1363984649[label="cadena"];
+ node531370954->node1503251268;node1503251268[label="ListaID"];
+ node1503251268->node922196933;node922196933[label="L"];
+ node922196933->node1236991122;node1236991122[label="direccion1"];
+ node922196933->node2127112229;node2127112229[label="Privado"];
+ node531370954->node1771904851;node1771904851[label="Asignacion"];
+ node2069011048->node1673431062;node1673431062[label="DeclaraGlobalVariable"];
+ node1673431062->node2113844895;node2113844895[label="cadena"];
+ node1673431062->node1254174981;node1254174981[label="ListaID"];
+ node1254174981->node1260898441;node1260898441[label="L"];
+ node1260898441->node1548617667;node1548617667[label="telefono1"];
+ node1260898441->node1418467483;node1418467483[label="Protegido"];
+ node1673431062->node386286102;node386286102[label="Asignacion"];
+ node2069011048->node1645261823;node1645261823[label="DeclaraGlobalVariable"];
+ node1645261823->node1322041441;node1322041441[label="cadena"];
+ node1645261823->node2058371555;node2058371555[label="ListaID"];
+ node2058371555->node1594075729;node1594075729[label="L"];
+ node1594075729->node954955013;node954955013[label="dpi1"];
+ node1594075729->node269247921;node269247921[label="Publico"];
+ node1645261823->node1749782794;node1749782794[label="Asignacion"];
+
+}

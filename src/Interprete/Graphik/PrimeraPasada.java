@@ -43,6 +43,7 @@ public class PrimeraPasada {
 
         //LOS ALS
         for (Nodo c : raiz.hijos.get(2).hijos) {
+            Nodo cuerpo = c.hijos.get(3);
             Als nuevo = new Als();
             nuevo.Inicializar();
             //nombre clase
@@ -69,7 +70,23 @@ public class PrimeraPasada {
 
                                     Valor v = (Valor) Reconocer(GraphikSintactico.raiz, true);
                                     Als a = (Als) v.valor;
+                                    for (int i = 0; i < a.VarsGlobales.size(); i++) {
+                                        if(a.VarsGlobales.get(i).visibilidad.equals("Publico")||
+                                                a.VarsGlobales.get(i).visibilidad.equals("Protegido")){
+                                            a.VarsGlobales.get(i).setHereda(true);
+                                            nuevo.addVarGlobal(a.VarsGlobales.get(i));
+                                            
+                                        }
+                                    }
+                                    for (int i = 0; i < a.Metodos.size(); i++) {
+                                        if(a.Metodos.get(i).visibilidad.equals("Publico")||
+                                                a.Metodos.get(i).visibilidad.equals("Protegido")){
+                                            a.Metodos.get(i).setHereda(true);
+                                            nuevo.addMetodo(a.Metodos.get(i));
+                                        }
+                                    }
                                     nuevo.agregarHereda(a);
+                                    
                                 } else {
                                     Errores.ErrorSemantico("El Als -"+hereda+"- esta vacio", paso, paso);
                                 }
@@ -90,7 +107,7 @@ public class PrimeraPasada {
                 if (!bandera) {
                     TablaSimbolosGraphik.addAls(nuevo);
                 }
-                Nodo cuerpo = c.hijos.get(3);
+                
                 varsGlobales.CrearVariablesGlobales(cuerpo, nuevo);
                 metodos.CrearMetodos(cuerpo, nuevo);
 
@@ -127,6 +144,8 @@ public class PrimeraPasada {
                     }
                 }
             }
+            
+            varsGlobales.CrearInstanciasGlobales(cuerpo, nuevo);
             //INCLUYE
             if (!raiz.hijos.get(1).hijos.isEmpty()) {
                 Map<String, FuncionHaskell> funciones = tablaH.ObtenerListaFunciones();
@@ -151,6 +170,8 @@ public class PrimeraPasada {
                 Valor v = new Valor(nuevo, "");
                 return v;
             }
+            
+            
         }
         return null;
     }
@@ -230,7 +251,7 @@ public class PrimeraPasada {
     public void Graficar(String cadena, String cad) {
         FileWriter fichero = null;
         PrintWriter pw = null;
-        String nombre = cad;
+        String nombre = "ImagenesAst/"+cad;
         String archivo = nombre + ".dot";
         try {
             fichero = new FileWriter(archivo);
