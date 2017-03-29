@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author MishaPks
  */
-public class Als {
+public class Als implements Cloneable{
 
     public String nombre;
     public String visibilidad;
@@ -27,6 +27,46 @@ public class Als {
 
     }
 
+    public Als copiar(){
+        try{
+            Als copia = new Als();
+            ArrayList<Variable> varscopia = new ArrayList();
+            for (int i = 0; i < this.VarsGlobales.size(); i++) {
+                Variable v = this.VarsGlobales.get(i).copiar();
+                varscopia.add(v);
+            }
+            ArrayList<MetodoGraphik> metodoscopia = new ArrayList();
+            for (int i = 0; i < this.Metodos.size(); i++) {
+                MetodoGraphik m = this.Metodos.get(i).copiar();
+                metodoscopia.add(m);
+            }
+            ArrayList<FuncionHaskell> haskellcopia = new ArrayList();
+            for (int i = 0; i < this.incluye.size(); i++) {
+                FuncionHaskell f = this.incluye.get(i).copiar();
+                haskellcopia.add(f);
+            }
+            ArrayList<Als> importacopia = new ArrayList();
+            for (int i = 0; i < this.importa.size(); i++) {
+                Als a = this.importa.get(i).copiar();
+                importacopia.add(a);
+            }
+            ArrayList<Als> heredacopia = new ArrayList();
+            for (int i = 0; i < this.hereda.size(); i++) {
+                Als h = this.hereda.get(i).copiar();
+                heredacopia.add(h);
+            }
+            copia.nombre = this.nombre;
+            copia.visibilidad = this.visibilidad;
+            copia.VarsGlobales = varscopia;
+            copia.Metodos = metodoscopia;
+            copia.incluye = haskellcopia;
+            copia.importa = importacopia;
+            copia.hereda = heredacopia;
+            return copia;
+        }catch(Exception e){
+            return null;
+        }
+    }
     //-------------------------------------------INICIALIZANDO TODAS LAS VARIABLES POR CADA NUEVO ALS
     public void Inicializar() {
 

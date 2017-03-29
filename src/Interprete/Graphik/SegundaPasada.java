@@ -54,7 +54,8 @@ public class SegundaPasada {
         for (Nodo raiz : cuerpoAls.hijos) {
             switch (raiz.valor.toString()) {
                 case "Asignacion": {
-
+                    String nombre = raiz.hijos.get(0).valor.toString();
+                    
                 }
 
             }

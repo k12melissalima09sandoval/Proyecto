@@ -340,6 +340,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     public void ImprimirTabla() {
         String simbolos = "";
         for (int i = 0; i < TablaSimbolosGraphik.listaAls.size(); i++) {
+            simbolos += TablaSimbolosGraphik.listaAls.get(0).hashCode();
             simbolos += "☼ Nombre Als: " + TablaSimbolosGraphik.listaAls.get(i).nombre + " \n"
                     + "\t →Visibilidad:" + TablaSimbolosGraphik.listaAls.get(i).visibilidad + "\n";
             if (!TablaSimbolosGraphik.listaAls.get(i).hereda.isEmpty()) {
@@ -363,6 +364,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             if (!TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.isEmpty()) {
                 simbolos += "\t →Variables Globales: \n";
                 for (int j = 0; j < TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.size(); j++) {
+                    simbolos += TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).hashCode();
                     simbolos += "\t\t └Tipo: " + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).tipo
                             + " ─ Visibilidad: "
                             + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).visibilidad + " ─ Nombre: "
@@ -412,7 +414,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             if (!als.get(i).VarsGlobales.isEmpty()) {
                 simbolos += "\t\t\t →Variables Globales: \n";
                 for (int j = 0; j < als.get(i).VarsGlobales.size(); j++) {
-
+                    simbolos += als.get(i).VarsGlobales.get(j).hashCode();
                     simbolos += "\t\t\t\t └Tipo: " + als.get(i).VarsGlobales.get(j).tipo + " ─ Visibilidad: "
                             + als.get(i).VarsGlobales.get(j).visibilidad + " ─ Nombre: "
                             + als.get(i).VarsGlobales.get(j).nombre + " ─ Valor: ";

@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author MishaPks
  */
-public class MetodoGraphik {
+public class MetodoGraphik implements Cloneable{
     
     public String tipo;
     public String nombre;
@@ -21,6 +21,15 @@ public class MetodoGraphik {
     public ArrayList<Parametros> listaParametros = new ArrayList();
     public String visibilidad;
     Nodo cuerpo;
+
+    public MetodoGraphik copiar(){
+        try{
+            
+            return (MetodoGraphik)this.clone();
+        }catch(Exception e){
+            return null;
+        }
+    }
     
     public MetodoGraphik(String tipo, String nombre, String visible,Nodo cuerpo){
         this.tipo = tipo;

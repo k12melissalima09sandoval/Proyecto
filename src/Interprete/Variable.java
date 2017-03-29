@@ -11,7 +11,8 @@ import java.util.ArrayList;
  *
  * @author MishaPks
  */
-public class Variable {
+public class Variable implements Cloneable{
+   
     public String nombre;
     public String visibilidad;
     public Object valor;
@@ -21,6 +22,15 @@ public class Variable {
     public ArrayList dimensiones;
     public Boolean instancia;
 
+    public Variable copiar(){
+        try{
+            
+            return (Variable)this.clone();
+        }catch(Exception e){
+            return null;
+        }
+    }
+    
     public Variable(String tipo, String nombre, String visible, Object valor,
             Boolean arreglo,Boolean instancia) {
         this.tipo = tipo;

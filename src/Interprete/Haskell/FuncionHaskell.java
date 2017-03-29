@@ -11,10 +11,18 @@ import Ast.Nodo;
  *
  * @author MishaPks
  */
-public class FuncionHaskell {
+public class FuncionHaskell implements Cloneable{
     String nombre;
     public Object parametros;
     Nodo cuerpo;
+    
+    public FuncionHaskell copiar(){
+        try{
+            return (FuncionHaskell)this.clone();
+        }catch(Exception e){
+            return null;
+        }
+    }
     
     public FuncionHaskell(String nombre, Object Parametros, Nodo corpo){
         this.nombre = nombre;

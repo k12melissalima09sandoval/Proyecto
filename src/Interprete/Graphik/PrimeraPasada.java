@@ -57,43 +57,47 @@ public class PrimeraPasada {
                 String hereda;
                 if (!c.hijos.get(2).hijos.isEmpty()) {
                     hereda = c.hijos.get(2).hijos.get(0).valor.toString();
-                    Boolean existe = VerificarImporaciones(hereda+".gk");
+                    Boolean existe = VerificarImporaciones(hereda + ".gk");
                     if (existe) {
                         try {
-                            String texto = Abierto(ruta + "\\" + hereda+".gk");
-                                if (texto != null) {
+                            String texto = Abierto(ruta + "\\" + hereda + ".gk");
+                            if (texto != null) {
 
-                                    GraphikLexico scan = new GraphikLexico(new BufferedReader(new StringReader(texto)));
-                                    GraphikSintactico parser = new GraphikSintactico(scan);
-                                    parser.parse();
-                                    Graficar(recorrido(GraphikSintactico.raiz), "AstHereda_" + hereda);
+                                GraphikLexico scan = new GraphikLexico(new BufferedReader(new StringReader(texto)));
+                                GraphikSintactico parser = new GraphikSintactico(scan);
+                                parser.parse();
+                                Graficar(recorrido(GraphikSintactico.raiz), "AstHereda_" + hereda);
 
-                                    Valor v = (Valor) Reconocer(GraphikSintactico.raiz, true);
-                                    Als a = (Als) v.valor;
+                                Valor v = (Valor) Reconocer(GraphikSintactico.raiz, true);
+                                Als b = (Als) v.valor;
+                                if (!b.visibilidad.equals("Privado")) {
+                                    Als a = b.copiar();
                                     for (int i = 0; i < a.VarsGlobales.size(); i++) {
-                                        if(a.VarsGlobales.get(i).visibilidad.equals("Publico")||
-                                                a.VarsGlobales.get(i).visibilidad.equals("Protegido")){
+                                        if (a.VarsGlobales.get(i).visibilidad.equals("Publico")
+                                                || a.VarsGlobales.get(i).visibilidad.equals("Protegido")) {
                                             a.VarsGlobales.get(i).setHereda(true);
                                             nuevo.addVarGlobal(a.VarsGlobales.get(i));
-                                            
+
                                         }
                                     }
                                     for (int i = 0; i < a.Metodos.size(); i++) {
-                                        if(a.Metodos.get(i).visibilidad.equals("Publico")||
-                                                a.Metodos.get(i).visibilidad.equals("Protegido")){
+                                        if (a.Metodos.get(i).visibilidad.equals("Publico")
+                                                || a.Metodos.get(i).visibilidad.equals("Protegido")) {
                                             a.Metodos.get(i).setHereda(true);
                                             nuevo.addMetodo(a.Metodos.get(i));
                                         }
                                     }
                                     nuevo.agregarHereda(a);
-                                    
-                                } else {
-                                    Errores.ErrorSemantico("El Als -"+hereda+"- esta vacio", paso, paso);
+                                }else{
+                                    Errores.ErrorSemantico("No se puede heredar un Als -" + hereda + "- privado", paso, paso);
                                 }
-                        }catch (Exception e) {
-                                Logger.getLogger(PrimeraPasada.class.getName()).log(Level.SEVERE, null, e);
+                            } else {
+                                Errores.ErrorSemantico("El Als -" + hereda + "- esta vacio", paso, paso);
                             }
-                    }else {
+                        } catch (Exception e) {
+                            Logger.getLogger(PrimeraPasada.class.getName()).log(Level.SEVERE, null, e);
+                        }
+                    } else {
                         Errores.ErrorSemantico("No se puede heredar del Als -" + hereda + "- porque no "
                                 + "existe", 0, 0);
                     }
@@ -107,7 +111,7 @@ public class PrimeraPasada {
                 if (!bandera) {
                     TablaSimbolosGraphik.addAls(nuevo);
                 }
-                
+
                 varsGlobales.CrearVariablesGlobales(cuerpo, nuevo);
                 metodos.CrearMetodos(cuerpo, nuevo);
 
@@ -120,31 +124,32 @@ public class PrimeraPasada {
                     String nombre = c2.valor.toString();
                     Boolean existe = VerificarImporaciones(nombre);
                     if (existe) {
-                            try {
-                                String texto = Abierto(ruta + "\\" + nombre);
-                                if (texto != null) {
+                        try {
+                            String texto = Abierto(ruta + "\\" + nombre);
+                            if (texto != null) {
 
-                                    GraphikLexico scan = new GraphikLexico(new BufferedReader(new StringReader(texto)));
-                                    GraphikSintactico parser = new GraphikSintactico(scan);
-                                    parser.parse();
-                                    Graficar(recorrido(GraphikSintactico.raiz), "AstImporta_" + nombre);
+                                GraphikLexico scan = new GraphikLexico(new BufferedReader(new StringReader(texto)));
+                                GraphikSintactico parser = new GraphikSintactico(scan);
+                                parser.parse();
+                                Graficar(recorrido(GraphikSintactico.raiz), "AstImporta_" + nombre);
 
-                                    Valor v = (Valor) Reconocer(GraphikSintactico.raiz, true);
-                                    Als a = (Als) v.valor;
-                                    nuevo.agregarImporta(a);
-                                } else {
-                                    Errores.ErrorSemantico("El Als -"+nombre+"- esta vacio", paso, paso);
-                                }
-
-                            } catch (Exception e) {
-                                Logger.getLogger(PrimeraPasada.class.getName()).log(Level.SEVERE, null, e);
+                                Valor v = (Valor) Reconocer(GraphikSintactico.raiz, true);
+                                Als b = (Als) v.valor;
+                                Als a = b.copiar();
+                                nuevo.agregarImporta(a);
+                            } else {
+                                Errores.ErrorSemantico("El Als -" + nombre + "- esta vacio", paso, paso);
                             }
+
+                        } catch (Exception e) {
+                            Logger.getLogger(PrimeraPasada.class.getName()).log(Level.SEVERE, null, e);
+                        }
                     } else {
                         Errores.ErrorSemantico("El archivo -" + nombre + "- no existe y no se puede importar", 0, 0);
                     }
                 }
             }
-            
+
             varsGlobales.CrearInstanciasGlobales(cuerpo, nuevo);
             //INCLUYE
             if (!raiz.hijos.get(1).hijos.isEmpty()) {
@@ -157,7 +162,10 @@ public class PrimeraPasada {
                             nuevo.agregarIncluye(null);
                             Errores.ErrorSemantico("La funcion de Haskell -" + nombre + "- no existe", 0, 0);
                         } else {
-                            nuevo.agregarIncluye(funciones.get(nombre));
+                            FuncionHaskell a = funciones.get(nombre);
+                            FuncionHaskell b = a.copiar();
+
+                            nuevo.agregarIncluye(b);
                         }
                     }
                 } else {
@@ -170,17 +178,16 @@ public class PrimeraPasada {
                 Valor v = new Valor(nuevo, "");
                 return v;
             }
-            
-            
+
         }
         return null;
     }
 
     private Boolean VerificarImporaciones(String incluye) {
-        if(ruta==null){
+        if (ruta == null) {
             JOptionPane.showMessageDialog(null,
-                                "Se necesita tener una ruta, por favor abra algun archivo", "",
-                                JOptionPane.WARNING_MESSAGE);
+                    "Se necesita tener una ruta, por favor abra algun archivo", "",
+                    JOptionPane.WARNING_MESSAGE);
             return false;
         }
         if (paso > 0) {
@@ -251,7 +258,7 @@ public class PrimeraPasada {
     public void Graficar(String cadena, String cad) {
         FileWriter fichero = null;
         PrintWriter pw = null;
-        String nombre = "ImagenesAst/"+cad;
+        String nombre = "ImagenesAst/" + cad;
         String archivo = nombre + ".dot";
         try {
             fichero = new FileWriter(archivo);
