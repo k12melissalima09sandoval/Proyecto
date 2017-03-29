@@ -5,6 +5,8 @@
  */
 package Interprete;
 
+import Analizadores.Errores;
+
 /**
  *
  * @author MishaPks
@@ -26,6 +28,7 @@ public class AsignacionCasteo {
                         return v;
                     }
                     case "cadena": {
+                        Errores.ErrorSemantico("Error de casteo (numero <- cadena)", 0, 0);
                         Valor v = new Valor("", "error");
                         return v;
                     }
@@ -57,14 +60,17 @@ public class AsignacionCasteo {
                         return v;
                     }
                     case "cadena": {
+                        Errores.ErrorSemantico("Error de casteo (cadena <- bool)", 0, 0);
                         Valor v = new Valor("", "error");
                         return v;
                     }
                     case "caracter": {
+                        Errores.ErrorSemantico("Error de casteo (caracter <- bool)", 0, 0);
                         Valor v = new Valor("", "error");
                         return v;
                     }
                     case "bool": {
+                        Errores.ErrorSemantico("Error de casteo (decimal <- bool)", 0, 0);
                         Valor v = new Valor("", "error");
                         return v;
                     }
@@ -73,27 +79,27 @@ public class AsignacionCasteo {
             case "cadena": {
                 switch (tipoAsigna) {
                     case "numero": {
-                        String num = "\"" + val + "\"";
+                        String num = "\"" + val.toString().replace("\"","") + "\"";
                         Valor v = new Valor(num, "cadena");
                         return v;
                     }
                     case "decimal": {
-                        String num = "\"" + val + "\"";
+                        String num = "\"" + val.toString().replace("\"", "") + "\"";
                         Valor v = new Valor(num, "cadena");
                         return v;
                     }
                     case "cadena": {
-                        String num = "\"" + val + "\"";
+                        String num = "\"" + val.toString().replace("\"", "") + "\"";
                         Valor v = new Valor(num, "cadena");
                         return v;
                     }
                     case "caracter": {
-                        String num = "\"" + val + "\"";
+                        String num = "\"" + val.toString().replace("\"","") + "\"";
                         Valor v = new Valor(num, "cadena");
                         return v;
                     }
                     case "bool": {
-                        String num = "\"" + val + "\"";
+                        String num = "\"" + val.toString().replace("\"", "") + "\"";
                         Valor v = new Valor(num, "cadena");
                         return v;
                     }
@@ -108,19 +114,22 @@ public class AsignacionCasteo {
                         return v;
                     }
                     case "decimal": {
+                        Errores.ErrorSemantico("Error de casteo (caracter <- decimal)", 0, 0);
                         Valor v = new Valor("", "error");
                         return v;
                     }
                     case "cadena": {
+                        Errores.ErrorSemantico("Error de casteo (caracter <- cadena)", 0, 0);
                         Valor v = new Valor("", "error");
                         return v;
                     }
                     case "caracter": {
-                        String num = "'" + val + "'";
+                        String num = "'" + val.toString().replace("'","") + "'";
                         Valor v = new Valor(num, "caracter");
                         return v;
                     }
                     case "bool": {
+                        Errores.ErrorSemantico("Error de casteo (caracter <- bool)", 0, 0);
                         Valor v = new Valor("", "error");
                         return v;
                     }
@@ -129,18 +138,22 @@ public class AsignacionCasteo {
             case "bool": {
                 switch (tipoAsigna) {
                     case "numero": {
+                        Errores.ErrorSemantico("Error de casteo (bool <- numero)", 0, 0);
                         Valor v = new Valor("", "error");
                         return v;
                     }
                     case "decimal": {
+                        Errores.ErrorSemantico("Error de casteo (bool <- decimal)", 0, 0);
                         Valor v = new Valor("", "error");
                         return v;
                     }
                     case "cadena": {
+                        Errores.ErrorSemantico("Error de casteo (bool <- cadena)", 0, 0);
                         Valor v = new Valor("", "error");
                         return v;
                     }
                     case "caracter": {
+                        Errores.ErrorSemantico("Error de casteo (bool <- caracter)", 0, 0);
                         Valor v = new Valor("", "error");
                         return v;
                     }

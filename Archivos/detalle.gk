@@ -4,3 +4,4 @@ ALS detalle:publico{
     var cadena telefono:publico?
     var cadena dpi:publico?
 }
+

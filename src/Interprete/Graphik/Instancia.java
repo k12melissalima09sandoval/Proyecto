@@ -5,22 +5,29 @@
  */
 package Interprete.Graphik;
 
+import Ast.Nodo;
+
+
 /**
  *
  * @author MishaPks
  */
 public class Instancia {
     
-    String nombre;
-    String nombreObjeto;
-    Als cuerpoAls;
-    
-    public Instancia(String nombreObjeto, String nombre){
-        this.nombre = nombre;
-    }
-    
-    public void setInstancia(Als als){
-        cuerpoAls = als;
+    public Object Instancia(Nodo accesos, Als claseObjeto){
+        
+        for(Nodo nodo: accesos.hijos){
+            
+            if(nodo.hijos.size()==1){
+                
+            }else{
+                
+            }
+            
+            
+        }
+        
+        return null;
     }
     
 }

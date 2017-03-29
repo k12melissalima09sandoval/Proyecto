@@ -25,6 +25,8 @@ public class CrearVariables {
 
     public Object CrearVariablesGlobales(Nodo raiz, Als als) {
 
+        ArrayList arr = new ArrayList();
+        arr.add(als.VarsGlobales);
         for (Nodo nodo : raiz.hijos) {
             String valor = nodo.valor.toString();
             switch (valor) {
@@ -73,7 +75,7 @@ public class CrearVariables {
                                 Errores.ErrorSemantico("La variable -" + nombre + "- ya esta declarada", 0, 0);
                             } else {
                                 Nodo expresion = nodo.hijos.get(2);
-                                Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre);
+                                Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre, arr);
                                 if (v != null) {
                                     if (v.valor != null) {
                                         if (v.tipo.equals("error")) {
@@ -121,7 +123,7 @@ public class CrearVariables {
                     break;
                 case "DeclaraGlobalArreglo":
 //---------------------------------------------------------------------SIN TERMINAR
-                    Arreglo arr = new Arreglo();
+                    Arreglo arreglo = new Arreglo();
                     String tipo = nodo.hijos.get(0).valor.toString();
 
                     String nombre = nodo.hijos.get(1).hijos.get(0).valor.toString();
@@ -129,7 +131,7 @@ public class CrearVariables {
                     Nodo dimensiones = nodo.hijos.get(2);
                     Nodo posiciones = nodo.hijos.get(3);
 
-                    Valor v = (Valor) arr.ValidarArreglo(dimensiones, posiciones);
+                    Valor v = (Valor) arreglo.ValidarArreglo(dimensiones, posiciones);
 
                     Variable var = new Variable(tipo, nombre, visibilidad, null, true, false);
                     als.addVarGlobal(var);
@@ -303,7 +305,7 @@ public class CrearVariables {
                                         bandera = false;
                                     } else {
                                         Nodo expresion = nodo.hijos.get(2);
-                                        Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre);
+                                        Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre, vars);
 
                                         if (v != null) {
                                             if (v.valor != null) {
@@ -346,7 +348,7 @@ public class CrearVariables {
                                     }
                                 } else {
                                     Nodo expresion = nodo.hijos.get(2);
-                                    Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre);
+                                    Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre,vars);
 
                                     if (v != null) {
                                         if (v.valor != null) {
@@ -396,7 +398,7 @@ public class CrearVariables {
                                     bandera = false;
                                 } else {
                                     Nodo expresion = nodo.hijos.get(2);
-                                    Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre);
+                                    Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre,vars);
 
                                     if (v != null) {
                                         if (v.valor != null) {
@@ -436,7 +438,7 @@ public class CrearVariables {
                                 }
                             } else {
                                 Nodo expresion = nodo.hijos.get(2);
-                                Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre);
+                                Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre,vars);
 
                                 if (v != null) {
                                     if (v.valor != null) {
@@ -674,16 +676,18 @@ public class CrearVariables {
                             if (nodo.hijos.get(2).valor.equals("Objeto")) {
                                 if (tipoObjeto.equals(NameObject)) {
                                     Als instancia = new Als();
+                                    Als ins = new Als();
                                     for (int i = 0; i < importa.size(); i++) {
                                         if (tipoObjeto.equals(importa.get(i).nombre)) {
                                             bandera = true;
                                             instancia = importa.get(i);
+                                            ins = instancia.copiar();
                                             break;
                                         }
                                     }
                                     if (bandera) {
                                         Variable v2 = new Variable(tipoObjeto, nombreN, visible,
-                                                instancia, false, true);
+                                                ins, false, true);
                                         als.addVarGlobal(v2);
                                     } else {
                                         Errores.ErrorSemantico("El objeto -" + nombreN + "- no se puede instanciar "

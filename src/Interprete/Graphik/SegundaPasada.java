@@ -73,7 +73,7 @@ public class SegundaPasada {
                             }
                         }
                         if (!raiz.hijos.get(2).valor.toString().equals("InstanciaLocal")) {
-                            Valor ex = (Valor) exp.Expresion(raiz.hijos.get(2), nombreFun);
+                            Valor ex = (Valor) exp.Expresion(raiz.hijos.get(2), nombreFun,variables);
                             if (ex != null) {
                                 if (ex.valor != null) {
                                     if (ex.tipo.equals("error")) {
