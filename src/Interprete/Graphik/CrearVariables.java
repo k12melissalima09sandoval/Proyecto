@@ -46,11 +46,13 @@ public class CrearVariables {
                         }
                         //DECLARACION DE UNA VARIABLE CON O SIN ASIGNACION
                     } else //SOLAMENTE DECLARACION
-                     if (nodo.hijos.get(2).hijos.isEmpty()) {
-
+                    {
+                        if (nodo.hijos.get(2).hijos.isEmpty()) {
+                            Boolean t = false;
                             String tipo = nodo.hijos.get(0).valor.toString();
                             if (tipo.equals("Als")) {
                                 tipo = nodo.hijos.get(0).hijos.get(0).valor.toString();
+                                t=true;
                             }
                             Nodo temp = nodo.hijos.get(1).hijos.get(0);
                             String nombre = temp.hijos.get(0).valor.toString();
@@ -58,7 +60,7 @@ public class CrearVariables {
                                 Errores.ErrorSemantico("La variable -" + nombre + "- ya esta declarada", 0, 0);
                             } else {
                                 String visible = temp.hijos.get(1).valor.toString();
-                                Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                 als.addVarGlobal(var);
                             }
 
@@ -115,6 +117,7 @@ public class CrearVariables {
                                 }
                             }
                         }
+                    }
                     break;
                 case "DeclaraGlobalArreglo":
 //---------------------------------------------------------------------SIN TERMINAR
@@ -208,11 +211,13 @@ public class CrearVariables {
 //DECLARACION DE UNA VARIABLE CON O SIN ASIGNACION
                     } else //SOLAMENTE DECLARACION
                     {
+                        Boolean t = false;
                         if (nodo.hijos.get(2).hijos.isEmpty()) {
 
                             String tipo = nodo.hijos.get(0).valor.toString();
                             if (tipo.equals("Als")) {
                                 tipo = nodo.hijos.get(0).hijos.get(0).valor.toString();
+                                t = true;
                             }
                             Nodo temp = nodo.hijos.get(1).hijos.get(0);
                             String nombre = temp.hijos.get(0).valor.toString();
@@ -240,12 +245,12 @@ public class CrearVariables {
                                         bandera = false;
                                     } else {
                                         String visible = temp.hijos.get(1).valor.toString();
-                                        Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                        Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                         nueva.add(var);
                                     }
                                 } else {
                                     String visible = temp.hijos.get(1).valor.toString();
-                                    Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                    Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                     nueva.add(var);
                                 }
                             } else if (!nueva.isEmpty()) {
@@ -260,12 +265,12 @@ public class CrearVariables {
                                     bandera = false;
                                 } else {
                                     String visible = temp.hijos.get(1).valor.toString();
-                                    Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                    Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                     nueva.add(var);
                                 }
                             } else {
                                 String visible = temp.hijos.get(1).valor.toString();
-                                Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                 nueva.add(var);
                             }
 
@@ -677,7 +682,7 @@ public class CrearVariables {
                                         }
                                     }
                                     if (bandera) {
-                                        Variable v2 = new Variable(tipoObjeto, nombreN, visible, 
+                                        Variable v2 = new Variable(tipoObjeto, nombreN, visible,
                                                 instancia, false, true);
                                         als.addVarGlobal(v2);
                                     } else {

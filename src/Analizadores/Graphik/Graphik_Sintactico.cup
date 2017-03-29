@@ -686,50 +686,70 @@ LLAMAR_INSTANCIA ::= id:id parenAbre parenCierra
                     {:RESULT = new Nodo(id);:}
                   ;
 
-ASIGNA ::= id:id L_ACCESO:nodo igual EXP:exp
+ASIGNA ::= id:id igual EXP:exp
             {:
                 Nodo nuevo = new Nodo("Asignacion");
                 Nodo i= new Nodo(id);
                 Nodo e= new Nodo("Exp");
                 nuevo.Hijo(i);
                 e.Hijo(exp);
-                nuevo.Hijo(nodo);
                 nuevo.Hijo(e);
                 RESULT = nuevo;
             :}
-        | id:id L_ACCESO:nodo igual nuevo LLAMAR_INSTANCIA:ins
+        | id:id igual nuevo LLAMAR_INSTANCIA:ins
             {:
                 Nodo nuevo = new Nodo("Asignacion");
                 Nodo i= new Nodo(id);
                 Nodo e= new Nodo("InstanciaLocal");
                 nuevo.Hijo(i);
                 e.Hijo(ins);
+                nuevo.Hijo(e);
+                RESULT = nuevo;
+            :}
+        | id:id L_ACCESO:nodo igual EXP:exp
+        {:
+                Nodo nuevo = new Nodo("AsignacionAcceso");
+                Nodo i= new Nodo(id);
+                Nodo e= new Nodo("Exp");
+                nuevo.Hijo(i);
                 nuevo.Hijo(nodo);
+                e.Hijo(exp);
                 nuevo.Hijo(e);
                 RESULT = nuevo;
             :}
         ;
 		
-L_ACCESO ::= ACCESO:nodo {:RESULT=nodo;:}
-	  | {:RESULT= new Nodo("Acceso");:}
-	  ;
+//L_ACCESO ::= ACCESO:nodo {:RESULT=nodo;:}
+//	  ;
 
-ACCESO ::= ACCESO:nodo A:a
-        {:nodo.Hijo(a); RESULT = nodo;:}
+L_ACCESO ::= L_ACCESO:nodo A:a
+        {:a.setNombre("L_Acceso"); nodo.Hijo(a); RESULT = nodo;:}
 	| A:a
-        {:Nodo nuevo = new Nodo("Acceso");nuevo.Hijo(a);RESULT=nuevo;:}
+        {:a.setNombre("L_Acceso");
+        Nodo nuevo = new Nodo("Acceso");
+        nuevo.Hijo(a);
+            RESULT = nuevo;
+        :}
 	;
 
-A ::= punto id:id
-        {:Nodo nuevo = new Nodo(id); RESULT = nuevo;:}
+A ::= punto id:id parenAbre PARAM_LLAMA:nodo parenCierra
+        {:Nodo nuevo  = new Nodo(""); Nodo i = new Nodo(id); nuevo.Hijo(i); nuevo.Hijo(nodo); RESULT = nuevo;:}
+    | punto id:id {:Nodo nuevo = new Nodo(""); Nodo i = new Nodo(id); nuevo.Hijo(i); RESULT = nuevo;:}
     ;
 
-LLAMAR ::= llamar id:id L_ACCESO:acceso parenAbre PARAM_LLAMA:nodo parenCierra 
+LLAMAR ::= llamar id:id parenAbre PARAM_LLAMA:nodo parenCierra 
             {:
             Nodo nuevo = new Nodo("LlamaFun");
             Nodo i = new Nodo(id);
             nuevo.Hijo(i);
-            nuevo.Hijo(acceso);
+            nuevo.Hijo(nodo);
+            RESULT = nuevo;
+            :}
+        | llamar id:id L_ACCESO:nodo
+        {:
+            Nodo nuevo = new Nodo("LlamaFunAcceso");
+            Nodo i = new Nodo(id);
+            nuevo.Hijo(i);
             nuevo.Hijo(nodo);
             RESULT = nuevo;
             :}
@@ -889,7 +909,7 @@ EXP ::= EXP:j mas EXP:m
      | LLAMADA_ARREGLO:nodo            {:RESULT = nodo;:}
      | LLAMARHK:nodo                   {:RESULT = nodo;:}
      | llaveAbre L_POSICIONES:nodo llaveCierra {:RESULT = nodo;:}
-     | id:id ACCESO:nodo
+     | id:id L_ACCESO:nodo
         {:
         Nodo nuevo = new Nodo("Acceso");
         Nodo n=new Nodo(id);
@@ -924,13 +944,9 @@ EXP ::= EXP:j mas EXP:m
             RESULT = nuevo; :}
      | falso:id
         {:  Nodo nuevo = new Nodo("falso"); 
-            Nodo i = new Nodo(id);
-            nuevo.Hijo(i);
             RESULT = nuevo; :}
      | verdadero:id
         {:  Nodo nuevo = new Nodo("verdadero"); 
-            Nodo i = new Nodo(id);
-            nuevo.Hijo(i);
             RESULT = nuevo; :}
      ;
 
@@ -957,6 +973,3 @@ DIM ::= DIM:dim D:d
 D ::= corAbre EXP:exp corCierra 
         {:Nodo nuevo = new Nodo("Exp"); nuevo.Hijo(exp); RESULT = nuevo;:}
      ;
-
-
- 
