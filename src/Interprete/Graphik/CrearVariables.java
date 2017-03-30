@@ -559,10 +559,12 @@ public class CrearVariables {
                             String NameObject = nodo.hijos.get(2).hijos.get(0).valor.toString();
                             if (nodo.hijos.get(2).valor.equals("Objeto")) {
                                 if (tipoObjeto.equals(NameObject)) {
+                                    Als ins = new Als();
                                     Als instancia = new Als();
                                     for (int i = 0; i < importa.size(); i++) {
                                         if (tipoObjeto.equals(importa.get(i).nombre)) {
-                                            instancia = importa.get(i);
+                                            ins = importa.get(i);
+                                            instancia = ins.copiar();
                                             banderaImporta = true;
                                             break;
                                         }

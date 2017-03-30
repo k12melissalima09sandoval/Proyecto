@@ -557,9 +557,13 @@ ASIGNA_PARA ::= DECLARACION_PARA:nodo dospuntos {:RESULT = nodo;:}
 DECLARACION_PARA ::= var TIPO_DATO:t id:id igual EXP:exp
                 {: Nodo nuevo = new Nodo("DeclaraLocalVariable");
                 Nodo l= new Nodo("ListaID");
+                Nodo t2= new Nodo("Publico");
+                Nodo l2= new Nodo("L");
                 Nodo e= new Nodo("Exp");
                 Nodo i= new Nodo(id);
-                l.Hijo(i);
+                l.Hijo(l2);
+                l2.Hijo(i);
+                l2.Hijo(t2);
                 e.Hijo(exp);
                 nuevo.Hijo(t);
                 nuevo.Hijo(l);
@@ -718,9 +722,6 @@ ASIGNA ::= id:id igual EXP:exp
                 RESULT = nuevo;
             :}
         ;
-		
-//L_ACCESO ::= ACCESO:nodo {:RESULT=nodo;:}
-//	  ;
 
 L_ACCESO ::= L_ACCESO:nodo A:a
         {:a.setNombre("L_Acceso"); nodo.Hijo(a); RESULT = nodo;:}

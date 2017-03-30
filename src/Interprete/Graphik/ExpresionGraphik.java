@@ -35,9 +35,9 @@ public class ExpresionGraphik {
         if (raiz.hijos.size() == 1) {
             Nodo exp = raiz.hijos.get(0);
             switch (raiz.valor.toString()) {
-                
+
                 case "Exp": {
-                    Valor v = (Valor) Expresion(exp, nombreFuncion,variables);
+                    Valor v = (Valor) Expresion(exp, nombreFuncion, variables);
                     return v;
                 }
                 case "numero": {
@@ -68,20 +68,20 @@ public class ExpresionGraphik {
                     Valor v = new Valor("falso", "bool");
                     return v;
                 }
-                case "id":{
+                case "id": {
                     String nombre = raiz.hijos.get(0).valor.toString();
                     for (int i = 0; i < variables.size(); i++) {
                         for (int j = 0; j < variables.get(i).size(); j++) {
-                            if(nombre.equals(variables.get(i).get(j).nombre)){
-                                Valor v = new Valor(variables.get(i).get(j).valor,variables.get(i).get(j).tipo);
+                            if (nombre.equals(variables.get(i).get(j).nombre)) {
+                                Valor v = new Valor(variables.get(i).get(j).valor, variables.get(i).get(j).tipo);
                                 return v;
                             }
                         }
                     }
-                    Errores.ErrorSemantico("La variable -"+nombre+"- no existe", 0, 0);
+                    Errores.ErrorSemantico("La variable -" + nombre + "- no existe", 0, 0);
                 }
                 case "Unario": {
-                    Valor v = (Valor) Expresion(exp, nombreFuncion,variables);
+                    Valor v = (Valor) Expresion(exp, nombreFuncion, variables);
                     if (v != null) {
                         if (v.valor != null) {
                             if (v.tipo.equals("numero")) {
@@ -110,7 +110,7 @@ public class ExpresionGraphik {
                     }
                 }
                 case "!": {
-                    Valor v = (Valor) Expresion(exp, nombreFuncion,variables);
+                    Valor v = (Valor) Expresion(exp, nombreFuncion, variables);
                     if (v != null) {
                         if (v.valor != null) {
                             if (v.tipo.equals("bool")) {
@@ -133,92 +133,145 @@ public class ExpresionGraphik {
                         return v2;
                     }
                 }
-                case "Incremento":{
-                    Valor v = (Valor) Expresion(exp, nombreFuncion,variables);
-                    if(v.tipo.equals("error")){
-                        Valor v2 = new Valor("","error");
+                case "Incremento": {
+
+                    Valor v = (Valor) Expresion(exp, nombreFuncion, variables);
+                    if (v.tipo.equals("error")) {
+                        Valor v2 = new Valor("", "error");
                         return v2;
                     }
-                    if(v.tipo.equals("numero")){
+                    if (exp.valor.equals("Acceso")) {
+
+                    } else if (exp.valor.equals("id")) {
+                        String nombre = exp.hijos.get(0).valor.toString();
+                        for (int i = 0; i < variables.size(); i++) {
+                            for (int j = 0; j < variables.get(i).size(); j++) {
+                                if (nombre.equals(variables.get(i).get(j).nombre)) {
+                                    if (variables.get(i).get(j).tipo.equals("numero")) {
+                                        int inc = Integer.parseInt(v.valor.toString()) + 1;
+                                        variables.get(i).get(j).valor = inc;
+                                    } else if (variables.get(i).get(j).tipo.equals("decimal")) {
+                                        Double inc = Double.parseDouble(v.valor.toString()) + 1;
+                                        variables.get(i).get(j).valor = inc;
+                                    } else if (variables.get(i).get(j).tipo.equals("caracter")) {
+                                        int inc = v.valor.toString().codePointAt(0) + 1;
+                                        variables.get(i).get(j).valor = inc;
+                                    } else {
+                                        Errores.ErrorSemantico("No se puede incrementar la variable -" + nombre + "- es de tipo invalido", 0, 0);
+                                        Valor v2 = new Valor("", "error");
+                                        return v2;
+                                    }
+                                }
+                            }
+                        }
+                    } else if (v.tipo.equals("numero")) {
                         int i = Integer.parseInt(v.valor.toString()) + 1;
-                        Valor v2 = new Valor(i,"numero");
+                        Valor v2 = new Valor(i, "numero");
                         return v2;
-                    }else if(v.tipo.equals("decimal")){
+                    } else if (v.tipo.equals("decimal")) {
                         Double i = Double.parseDouble(v.valor.toString()) + 1;
-                        Valor v2 = new Valor(i,"decimal");
+                        Valor v2 = new Valor(i, "decimal");
                         return v2;
-                    }else if(v.tipo.equals("caracter")){
+                    } else if (v.tipo.equals("caracter")) {
                         int i = v.valor.toString().codePointAt(0) + 1;
-                        Valor v2 = new Valor(i,"numero");
+                        Valor v2 = new Valor(i, "numero");
                         return v2;
-                    }else{
+                    } else {
                         Errores.ErrorSemantico("No se puede incrementar", 0, 0);
-                        Valor v2 = new Valor("","error");
+                        Valor v2 = new Valor("", "error");
                         return v2;
                     }
+                    break;
                 }
-                case "Decremento":{
-                    Valor v = (Valor) Expresion(exp, nombreFuncion,variables);
-                    if(v.tipo.equals("error")){
-                        Valor v2 = new Valor("","error");
+                case "Decremento": {
+                    Valor v = (Valor) Expresion(exp, nombreFuncion, variables);
+                    if (v.tipo.equals("error")) {
+                        Valor v2 = new Valor("", "error");
                         return v2;
                     }
-                    if(v.tipo.equals("numero")){
+                    if (exp.valor.equals("Acceso")) {
+
+                    } else if (exp.valor.equals("id")) {
+                        String nombre = exp.hijos.get(0).valor.toString();
+                        for (int i = 0; i < variables.size(); i++) {
+                            for (int j = 0; j < variables.get(i).size(); j++) {
+                                if (nombre.equals(variables.get(i).get(j).nombre)) {
+                                    if (variables.get(i).get(j).tipo.equals("numero")) {
+                                        int inc = Integer.parseInt(v.valor.toString()) - 1;
+                                        variables.get(i).get(j).valor = inc;
+                                    } else if (variables.get(i).get(j).tipo.equals("decimal")) {
+                                        Double inc = Double.parseDouble(v.valor.toString()) - 1;
+                                        variables.get(i).get(j).valor = inc;
+                                    } else if (variables.get(i).get(j).tipo.equals("caracter")) {
+                                        int inc = v.valor.toString().codePointAt(0) - 1;
+                                        variables.get(i).get(j).valor = inc;
+                                    } else {
+                                        Errores.ErrorSemantico("No se puede incrementar la variable -" + nombre + "- es de tipo invalido", 0, 0);
+                                        Valor v2 = new Valor("", "error");
+                                        return v2;
+                                    }
+                                }
+                            }
+                        }
+                    } else if (v.tipo.equals("numero")) {
                         int i = Integer.parseInt(v.valor.toString()) - 1;
-                        Valor v2 = new Valor(i,"numero");
+                        Valor v2 = new Valor(i, "numero");
                         return v2;
-                    }else if(v.tipo.equals("decimal")){
+                    } else if (v.tipo.equals("decimal")) {
                         Double i = Double.parseDouble(v.valor.toString()) - 1;
-                        Valor v2 = new Valor(i,"decimal");
+                        Valor v2 = new Valor(i, "decimal");
                         return v2;
-                    }else if(v.tipo.equals("caracter")){
+                    } else if (v.tipo.equals("caracter")) {
                         int i = v.valor.toString().codePointAt(0) - 1;
-                        Valor v2 = new Valor(i,"numero");
+                        Valor v2 = new Valor(i, "numero");
                         return v2;
-                    }else{
+                    } else {
                         Errores.ErrorSemantico("No se puede decrementar", 0, 0);
-                        Valor v2 = new Valor("","error");
+                        Valor v2 = new Valor("", "error");
                         return v2;
                     }
+                    break;
                 }
-                case "Acceso":{
+
+                case "Acceso": {
                     Instancia ins = new Instancia();
                     Boolean ban = false;
                     String var = raiz.hijos.get(0).valor.toString();
                     Nodo accesos = raiz.hijos.get(1);
                     for (int i = 0; i < variables.size(); i++) {
                         for (int j = 0; j < variables.get(i).size(); j++) {
-                            if(var.equals(variables.get(i).get(j).nombre)){
+                            if (var.equals(variables.get(i).get(j).nombre)) {
                                 ban = true;
-                                if(variables.get(i).get(j).instancia){
-                                    Als a = (Als)variables.get(i).get(j).valor;
-                                    Valor v = (Valor)ins.Instancia(accesos, a);
+                                if (variables.get(i).get(j).instancia) {
+                                    Als a = (Als) variables.get(i).get(j).valor;
+                                    Valor v = (Valor) ins.Instancia(accesos, a);
                                     return v;
-                                }else{
-                                    Errores.ErrorSemantico("La variable -"+var+"- a la que se quiere acceder no es de tipo objeto", 0, 0);
-                                    Valor v = new Valor("","error");
+                                } else {
+                                    Errores.ErrorSemantico("La variable -" + var + "- a la que se quiere acceder no es de tipo objeto", 0, 0);
+                                    Valor v = new Valor("", "error");
                                     return v;
                                 }
                             }
                         }
                     }
-                    if(!ban){
-                        Errores.ErrorSemantico("La variable -"+var+"- no existe", 0, 0);
-                        Valor v = new Valor("","error");
+                    if (!ban) {
+                        Errores.ErrorSemantico("La variable -" + var + "- no existe", 0, 0);
+                        Valor v = new Valor("", "error");
                         return v;
                     }
                 }
             }
 
-        } else if (raiz.hijos.size() == 2) {
+        } else if (raiz.hijos.size()
+                == 2) {
             Valor izq;
             Valor der;
             switch (raiz.valor.toString()) {
 
                 case "+":
 
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion,variables);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion,variables);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables);
+                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables);
                     if (izq != null || der != null) {
                         Valor v = (Valor) suma.Suma(izq, der);
                         return v;
@@ -229,8 +282,8 @@ public class ExpresionGraphik {
 
                 case "-":
 
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion,variables);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion,variables);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables);
+                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables);
                     if (izq != null || der != null) {
                         Valor v = (Valor) resta.Resta(izq, der);
                         return v;
@@ -241,8 +294,8 @@ public class ExpresionGraphik {
 
                 case "*":
 
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion,variables);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion,variables);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables);
+                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables);
                     if (izq != null || der != null) {
                         Valor v = (Valor) mult.Multiplicacion(izq, der);
                         return v;
@@ -253,8 +306,8 @@ public class ExpresionGraphik {
 
                 case "/":
 
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion,variables);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion,variables);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables);
+                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables);
                     if (izq != null || der != null) {
                         Valor v = (Valor) div.Division(izq, der);
                         return v;
@@ -265,8 +318,8 @@ public class ExpresionGraphik {
 
                 case "^":
 
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion,variables);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion,variables);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables);
+                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables);
                     if (izq != null || der != null) {
                         Valor v = (Valor) pot.Potencia(izq, der);
                         return v;
@@ -276,8 +329,8 @@ public class ExpresionGraphik {
                     }
 
                 case "||":
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion,variables);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion,variables);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables);
+                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables);
                     if (izq != null && der != null) {
                         if (izq.tipo.equals("error") || der.tipo.equals("error")) {
                             Valor v2 = new Valor("", "error");
@@ -305,8 +358,8 @@ public class ExpresionGraphik {
                     }
 
                 case "&|":
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion,variables);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion,variables);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables);
+                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables);
                     if (izq != null && der != null) {
                         if (izq.tipo.equals("error") || der.tipo.equals("error")) {
                             Valor v2 = new Valor("", "error");
@@ -334,8 +387,8 @@ public class ExpresionGraphik {
                     }
 
                 case "&&":
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion,variables);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion,variables);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables);
+                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables);
                     if (izq != null && der != null) {
                         if (izq.tipo.equals("error") || der.tipo.equals("error")) {
                             Valor v2 = new Valor("", "error");
@@ -363,8 +416,8 @@ public class ExpresionGraphik {
                     }
 
                 case "<":
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion,variables);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion,variables);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables);
+                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables);
                     if (izq != null && der != null) {
                         if (izq.tipo.equals("error") || der.tipo.equals("error")) {
                             Valor v2 = new Valor("", "error");
@@ -380,8 +433,8 @@ public class ExpresionGraphik {
                     }
 
                 case ">":
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion,variables);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion,variables);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables);
+                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables);
                     if (izq != null && der != null) {
                         if (izq.tipo.equals("error") || der.tipo.equals("error")) {
                             Valor v2 = new Valor("", "error");
@@ -397,8 +450,8 @@ public class ExpresionGraphik {
                     }
 
                 case ">=":
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion,variables);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion,variables);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables);
+                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables);
                     if (izq != null && der != null) {
                         if (izq.tipo.equals("error") || der.tipo.equals("error")) {
                             Valor v2 = new Valor("", "error");
@@ -414,8 +467,8 @@ public class ExpresionGraphik {
                     }
 
                 case "<=":
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion,variables);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion,variables);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables);
+                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables);
                     if (izq != null && der != null) {
                         if (izq.tipo.equals("error") || der.tipo.equals("error")) {
                             Valor v2 = new Valor("", "error");
@@ -431,8 +484,8 @@ public class ExpresionGraphik {
                     }
 
                 case "==":
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion,variables);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion,variables);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables);
+                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables);
                     if (izq != null && der != null) {
                         if (izq.tipo.equals("error") || der.tipo.equals("error")) {
                             Valor v2 = new Valor("", "error");
@@ -448,8 +501,8 @@ public class ExpresionGraphik {
                     }
 
                 case "!=":
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion,variables);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion,variables);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables);
+                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables);
                     if (izq != null && der != null) {
                         if (izq.tipo.equals("error") || der.tipo.equals("error")) {
                             Valor v2 = new Valor("", "error");
