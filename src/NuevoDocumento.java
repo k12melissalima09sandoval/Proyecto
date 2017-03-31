@@ -20,28 +20,27 @@ import org.fife.ui.rtextarea.RTextScrollPane;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author MishaPks
  */
 public class NuevoDocumento extends javax.swing.JFrame {
 
-     public RSyntaxTextArea texto;
+    public RSyntaxTextArea texto;
+
     /**
      * Creates new form NuevoDocumento
      */
     public NuevoDocumento() {
         initComponents();
     }
-    
-    
+
     private void Columna() {
         try {
             int caretPos = texto.getCaretPosition();
             int offset = Utilities.getRowStart(texto, caretPos);
             int colNum = caretPos - offset + 1;
-            FormPrincipal.lblColumna.setText("   "+colNum);
+            FormPrincipal.lblColumna.setText("   " + colNum);
         } catch (BadLocationException ex) {
             System.err.println(ex.getMessage());
         }
@@ -113,18 +112,14 @@ public class NuevoDocumento extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    
     private void jTextEntradaKeyReleased(java.awt.event.KeyEvent evt) {
-        
+
         if (evt.getKeyCode() == KeyEvent.VK_F5) {
-//ejecutar();
         }
     }
-    
+
     private void btnHaskellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHaskellActionPerformed
-                
-        //AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
-        //atmf.putMapping("text/FormPrincipal", "Analizadores.Haskell.HaskellLexico");
+
         texto = new RSyntaxTextArea(20, 60);
         texto.setCodeFoldingEnabled(true);
         texto.setCurrentLineHighlightColor(new Color(227, 242, 253, 200));
@@ -143,17 +138,21 @@ public class NuevoDocumento extends javax.swing.JFrame {
         FormPrincipal.jTabbedPane1.add(pestaña);
         FormPrincipal.listaPestañas.add(pestaña);
         this.setVisible(false);
-        
-      
+
+
     }//GEN-LAST:event_btnHaskellActionPerformed
 
     private void btnGraphikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGraphikActionPerformed
-        
+
+        AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
+        atmf.putMapping("text/TextoGraphik", "GraphikSyntax");
+
         texto = new RSyntaxTextArea(20, 60);
         texto.setCodeFoldingEnabled(true);
         texto.setCurrentLineHighlightColor(new Color(227, 242, 253, 200));
         texto.setFadeCurrentLineHighlight(true);
         texto.setName(".gk");
+        texto.setSyntaxEditingStyle("text/TextoGraphik");
         texto.setBorder(BorderFactory.createEmptyBorder());
         texto.addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
@@ -166,6 +165,16 @@ public class NuevoDocumento extends javax.swing.JFrame {
         pestaña.setViewportBorder(BorderFactory.createEmptyBorder());
         FormPrincipal.jTabbedPane1.add(pestaña);
         FormPrincipal.listaPestañas.add(pestaña);
+        SyntaxScheme scheme = texto.getSyntaxScheme();
+        scheme.getStyle(Token.RESERVED_WORD).foreground = Color.BLUE;
+        scheme.getStyle(Token.LITERAL_STRING_DOUBLE_QUOTE).foreground = Color.decode("#0ab115");
+        scheme.getStyle(Token.IDENTIFIER).foreground = Color.decode("#ED7F02");
+        scheme.getStyle(Token.COMMENT_EOL).foreground = Color.GRAY;
+        scheme.getStyle(Token.COMMENT_MULTILINE).foreground = Color.GRAY;
+        scheme.getStyle(Token.LITERAL_NUMBER_DECIMAL_INT).foreground = Color.BLACK;
+        scheme.getStyle(Token.LITERAL_NUMBER_FLOAT).foreground = Color.BLACK;
+        scheme.getStyle(Token.LITERAL_CHAR).foreground = Color.decode("#439a4d");
+        scheme.getStyle(Token.RESERVED_WORD_2).foreground = Color.BLACK;
         this.setVisible(false);
     }//GEN-LAST:event_btnGraphikActionPerformed
 

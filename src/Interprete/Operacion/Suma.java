@@ -158,8 +158,9 @@ public class Suma {
                         return v;
                     }
                     case "bool": {
-                        Errores.ErrorSemantico("Error en suma de cadena y booleano", 0, 0);
-                        Valor v = new Valor("", "error");
+                        String n2 = num2.valor.toString();
+                        String resultado = "\""+n1+n2+"\"";
+                        Valor v = new Valor(resultado, "cadena");
                         return v;
                     }
                 }

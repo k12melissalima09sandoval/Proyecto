@@ -48,13 +48,12 @@ public class CrearVariables {
                         }
                         //DECLARACION DE UNA VARIABLE CON O SIN ASIGNACION
                     } else //SOLAMENTE DECLARACION
-                    {
-                        if (nodo.hijos.get(2).hijos.isEmpty()) {
+                     if (nodo.hijos.get(2).hijos.isEmpty()) {
                             Boolean t = false;
                             String tipo = nodo.hijos.get(0).valor.toString();
                             if (tipo.equals("Als")) {
                                 tipo = nodo.hijos.get(0).hijos.get(0).valor.toString();
-                                t=true;
+                                t = true;
                             }
                             Nodo temp = nodo.hijos.get(1).hijos.get(0);
                             String nombre = temp.hijos.get(0).valor.toString();
@@ -75,7 +74,7 @@ public class CrearVariables {
                                 Errores.ErrorSemantico("La variable -" + nombre + "- ya esta declarada", 0, 0);
                             } else {
                                 Nodo expresion = nodo.hijos.get(2);
-                                Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre, arr);
+                                Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre, arr, false);
                                 if (v != null) {
                                     if (v.valor != null) {
                                         if (v.tipo.equals("error")) {
@@ -119,22 +118,67 @@ public class CrearVariables {
                                 }
                             }
                         }
-                    }
                     break;
                 case "DeclaraGlobalArreglo":
-//---------------------------------------------------------------------SIN TERMINAR
                     Arreglo arreglo = new Arreglo();
                     String tipo = nodo.hijos.get(0).valor.toString();
 
                     String nombre = nodo.hijos.get(1).hijos.get(0).valor.toString();
                     String visibilidad = nodo.hijos.get(1).hijos.get(1).valor.toString();
                     Nodo dimensiones = nodo.hijos.get(2);
-                    Nodo posiciones = nodo.hijos.get(3);
 
-                    Valor v = (Valor) arreglo.ValidarArreglo(dimensiones, posiciones);
+                    ArrayList vars = new ArrayList();
+                    vars.add(als.VarsGlobales);
+                    ArrayList dim = new ArrayList();
+                    for (Nodo c : dimensiones.hijos) {
+                        Valor v = (Valor) exp.Expresion(c, "", vars, false);
+                        if (v != null) {
+                            if (v.valor != null) {
+                                if (!"error".equals(v.tipo)) {
 
-                    Variable var = new Variable(tipo, nombre, visibilidad, null, true, false);
-                    als.addVarGlobal(var);
+                                    if (!"numero".equals(v.tipo)) {
+                                        Errores.ErrorSemantico("Las dimensiones del arreglo deben ser enteros", 0, 0);
+                                        Valor v2 = new Valor("", "error");
+                                        return v2;
+                                    } else {
+                                        dim.add(v.valor);
+                                    }
+
+                                } else {
+                                    Errores.ErrorSemantico("Error en las dimensiones del arreglo -" + nombre + "- ", 0, 0);
+                                    Valor v2 = new Valor("", "error");
+                                    return v2;
+                                }
+                            } else {
+                                Errores.ErrorSemantico("Error en las dimensiones del arreglo -" + nombre + "- ", 0, 0);
+                                Valor v2 = new Valor("", "error");
+                                return v2;
+                            }
+                        } else {
+                            Errores.ErrorSemantico("Error en las dimensiones del arreglo -" + nombre + "- ", 0, 0);
+                            Valor v2 = new Valor("", "error");
+                            return v2;
+                        }
+                    }
+                    if (!nodo.hijos.get(3).hijos.isEmpty()) {
+                        Nodo posiciones = nodo.hijos.get(3);
+                        Valor v = (Valor) arreglo.ValidarArreglo(dim, posiciones, nombre, tipo, "", vars);
+                        if (!"error".equals(v.tipo)) {
+                            Variable var = new Variable(tipo, nombre, visibilidad, v.valor, true, false);
+                            var.dimensiones = dim;
+                            als.addVarGlobal(var);
+                        } else {
+                            Errores.ErrorSemantico("Al arreglo -" + nombre + "- se le asigno un null", 0, 0);
+                            Variable var = new Variable(tipo, nombre, visibilidad, null, true, false);
+                            var.dimensiones = dim;
+                            als.addVarGlobal(var);
+
+                        }
+                    } else {
+                        Variable var = new Variable(tipo, nombre, visibilidad, null, true, false);
+                        var.dimensiones = dim;
+                        als.addVarGlobal(var);
+                    }
 
                     break;
             }
@@ -305,7 +349,7 @@ public class CrearVariables {
                                         bandera = false;
                                     } else {
                                         Nodo expresion = nodo.hijos.get(2);
-                                        Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre, vars);
+                                        Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre, vars, false);
 
                                         if (v != null) {
                                             if (v.valor != null) {
@@ -348,7 +392,7 @@ public class CrearVariables {
                                     }
                                 } else {
                                     Nodo expresion = nodo.hijos.get(2);
-                                    Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre,vars);
+                                    Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre, vars, false);
 
                                     if (v != null) {
                                         if (v.valor != null) {
@@ -398,7 +442,7 @@ public class CrearVariables {
                                     bandera = false;
                                 } else {
                                     Nodo expresion = nodo.hijos.get(2);
-                                    Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre,vars);
+                                    Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre, vars, false);
 
                                     if (v != null) {
                                         if (v.valor != null) {
@@ -438,7 +482,7 @@ public class CrearVariables {
                                 }
                             } else {
                                 Nodo expresion = nodo.hijos.get(2);
-                                Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre,vars);
+                                Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre, vars, false);
 
                                 if (v != null) {
                                     if (v.valor != null) {
@@ -481,9 +525,64 @@ public class CrearVariables {
                 }
                 break;
                 case "DeclaraLocalArreglo": {
+                    Arreglo arreglo = new Arreglo();
+                    String tipo = nodo.hijos.get(0).valor.toString();
 
+                    String nombre = nodo.hijos.get(1).hijos.get(0).valor.toString();
+                    String visibilidad = nodo.hijos.get(1).hijos.get(1).valor.toString();
+                    Nodo dimensiones = nodo.hijos.get(2);
+
+                    
+                    
+                    ArrayList dim = new ArrayList();
+                    for (Nodo c : dimensiones.hijos) {
+                        Valor v = (Valor) exp.Expresion(c, "", vars, false);
+                        if (v != null) {
+                            if (v.valor != null) {
+                                if (!"error".equals(v.tipo)) {
+
+                                    if (!"numero".equals(v.tipo)) {
+                                        Errores.ErrorSemantico("Las dimensiones del arreglo deben ser enteros", 0, 0);
+
+                                    } else {
+                                        dim.add(v.valor);
+                                    }
+
+                                } else {
+                                    Errores.ErrorSemantico("Error en las dimensiones del arreglo -" + nombre + "- ", 0, 0);
+
+                                }
+                            } else {
+                                Errores.ErrorSemantico("Error en las dimensiones del arreglo -" + nombre + "- ", 0, 0);
+
+                            }
+                        } else {
+                            Errores.ErrorSemantico("Error en las dimensiones del arreglo -" + nombre + "- ", 0, 0);
+
+                        }
+                    }
+                    if (!nodo.hijos.get(3).hijos.isEmpty()) {
+                        Nodo posiciones = nodo.hijos.get(3);
+                        Valor v = (Valor) arreglo.ValidarArreglo(dim, posiciones, nombre, tipo, "", vars);
+                        if (!"error".equals(v.tipo)) {
+                            Variable var = new Variable(tipo, nombre, visibilidad, v.valor, true, false);
+                            var.dimensiones = dim;
+                            nueva.add(var);
+                        } else {
+                            Errores.ErrorSemantico("Al arreglo -" + nombre + "- se le asigno un null", 0, 0);
+                            Variable var = new Variable(tipo, nombre, visibilidad, null, true, false);
+                            var.dimensiones = dim;
+                           nueva.add(var);
+
+                        }
+                    } else {
+                        Variable var = new Variable(tipo, nombre, visibilidad, null, true, false);
+                        var.dimensiones = dim;
+                        nueva.add(var);
+                    }
+
+                    break;
                 }
-                break;
                 case "InstanciaLocal": {
                     Boolean banderaImporta = false;
                     String tipoObjeto = nodo.hijos.get(0).hijos.get(0).valor.toString();
@@ -638,7 +737,6 @@ public class CrearVariables {
                                 + "porque no se ha importado el Als -" + tipoObjeto + "-", 0, 0);
                     }
                 }
-
             }
         }
         vars.add(nueva);
@@ -708,11 +806,9 @@ public class CrearVariables {
                         Errores.ErrorSemantico("El objeto -" + nombreN + "- no se puede instanciar "
                                 + "porque no se ha importado el Als -" + tipoObjeto + "-", 0, 0);
                     }
-
                     break;
             }
         }
-
         return null;
     }
 }

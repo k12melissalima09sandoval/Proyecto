@@ -7,6 +7,7 @@ import Analizadores.Consola.ConsolaLexico;
 import Analizadores.Consola.ConsolaSintactico;
 import Analizadores.Graphik.GraphikLexico;
 import Analizadores.Graphik.GraphikSintactico;
+import Analizadores.Imprimir;
 import Ast.Nodo;
 import Interprete.Graphik.Als;
 import Interprete.Graphik.Ejecucion;
@@ -68,7 +69,7 @@ public class FormPrincipal extends javax.swing.JFrame {
 
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null,
-                                "No hay cadena para analizar!!",
+                                "No hay cadena para analizar",
                                 "Warning",
                                 JOptionPane.WARNING_MESSAGE);
                     }
@@ -300,6 +301,7 @@ public class FormPrincipal extends javax.swing.JFrame {
 
                         TablaSimbolosGraphik.listaAls.removeAll(TablaSimbolosGraphik.listaAls);
                         TablaSimbolosGraphik.errorSemantico.removeAll(TablaSimbolosGraphik.errorSemantico);
+                        Imprimir.imprimir.removeAll(Imprimir.imprimir);
 
                         Ejecucion ejecuta = new Ejecucion();
                         GraphikLexico scan = new GraphikLexico(new BufferedReader(new StringReader(a)));
@@ -307,6 +309,12 @@ public class FormPrincipal extends javax.swing.JFrame {
                         parser.parse();
                         Graficar(recorrido(GraphikSintactico.raiz), "AstGraphik");
                         ejecuta.Ejecucion(GraphikSintactico.raiz);
+                        
+                        String textoImprimir ="";
+                        for (int i = 0; i < Imprimir.imprimir.size(); i++) {
+                            textoImprimir+=">> "+Imprimir.imprimir.get(i);
+                        }
+                        txtConsolaGraphik.setText(textoImprimir);
                         String textoErrores = "";
                         for (int i = 0; i < TablaSimbolosGraphik.errorSemantico.size(); i++) {
                             textoErrores += TablaSimbolosGraphik.errorSemantico.get(i).tipo + "->"
@@ -340,7 +348,6 @@ public class FormPrincipal extends javax.swing.JFrame {
     public void ImprimirTabla() {
         String simbolos = "";
         for (int i = 0; i < TablaSimbolosGraphik.listaAls.size(); i++) {
-            simbolos += TablaSimbolosGraphik.listaAls.get(0).hashCode();
             simbolos += "☼ Nombre Als: " + TablaSimbolosGraphik.listaAls.get(i).nombre + " \n"
                     + "\t →Visibilidad:" + TablaSimbolosGraphik.listaAls.get(i).visibilidad + "\n";
             if (!TablaSimbolosGraphik.listaAls.get(i).hereda.isEmpty()) {
@@ -364,7 +371,6 @@ public class FormPrincipal extends javax.swing.JFrame {
             if (!TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.isEmpty()) {
                 simbolos += "\t →Variables Globales: \n";
                 for (int j = 0; j < TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.size(); j++) {
-                    simbolos += TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).hashCode();
                     simbolos += "\t\t └Tipo: " + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).tipo
                             + " ─ Visibilidad: "
                             + TablaSimbolosGraphik.listaAls.get(i).VarsGlobales.get(j).visibilidad + " ─ Nombre: "
@@ -414,7 +420,6 @@ public class FormPrincipal extends javax.swing.JFrame {
             if (!als.get(i).VarsGlobales.isEmpty()) {
                 simbolos += "\t\t\t →Variables Globales: \n";
                 for (int j = 0; j < als.get(i).VarsGlobales.size(); j++) {
-                    simbolos += als.get(i).VarsGlobales.get(j).hashCode();
                     simbolos += "\t\t\t\t └Tipo: " + als.get(i).VarsGlobales.get(j).tipo + " ─ Visibilidad: "
                             + als.get(i).VarsGlobales.get(j).visibilidad + " ─ Nombre: "
                             + als.get(i).VarsGlobales.get(j).nombre + " ─ Valor: ";

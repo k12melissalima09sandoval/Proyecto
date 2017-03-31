@@ -19,70 +19,122 @@ public class Arreglo {
 
     ExpresionGraphik exp = new ExpresionGraphik();
 
-    public Object ValidarArreglo(Nodo dimensiones, Nodo posiciones) {
-        int cont = 0;
-        List<String> dim = new ArrayList<String>();
-        // for(Nodo c: dimensiones.hijos){
-        //Valor v=(Valor)exp.RecorrerExpresion(c);
-        //if(v.tipo!="numero"){
-        //  Errores.ErrorSemantico("Las dimensiones del arreglo deben ser enteros", 0, 0);
-        //}else{
-        dim.add("2");//v.valor);
-        dim.add("2");//v.valor);
-        dim.add("1");//v.valor);
-        //}
-        // }
+    public Object ValidarArreglo(ArrayList dim, Nodo posiciones, String nombreArreglo, String tipo, String nombreFuncion,
+            ArrayList<ArrayList<Variable>> variables) {
 
-        Valor v = (Valor) ExtraerPosiciones(posiciones);
+        Valor v = (Valor) ExtraerPosiciones(posiciones, dim, nombreFuncion, nombreArreglo, variables, tipo);
+        if(!"error".equals(v.tipo)){
         ArrayList pos = (ArrayList) v.valor;
-        Boolean que = (Boolean) ContarPosiciones(dim, pos);
-
-        if (que) {
-
+        if (pos.size() == Integer.parseInt(dim.get(0).toString())) {
+            Boolean que = ContarPosiciones(dim, pos, nombreArreglo);
+            if (que) {
+                Valor v2 = new Valor(pos, "");
+                return v2;
+            } else {
+                Errores.ErrorSemantico("Las posiciones del arreglo -" + nombreArreglo + "- no coinciden con sus dimensiones ", 0, 0);
+                Valor v2 = new Valor("", "error");
+                return v2;
+            }
+        } else {
+            Errores.ErrorSemantico("Las posiciones del arreglo -" + nombreArreglo + "- no coinciden con sus dimensiones ", 0, 0);
+            Valor v2 = new Valor("", "error");
+            return v2;
         }
-        return null;
+        }else{
+            Errores.ErrorSemantico("Las posiciones del arreglo -" + nombreArreglo + "- no coinciden con sus dimensiones ", 0, 0);
+            Valor v2 = new Valor("", "error");
+            return v2;
+        }
+
     }
 
-    public Object ExtraerPosiciones(Nodo posiciones) {
+    public Object ExtraerPosiciones(Nodo posiciones, ArrayList dim, String nombreFuncion, String nombreArreglo,
+            ArrayList<ArrayList<Variable>> variables, String tipo) {
         ArrayList nuevo = new ArrayList();
-        int contador = 0;
         for (Nodo c : posiciones.hijos) {
-
             if (c.valor.toString().equals("Posiciones")) {
-                Valor v = (Valor) ExtraerPosiciones(c);
-                ArrayList a = (ArrayList) v.valor;
-                nuevo.add(a);
+                Valor v = (Valor) ExtraerPosiciones(c, dim, nombreFuncion, nombreArreglo, variables, tipo);
+                if (!"error".equals(v.tipo)) {
+                    ArrayList a = (ArrayList) v.valor;
+                    nuevo.add(a);
+                } else {
+                    Errores.ErrorSemantico("La asignacion no es del mismo tipo del arreglo", cont, cont);
+                    Valor v2 = new Valor("", "error");
+                    return v2;
+                }
             } else {
-                //Valor v = (Valor)exp.RecorrerExpresion(c);
-                contador++;
-                nuevo.add(contador);//valor
+                Valor v = (Valor) exp.Expresion(c, nombreFuncion, variables, false);
+                if (v != null) {
+                    if (v.valor != null) {
+                        if (!"error".equals(v.tipo)) {
+                            if (v.tipo.equals(tipo)) {
+                                nuevo.add(v.valor);
+                            } else {
+                                Errores.ErrorSemantico("La asignacion no es del mismo tipo del arreglo", cont, cont);
+                                Valor v2 = new Valor("", "error");
+                                return v2;
+                            }
+                        } else {
+                            Errores.ErrorSemantico("Errores en las posiciones del arreglo -" + nombreArreglo + "-", cont, cont);
+                            Valor v2 = new Valor("", "error");
+                            return v2;
+                        }
+                    } else {
+                        Errores.ErrorSemantico("Errores en las posiciones del arreglo -" + nombreArreglo + "-", cont, cont);
+                        Valor v2 = new Valor("", "error");
+                        return v2;
+                    }
+                } else {
+                    Valor v2 = new Valor(null,"");
+                    nuevo.add(v2.valor);
+                    System.out.println("paso por aqui");
+                }
             }
         }
         Valor v = new Valor(nuevo, "");
         return v;
     }
 
-    public Boolean ContarPosiciones(List<String> dim, ArrayList pos) {
+    int cont = 1;
+    Boolean vf = false;
 
-        for (int i = 0; i < dim.size(); i++) {
-
-            int num = Integer.parseInt(dim.get(i));
-            if (num == pos.size()) {
-                for (int j = 0; j < 10; j++) {
-
-                    try {
-                        ArrayList a = (ArrayList) pos.get(i);
-                        ContarPosiciones(dim, a);
-                    } catch (Exception e) {
-                        System.out.println("ya llego al numero");
+    public Boolean ContarPosiciones(ArrayList dim, ArrayList pos, String nombre) {
+        if (cont == dim.size()) {
+            return null;
+        }
+        for (Object pp : pos) {
+            try {
+                ArrayList p = (ArrayList) pp;
+                if (p.size() == Integer.parseInt(dim.get(cont).toString())) {
+                    vf = true;
+                    for (int i = 0; i < p.size(); i++) {
+                        cont++;
+                        try {
+                            ArrayList a = (ArrayList) p.get(i);
+                            ContarPosiciones(dim, a, nombre);
+                            cont--;
+                        } catch (Exception e) {
+                            if (Integer.parseInt(dim.get(cont - 1).toString()) == p.size()) {
+                                vf = true;
+                            } else {
+                                vf = false;
+                            }
+                        }
                     }
+                } else {
+                    vf=false;
+                    break;
                 }
-            } else {
-                System.out.println("error en arreglo");
-                return false;
+            } catch (Exception e) {
+                if (Integer.parseInt(dim.get(cont).toString()) == pos.size()) {
+                    vf = true;
+                } else {
+                    vf = false;
+                }
+
             }
         }
 
-        return true;
+        return vf;
     }
 }
