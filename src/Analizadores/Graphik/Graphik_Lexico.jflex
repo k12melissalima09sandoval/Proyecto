@@ -45,72 +45,72 @@ comentario  = "#" ([^\n]*)
 
     
 
-"entero"        {   System.out.println("Entro entero");
+"entero"        {   
                     return new Symbol(SimbolosGraphik.Tentero, yyline, yycolumn, new String(yytext()));
                 }
-"decimal"       {   System.out.println("Entro decimal");
+"decimal"       {   
                     return new Symbol(SimbolosGraphik.Tdecimal, yyline, yycolumn, new String(yytext()));
                 }
-"caracter"      {   System.out.println("Entro caracter");
+"caracter"      {   
                     return new Symbol(SimbolosGraphik.Tcaracter, yyline, yycolumn, new String(yytext()));
                 }
-"cadena"        {   System.out.println("Entro cadena");
+"cadena"        {  
                     return new Symbol(SimbolosGraphik.Tcadena, yyline, yycolumn, new String(yytext()));
                 }
-"bool"          {   System.out.println("Entro bool");
+"bool"          {  
                     return new Symbol(SimbolosGraphik.Tbool, yyline, yycolumn, new String(yytext()));
                 }
-"ALS"           {   System.out.println("Entro ALS");
+"ALS"           {   
                     return new Symbol(SimbolosGraphik.Tals, yyline, yycolumn, new String(yytext()));
                 }
-"vacio"         {   System.out.println("Entro vacio");
+"vacio"         {   
                     return new Symbol(SimbolosGraphik.Tvacio, yyline, yycolumn, new String(yytext()));
                 }
 
-"publico"       {   System.out.println("Entro publico");
+"publico"       {   
                     return new Symbol(SimbolosGraphik.publico, yyline, yycolumn, new String(yytext()));
                 }
-"protegido"     {   System.out.println("Entro protegido");
+"protegido"     {   
                     return new Symbol(SimbolosGraphik.protegido, yyline, yycolumn, new String(yytext()));
                 }
-"privado"       {   System.out.println("Entro privado");
+"privado"       {   
                     return new Symbol(SimbolosGraphik.privado, yyline, yycolumn, new String(yytext()));
                 }
 
-"importar"      {   System.out.println("Entro importar");
+"importar"      {   
                     return new Symbol(SimbolosGraphik.importar, yyline, yycolumn, new String(yytext()));
                 }
-"hereda"        {   System.out.println("Entro hereda");
+"hereda"        {  
                     return new Symbol(SimbolosGraphik.hereda, yyline, yycolumn, new String(yytext()));
                 }
-"var"           {   System.out.println("Entro var");
+"var"           {   
                     return new Symbol(SimbolosGraphik.var, yyline, yycolumn, new String(yytext()));
                 }
-"nuevo"         {   System.out.println("Entro nuevo");
+"nuevo"         {   
                     return new Symbol(SimbolosGraphik.nuevo, yyline, yycolumn, new String(yytext()));
                 }
-"retornar"      {   System.out.println("Entro retornar");
+"retornar"      {   
                     return new Symbol(SimbolosGraphik.retornar, yyline, yycolumn, new String(yytext()));
                 }
-"llamar"        {   System.out.println("Entro llamar");
+"llamar"        {   
                     return new Symbol(SimbolosGraphik.llamar, yyline, yycolumn, new String(yytext()));
                 }
-"inicio"        {   System.out.println("Entro inicio");
+"inicio"        {  
                     return new Symbol(SimbolosGraphik.inicio, yyline, yycolumn, new String(yytext()));
                 }
-"incluir_HK"    {   System.out.println("Entro incluir_HK");
+"incluir_HK"    {   
                     return new Symbol(SimbolosGraphik.incluirHK, yyline, yycolumn, new String(yytext()));
                 }
-"llamarHK"      {   System.out.println("Entro llamarHK");
+"llamarHK"      {  
                     return new Symbol(SimbolosGraphik.llamarHK, yyline, yycolumn, new String(yytext()));
                 }
-"Si"            {   System.out.println("Entro Si");
+"Si"            {   
                     return new Symbol(SimbolosGraphik.si, yyline, yycolumn, new String(yytext()));
                 }
-"Sino"          {   System.out.println("Entro Sino");
+"Sino"          { 
                     return new Symbol(SimbolosGraphik.sino, yyline, yycolumn, new String(yytext()));
                 }
-"Seleccion"     {   System.out.println("Entro seleccion");
+"Seleccion"     {   
                     return new Symbol(SimbolosGraphik.seleccion, yyline, yycolumn, new String(yytext()));
                 }
 "Caso"          {   System.out.println("Entro caso");
@@ -188,8 +188,6 @@ comentario  = "#" ([^\n]*)
 {comentarios}   {}
 {comentario}    {}
 
-
-//OPERADORES VALIDOS
 "("             {   System.out.println("Entro (");
                     return new Symbol(SimbolosGraphik.parenAbre, yyline, yycolumn, new String(yytext()));
                 }

@@ -545,16 +545,16 @@ public class SegundaPasada {
                     }
                 }
                 case "AsignaPosicion": {
-
+                    Arreglo arreglo = new Arreglo();
                     String nombre = raiz.hijos.get(0).hijos.get(0).valor.toString();
                     Valor existe = (Valor) buscarVariable(variables, nombre);
                     if (existe.tipo.equals("true")) {
                         Variable var = (Variable) existe.valor;
                         if (var.arreglo) {
-                            Nodo dimensiones = raiz.hijos.get(0).hijos.get(1);
+                            Nodo posicion = raiz.hijos.get(0).hijos.get(1);
 
-                            ArrayList dim = new ArrayList();
-                            for (Nodo c : dimensiones.hijos) {
+                            ArrayList pos = new ArrayList();
+                            for (Nodo c : posicion.hijos) {
                                 Valor v = (Valor) exp.Expresion(c, nombreFun, variables, false);
                                 if (v != null) {
                                     if (v.valor != null) {
@@ -565,7 +565,7 @@ public class SegundaPasada {
                                                 Valor v2 = new Valor("", "error");
                                                 return v2;
                                             } else {
-                                                dim.add(v.valor);
+                                                pos.add(v.valor);
                                             }
 
                                         } else {
@@ -589,58 +589,38 @@ public class SegundaPasada {
                             Valor exx = (Valor) exp.Expresion(expresion, nombreFun, variables, false);
 
                             //voy a obtener la posicion
-                            Boolean bandera = true;
-                            if (var.valor != null) {
-                                ArrayList pos = (ArrayList) var.valor;
-                                try {
-                                    Object ob = "";
-                                    for (int i = 0; i < var.dimensiones.size(); i++) {
-                                        try {
-                                            ob = pos.get(Integer.parseInt(dim.get(i).toString()));
-                                            bandera = false;
-                                            pos = (ArrayList) pos.get(Integer.parseInt(dim.get(i).toString()));
-                                            bandera = true;
-                                        } catch (Exception e) {
-                                            if (bandera) {
-                                                Errores.ErrorSemantico("El acceso en el arreglo -" + nombre + "- esta fuera de rango", 0, 0);
-                                                Valor v2 = new Valor("", "error");
-                                                return v2;
-                                            } else if (exx != null) {
-                                                if (exx.valor != null) {
-                                                    if (exx.tipo.equals(var.tipo)) {
-                                                        pos.set(0, exx.valor.toString());
-                                                        break;
-                                                    } else {
-                                                        Errores.ErrorSemantico("La expresion a asignar al arreglo "
-                                                                + "-" + nombre + "- no es del mismo tipo", 0, 0);
-                                                        Valor v2 = new Valor("", "error");
-                                                        return v2;
-                                                    }
-                                                } else {
-                                                    Errores.ErrorSemantico("La expresion a asignar al arreglo "
-                                                            + "-" + nombre + "- trae nulo, no se le asigno", 0, 0);
-                                                    Valor v2 = new Valor("", "error");
-                                                    return v2;
-                                                }
-                                            } else {
-                                                Errores.ErrorSemantico("La expresion a asignar al arreglo "
-                                                        + "-" + nombre + "- trae nulo, no se le asigno", 0, 0);
-                                                Valor v2 = new Valor("", "error");
-                                                return v2;
-                                            }
+                            Valor val = (Valor) arreglo.BuscarPosicion(var.dimensiones, pos, variables, nombre);
+                            if (val != null) {
+                                if (val.tipo != "error") {
+                                    if (exx.valor != null) {
+                                        if (exx.tipo.equals(var.tipo)) {
+                                            ArrayList a = (ArrayList)var.valor;
+                                            a.set(Integer.parseInt(val.valor.toString()), exx.valor.toString());
+                                            break;
+                                        } else {
+                                            Errores.ErrorSemantico("La expresion a asignar al arreglo "
+                                                    + "-" + nombre + "- no es del mismo tipo", 0, 0);
+                                            Valor v2 = new Valor("", "error");
+                                            return v2;
                                         }
+                                    } else {
+                                        Errores.ErrorSemantico("La expresion a asignar al arreglo "
+                                                + "-" + nombre + "- trae nulo, no se le asigno", 0, 0);
+                                        Valor v2 = new Valor("", "error");
+                                        return v2;
                                     }
-                                } catch (Exception e) {
-                                    Errores.ErrorSemantico("El acceso en el arreglo -" + nombre + "- esta fuera de rango", 0, 0);
+                                    
+                                } else {
+                                    
                                     Valor v2 = new Valor("", "error");
                                     return v2;
                                 }
                             } else {
-                                Errores.ErrorSemantico("Error el arreglo -" + nombre + "- no esta inicializado", 0, 0);
+                                Errores.ErrorSemantico("El acceso en el arreglo -" + nombre + "- esta fuera de rango", 0, 0);
                                 Valor v2 = new Valor("", "error");
                                 return v2;
                             }
-
+                            
                         } else {
                             Errores.ErrorSemantico("La variable -" + nombre + "- no es de tipo arreglo", 0, 0);
                             Valor v = new Valor("", "error");
@@ -651,8 +631,6 @@ public class SegundaPasada {
                         Valor v = new Valor("", "error");
                         return v;
                     }
-
-                    break;
                 }
                 case "Imprimir": {
                     Valor v = (Valor) exp.Expresion(raiz.hijos.get(0), nombreFun, variables, true);
