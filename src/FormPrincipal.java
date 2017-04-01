@@ -13,6 +13,7 @@ import Interprete.Graphik.Als;
 import Interprete.Graphik.Ejecucion;
 import Interprete.Valor;
 import Interprete.Graphik.PrimeraPasada;
+import Interprete.Graphik.SegundaPasada;
 import Interprete.Haskell.RecorreHaskell;
 import Interprete.Parametros;
 import Simbolos.TablaSimbolosGraphik;
@@ -298,11 +299,13 @@ public class FormPrincipal extends javax.swing.JFrame {
                 } //viene graphik    
                 else if (listaPestañas.get(actual).getTextArea().getName().equals(".gk")) {
                     try {
-
+                        //vacio las estaticas
                         TablaSimbolosGraphik.listaAls.removeAll(TablaSimbolosGraphik.listaAls);
                         TablaSimbolosGraphik.errorSemantico.removeAll(TablaSimbolosGraphik.errorSemantico);
                         Imprimir.imprimir.removeAll(Imprimir.imprimir);
-
+                        SegundaPasada.contTemp=0;
+                        SegundaPasada.pila.removeAllElements();
+                        //
                         Ejecucion ejecuta = new Ejecucion();
                         GraphikLexico scan = new GraphikLexico(new BufferedReader(new StringReader(a)));
                         GraphikSintactico parser = new GraphikSintactico(scan);

@@ -20,8 +20,8 @@ public class SegundaPasada {
     ExpresionGraphik exp = new ExpresionGraphik();
     CrearVariables varsLocales = new CrearVariables();
     AsignacionCasteo asigna = new AsignacionCasteo();
-    static int contTemp = 0;
-    static Stack pila = new Stack();
+    public static int contTemp = 0;
+    public static Stack pila = new Stack();
 
     public Object Reconocer() {
 
@@ -79,7 +79,7 @@ public class SegundaPasada {
                         if (var.arreglo) {
                             Arreglo arreglo = new Arreglo();
                             Nodo posiciones = raiz.hijos.get(1).hijos.get(0);
-                            Valor v2 = (Valor) arreglo.ValidarArreglo(var.dimensiones, als,posiciones, nombre, var.tipo, "", variables);
+                            Valor v2 = (Valor) arreglo.ValidarArreglo(var.dimensiones, als, posiciones, nombre, var.tipo, "", variables);
                             if (v2 != null) {
                                 if (!"error".equals(v2.tipo)) {
                                     var.valor = v2.valor;
@@ -89,7 +89,7 @@ public class SegundaPasada {
                             }
                         } //cuando no viene una instancia a=exp?
                         else if (!raiz.hijos.get(1).valor.toString().equals("InstanciaLocal")) {
-                            Valor ex = (Valor) exp.Expresion(raiz.hijos.get(1),als, nombreFun, variables, false);
+                            Valor ex = (Valor) exp.Expresion(raiz.hijos.get(1), als, nombreFun, variables, false);
                             if (ex != null) {
                                 if (ex.valor != null) {
                                     if (ex.tipo.equals("error")) {
@@ -157,7 +157,7 @@ public class SegundaPasada {
                     Nodo condicion = raiz.hijos.get(0);
                     Nodo si = raiz.hijos.get(1).hijos.get(0);
 
-                    Valor v = (Valor) exp.Expresion(condicion, als,nombreFun, variables, false);
+                    Valor v = (Valor) exp.Expresion(condicion, als, nombreFun, variables, false);
                     if (v != null) {
                         if (!"error".equals(v.tipo)) {
                             if ("bool".equals(v.tipo)) {
@@ -213,13 +213,13 @@ public class SegundaPasada {
                 case "SentenciaSeleccion": {
                     contTemp++;
                     Nodo cond = raiz.hijos.get(0);
-                    Valor v = (Valor) exp.Expresion(cond, als,nombreFun, variables, false);
+                    Valor v = (Valor) exp.Expresion(cond, als, nombreFun, variables, false);
                     if (v != null && v.valor != null) {
                         if (!v.tipo.equals("error")) {
                             Boolean tiene = false;
                             for (Nodo casos : raiz.hijos.get(1).hijos) {
                                 Nodo e = casos.hijos.get(0);
-                                Valor delcaso = (Valor) exp.Expresion(e, als,nombreFun, variables, false);
+                                Valor delcaso = (Valor) exp.Expresion(e, als, nombreFun, variables, false);
                                 if (delcaso != null && delcaso.valor != null) {
                                     if (!delcaso.tipo.equals("error")) {
                                         if (v.valor.equals(delcaso.valor)) {
@@ -241,7 +241,7 @@ public class SegundaPasada {
                                                     break;
                                                 }
                                             }
-                                            break;
+                                            //break;
                                         }
                                     } else {
                                         Errores.ErrorSemantico("La expresion del caso de Seleccion devolvio un nulo", 0, 0);
@@ -284,7 +284,7 @@ public class SegundaPasada {
                     contTemp++;
                     Nodo var = raiz.hijos.get(0);
                     if (var.valor.toString().equals("DeclaraLocalVariable")) {
-                        nivel = varsLocales.CrearVariablesLocales(raiz, variables, nivel, als);
+                        varsLocales.CrearVariableLocal(raiz, variables, als);
                         bandera = true;
                         pila.push("para" + contTemp);
                     } else {
@@ -295,7 +295,7 @@ public class SegundaPasada {
                     Nodo inc = raiz.hijos.get(2);
                     Nodo sentpara = raiz.hijos.get(3).hijos.get(0);
 
-                    Valor v = (Valor) exp.Expresion(cond, als,nombreFun, variables, false);
+                    Valor v = (Valor) exp.Expresion(cond, als, nombreFun, variables, false);
                     if (v != null && v.valor != null) {
                         if (!v.valor.equals("error")) {
                             if (v.tipo.equals("bool")) {
@@ -323,8 +323,8 @@ public class SegundaPasada {
                                                     pila.pop();
                                                 }
                                             }
-                                            exp.Expresion(inc, als,nombreFun, variables, false);
-                                            Valor evalua = (Valor) exp.Expresion(cond, als,nombreFun, variables, false);
+                                            exp.Expresion(inc, als, nombreFun, variables, false);
+                                            Valor evalua = (Valor) exp.Expresion(cond, als, nombreFun, variables, false);
                                             if (evalua != null && evalua.valor != null) {
                                                 if (!evalua.valor.equals("error")) {
                                                     if (evalua.tipo.equals("bool")) {
@@ -346,8 +346,8 @@ public class SegundaPasada {
                                                 pila.pop();
                                             }
                                         }
-                                        exp.Expresion(inc, als,nombreFun, variables, false);
-                                        Valor evalua = (Valor) exp.Expresion(cond,als, nombreFun, variables, false);
+                                        exp.Expresion(inc, als, nombreFun, variables, false);
+                                        Valor evalua = (Valor) exp.Expresion(cond, als, nombreFun, variables, false);
                                         if (evalua != null && evalua.valor != null) {
                                             if (!evalua.valor.equals("error")) {
                                                 if (evalua.tipo.equals("bool")) {
@@ -397,7 +397,7 @@ public class SegundaPasada {
                         }
                     }
                     Nodo e = raiz.hijos.get(1);
-                    Valor cond = (Valor) exp.Expresion(e,als, nombreFun, variables, false);
+                    Valor cond = (Valor) exp.Expresion(e, als, nombreFun, variables, false);
                     if (cond != null && cond.valor != null) {
                         if (!"error".equals(cond.tipo)) {
                             if (cond.tipo.equals("bool")) {
@@ -423,7 +423,7 @@ public class SegundaPasada {
                                                     pila.pop();
                                                 }
                                             }
-                                            Valor evalua = (Valor) exp.Expresion(e, als,nombreFun, variables, false);
+                                            Valor evalua = (Valor) exp.Expresion(e, als, nombreFun, variables, false);
                                             if (evalua != null && evalua.valor != null) {
                                                 if (!evalua.valor.equals("error")) {
                                                     if (evalua.tipo.equals("bool")) {
@@ -445,7 +445,7 @@ public class SegundaPasada {
                                                 pila.pop();
                                             }
                                         }
-                                        Valor evalua = (Valor) exp.Expresion(e, als,nombreFun, variables, false);
+                                        Valor evalua = (Valor) exp.Expresion(e, als, nombreFun, variables, false);
                                         if (evalua != null && evalua.valor != null) {
                                             if (!evalua.valor.equals("error")) {
                                                 if (evalua.tipo.equals("bool")) {
@@ -476,7 +476,7 @@ public class SegundaPasada {
                     contTemp++;
                     Nodo sent1 = raiz.hijos.get(1).hijos.get(0);
                     Nodo c = raiz.hijos.get(0);
-                    Valor cond = (Valor) exp.Expresion(c, als,nombreFun, variables, false);
+                    Valor cond = (Valor) exp.Expresion(c, als, nombreFun, variables, false);
                     if (cond != null && cond.valor != null) {
                         if (!"error".equals(cond.tipo)) {
                             if (cond.tipo.equals("bool")) {
@@ -502,7 +502,7 @@ public class SegundaPasada {
                                                     pila.pop();
                                                 }
                                             }
-                                            Valor evalua = (Valor) exp.Expresion(c,als, nombreFun, variables, false);
+                                            Valor evalua = (Valor) exp.Expresion(c, als, nombreFun, variables, false);
                                             if (evalua != null && evalua.valor != null) {
                                                 if (!evalua.valor.equals("error")) {
                                                     if (evalua.tipo.equals("bool")) {
@@ -524,7 +524,7 @@ public class SegundaPasada {
                                                 pila.pop();
                                             }
                                         }
-                                        Valor evalua = (Valor) exp.Expresion(c,als, nombreFun, variables, false);
+                                        Valor evalua = (Valor) exp.Expresion(c, als, nombreFun, variables, false);
                                         if (evalua != null && evalua.valor != null) {
                                             if (!evalua.valor.equals("error")) {
                                                 if (evalua.tipo.equals("bool")) {
@@ -555,7 +555,7 @@ public class SegundaPasada {
 
                             ArrayList pos = new ArrayList();
                             for (Nodo c : posicion.hijos) {
-                                Valor v = (Valor) exp.Expresion(c,als, nombreFun, variables, false);
+                                Valor v = (Valor) exp.Expresion(c, als, nombreFun, variables, false);
                                 if (v != null) {
                                     if (v.valor != null) {
                                         if (!"error".equals(v.tipo)) {
@@ -586,7 +586,7 @@ public class SegundaPasada {
                             }
 
                             Nodo expresion = raiz.hijos.get(1);
-                            Valor exx = (Valor) exp.Expresion(expresion,als, nombreFun, variables, false);
+                            Valor exx = (Valor) exp.Expresion(expresion, als, nombreFun, variables, false);
 
                             //voy a obtener la posicion
                             Valor val = (Valor) arreglo.BuscarPosicion(var.dimensiones, pos, variables, nombre);
@@ -633,6 +633,8 @@ public class SegundaPasada {
                 }
                 case "LlamaFun": {
                     contTemp++;
+                    ArrayList nueva = new ArrayList();
+                    nueva.add(als.VarsGlobales);
                     String nombre = raiz.hijos.get(0).valor.toString();
                     Valor existe = (Valor) buscarMetodo(als.Metodos, nombre);
                     if (existe.tipo.equals("true")) {
@@ -641,11 +643,20 @@ public class SegundaPasada {
                             if (met.listaParametros.isEmpty()) {
                                 //metodo sin parametros
                                 Nodo cuerpometodo = met.cuerpo.hijos.get(0);
-                                ArrayList nueva = new ArrayList();
-                                nueva.add(als.VarsGlobales);
+
                                 Valor v = (Valor) Ejecucion(cuerpometodo, nueva, nivel, als, nombre, contTemp, nombre);
+                                variables = nueva;
                                 if (met.tipo.equals("vacio")) {
                                     if (v != null) {
+                                        if (!pila.isEmpty()) {
+                                            while (pila.peek().equals(nombre + contTemp)) {
+                                                variables.remove(variables.size() - 1);
+                                                pila.pop();
+                                                if (pila.isEmpty()) {
+                                                    break;
+                                                }
+                                            }
+                                        }
                                         Errores.ErrorSemantico("El metodo -" + nombre + "- no puede retornar un valor", nivel, cont);
                                         Valor v2 = new Valor("", "error");
                                         return v2;
@@ -675,19 +686,55 @@ public class SegundaPasada {
                                                     }
                                                 }
                                             } else {
+                                                if (!pila.isEmpty()) {
+                                                    while (pila.peek().equals(nombre + contTemp)) {
+                                                        variables.remove(variables.size() - 1);
+                                                        pila.pop();
+                                                        if (pila.isEmpty()) {
+                                                            break;
+                                                        }
+                                                    }
+                                                }
                                                 Errores.ErrorSemantico("El metodo -" + nombre + "- retorna un tipo diferente", nivel, cont);
                                                 Valor v2 = new Valor("", "error");
                                                 return v2;
                                             }
                                         } else {
+                                            if (!pila.isEmpty()) {
+                                                while (pila.peek().equals(nombre + contTemp)) {
+                                                    variables.remove(variables.size() - 1);
+                                                    pila.pop();
+                                                    if (pila.isEmpty()) {
+                                                        break;
+                                                    }
+                                                }
+                                            }
                                             Valor v2 = new Valor("", "error");
                                             return v2;
                                         }
                                     } else {
+                                        if (!pila.isEmpty()) {
+                                            while (pila.peek().equals(nombre + contTemp)) {
+                                                variables.remove(variables.size() - 1);
+                                                pila.pop();
+                                                if (pila.isEmpty()) {
+                                                    break;
+                                                }
+                                            }
+                                        }
                                         Valor v2 = new Valor("", "error");
                                         return v2;
                                     }
                                 } else {
+                                    if (!pila.isEmpty()) {
+                                        while (pila.peek().equals(nombre + contTemp)) {
+                                            variables.remove(variables.size() - 1);
+                                            pila.pop();
+                                            if (pila.isEmpty()) {
+                                                break;
+                                            }
+                                        }
+                                    }
                                     Errores.ErrorSemantico("El metodo -" + nombre + "- no tiene retorno", nivel, cont);
                                     Valor v2 = new Valor("", "error");
                                     return v2;
@@ -699,6 +746,140 @@ public class SegundaPasada {
                             }
                         } else if (raiz.hijos.get(1).hijos.size() == met.listaParametros.size()) {
                             //metodo con parametros
+                            ArrayList<Valor> valores = new ArrayList();
+                            for (int i = 0; i < raiz.hijos.get(1).hijos.size(); i++) {
+                                Valor v = (Valor) exp.Expresion(raiz.hijos.get(1).hijos.get(i), als, nombreFun, variables, false);
+                                if (v != null) {
+                                    if (v.valor != null) {
+                                        if (!"error".equals(v.tipo)) {
+                                            Valor v2 = new Valor(v.valor, v.tipo);
+                                            valores.add(v2);
+                                        }
+                                    } else {
+                                        Valor v2 = new Valor("", "error");
+                                        return v2;
+                                    }
+                                } else {
+                                    Valor v2 = new Valor("", "error");
+                                    return v2;
+                                }
+                            }
+
+                            //envio a crear los parametros como variables
+                            Valor v2 = (Valor) varsLocales.CrearVariablesMetodos(met.listaParametros, valores, nueva, als, nombre, contTemp);
+                            variables = nueva;
+                            if (!"error".equals(v2.tipo)) {
+                                Nodo cuerpometodo = met.cuerpo.hijos.get(0);
+                                Valor v = (Valor) Ejecucion(cuerpometodo, nueva, nivel, als, nombre, contTemp, nombre);
+                                if (met.tipo.equals("vacio")) {
+                                    if (v != null) {
+                                        if (!pila.isEmpty()) {
+                                            while (pila.peek().equals(nombre + contTemp)) {
+                                                variables.remove(variables.size() - 1);
+                                                pila.pop();
+                                                if (pila.isEmpty()) {
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        Errores.ErrorSemantico("El metodo -" + nombre + "- no puede retornar un valor", 0, 0);
+                                        Valor v3 = new Valor("", "error");
+                                        return v3;
+                                    }
+                                    if (!pila.isEmpty()) {
+                                        while (pila.peek().equals(nombre + contTemp)) {
+                                            variables.remove(variables.size() - 1);
+                                            pila.pop();
+                                            if (pila.isEmpty()) {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    if (v != null) {
+                                        if (v.tipo != null) {
+                                            if (!"error".equals(v.tipo)) {
+                                                if (met.tipo.equals(v.tipo)) {
+                                                    //saco variables
+                                                    if (!pila.isEmpty()) {
+                                                        while (pila.peek().equals(nombre + contTemp)) {
+                                                            variables.remove(variables.size() - 1);
+                                                            pila.pop();
+                                                            if (pila.isEmpty()) {
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                    //Valor v3 = new Valor(v.valor, v.tipo);
+                                                    //return v3;
+                                                } else {
+                                                    if (!pila.isEmpty()) {
+                                                        while (pila.peek().equals(nombre + contTemp)) {
+                                                            variables.remove(variables.size() - 1);
+                                                            pila.pop();
+                                                            if (pila.isEmpty()) {
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                    Errores.ErrorSemantico("El metodo -" + nombre + "- retorna un tipo diferente", 0, 0);
+                                                    Valor v3 = new Valor("", "error");
+                                                    return v3;
+                                                }
+                                            } else {
+                                                if (!pila.isEmpty()) {
+                                                    while (pila.peek().equals(nombre + contTemp)) {
+                                                        variables.remove(variables.size() - 1);
+                                                        pila.pop();
+                                                        if (pila.isEmpty()) {
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                                Valor v3 = new Valor("", "error");
+                                                return v3;
+                                            }
+                                        } else {
+                                            if (!pila.isEmpty()) {
+                                                while (pila.peek().equals(nombre + contTemp)) {
+                                                    variables.remove(variables.size() - 1);
+                                                    pila.pop();
+                                                    if (pila.isEmpty()) {
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            Valor v3 = new Valor("", "error");
+                                            return v3;
+                                        }
+                                    } else {
+                                        if (!pila.isEmpty()) {
+                                            while (pila.peek().equals(nombre + contTemp)) {
+                                                variables.remove(variables.size() - 1);
+                                                pila.pop();
+                                                if (pila.isEmpty()) {
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        Errores.ErrorSemantico("El metodo -" + nombre + "- no tiene retorno", 0, 0);
+                                        Valor v3 = new Valor("", "error");
+                                        return v3;
+                                    }
+                                }
+                            } else {
+                                if (!pila.isEmpty()) {
+                                    while (pila.peek().equals(nombre + contTemp)) {
+                                        variables.remove(variables.size() - 1);
+                                        pila.pop();
+                                        if (pila.isEmpty()) {
+                                            break;
+                                        }
+                                    }
+                                }
+                                Valor v = new Valor("", "error");
+                                return v;
+                            }
                         } else {
                             Errores.ErrorSemantico("Los parametros del metodo -" + nombre + "- no coinciden", 0, 0);
                             Valor v = new Valor("", "error");
@@ -711,8 +892,9 @@ public class SegundaPasada {
                     }
                     break;
                 }
+
                 case "Imprimir": {
-                    Valor v = (Valor) exp.Expresion(raiz.hijos.get(0), als,nombreFun, variables, true);
+                    Valor v = (Valor) exp.Expresion(raiz.hijos.get(0), als, nombreFun, variables, true);
                     if (v != null) {
                         if (v.valor != null) {
                             Imprimir.Imprimir(v.valor.toString().replace("\"", ""));
@@ -726,11 +908,11 @@ public class SegundaPasada {
                 }
                 break;
                 case "Incremento": {
-                    exp.Expresion(raiz,als, nombreFun, variables, false);
+                    exp.Expresion(raiz, als, nombreFun, variables, false);
                 }
                 break;
                 case "Decremento": {
-                    exp.Expresion(raiz, als,nombreFun, variables, false);
+                    exp.Expresion(raiz, als, nombreFun, variables, false);
                 }
                 break;
 
@@ -743,7 +925,7 @@ public class SegundaPasada {
                     return v;
                 }
                 case "Retorno": {
-                    Valor v = (Valor) exp.Expresion(raiz.hijos.get(0), als,nombreFun, variables, false);
+                    Valor v = (Valor) exp.Expresion(raiz.hijos.get(0), als, nombreFun, variables, false);
                     Valor v2 = new Valor(v.valor, v.tipo);
                     return v2;
                 }
