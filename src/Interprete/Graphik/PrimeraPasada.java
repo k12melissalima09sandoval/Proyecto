@@ -112,8 +112,7 @@ public class PrimeraPasada {
                     TablaSimbolosGraphik.addAls(nuevo);
                 }
 
-                varsGlobales.CrearVariablesGlobales(cuerpo, nuevo);
-                metodos.CrearMetodos(cuerpo, nuevo);
+                
 
             }
 
@@ -149,8 +148,9 @@ public class PrimeraPasada {
                     }
                 }
             }
-
-            varsGlobales.CrearInstanciasGlobales(cuerpo, nuevo);
+            varsGlobales.CrearVariablesGlobales(cuerpo, nuevo);
+            metodos.CrearMetodos(cuerpo, nuevo);
+           // varsGlobales.CrearInstanciasGlobales(cuerpo, nuevo);
             //INCLUYE
             if (!raiz.hijos.get(1).hijos.isEmpty()) {
                 Map<String, FuncionHaskell> funciones = tablaH.ObtenerListaFunciones();

@@ -11,11 +11,11 @@ import Interprete.Valor;
 public class Suma {
 
     public Object Suma(Valor num1, Valor num2,Boolean imprimir) {
-        if(imprimir){
+        /*if(imprimir){
             String texto = "\""+num1.valor + num2.valor +"\"";
             Valor v = new Valor(texto,"cadena");
             return v;
-        }
+        }*/
         if (num1.tipo.equals("error") || num2.tipo.equals("error")) {
             Valor v = new Valor("", "error");
             return v;

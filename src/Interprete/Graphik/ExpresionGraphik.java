@@ -236,33 +236,6 @@ public class ExpresionGraphik {
                     break;
                 }
 
-                case "Acceso": {
-                    Instancia ins = new Instancia();
-                    Boolean ban = false;
-                    String var = raiz.hijos.get(0).valor.toString();
-                    Nodo accesos = raiz.hijos.get(1);
-                    for (int i = 0; i < variables.size(); i++) {
-                        for (int j = 0; j < variables.get(i).size(); j++) {
-                            if (var.equals(variables.get(i).get(j).nombre)) {
-                                ban = true;
-                                if (variables.get(i).get(j).instancia) {
-                                    Als a = (Als) variables.get(i).get(j).valor;
-                                    Valor v = (Valor) ins.Instancia(accesos, a);
-                                    return v;
-                                } else {
-                                    Errores.ErrorSemantico("La variable -" + var + "- a la que se quiere acceder no es de tipo objeto", 0, 0);
-                                    Valor v = new Valor("", "error");
-                                    return v;
-                                }
-                            }
-                        }
-                    }
-                    if (!ban) {
-                        Errores.ErrorSemantico("La variable -" + var + "- no existe", 0, 0);
-                        Valor v = new Valor("", "error");
-                        return v;
-                    }
-                }
             }
 
         } else if (raiz.hijos.size() == 2) {
@@ -276,7 +249,7 @@ public class ExpresionGraphik {
                     der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables, imprimir);
 
                     if (izq != null || der != null) {
-                        Valor v = (Valor) suma.Suma(izq, der,imprimir);
+                        Valor v = (Valor) suma.Suma(izq, der, imprimir);
                         return v;
                     } else {
                         Valor v = new Valor("", "error");
@@ -519,6 +492,41 @@ public class ExpresionGraphik {
                         Valor v2 = new Valor(v.valor, v.tipo);
                         return v2;
                     }
+
+                case "Acceso": {
+                    Instancia ins = new Instancia();
+                    String nombre = raiz.hijos.get(0).valor.toString();
+                    Valor v = (Valor) buscarVariable(variables, nombre);
+                    if (v.tipo.equals("true")) {
+                        Variable var = (Variable) v.valor;
+                        Nodo accesos = raiz.hijos.get(1);
+                        if (var.instancia) {
+                            if (var.valor != null) {
+                                Als a = (Als) var.valor;
+                                Valor v2 = (Valor) ins.InstanciaAcceso(accesos, a);
+                                if (v2.tipo != "error") {
+                                    Valor acceso = new Valor(v2.valor,v2.tipo);
+                                    return acceso;
+                                } else {
+                                    Valor v5 = new Valor("", "error");
+                                    return v5;
+                                }
+                            } else {
+                                Errores.ErrorSemantico("El objeto -" + nombre + "- no esta inicializado", 0, 0);
+                                Valor v2 = new Valor("", "error");
+                                return v2;
+                            }
+                        } else {
+                            Errores.ErrorSemantico("La variable -" + nombre + "- a la que se quiere acceder no es de tipo objeto", 0, 0);
+                            Valor v2 = new Valor("", "error");
+                            return v2;
+                        }
+                    } else {
+                        Errores.ErrorSemantico("La variable -" + nombre + "- no existe", 0, 0);
+                        Valor v2 = new Valor("", "error");
+                        return v2;
+                    }
+                }
 
                 case "LlamaArreglo": {
                     Arreglo arreglo = new Arreglo();

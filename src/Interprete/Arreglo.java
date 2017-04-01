@@ -210,8 +210,14 @@ public class Arreglo {
                 }
                 ArrayList bb = (ArrayList) var.valor;
                 Object ob = bb.get(in1);
-                Valor v = new Valor(ob, "");
-                return v;
+                if (ob.toString().equals("nulo")) {
+                    Errores.ErrorSemantico("El valor del arreglo-" + nombreA + "- en la posicion -"+in1+"- es nulo", cont, cont);
+                    Valor v = new Valor("", "error");
+                    return v;
+                } else {
+                    Valor v = new Valor(ob, "");
+                    return v;
+                }
             } else {
                 Errores.ErrorSemantico("El acceso al arreglo -" + nombreA + "- no es valido", cont, cont);
                 Valor v = new Valor("", "error");

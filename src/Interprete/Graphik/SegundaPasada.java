@@ -56,17 +56,17 @@ public class SegundaPasada {
 
                 //Asignacion a=exp?
                 case "DeclaraLocalVariable": {
-                    varsLocales.CrearVariablesLocales(cuerpoAls, variables, nivel, als);
+                    varsLocales.CrearVariableLocal(raiz, variables, als);
                     pila.push(ambito + contTemp);
                 }
                 break;
                 case "DeclaraLocalArreglo": {
-                    varsLocales.CrearVariablesLocales(cuerpoAls, variables, nivel, als);
+                    varsLocales.CrearLocalArreglo(raiz, variables, als);
                     pila.push(ambito + contTemp);
                 }
                 break;
                 case "InstanciaLocal": {
-                    varsLocales.CrearVariablesLocales(cuerpoAls, variables, nivel, als);
+                    varsLocales.CrearInstanciaLocal(raiz, variables, als);
                     pila.push(ambito + contTemp);
                 }
                 break;
@@ -594,7 +594,7 @@ public class SegundaPasada {
                                 if (val.tipo != "error") {
                                     if (exx.valor != null) {
                                         if (exx.tipo.equals(var.tipo)) {
-                                            ArrayList a = (ArrayList)var.valor;
+                                            ArrayList a = (ArrayList) var.valor;
                                             a.set(Integer.parseInt(val.valor.toString()), exx.valor.toString());
                                             break;
                                         } else {
@@ -609,9 +609,9 @@ public class SegundaPasada {
                                         Valor v2 = new Valor("", "error");
                                         return v2;
                                     }
-                                    
+
                                 } else {
-                                    
+
                                     Valor v2 = new Valor("", "error");
                                     return v2;
                                 }
@@ -620,7 +620,7 @@ public class SegundaPasada {
                                 Valor v2 = new Valor("", "error");
                                 return v2;
                             }
-                            
+
                         } else {
                             Errores.ErrorSemantico("La variable -" + nombre + "- no es de tipo arreglo", 0, 0);
                             Valor v = new Valor("", "error");
@@ -630,6 +630,14 @@ public class SegundaPasada {
                         Errores.ErrorSemantico("La variable -" + nombre + "- no existe", 0, 0);
                         Valor v = new Valor("", "error");
                         return v;
+                    }
+                }
+
+                case "LlamaFun": {
+                    String nombre = raiz.hijos.get(0).valor.toString();
+                    Valor existe = (Valor) buscarMetodo(als.Metodos, nombre);
+                    if(existe.tipo.equals("true")){
+                        
                     }
                 }
                 case "Imprimir": {
@@ -679,6 +687,20 @@ public class SegundaPasada {
                     return v;
                 }
             }
+        }
+        Valor v = new Valor("", "false");
+        return v;
+    }
+
+    public Object buscarMetodo(ArrayList<MetodoGraphik> metodos, String nombre) {
+
+        for (int i = 0; i < metodos.size(); i++) {
+            if (metodos.get(i).nombre.equals(nombre)) {
+                MetodoGraphik met = metodos.get(i);
+                Valor v = new Valor(met, "true");
+                return v;
+            }
+
         }
         Valor v = new Valor("", "false");
         return v;

@@ -398,7 +398,6 @@ L_POSICIONES ::= L_POSICIONES:p coma EXP:nodo
               {:Nodo nuevo = new Nodo("Posiciones"); 
                 nuevo.Hijo(nodo); 
                 RESULT = nuevo;:}
-              | {:RESULT = new Nodo("null");:} 
               ;
 
 ASIGNACION ::= igual EXP:exp
@@ -775,6 +774,7 @@ L_ACCESO ::= L_ACCESO:nodo A:a
 A ::= punto id:id parenAbre PARAM_LLAMA:nodo parenCierra
         {:Nodo nuevo  = new Nodo(""); Nodo i = new Nodo(id); nuevo.Hijo(i); nuevo.Hijo(nodo); RESULT = nuevo;:}
     | punto id:id {:Nodo nuevo = new Nodo(""); Nodo i = new Nodo(id); nuevo.Hijo(i); RESULT = nuevo;:}
+    | punto LLAMADA_ARREGLO:nodo {:Nodo nuevo = new Nodo(""); nuevo.Hijo(nodo); RESULT = nuevo;:}
     ;
 
 LLAMAR ::= llamar id:id parenAbre PARAM_LLAMA:nodo parenCierra 
