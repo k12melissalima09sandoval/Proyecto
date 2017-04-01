@@ -75,7 +75,7 @@ public class CrearVariables {
                                 Errores.ErrorSemantico("La variable -" + nombre + "- ya esta declarada", 0, 0);
                             } else {
                                 Nodo expresion = nodo.hijos.get(2);
-                                Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre, arr, false);
+                                Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), als,nombre, arr, false);
                                 if (v != null) {
                                     if (v.valor != null) {
                                         if (v.tipo.equals("error")) {
@@ -194,7 +194,7 @@ public class CrearVariables {
                     vars.add(als.VarsGlobales);
                     ArrayList dim = new ArrayList();
                     for (Nodo c : dimensiones.hijos) {
-                        Valor v = (Valor) exp.Expresion(c, "", vars, false);
+                        Valor v = (Valor) exp.Expresion(c,als, "", vars, false);
                         if (v != null) {
                             if (v.valor != null) {
                                 if (!"error".equals(v.tipo)) {
@@ -225,7 +225,7 @@ public class CrearVariables {
                     }
                     if (!nodo.hijos.get(3).hijos.isEmpty()) {
                         Nodo posiciones = nodo.hijos.get(3);
-                        Valor v = (Valor) arreglo.ValidarArreglo(dim, posiciones, nombre, tipo, "", vars);
+                        Valor v = (Valor) arreglo.ValidarArreglo(dim,als, posiciones, nombre, tipo, "", vars);
                         if (!"error".equals(v.tipo)) {
                             Variable var = new Variable(tipo, nombre, visibilidad, v.valor, true, false);
                             var.dimensiones = dim;
@@ -263,7 +263,7 @@ public class CrearVariables {
 
             ArrayList dim = new ArrayList();
             for (Nodo c : dimensiones.hijos) {
-                Valor v = (Valor) exp.Expresion(c, "", vars, false);
+                Valor v = (Valor) exp.Expresion(c,als, "", vars, false);
                 if (v != null) {
                     if (v.valor != null) {
                         if (!"error".equals(v.tipo)) {
@@ -290,7 +290,7 @@ public class CrearVariables {
             }
             if (!nodo.hijos.get(3).hijos.isEmpty()) {
                 Nodo posiciones = nodo.hijos.get(3);
-                Valor v = (Valor) arreglo.ValidarArreglo(dim, posiciones, nombre, tipo, "", vars);
+                Valor v = (Valor) arreglo.ValidarArreglo(dim,als, posiciones, nombre, tipo, "", vars);
                 if (!"error".equals(v.tipo)) {
                     Variable var = new Variable(tipo, nombre, visibilidad, v.valor, true, false);
                     var.dimensiones = dim;
@@ -325,7 +325,7 @@ public class CrearVariables {
 
                 ArrayList dim = new ArrayList();
                 for (Nodo c : dimensiones.hijos) {
-                    Valor v = (Valor) exp.Expresion(c, "", vars, false);
+                    Valor v = (Valor) exp.Expresion(c, als,"", vars, false);
                     if (v != null) {
                         if (v.valor != null) {
                             if (!"error".equals(v.tipo)) {
@@ -352,7 +352,7 @@ public class CrearVariables {
                 }
                 if (!nodo.hijos.get(3).hijos.isEmpty()) {
                     Nodo posiciones = nodo.hijos.get(3);
-                    Valor v = (Valor) arreglo.ValidarArreglo(dim, posiciones, nombre, tipo, "", vars);
+                    Valor v = (Valor) arreglo.ValidarArreglo(dim,als, posiciones, nombre, tipo, "", vars);
                     if (!"error".equals(v.tipo)) {
                         Variable var = new Variable(tipo, nombre, visibilidad, v.valor, true, false);
                         var.dimensiones = dim;
@@ -531,7 +531,7 @@ public class CrearVariables {
                             bandera = false;
                         } else {
                             Nodo expresion = nodo.hijos.get(2);
-                            Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre, vars, false);
+                            Valor v = (Valor) exp.Expresion(expresion.hijos.get(0),als, nombre, vars, false);
 
                             if (v != null) {
                                 if (v.valor != null) {
@@ -574,7 +574,7 @@ public class CrearVariables {
                         }
                     } else {
                         Nodo expresion = nodo.hijos.get(2);
-                        Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre, vars, false);
+                        Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), als,nombre, vars, false);
 
                         if (v != null) {
                             if (v.valor != null) {
@@ -624,7 +624,7 @@ public class CrearVariables {
                         bandera = false;
                     } else {
                         Nodo expresion = nodo.hijos.get(2);
-                        Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre, vars, false);
+                        Valor v = (Valor) exp.Expresion(expresion.hijos.get(0),als, nombre, vars, false);
 
                         if (v != null) {
                             if (v.valor != null) {
@@ -664,7 +664,7 @@ public class CrearVariables {
                     }
                 } else {
                     Nodo expresion = nodo.hijos.get(2);
-                    Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), nombre, vars, false);
+                    Valor v = (Valor) exp.Expresion(expresion.hijos.get(0),als,nombre, vars, false);
 
                     if (v != null) {
                         if (v.valor != null) {

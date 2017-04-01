@@ -39,7 +39,7 @@ public class Instancia {
                     if (nodo.hijos.get(0).valor.toString().equals("LlamaArreglo")) {
                         ArrayList nuevaVar = new ArrayList();
                         nuevaVar.add(variables);
-                        Valor v = (Valor) exp.Expresion(nodo.hijos.get(0), "", nuevaVar, false);
+                        Valor v = (Valor) exp.Expresion(nodo.hijos.get(0),claseObjeto, "", nuevaVar, false);
                         if (v != null) {
                             if (v.valor != "error") {
                                 valorTemp=v.valor;

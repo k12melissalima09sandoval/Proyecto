@@ -30,15 +30,16 @@ public class ExpresionGraphik {
     MenorIgualQ menorigualq = new MenorIgualQ();
     IgualIgual igualigual = new IgualIgual();
     Diferente diferente = new Diferente();
+    static SegundaPasada ej = new SegundaPasada();
 
-    public Object Expresion(Nodo raiz, String nombreFuncion, ArrayList<ArrayList<Variable>> variables, Boolean imprimir) {
+    public Object Expresion(Nodo raiz, Als als, String nombreFuncion, ArrayList<ArrayList<Variable>> variables, Boolean imprimir) {
 
         if (raiz.hijos.size() == 1) {
             Nodo exp = raiz.hijos.get(0);
             switch (raiz.valor.toString()) {
 
                 case "Exp": {
-                    Valor v = (Valor) Expresion(exp, nombreFuncion, variables, imprimir);
+                    Valor v = (Valor) Expresion(exp, als, nombreFuncion, variables, imprimir);
                     return v;
                 }
                 case "numero": {
@@ -84,7 +85,7 @@ public class ExpresionGraphik {
                     return v;
                 }
                 case "Unario": {
-                    Valor v = (Valor) Expresion(exp, nombreFuncion, variables, imprimir);
+                    Valor v = (Valor) Expresion(exp, als, nombreFuncion, variables, imprimir);
                     if (v != null) {
                         if (v.valor != null) {
                             if (v.tipo.equals("numero")) {
@@ -113,7 +114,7 @@ public class ExpresionGraphik {
                     }
                 }
                 case "!": {
-                    Valor v = (Valor) Expresion(exp, nombreFuncion, variables, imprimir);
+                    Valor v = (Valor) Expresion(exp, als, nombreFuncion, variables, imprimir);
                     if (v != null) {
                         if (v.valor != null) {
                             if (v.tipo.equals("bool")) {
@@ -138,7 +139,7 @@ public class ExpresionGraphik {
                 }
                 case "Incremento": {
 
-                    Valor v = (Valor) Expresion(exp, nombreFuncion, variables, imprimir);
+                    Valor v = (Valor) Expresion(exp, als, nombreFuncion, variables, imprimir);
                     if (v.tipo.equals("error")) {
                         Valor v2 = new Valor("", "error");
                         return v2;
@@ -187,7 +188,7 @@ public class ExpresionGraphik {
                     break;
                 }
                 case "Decremento": {
-                    Valor v = (Valor) Expresion(exp, nombreFuncion, variables, imprimir);
+                    Valor v = (Valor) Expresion(exp, als, nombreFuncion, variables, imprimir);
                     if (v.tipo.equals("error")) {
                         Valor v2 = new Valor("", "error");
                         return v2;
@@ -245,8 +246,8 @@ public class ExpresionGraphik {
 
                 case "+":
 
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables, imprimir);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables, imprimir);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), als, nombreFuncion, variables, imprimir);
+                    der = (Valor) Expresion(raiz.hijos.get(1), als, nombreFuncion, variables, imprimir);
 
                     if (izq != null || der != null) {
                         Valor v = (Valor) suma.Suma(izq, der, imprimir);
@@ -258,8 +259,8 @@ public class ExpresionGraphik {
 
                 case "-":
 
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables, imprimir);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables, imprimir);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), als, nombreFuncion, variables, imprimir);
+                    der = (Valor) Expresion(raiz.hijos.get(1), als, nombreFuncion, variables, imprimir);
                     if (izq != null || der != null) {
                         Valor v = (Valor) resta.Resta(izq, der);
                         return v;
@@ -270,8 +271,8 @@ public class ExpresionGraphik {
 
                 case "*":
 
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables, imprimir);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables, imprimir);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), als, nombreFuncion, variables, imprimir);
+                    der = (Valor) Expresion(raiz.hijos.get(1), als, nombreFuncion, variables, imprimir);
                     if (izq != null || der != null) {
                         Valor v = (Valor) mult.Multiplicacion(izq, der);
                         return v;
@@ -282,8 +283,8 @@ public class ExpresionGraphik {
 
                 case "/":
 
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables, imprimir);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables, imprimir);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), als, nombreFuncion, variables, imprimir);
+                    der = (Valor) Expresion(raiz.hijos.get(1), als, nombreFuncion, variables, imprimir);
                     if (izq != null || der != null) {
                         Valor v = (Valor) div.Division(izq, der);
                         return v;
@@ -294,8 +295,8 @@ public class ExpresionGraphik {
 
                 case "^":
 
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables, imprimir);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables, imprimir);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), als, nombreFuncion, variables, imprimir);
+                    der = (Valor) Expresion(raiz.hijos.get(1), als, nombreFuncion, variables, imprimir);
                     if (izq != null || der != null) {
                         Valor v = (Valor) pot.Potencia(izq, der);
                         return v;
@@ -305,8 +306,8 @@ public class ExpresionGraphik {
                     }
 
                 case "||":
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables, imprimir);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables, imprimir);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), als, nombreFuncion, variables, imprimir);
+                    der = (Valor) Expresion(raiz.hijos.get(1), als, nombreFuncion, variables, imprimir);
                     if (izq != null && der != null) {
                         if (izq.tipo.equals("error") || der.tipo.equals("error")) {
                             Valor v2 = new Valor("", "error");
@@ -334,8 +335,8 @@ public class ExpresionGraphik {
                     }
 
                 case "&|":
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables, imprimir);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables, imprimir);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), als, nombreFuncion, variables, imprimir);
+                    der = (Valor) Expresion(raiz.hijos.get(1), als, nombreFuncion, variables, imprimir);
                     if (izq != null && der != null) {
                         if (izq.tipo.equals("error") || der.tipo.equals("error")) {
                             Valor v2 = new Valor("", "error");
@@ -363,8 +364,8 @@ public class ExpresionGraphik {
                     }
 
                 case "&&":
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables, imprimir);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables, imprimir);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), als, nombreFuncion, variables, imprimir);
+                    der = (Valor) Expresion(raiz.hijos.get(1), als, nombreFuncion, variables, imprimir);
                     if (izq != null && der != null) {
                         if (izq.tipo.equals("error") || der.tipo.equals("error")) {
                             Valor v2 = new Valor("", "error");
@@ -392,8 +393,8 @@ public class ExpresionGraphik {
                     }
 
                 case "<":
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables, imprimir);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables, imprimir);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), als, nombreFuncion, variables, imprimir);
+                    der = (Valor) Expresion(raiz.hijos.get(1), als, nombreFuncion, variables, imprimir);
                     if (izq != null && der != null) {
                         if (izq.tipo.equals("error") || der.tipo.equals("error")) {
                             Valor v2 = new Valor("", "error");
@@ -409,8 +410,8 @@ public class ExpresionGraphik {
                     }
 
                 case ">":
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables, imprimir);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables, imprimir);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), als, nombreFuncion, variables, imprimir);
+                    der = (Valor) Expresion(raiz.hijos.get(1), als, nombreFuncion, variables, imprimir);
                     if (izq != null && der != null) {
                         if (izq.tipo.equals("error") || der.tipo.equals("error")) {
                             Valor v2 = new Valor("", "error");
@@ -426,8 +427,8 @@ public class ExpresionGraphik {
                     }
 
                 case ">=":
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables, imprimir);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables, imprimir);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), als, nombreFuncion, variables, imprimir);
+                    der = (Valor) Expresion(raiz.hijos.get(1), als, nombreFuncion, variables, imprimir);
                     if (izq != null && der != null) {
                         if (izq.tipo.equals("error") || der.tipo.equals("error")) {
                             Valor v2 = new Valor("", "error");
@@ -443,8 +444,8 @@ public class ExpresionGraphik {
                     }
 
                 case "<=":
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables, imprimir);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables, imprimir);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), als, nombreFuncion, variables, imprimir);
+                    der = (Valor) Expresion(raiz.hijos.get(1), als, nombreFuncion, variables, imprimir);
                     if (izq != null && der != null) {
                         if (izq.tipo.equals("error") || der.tipo.equals("error")) {
                             Valor v2 = new Valor("", "error");
@@ -460,8 +461,8 @@ public class ExpresionGraphik {
                     }
 
                 case "==":
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables, imprimir);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables, imprimir);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), als, nombreFuncion, variables, imprimir);
+                    der = (Valor) Expresion(raiz.hijos.get(1), als, nombreFuncion, variables, imprimir);
                     if (izq != null && der != null) {
                         if (izq.tipo.equals("error") || der.tipo.equals("error")) {
                             Valor v2 = new Valor("", "error");
@@ -477,8 +478,8 @@ public class ExpresionGraphik {
                     }
 
                 case "!=":
-                    izq = (Valor) Expresion(raiz.hijos.get(0), nombreFuncion, variables, imprimir);
-                    der = (Valor) Expresion(raiz.hijos.get(1), nombreFuncion, variables, imprimir);
+                    izq = (Valor) Expresion(raiz.hijos.get(0), als, nombreFuncion, variables, imprimir);
+                    der = (Valor) Expresion(raiz.hijos.get(1), als, nombreFuncion, variables, imprimir);
                     if (izq != null && der != null) {
                         if (izq.tipo.equals("error") || der.tipo.equals("error")) {
                             Valor v2 = new Valor("", "error");
@@ -505,7 +506,7 @@ public class ExpresionGraphik {
                                 Als a = (Als) var.valor;
                                 Valor v2 = (Valor) ins.InstanciaAcceso(accesos, a);
                                 if (v2.tipo != "error") {
-                                    Valor acceso = new Valor(v2.valor,v2.tipo);
+                                    Valor acceso = new Valor(v2.valor, v2.tipo);
                                     return acceso;
                                 } else {
                                     Valor v5 = new Valor("", "error");
@@ -527,7 +528,88 @@ public class ExpresionGraphik {
                         return v2;
                     }
                 }
-
+                case "LlamaFun": {
+                    SegundaPasada.contTemp++;
+                    String nombre = raiz.hijos.get(0).valor.toString();
+                    Valor existe = (Valor) buscarMetodo(als.Metodos, nombre);
+                    if (existe.tipo.equals("true")) {
+                        MetodoGraphik met = (MetodoGraphik) existe.valor;
+                        if (raiz.hijos.get(1).hijos.isEmpty()) {
+                            if (met.listaParametros.isEmpty()) {
+                                //metodo sin parametros
+                                Nodo cuerpometodo = met.cuerpo.hijos.get(0);
+                                ArrayList nueva = new ArrayList();
+                                nueva.add(als.VarsGlobales);
+                                Valor v = (Valor) ej.Ejecucion(cuerpometodo, nueva, 0, als, nombre, SegundaPasada.contTemp, nombre);
+                                if (met.tipo.equals("vacio")) {
+                                    if (v != null) {
+                                        Errores.ErrorSemantico("El metodo -" + nombre + "- no puede retornar un valor", 0, 0);
+                                        Valor v2 = new Valor("", "error");
+                                        return v2;
+                                    }
+                                    //saco variables
+                                    if (!SegundaPasada.pila.isEmpty()) {
+                                        while (SegundaPasada.pila.peek().equals(nombre + SegundaPasada.contTemp)) {
+                                            variables.remove(variables.size() - 1);
+                                            SegundaPasada.pila.pop();
+                                            if (SegundaPasada.pila.isEmpty()) {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }else if (v != null) {
+                                    if (v.tipo != null) {
+                                        if (!"error".equals(v.tipo)) {
+                                            if (met.tipo.equals(v.tipo)) {
+                                                //saco variables
+                                                if (!SegundaPasada.pila.isEmpty()) {
+                                                    while (SegundaPasada.pila.peek().equals(nombre + SegundaPasada.contTemp)) {
+                                                        variables.remove(variables.size() - 1);
+                                                        SegundaPasada.pila.pop();
+                                                        if (SegundaPasada.pila.isEmpty()) {
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                                Valor v2=new Valor(v.valor,v.tipo);
+                                                return v2;
+                                            } else {
+                                                Errores.ErrorSemantico("El metodo -" + nombre + "- retorna un tipo diferente", 0, 0);
+                                                Valor v2 = new Valor("", "error");
+                                                return v2;
+                                            }
+                                        } else {
+                                            Valor v2 = new Valor("", "error");
+                                            return v2;
+                                        }
+                                    } else {
+                                        Valor v2 = new Valor("", "error");
+                                        return v2;
+                                    }
+                                } else {
+                                    Errores.ErrorSemantico("El metodo -" + nombre + "- no tiene retorno", 0, 0);
+                                    Valor v2 = new Valor("", "error");
+                                    return v2;
+                                }       
+                            } else {
+                                Errores.ErrorSemantico("Los parametros del metodo -" + nombre + "- no coinciden", 0, 0);
+                                Valor v = new Valor("", "error");
+                                return v;
+                            }
+                        } else if (raiz.hijos.get(1).hijos.size() == met.listaParametros.size()) {
+                            //metodo con parametros
+                        } else {
+                            Errores.ErrorSemantico("Los parametros del metodo -" + nombre + "- no coinciden", 0, 0);
+                            Valor v = new Valor("", "error");
+                            return v;
+                        }
+                    } else {
+                        Errores.ErrorSemantico("El metodo -" + nombre + "- no existe", 0, 0);
+                        Valor v = new Valor("", "error");
+                        return v;
+                    }
+                }
+                break;
                 case "LlamaArreglo": {
                     Arreglo arreglo = new Arreglo();
                     String nombre = raiz.hijos.get(0).valor.toString();
@@ -536,10 +618,9 @@ public class ExpresionGraphik {
                         Variable var = (Variable) existe.valor;
                         if (var.arreglo) {
                             Nodo posicion = raiz.hijos.get(1);
-
                             ArrayList pos = new ArrayList();
                             for (Nodo c : posicion.hijos) {
-                                Valor v = (Valor) Expresion(c, nombreFuncion, variables, imprimir);
+                                Valor v = (Valor) Expresion(c, als, nombreFuncion, variables, imprimir);
                                 if (v != null) {
                                     if (v.valor != null) {
                                         if (!"error".equals(v.tipo)) {
@@ -612,6 +693,20 @@ public class ExpresionGraphik {
                     return v;
                 }
             }
+        }
+        Valor v = new Valor("", "false");
+        return v;
+    }
+
+    public Object buscarMetodo(ArrayList<MetodoGraphik> metodos, String nombre) {
+
+        for (int i = 0; i < metodos.size(); i++) {
+            if (metodos.get(i).nombre.equals(nombre)) {
+                MetodoGraphik met = metodos.get(i);
+                Valor v = new Valor(met, "true");
+                return v;
+            }
+
         }
         Valor v = new Valor("", "false");
         return v;

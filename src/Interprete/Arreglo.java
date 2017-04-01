@@ -7,6 +7,7 @@ package Interprete;
 
 import Analizadores.Errores;
 import Ast.Nodo;
+import Interprete.Graphik.Als;
 import Interprete.Graphik.ExpresionGraphik;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +20,10 @@ public class Arreglo {
 
     ExpresionGraphik exp = new ExpresionGraphik();
 
-    public Object ValidarArreglo(ArrayList dim, Nodo posiciones, String nombreArreglo, String tipo, String nombreFuncion,
+    public Object ValidarArreglo(ArrayList dim, Als als, Nodo posiciones, String nombreArreglo, String tipo, String nombreFuncion,
             ArrayList<ArrayList<Variable>> variables) {
 
-        Valor v = (Valor) ExtraerPosiciones(posiciones, dim, nombreFuncion, nombreArreglo, variables, tipo);
+        Valor v = (Valor) ExtraerPosiciones(posiciones, als,dim, nombreFuncion, nombreArreglo, variables, tipo);
         if (!"error".equals(v.tipo)) {
             ArrayList pos = (ArrayList) v.valor;
             if (pos.size() == Integer.parseInt(dim.get(0).toString())) {
@@ -32,7 +33,7 @@ public class Arreglo {
                 } else {
                     Boolean que = ContarPosiciones(dim, pos, nombreArreglo);
                     if (que) {
-                        Valor vv = (Valor) Posiciones(posiciones, dim, nombreFuncion, nombreArreglo, variables, tipo);
+                        Valor vv = (Valor) Posiciones(posiciones, als,dim, nombreFuncion, nombreArreglo, variables, tipo);
                         Valor v2 = new Valor(vv.valor, "");
                         return v2;
                     } else {
@@ -54,12 +55,12 @@ public class Arreglo {
 
     }
 
-    public Object ExtraerPosiciones(Nodo posiciones, ArrayList dim, String nombreFuncion, String nombreArreglo,
+    public Object ExtraerPosiciones(Nodo posiciones, Als als, ArrayList dim, String nombreFuncion, String nombreArreglo,
             ArrayList<ArrayList<Variable>> variables, String tipo) {
         ArrayList nuevo = new ArrayList();
         for (Nodo c : posiciones.hijos) {
             if (c.valor.toString().equals("Posiciones")) {
-                Valor v = (Valor) ExtraerPosiciones(c, dim, nombreFuncion, nombreArreglo, variables, tipo);
+                Valor v = (Valor) ExtraerPosiciones(c, als,dim, nombreFuncion, nombreArreglo, variables, tipo);
                 if (!"error".equals(v.tipo)) {
                     ArrayList a = (ArrayList) v.valor;
                     nuevo.add(a);
@@ -69,7 +70,7 @@ public class Arreglo {
                     return v2;
                 }
             } else {
-                Valor v = (Valor) exp.Expresion(c, nombreFuncion, variables, false);
+                Valor v = (Valor) exp.Expresion(c, als, nombreFuncion, variables, false);
                 if (v != null) {
                     if (v.valor != null) {
                         if (!"error".equals(v.tipo)) {
@@ -102,15 +103,15 @@ public class Arreglo {
     }
     ArrayList nuevoP = new ArrayList();
 
-    public Object Posiciones(Nodo posiciones, ArrayList dim, String nombreFuncion, String nombreArreglo,
+    public Object Posiciones(Nodo posiciones,Als als, ArrayList dim, String nombreFuncion, String nombreArreglo,
             ArrayList<ArrayList<Variable>> variables, String tipo) {
 
         for (Nodo c : posiciones.hijos) {
             if (c.valor.toString().equals("Posiciones")) {
-                Posiciones(c, dim, nombreFuncion, nombreArreglo, variables, tipo);
+                Posiciones(c,als, dim, nombreFuncion, nombreArreglo, variables, tipo);
 
             } else {
-                Valor v = (Valor) exp.Expresion(c, nombreFuncion, variables, false);
+                Valor v = (Valor) exp.Expresion(c,als, nombreFuncion, variables, false);
                 if (v != null) {
                     if (v.valor != null) {
                         if (!"error".equals(v.tipo)) {
