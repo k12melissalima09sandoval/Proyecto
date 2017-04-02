@@ -5,7 +5,7 @@
  */
 package Interprete.Haskell;
 
-import Ast.Nodo;
+import Dibujar.Nodo;
 import java.util.ArrayList;
 import static Interprete.Haskell.ExpresionHaskell.ultimoValor;
 import static Interprete.Haskell.ExpresionHaskell.ultimoTipo;

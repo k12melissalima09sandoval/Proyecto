@@ -3,7 +3,7 @@
 package Analizadores.Graphik;
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
-import Ast.Nodo;
+import Dibujar.Nodo;
 
 //------> Parser, Variables y Metodos
 
@@ -520,9 +520,10 @@ INCDEC ::= num:num
             nuevo.Hijo(n); 
             RESULT = nuevo; :}
         ;
-GRAPHIKAR ::= graphikar parenAbre ARR_GRAPHIK:nodo parenCierra fin
+GRAPHIKAR ::= graphikar parenAbre ARR_GRAPHIK:x coma ARR_GRAPHIK:y parenCierra fin
             {:Nodo nuevo = new Nodo("Graphikar");
-                nuevo.Hijo(nodo);
+                nuevo.Hijo(x);
+                nuevo.Hijo(y);
                 RESULT = nuevo;
             :}
            ;

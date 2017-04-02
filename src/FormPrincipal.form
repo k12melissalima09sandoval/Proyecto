@@ -75,7 +75,10 @@
                                   <Component id="btnCerrarPestaña" max="32767" attributes="0"/>
                                   <Component id="btnEjecutar" alignment="1" max="32767" attributes="0"/>
                                   <Component id="btnAbrir" max="32767" attributes="0"/>
-                                  <Component id="btnGuardar" alignment="0" min="-2" pref="99" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="btnGraphikar" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="btnGuardar" alignment="0" pref="99" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
@@ -100,6 +103,8 @@
                       <Component id="btnAbrir" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnGuardar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnGraphikar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="btnCerrarPestaña" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -337,6 +342,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAbrirActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnGraphikar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Graphikar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGraphikarActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

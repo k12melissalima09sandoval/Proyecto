@@ -6,7 +6,7 @@
 package Interprete.Graphik;
 
 import Analizadores.Errores;
-import Ast.Nodo;
+import Dibujar.Nodo;
 import Interprete.Arreglo;
 import Interprete.Operacion.*;
 import Interprete.Valor;
@@ -151,6 +151,7 @@ public class ExpresionGraphik {
                         return v2;
                     }
                 }
+                break;
                 case "Incremento": {
 
                     Valor v = (Valor) Expresion(exp, als, nombreFuncion, variables, imprimir);
@@ -242,6 +243,7 @@ public class ExpresionGraphik {
                         Valor v2 = new Valor("", "error");
                         return v2;
                     }
+                    
                     break;
                 }
 
@@ -798,6 +800,7 @@ public class ExpresionGraphik {
                     }
                 }
                 break;
+                
                 case "LlamaArreglo": {
                     Arreglo arreglo = new Arreglo();
                     String nombre = raiz.hijos.get(0).valor.toString();

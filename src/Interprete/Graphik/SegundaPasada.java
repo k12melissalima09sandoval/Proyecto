@@ -2,7 +2,8 @@ package Interprete.Graphik;
 
 import Analizadores.Errores;
 import Analizadores.Imprimir;
-import Ast.Nodo;
+import Dibujar.Graficar;
+import Dibujar.Nodo;
 import Interprete.Arreglo;
 import Interprete.AsignacionCasteo;
 import Interprete.Valor;
@@ -162,7 +163,7 @@ public class SegundaPasada {
                                 if (!"error".equals(expAsigna.tipo)) {
                                     if (var.valor != null) {
                                         Als a = (Als) var.valor;
-                                        ins.InstanciaReferencia(accesos, a, expAsigna, als,variables);
+                                        ins.InstanciaReferencia(accesos, a, expAsigna, als, variables);
                                     } else {
                                         Errores.ErrorSemantico("El objeto -" + nombre + "- no esta inicializado", 0, 0);
                                     }
@@ -666,7 +667,7 @@ public class SegundaPasada {
                         if (var.instancia) {
                             if (var.valor != null) {
                                 Als a = (Als) var.valor;
-                                ins.LlamaAcceso(accesos, a,als,variables);
+                                ins.LlamaAcceso(accesos, a, als, variables);
                             } else {
                                 Errores.ErrorSemantico("El objeto -" + nombre + "- no esta inicializado", 0, 0);
                             }
@@ -951,6 +952,47 @@ public class SegundaPasada {
                         Imprimir.Imprimir("");
                     }
 
+                }
+                break;
+
+                case "Graphikar": {
+                    contTemp++;
+                    ArrayList valoresX = new ArrayList();
+                    ArrayList valoresY = new ArrayList();
+                    Nodo exp1 = raiz.hijos.get(0);
+                    Nodo exp2 = raiz.hijos.get(1);
+                    Valor v1 = new Valor("", "");
+                    Valor v2 = new Valor("", "");
+                    if (exp1.hijos.get(0).valor.equals("Posiciones")) {
+                        ArrayList val = new ArrayList();
+                        for (Nodo c : raiz.hijos.get(1).hijos) {
+                            val.add(c.hijos.get(0).hijos.get(0));
+                        }
+                        valoresX = val;
+                    } else {
+                        v1 = (Valor) exp.Expresion(exp1, als, nombreFun, variables, false);
+                        if (v1 != null) {
+                            if (v1.valor != null) {
+                                valoresX = (ArrayList) v1.valor;
+                            }
+                        }
+                    }
+                    if (exp2.hijos.get(0).valor.equals("Posiciones")) {
+                        ArrayList val = new ArrayList();
+                        for (Nodo c : raiz.hijos.get(1).hijos.get(0).hijos) {
+                            val.add(c.hijos.get(0).valor);
+                        }
+                        valoresY = val;
+                    } else {
+                        v2 = (Valor) exp.Expresion(exp2, als, nombreFun, variables, false);
+                        if (v1 != null) {
+                            if (v1.valor != null) {
+                                valoresY = (ArrayList) v2.valor;
+                            }
+                        }
+                    }
+                    Graficar nueva = Graficar.Inicializar();
+                    nueva.graficar(valoresX, valoresY, "Grafica"+contTemp);
                 }
                 break;
                 case "Incremento": {

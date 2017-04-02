@@ -7,7 +7,7 @@ package Interprete.Haskell;
 
 //import FunPropias.*;
 import Interprete.Haskell.Concatena;
-import Ast.Nodo;
+import Dibujar.Nodo;
 import Interprete.Haskell.ExpresionHaskell;
 import Interprete.Valor;
 

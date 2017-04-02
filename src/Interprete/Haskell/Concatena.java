@@ -6,7 +6,7 @@
 package Interprete.Haskell;
 
 import Interprete.Haskell.RecorreHaskell;
-import Ast.Nodo;
+import Dibujar.Nodo;
 import Interprete.Haskell.ExpresionHaskell;
 import Interprete.Haskell.FuncionHaskell;
 import Interprete.Parametros;

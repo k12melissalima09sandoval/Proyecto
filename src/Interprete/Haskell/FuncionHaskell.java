@@ -5,7 +5,7 @@
  */
 package Interprete.Haskell;
 
-import Ast.Nodo;
+import Dibujar.Nodo;
 
 /**
  *

@@ -8,7 +8,7 @@ package Interprete.Graphik;
 import Analizadores.Errores;
 import Analizadores.Graphik.GraphikLexico;
 import Analizadores.Graphik.GraphikSintactico;
-import Ast.Nodo;
+import Dibujar.Nodo;
 import Interprete.Haskell.FuncionHaskell;
 import Interprete.Valor;
 import Simbolos.TablaSimbolosGraphik;

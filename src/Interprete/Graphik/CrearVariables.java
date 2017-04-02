@@ -6,7 +6,7 @@
 package Interprete.Graphik;
 
 import Analizadores.Errores;
-import Ast.Nodo;
+import Dibujar.Nodo;
 import Interprete.Arreglo;
 import Interprete.AsignacionCasteo;
 import Interprete.Parametros;

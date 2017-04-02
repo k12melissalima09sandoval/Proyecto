@@ -6,7 +6,7 @@
 package Interprete;
 
 import Analizadores.Errores;
-import Ast.Nodo;
+import Dibujar.Nodo;
 import Interprete.Graphik.Als;
 import Interprete.Graphik.ExpresionGraphik;
 import java.util.ArrayList;

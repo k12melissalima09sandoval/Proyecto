@@ -5,7 +5,7 @@
  */
 package Interprete.Graphik;
 
-import Ast.Nodo;
+import Dibujar.Nodo;
 import Interprete.Parametros;
 import java.util.ArrayList;
 

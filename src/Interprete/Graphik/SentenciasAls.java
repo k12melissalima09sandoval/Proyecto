@@ -5,7 +5,7 @@
  */
 package Interprete.Graphik;
 
-import Ast.Nodo;
+import Dibujar.Nodo;
 
 /**
  *
