@@ -26,7 +26,7 @@ public class CrearMetodos {
             switch (valor) {
 
                 case "Metodo":
-                    String tipo="";
+                    String tipo = "";
                     if (nodo.hijos.get(0).valor.toString().equals("Als")) {
                         tipo = nodo.hijos.get(0).hijos.get(0).valor.toString();
                     } else {
@@ -44,7 +44,12 @@ public class CrearMetodos {
                         } else {
                             MetodoGraphik met = new MetodoGraphik(tipo, nombre, visible, cuerpo);
                             for (Nodo p : nodo.hijos.get(2).hijos) {
-                                String tipoP = p.hijos.get(0).valor.toString();
+                                String tipoP = "";
+                                if (p.hijos.get(0).valor.toString().equals("Als")) {
+                                    tipoP = p.hijos.get(0).hijos.get(0).valor.toString();
+                                } else {
+                                    tipoP = p.hijos.get(0).valor.toString();
+                                }
                                 String nombreP = p.hijos.get(1).valor.toString();
 
                                 Parametros param = new Parametros(tipoP, nombreP);

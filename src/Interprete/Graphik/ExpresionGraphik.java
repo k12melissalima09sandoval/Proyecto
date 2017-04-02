@@ -512,8 +512,8 @@ public class ExpresionGraphik {
                         if (var.instancia) {
                             if (var.valor != null) {
                                 Als a = (Als) var.valor;
-                                Valor v2 = (Valor) ins.InstanciaAcceso(accesos, a);
-                                if (v2.tipo != "error") {
+                                Valor v2 = (Valor) ins.InstanciaAcceso(accesos, a,als,variables);
+                                if (!"error".equals(v2.tipo)) {
                                     Valor acceso = new Valor(v2.valor, v2.tipo);
                                     return acceso;
                                 } else {

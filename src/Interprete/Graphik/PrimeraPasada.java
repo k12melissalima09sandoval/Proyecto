@@ -20,6 +20,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,10 +42,12 @@ public class PrimeraPasada {
 
     public Object Reconocer(Nodo raiz, Boolean bandera) {
 
+        Als nuevo = new Als();
+        ArrayList<Als> listaals = new ArrayList();
         //LOS ALS
         for (Nodo c : raiz.hijos.get(2).hijos) {
             Nodo cuerpo = c.hijos.get(3);
-            Als nuevo = new Als();
+            nuevo = new Als();
             nuevo.Inicializar();
             //nombre clase
             String nombreAls = c.hijos.get(0).valor.toString();
@@ -88,7 +91,7 @@ public class PrimeraPasada {
                                         }
                                     }
                                     nuevo.agregarHereda(a);
-                                }else{
+                                } else {
                                     Errores.ErrorSemantico("No se puede heredar un Als -" + hereda + "- privado", paso, paso);
                                 }
                             } else {
@@ -112,8 +115,6 @@ public class PrimeraPasada {
                     TablaSimbolosGraphik.addAls(nuevo);
                 }
 
-                
-
             }
 
             //IMPORTA
@@ -133,9 +134,13 @@ public class PrimeraPasada {
                                 Graficar(recorrido(GraphikSintactico.raiz), "AstImporta_" + nombre);
 
                                 Valor v = (Valor) Reconocer(GraphikSintactico.raiz, true);
-                                Als b = (Als) v.valor;
-                                Als a = b.copiar();
-                                nuevo.agregarImporta(a);
+                                ArrayList<Als> vv = (ArrayList) v.valor;
+                                for (int i = 0; i < vv.size(); i++) {
+                                    Als b = (Als) vv.get(i);
+                                    Als a = b.copiar();
+                                    nuevo.agregarImporta(a);
+                                }
+                                listaals.clear();
                             } else {
                                 Errores.ErrorSemantico("El Als -" + nombre + "- esta vacio", paso, paso);
                             }
@@ -150,7 +155,7 @@ public class PrimeraPasada {
             }
             varsGlobales.CrearVariablesGlobales(cuerpo, nuevo);
             metodos.CrearMetodos(cuerpo, nuevo);
-           // varsGlobales.CrearInstanciasGlobales(cuerpo, nuevo);
+            // varsGlobales.CrearInstanciasGlobales(cuerpo, nuevo);
             //INCLUYE
             if (!raiz.hijos.get(1).hijos.isEmpty()) {
                 Map<String, FuncionHaskell> funciones = tablaH.ObtenerListaFunciones();
@@ -173,14 +178,23 @@ public class PrimeraPasada {
                 }
 
             }
-
             if (bandera) {
-                Valor v = new Valor(nuevo, "");
-                return v;
+                listaals.add(nuevo);
             }
-
         }
+
+        if (bandera) {
+
+            Valor v = new Valor(listaals, "");
+            //listaals.clear();
+            return v;
+        }
+
         return null;
+    }
+
+    public void IncluirAls() {
+
     }
 
     private Boolean VerificarImporaciones(String incluye) {

@@ -12,6 +12,7 @@ import Interprete.AsignacionCasteo;
 import Interprete.Parametros;
 import Interprete.Valor;
 import Interprete.Variable;
+import Simbolos.TablaSimbolosGraphik;
 import java.util.ArrayList;
 
 /**
@@ -49,8 +50,7 @@ public class CrearVariables {
                         }
                         //DECLARACION DE UNA VARIABLE CON O SIN ASIGNACION
                     } else //SOLAMENTE DECLARACION
-                    {
-                        if (nodo.hijos.get(2).hijos.isEmpty()) {
+                     if (nodo.hijos.get(2).hijos.isEmpty()) {
                             Boolean t = false;
                             String tipo = nodo.hijos.get(0).valor.toString();
                             if (tipo.equals("Als")) {
@@ -120,7 +120,6 @@ public class CrearVariables {
                                 }
                             }
                         }
-                    }
                     break;
 
                 case "InstanciaGlobal":
@@ -709,7 +708,7 @@ public class CrearVariables {
     }
 
     public Object CrearVariablesMetodos(ArrayList<Parametros> parametros, ArrayList<Valor> valores,
-            ArrayList<ArrayList<Variable>> vars, Als als,String nombreFun,int contTemp) {
+            ArrayList<ArrayList<Variable>> vars, Als als, String nombreFun, int contTemp) {
 
         ArrayList<Variable> nueva = new ArrayList();
 
@@ -717,7 +716,7 @@ public class CrearVariables {
             if (parametros.get(i).tipo.equals(valores.get(i).tipo)) {
                 Variable var = new Variable(valores.get(i).tipo, parametros.get(i).nombre,
                         "Publico", valores.get(i).valor, false, false);
-                
+
                 nueva.add(var);
             } else {
                 Errores.ErrorSemantico("El tipo del valor no coicide con el tipo del parametro", 0, 0);
@@ -725,7 +724,7 @@ public class CrearVariables {
                 return v;
             }
         }
-        SegundaPasada.pila.push(nombreFun+contTemp);
+        SegundaPasada.pila.push(nombreFun + contTemp);
         vars.add(nueva);
         Valor v = new Valor(vars, "");
         return v;
@@ -738,48 +737,34 @@ public class CrearVariables {
         String tipoObjeto = nodo.hijos.get(0).hijos.get(0).valor.toString();
         String nombreN = nodo.hijos.get(1).hijos.get(0).valor.toString();
         String visible = nodo.hijos.get(1).hijos.get(1).valor.toString();
-        if (!als.importa.isEmpty()) {
-            ArrayList<Als> importa = als.importa;
-            //no esta inicializado
-            if (nodo.hijos.get(2).hijos.isEmpty()) {
-                for (int i = 0; i < importa.size(); i++) {
-                    if (tipoObjeto.equals(importa.get(i).nombre)) {
-                        banderaImporta = true;
-                        break;
-                    }
-                }
-                if (banderaImporta) {
-                    if (!vars.isEmpty()) {
-                        for (int i = 0; i < vars.size(); i++) {
-                            for (int j = 0; j < vars.get(i).size(); j++) {
-                                if (nombreN.equals(vars.get(i).get(j).nombre)) {
-                                    bandera = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if (bandera) {
-                            Errores.ErrorSemantico("La variable -" + nombreN + "- ya esta declarada", 0, 0);
-                            bandera = false;
-                        } else if (!nueva.isEmpty()) {
-                            for (int i = 0; i < nueva.size(); i++) {
-                                if (nombreN.equals(nueva.get(i).nombre)) {
-                                    bandera = true;
-                                    break;
-                                }
-                            }
-                            if (bandera) {
-                                Errores.ErrorSemantico("La variable -" + nombreN + "- ya esta declarada", 0, 0);
-                                bandera = false;
-                            } else {
-                                Variable v2 = new Variable(tipoObjeto, nombreN, visible, null, false, true);
-                                nueva.add(v2);
-                            }
-                        } else {
-                            Variable v2 = new Variable(tipoObjeto, nombreN, visible, null, false, true);
-                            nueva.add(v2);
-                        }
+        ArrayList<Als> importa = new ArrayList();
 
+        if (!als.importa.isEmpty()) {
+            importa = als.importa;
+            //no esta inicializado
+        } else {
+            importa = TablaSimbolosGraphik.listaAls;
+        }
+        if (nodo.hijos.get(2).hijos.isEmpty()) {
+            for (int i = 0; i < importa.size(); i++) {
+                if (tipoObjeto.equals(importa.get(i).nombre)) {
+                    banderaImporta = true;
+                    break;
+                }
+            }
+            if (banderaImporta) {
+                if (!vars.isEmpty()) {
+                    for (int i = 0; i < vars.size(); i++) {
+                        for (int j = 0; j < vars.get(i).size(); j++) {
+                            if (nombreN.equals(vars.get(i).get(j).nombre)) {
+                                bandera = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (bandera) {
+                        Errores.ErrorSemantico("La variable -" + nombreN + "- ya esta declarada", 0, 0);
+                        bandera = false;
                     } else if (!nueva.isEmpty()) {
                         for (int i = 0; i < nueva.size(); i++) {
                             if (nombreN.equals(nueva.get(i).nombre)) {
@@ -794,62 +779,62 @@ public class CrearVariables {
                             Variable v2 = new Variable(tipoObjeto, nombreN, visible, null, false, true);
                             nueva.add(v2);
                         }
-
                     } else {
                         Variable v2 = new Variable(tipoObjeto, nombreN, visible, null, false, true);
                         nueva.add(v2);
                     }
+
+                } else if (!nueva.isEmpty()) {
+                    for (int i = 0; i < nueva.size(); i++) {
+                        if (nombreN.equals(nueva.get(i).nombre)) {
+                            bandera = true;
+                            break;
+                        }
+                    }
+                    if (bandera) {
+                        Errores.ErrorSemantico("La variable -" + nombreN + "- ya esta declarada", 0, 0);
+                        bandera = false;
+                    } else {
+                        Variable v2 = new Variable(tipoObjeto, nombreN, visible, null, false, true);
+                        nueva.add(v2);
+                    }
+
                 } else {
-                    Errores.ErrorSemantico("El objeto -" + nombreN + "- no se puede instanciar "
-                            + "porque no se ha importado el Als -" + tipoObjeto + "-", 0, 0);
+                    Variable v2 = new Variable(tipoObjeto, nombreN, visible, null, false, true);
+                    nueva.add(v2);
                 }
             } else {
-                //esta inicializado
-                String NameObject = nodo.hijos.get(2).hijos.get(0).valor.toString();
-                if (nodo.hijos.get(2).valor.equals("Objeto")) {
-                    if (tipoObjeto.equals(NameObject)) {
-                        Als ins = new Als();
-                        Als instancia = new Als();
-                        for (int i = 0; i < importa.size(); i++) {
-                            if (tipoObjeto.equals(importa.get(i).nombre)) {
-                                ins = importa.get(i);
-                                instancia = ins.copiar();
-                                banderaImporta = true;
-                                break;
-                            }
+                Errores.ErrorSemantico("El objeto -" + nombreN + "- no se puede instanciar "
+                        + "porque no se ha importado el Als -" + tipoObjeto + "-", 0, 0);
+            }
+        } else {
+            //esta inicializado
+            String NameObject = nodo.hijos.get(2).hijos.get(0).valor.toString();
+            if (nodo.hijos.get(2).valor.equals("Objeto")) {
+                if (tipoObjeto.equals(NameObject)) {
+                    Als ins = new Als();
+                    Als instancia = new Als();
+                    for (int i = 0; i < importa.size(); i++) {
+                        if (tipoObjeto.equals(importa.get(i).nombre)) {
+                            ins = importa.get(i);
+                            instancia = ins.copiar();
+                            banderaImporta = true;
+                            break;
                         }
-                        if (banderaImporta) {
-                            if (!vars.isEmpty()) {
-                                for (int i = 0; i < vars.size(); i++) {
-                                    for (int j = 0; j < vars.get(i).size(); j++) {
-                                        if (nombreN.equals(vars.get(i).get(j).nombre)) {
-                                            bandera = true;
-                                            break;
-                                        }
+                    }
+                    if (banderaImporta) {
+                        if (!vars.isEmpty()) {
+                            for (int i = 0; i < vars.size(); i++) {
+                                for (int j = 0; j < vars.get(i).size(); j++) {
+                                    if (nombreN.equals(vars.get(i).get(j).nombre)) {
+                                        bandera = true;
+                                        break;
                                     }
                                 }
-                                if (bandera) {
-                                    Errores.ErrorSemantico("La variable -" + nombreN + "- ya esta declarada", 0, 0);
-                                    bandera = false;
-                                } else if (!nueva.isEmpty()) {
-                                    for (int i = 0; i < nueva.size(); i++) {
-                                        if (nombreN.equals(nueva.get(i).nombre)) {
-                                            bandera = true;
-                                            break;
-                                        }
-                                    }
-                                    if (bandera) {
-                                        Errores.ErrorSemantico("La variable -" + nombreN + "- ya esta declarada", 0, 0);
-                                        bandera = false;
-                                    } else {
-                                        Variable v2 = new Variable(tipoObjeto, nombreN, visible, instancia, false, true);
-                                        nueva.add(v2);
-                                    }
-                                } else {
-                                    Variable v2 = new Variable(tipoObjeto, nombreN, visible, instancia, false, true);
-                                    nueva.add(v2);
-                                }
-
+                            }
+                            if (bandera) {
+                                Errores.ErrorSemantico("La variable -" + nombreN + "- ya esta declarada", 0, 0);
+                                bandera = false;
                             } else if (!nueva.isEmpty()) {
                                 for (int i = 0; i < nueva.size(); i++) {
                                     if (nombreN.equals(nueva.get(i).nombre)) {
@@ -864,28 +849,44 @@ public class CrearVariables {
                                     Variable v2 = new Variable(tipoObjeto, nombreN, visible, instancia, false, true);
                                     nueva.add(v2);
                                 }
-
                             } else {
                                 Variable v2 = new Variable(tipoObjeto, nombreN, visible, instancia, false, true);
                                 nueva.add(v2);
                             }
+
+                        } else if (!nueva.isEmpty()) {
+                            for (int i = 0; i < nueva.size(); i++) {
+                                if (nombreN.equals(nueva.get(i).nombre)) {
+                                    bandera = true;
+                                    break;
+                                }
+                            }
+                            if (bandera) {
+                                Errores.ErrorSemantico("La variable -" + nombreN + "- ya esta declarada", 0, 0);
+                                bandera = false;
+                            } else {
+                                Variable v2 = new Variable(tipoObjeto, nombreN, visible, instancia, false, true);
+                                nueva.add(v2);
+                            }
+
                         } else {
-                            Errores.ErrorSemantico("El objeto -" + nombreN + "- no se puede instanciar "
-                                    + "porque no se ha importado el Als -" + tipoObjeto + "-", 0, 0);
+                            Variable v2 = new Variable(tipoObjeto, nombreN, visible, instancia, false, true);
+                            nueva.add(v2);
                         }
                     } else {
-                        Errores.ErrorSemantico("La instancia de -" + nombreN + "- es de "
-                                + "tipos diferentes (" + tipoObjeto + "," + NameObject + ")", 0, 0);
-
+                        Errores.ErrorSemantico("El objeto -" + nombreN + "- no se puede instanciar "
+                                + "porque no se ha importado el Als -" + tipoObjeto + "-", 0, 0);
                     }
                 } else {
-                    Errores.ErrorSemantico("Asignacion erronea en -" + nombreN + "- ", 0, 0);
+                    Errores.ErrorSemantico("La instancia de -" + nombreN + "- es de "
+                            + "tipos diferentes (" + tipoObjeto + "," + NameObject + ")", 0, 0);
+
                 }
+            } else {
+                Errores.ErrorSemantico("Asignacion erronea en -" + nombreN + "- ", 0, 0);
             }
-        } else {
-            Errores.ErrorSemantico("El objeto -" + nombreN + "- no se puede instanciar "
-                    + "porque no se ha importado el Als -" + tipoObjeto + "-", 0, 0);
         }
         vars.add(nueva);
+
     }
 }

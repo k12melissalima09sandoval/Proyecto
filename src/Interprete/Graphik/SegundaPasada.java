@@ -38,7 +38,7 @@ public class SegundaPasada {
                 nueva.add(Globales);
                 int nivel = 0;
                 Ejecucion(cuerpo, nueva, nivel, als.get(i), "Inicio", contTemp, "inicio");
-
+                return null;
             } else {
                 Errores.ErrorSemantico("No existe el metodo Inicio", 0, 0);
             }
@@ -162,34 +162,17 @@ public class SegundaPasada {
                                 if (!"error".equals(expAsigna.tipo)) {
                                     if (var.valor != null) {
                                         Als a = (Als) var.valor;
-                                        Valor fin = (Valor) ins.InstanciaReferencia(accesos, a, expAsigna);
-                                        if ("error".equals(fin.tipo)) {
-                                            Valor v2 = new Valor("", "error");
-                                            return v2;
-                                        }
+                                        ins.InstanciaReferencia(accesos, a, expAsigna, als,variables);
                                     } else {
                                         Errores.ErrorSemantico("El objeto -" + nombre + "- no esta inicializado", 0, 0);
-
-                                        Valor v2 = new Valor("", "error");
-                                        return v2;
                                     }
-                                } else {
-                                    Valor v2 = new Valor("", "error");
-                                    return v2;
                                 }
-                            } else {
-                                Valor v2 = new Valor("", "error");
-                                return v2;
                             }
                         } else {
                             Errores.ErrorSemantico("La variable -" + nombre + "- a la que se quiere acceder no es de tipo objeto", 0, 0);
-                            Valor v2 = new Valor("", "error");
-                            return v2;
                         }
                     } else {
                         Errores.ErrorSemantico("La variable -" + nombre + "- no existe", 0, 0);
-                        Valor v2 = new Valor("", "error");
-                        return v2;
                     }
                 }
                 break;
@@ -673,6 +656,29 @@ public class SegundaPasada {
                     }
 
                 }
+                case "Acceso": {
+                    Instancia ins = new Instancia();
+                    String nombre = raiz.hijos.get(0).valor.toString();
+                    Valor v = (Valor) buscarVariable(variables, nombre);
+                    if (v.tipo.equals("true")) {
+                        Variable var = (Variable) v.valor;
+                        Nodo accesos = raiz.hijos.get(1);
+                        if (var.instancia) {
+                            if (var.valor != null) {
+                                Als a = (Als) var.valor;
+                                ins.LlamaAcceso(accesos, a,als,variables);
+                            } else {
+                                Errores.ErrorSemantico("El objeto -" + nombre + "- no esta inicializado", 0, 0);
+                            }
+
+                        } else {
+                            Errores.ErrorSemantico("La variable -" + nombre + "- a la que se quiere acceder no es de tipo objeto", 0, 0);
+                        }
+                    } else {
+                        Errores.ErrorSemantico("La variable -" + nombre + "- no existe", 0, 0);
+                    }
+                }
+                break;
                 case "LlamaFun": {
                     contTemp++;
                     ArrayList nueva = new ArrayList();

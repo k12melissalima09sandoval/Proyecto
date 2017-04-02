@@ -17,6 +17,7 @@ public class Als implements Cloneable {
 
     public String nombre;
     public String visibilidad;
+    public ArrayList<Als> alslista = new ArrayList();
     public ArrayList<Als> hereda = new ArrayList();
     public ArrayList<Als> importa = new ArrayList();
     public ArrayList<FuncionHaskell> incluye = new ArrayList();
@@ -33,12 +34,18 @@ public class Als implements Cloneable {
             ArrayList<Variable> varscopia = new ArrayList();
             for (int i = 0; i < this.VarsGlobales.size(); i++) {
                 if (this.VarsGlobales.get(i).instancia) {
-                    Als a = (Als)this.VarsGlobales.get(i).valor;
-                    Als b = a.copiar();
-                    Variable v = this.VarsGlobales.get(i).copiar();
-                    v.valor = b;
-                    varscopia.add(v);
+                    try {
+                        Als a = (Als) this.VarsGlobales.get(i).valor;
+                        Als b = a.copiar();
+                        Variable v = this.VarsGlobales.get(i).copiar();
+                        v.valor = b;
+                        varscopia.add(v);
+                    } catch (Exception e) {
+                        Variable v = this.VarsGlobales.get(i).copiar();
+                        varscopia.add(v);
+                    }
                 } else {
+
                     Variable v = this.VarsGlobales.get(i).copiar();
                     varscopia.add(v);
                 }
@@ -58,6 +65,11 @@ public class Als implements Cloneable {
                 Als a = this.importa.get(i).copiar();
                 importacopia.add(a);
             }
+            ArrayList<Als> listaA = new ArrayList();
+            for (int i = 0; i < this.alslista.size(); i++) {
+                Als a = this.alslista.get(i).copiar();
+                listaA.add(a);
+            }
             ArrayList<Als> heredacopia = new ArrayList();
             for (int i = 0; i < this.hereda.size(); i++) {
                 Als h = this.hereda.get(i).copiar();
@@ -69,6 +81,7 @@ public class Als implements Cloneable {
             copia.Metodos = metodoscopia;
             copia.incluye = haskellcopia;
             copia.importa = importacopia;
+            copia.alslista = listaA;
             copia.hereda = heredacopia;
             return copia;
         } catch (Exception e) {
