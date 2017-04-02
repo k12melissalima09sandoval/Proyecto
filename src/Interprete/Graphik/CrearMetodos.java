@@ -26,7 +26,12 @@ public class CrearMetodos {
             switch (valor) {
 
                 case "Metodo":
-                    String tipo = nodo.hijos.get(0).valor.toString();
+                    String tipo="";
+                    if (nodo.hijos.get(0).valor.toString().equals("Als")) {
+                        tipo = nodo.hijos.get(0).hijos.get(0).valor.toString();
+                    } else {
+                        tipo = nodo.hijos.get(0).valor.toString();
+                    }
                     String nombre = nodo.hijos.get(1).valor.toString();
                     String visible = nodo.hijos.get(3).valor.toString();
                     Boolean existe = als.existeMetodo(nombre);
@@ -91,13 +96,13 @@ public class CrearMetodos {
                 case "MetodoDatos":
                     String tipoD = nodo.hijos.get(0).valor.toString();
                     Nodo cuerpoD = nodo.hijos.get(1);
-                    Boolean d=als.existeMetodo("Datos");
-                    if(!d){
-                            MetodoGraphik met = new MetodoGraphik(tipoD, "Datos","Privado",cuerpoD);
-                            als.addMetodo(met);
-                    }else{
+                    Boolean d = als.existeMetodo("Datos");
+                    if (!d) {
+                        MetodoGraphik met = new MetodoGraphik(tipoD, "Datos", "Privado", cuerpoD);
+                        als.addMetodo(met);
+                    } else {
                         Errores.ErrorSemantico("El metodo Datos ya esta definido", 0, 0);
-                        
+
                     }
                     break;
 
@@ -106,10 +111,10 @@ public class CrearMetodos {
                     Nodo cuerpoI = nodo.hijos.get(1);
                     Boolean e = als.existeMetodo("Inicio");
                     if (!e) {
-                        
-                            MetodoGraphik met = new MetodoGraphik(tipoI, "Inicio", "Publico", cuerpoI);
-                            als.addMetodo(met);
-                        
+
+                        MetodoGraphik met = new MetodoGraphik(tipoI, "Inicio", "Publico", cuerpoI);
+                        als.addMetodo(met);
+
                     } else {
                         Errores.ErrorSemantico("El metodo Inicio ya esta definido", 0, 0);
                     }

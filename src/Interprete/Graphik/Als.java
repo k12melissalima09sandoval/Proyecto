@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author MishaPks
  */
-public class Als implements Cloneable{
+public class Als implements Cloneable {
 
     public String nombre;
     public String visibilidad;
@@ -27,13 +27,21 @@ public class Als implements Cloneable{
 
     }
 
-    public Als copiar(){
-        try{
+    public Als copiar() {
+        try {
             Als copia = new Als();
             ArrayList<Variable> varscopia = new ArrayList();
             for (int i = 0; i < this.VarsGlobales.size(); i++) {
-                Variable v = this.VarsGlobales.get(i).copiar();
-                varscopia.add(v);
+                if (this.VarsGlobales.get(i).instancia) {
+                    Als a = (Als)this.VarsGlobales.get(i).valor;
+                    Als b = a.copiar();
+                    Variable v = this.VarsGlobales.get(i).copiar();
+                    v.valor = b;
+                    varscopia.add(v);
+                } else {
+                    Variable v = this.VarsGlobales.get(i).copiar();
+                    varscopia.add(v);
+                }
             }
             ArrayList<MetodoGraphik> metodoscopia = new ArrayList();
             for (int i = 0; i < this.Metodos.size(); i++) {
@@ -63,10 +71,11 @@ public class Als implements Cloneable{
             copia.importa = importacopia;
             copia.hereda = heredacopia;
             return copia;
-        }catch(Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
+
     //-------------------------------------------INICIALIZANDO TODAS LAS VARIABLES POR CADA NUEVO ALS
     public void Inicializar() {
 
@@ -79,15 +88,18 @@ public class Als implements Cloneable{
         visibilidad = "";
     }
 
-    public void agregarImporta(Als nuevo){
+    public void agregarImporta(Als nuevo) {
         importa.add(nuevo);
     }
-    public void agregarHereda(Als nuevo){
+
+    public void agregarHereda(Als nuevo) {
         hereda.add(nuevo);
     }
-    public void agregarIncluye(FuncionHaskell funHas){
+
+    public void agregarIncluye(FuncionHaskell funHas) {
         incluye.add(funHas);
     }
+
     //-----------------------------------------------------------AGREGANDO UN NUEVO ALS
     public Als(String name, String Visibilidad) {
         nombre = name;
@@ -116,7 +128,7 @@ public class Als implements Cloneable{
         }
         return false;
     }
-    
+
     public Variable obtenerVariableG(String nombre) {
         for (int i = 0; i < VarsGlobales.size(); i++) {
             if (nombre.equals(VarsGlobales.get(i).nombre)) {

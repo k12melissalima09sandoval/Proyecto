@@ -1,0 +1,36 @@
+digraph G {node[shape=box, style=filled]; edge[color=red]
+node2028814376[label="Raiz"];
+ node2028814376->node1679469504;node1679469504[label="Importa"];
+ node2028814376->node474019027;node474019027[label="Incluye"];
+ node2028814376->node1489979654;node1489979654[label="ListaAls"];
+ node1489979654->node1253162551;node1253162551[label="Als"];
+ node1253162551->node2068076554;node2068076554[label="detalle3"];
+ node1253162551->node1614400989;node1614400989[label="Publico"];
+ node1253162551->node1109147557;node1109147557[label="Hereda"];
+ node1253162551->node94069207;node94069207[label="SentenciasAls"];
+ node94069207->node1556540774;node1556540774[label="DeclaraGlobalVariable"];
+ node1556540774->node1916765190;node1916765190[label="numero"];
+ node1556540774->node1375567091;node1375567091[label="ListaID"];
+ node1375567091->node263600834;node263600834[label="L"];
+ node263600834->node1693473679;node1693473679[label="amor"];
+ node263600834->node1784806563;node1784806563[label="Publico"];
+ node1556540774->node1354833912;node1354833912[label="Asignacion"];
+ node1354833912->node1855938312;node1855938312[label="Exp"];
+ node1855938312->node139812215;node139812215[label="numero"];
+ node139812215->node1832135738;node1832135738[label="2510"];
+ node94069207->node894615739;node894615739[label="DeclaraGlobalVariable"];
+ node894615739->node564248070;node564248070[label="cadena"];
+ node894615739->node54391200;node54391200[label="ListaID"];
+ node54391200->node1336166401;node1336166401[label="L"];
+ node1336166401->node1817185878;node1817185878[label="telefono3"];
+ node1336166401->node1085131860;node1085131860[label="Publico"];
+ node894615739->node745637136;node745637136[label="Asignacion"];
+ node94069207->node1106781407;node1106781407[label="DeclaraGlobalVariable"];
+ node1106781407->node766947336;node766947336[label="cadena"];
+ node1106781407->node56039046;node56039046[label="ListaID"];
+ node56039046->node598625017;node598625017[label="L"];
+ node598625017->node602954895;node602954895[label="dpi3"];
+ node598625017->node996056585;node996056585[label="Publico"];
+ node1106781407->node412866;node412866[label="Asignacion"];
+
+}

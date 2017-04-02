@@ -16,6 +16,7 @@ public class Suma {
             Valor v = new Valor(texto,"cadena");
             return v;
         }*/
+        
         if (num1.tipo.equals("error") || num2.tipo.equals("error")) {
             Valor v = new Valor("", "error");
             return v;
@@ -139,8 +140,8 @@ public class Suma {
                 String n1 = num1.valor.toString();
                 switch (num2.tipo) {
                     case "numero": {
-                        int n2 = Integer.parseInt(num2.valor.toString());
-                        String resultado = "\"" + n1 + n2 + "\"";
+                        //String n2 =num2.valor.toString();
+                        String resultado = "\"" + n1 + num2.valor + "\"";
                         Valor v = new Valor(resultado, "cadena");
                         return v;
                     }

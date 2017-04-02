@@ -22,10 +22,23 @@ public class Variable implements Cloneable{
     public ArrayList dimensiones;
     public Boolean instancia;
 
+    public Variable(){
+        
+    }
     public Variable copiar(){
         try{
-            
-            return (Variable)this.clone();
+            Variable nueva = new Variable();
+            Object v = new Object();
+            v = this.valor;
+            nueva.valor = v;
+            nueva.nombre = this.nombre;
+            nueva.visibilidad = this.visibilidad ;
+            nueva.tipo = this.tipo;
+            nueva.hereda = this.hereda;
+            nueva.arreglo = this.arreglo;
+            nueva.dimensiones = this.dimensiones;
+            nueva.instancia = this.instancia;
+            return nueva;
         }catch(Exception e){
             return null;
         }
@@ -81,8 +94,4 @@ public class Variable implements Cloneable{
         this.dimensiones = dim;
     }
     
-    @Override
-    public String toString() {
-        return "Variable: " + "nombre=" + nombre + ", valor=" + valor + ", tipo=" + tipo;
-    }
 }

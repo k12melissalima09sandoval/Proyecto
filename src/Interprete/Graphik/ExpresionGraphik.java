@@ -76,8 +76,21 @@ public class ExpresionGraphik {
                     for (int i = 0; i < variables.size(); i++) {
                         for (int j = 0; j < variables.get(i).size(); j++) {
                             if (nombre.equals(variables.get(i).get(j).nombre)) {
-                                Valor v = new Valor(variables.get(i).get(j).valor, variables.get(i).get(j).tipo);
-                                return v;
+                                try {
+                                    if (variables.get(i).get(j).valor.equals(null)) {
+                                        Errores.ErrorSemantico("La variable -" + nombre + "- tiene valor de null", i, j);
+                                        Valor v = new Valor("", "error");
+                                        return v;
+
+                                    } else {
+                                        Valor v = new Valor(variables.get(i).get(j).valor, variables.get(i).get(j).tipo);
+                                        return v;
+                                    }
+                                } catch (Exception e) {
+                                    Errores.ErrorSemantico("La variable -" + nombre + "- tiene valor de null", i, j);
+                                    Valor v = new Valor("", "error");
+                                    return v;
+                                }
                             }
                         }
                     }
@@ -144,10 +157,7 @@ public class ExpresionGraphik {
                     if (v.tipo.equals("error")) {
                         Valor v2 = new Valor("", "error");
                         return v2;
-                    }
-                    if (exp.valor.equals("Acceso")) {
-
-                    } else if (exp.valor.equals("id")) {
+                    }else if (exp.valor.equals("id")) {
                         String nombre = exp.hijos.get(0).valor.toString();
                         for (int i = 0; i < variables.size(); i++) {
                             for (int j = 0; j < variables.get(i).size(); j++) {
@@ -193,10 +203,7 @@ public class ExpresionGraphik {
                     if (v.tipo.equals("error")) {
                         Valor v2 = new Valor("", "error");
                         return v2;
-                    }
-                    if (exp.valor.equals("Acceso")) {
-
-                    } else if (exp.valor.equals("id")) {
+                    }else if (exp.valor.equals("id")) {
                         String nombre = exp.hijos.get(0).valor.toString();
                         for (int i = 0; i < variables.size(); i++) {
                             for (int j = 0; j < variables.get(i).size(); j++) {
@@ -696,37 +703,22 @@ public class ExpresionGraphik {
                                             }
                                         }
                                     }
-                                } else {
-                                    if (v != null) {
-                                        if (v.tipo != null) {
-                                            if (!"error".equals(v.tipo)) {
-                                                if (met.tipo.equals(v.tipo)) {
-                                                    //saco variables
-                                                    if (!SegundaPasada.pila.isEmpty()) {
-                                                        while (SegundaPasada.pila.peek().equals(nombre + SegundaPasada.contTemp)) {
-                                                            variables.remove(variables.size() - 1);
-                                                            SegundaPasada.pila.pop();
-                                                            if (SegundaPasada.pila.isEmpty()) {
-                                                                break;
-                                                            }
+                                } else if (v != null) {
+                                    if (v.tipo != null) {
+                                        if (!"error".equals(v.tipo)) {
+                                            if (met.tipo.equals(v.tipo)) {
+                                                //saco variables
+                                                if (!SegundaPasada.pila.isEmpty()) {
+                                                    while (SegundaPasada.pila.peek().equals(nombre + SegundaPasada.contTemp)) {
+                                                        variables.remove(variables.size() - 1);
+                                                        SegundaPasada.pila.pop();
+                                                        if (SegundaPasada.pila.isEmpty()) {
+                                                            break;
                                                         }
                                                     }
-                                                    Valor v3 = new Valor(v.valor, v.tipo);
-                                                    return v3;
-                                                } else {
-                                                    if (!SegundaPasada.pila.isEmpty()) {
-                                                        while (SegundaPasada.pila.peek().equals(nombre + SegundaPasada.contTemp)) {
-                                                            variables.remove(variables.size() - 1);
-                                                            SegundaPasada.pila.pop();
-                                                            if (SegundaPasada.pila.isEmpty()) {
-                                                                break;
-                                                            }
-                                                        }
-                                                    }
-                                                    Errores.ErrorSemantico("El metodo -" + nombre + "- retorna un tipo diferente", 0, 0);
-                                                    Valor v3 = new Valor("", "error");
-                                                    return v3;
                                                 }
+                                                Valor v3 = new Valor(v.valor, v.tipo);
+                                                return v3;
                                             } else {
                                                 if (!SegundaPasada.pila.isEmpty()) {
                                                     while (SegundaPasada.pila.peek().equals(nombre + SegundaPasada.contTemp)) {
@@ -737,6 +729,7 @@ public class ExpresionGraphik {
                                                         }
                                                     }
                                                 }
+                                                Errores.ErrorSemantico("El metodo -" + nombre + "- retorna un tipo diferente", 0, 0);
                                                 Valor v3 = new Valor("", "error");
                                                 return v3;
                                             }
@@ -763,10 +756,22 @@ public class ExpresionGraphik {
                                                 }
                                             }
                                         }
-                                        Errores.ErrorSemantico("El metodo -" + nombre + "- no tiene retorno", 0, 0);
                                         Valor v3 = new Valor("", "error");
                                         return v3;
                                     }
+                                } else {
+                                    if (!SegundaPasada.pila.isEmpty()) {
+                                        while (SegundaPasada.pila.peek().equals(nombre + SegundaPasada.contTemp)) {
+                                            variables.remove(variables.size() - 1);
+                                            SegundaPasada.pila.pop();
+                                            if (SegundaPasada.pila.isEmpty()) {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    Errores.ErrorSemantico("El metodo -" + nombre + "- no tiene retorno", 0, 0);
+                                    Valor v3 = new Valor("", "error");
+                                    return v3;
                                 }
                             } else {
                                 if (!SegundaPasada.pila.isEmpty()) {

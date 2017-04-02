@@ -163,7 +163,16 @@ public class AsignacionCasteo {
                     }
                 }
             }
+            default:{
+                if(tipoRecibe.equals(tipoAsigna)){
+                    Valor v = new Valor(val,tipoAsigna);
+                    return v;
+                }else{
+                    Errores.ErrorSemantico("Error de tipos en -"+tipoAsigna+"-", 0, 0);
+                    Valor v = new Valor("","error");
+                    return v;
+                }
+            }
         }
-        return null;
     }
 }

@@ -155,14 +155,14 @@ public class CrearVariables {
                                     for (int i = 0; i < importa.size(); i++) {
                                         if (tipoObjeto.equals(importa.get(i).nombre)) {
                                             bandera = true;
-                                            instancia = importa.get(i);
+                                            instancia = importa.get(i).copiar();
                                             ins = instancia.copiar();
                                             break;
                                         }
                                     }
                                     if (bandera) {
                                         Variable v2 = new Variable(tipoObjeto, nombreN, visible,
-                                                ins, false, true);
+                                                ins.copiar(), false, true);
                                         als.addVarGlobal(v2);
                                     } else {
                                         Errores.ErrorSemantico("El objeto -" + nombreN + "- no se puede instanciar "

@@ -3116,7 +3116,7 @@ System.out.println("Empezo Graphik \n");
 		int nodoright = ((java_cup.runtime.Symbol)CUP$GraphikSintactico$stack.peek()).right;
 		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$GraphikSintactico$stack.peek()).value;
 		
-            Nodo nuevo = new Nodo("LlamaFunAcceso");
+            Nodo nuevo = new Nodo("Acceso");
             Nodo i = new Nodo(id);
             nuevo.Hijo(i);
             nuevo.Hijo(nodo);

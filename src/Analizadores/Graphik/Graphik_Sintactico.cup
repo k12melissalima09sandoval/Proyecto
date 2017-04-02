@@ -787,7 +787,7 @@ LLAMAR ::= llamar id:id parenAbre PARAM_LLAMA:nodo parenCierra
             :}
         | llamar id:id L_ACCESO:nodo
         {:
-            Nodo nuevo = new Nodo("LlamaFunAcceso");
+            Nodo nuevo = new Nodo("Acceso");
             Nodo i = new Nodo(id);
             nuevo.Hijo(i);
             nuevo.Hijo(nodo);

@@ -102,17 +102,17 @@ public class SegundaPasada {
                                             var.valor = val.valor;
 
                                         } else {
-                                            Errores.ErrorSemantico("Error en el casteo de -" + nombre + "- "
-                                                    + "el valor de la variable no cambio", 0, 0);
+                                            Errores.ErrorSemantico("El valor de la variable -" + nombre + "- "
+                                                    + "no cambio", 0, 0);
                                         }
                                     }
                                 } else {
-                                    Errores.ErrorSemantico("Error en la asignacion de -" + nombre + "- "
-                                            + "el valor de la variable no cambio", 0, 0);
+                                    Errores.ErrorSemantico("El valor de la variable -" + nombre + "- "
+                                            + "no cambio", 0, 0);
                                 }
                             } else {
-                                Errores.ErrorSemantico("Error en la asignacion de -" + nombre + "- "
-                                        + "el valor de la variable no cambio", 0, 0);
+                                Errores.ErrorSemantico("El valor de la variable -" + nombre + "- "
+                                        + "no cambio", 0, 0);
                             }
                         } else { //viene una instancia en una asignacion a=nuevo instancia()?
                             String objeto = raiz.hijos.get(1).hijos.get(0).valor.toString();
@@ -149,7 +149,48 @@ public class SegundaPasada {
 
                 //Asignacion con Acceso -> a.acceso = exp?
                 case "AsignacionAcceso": {
+                    Instancia ins = new Instancia();
+                    String nombre = raiz.hijos.get(0).valor.toString();
+                    Valor v = (Valor) buscarVariable(variables, nombre);
+                    if (v.tipo.equals("true")) {
+                        Variable var = (Variable) v.valor;
+                        Nodo accesos = raiz.hijos.get(1);
+                        if (var.instancia) {
+                            Nodo expresion = raiz.hijos.get(2);
+                            Valor expAsigna = (Valor) exp.Expresion(expresion, als, nombreFun, variables, false);
+                            if (expAsigna != null) {
+                                if (!"error".equals(expAsigna.tipo)) {
+                                    if (var.valor != null) {
+                                        Als a = (Als) var.valor;
+                                        Valor fin = (Valor) ins.InstanciaReferencia(accesos, a, expAsigna);
+                                        if ("error".equals(fin.tipo)) {
+                                            Valor v2 = new Valor("", "error");
+                                            return v2;
+                                        }
+                                    } else {
+                                        Errores.ErrorSemantico("El objeto -" + nombre + "- no esta inicializado", 0, 0);
 
+                                        Valor v2 = new Valor("", "error");
+                                        return v2;
+                                    }
+                                } else {
+                                    Valor v2 = new Valor("", "error");
+                                    return v2;
+                                }
+                            } else {
+                                Valor v2 = new Valor("", "error");
+                                return v2;
+                            }
+                        } else {
+                            Errores.ErrorSemantico("La variable -" + nombre + "- a la que se quiere acceder no es de tipo objeto", 0, 0);
+                            Valor v2 = new Valor("", "error");
+                            return v2;
+                        }
+                    } else {
+                        Errores.ErrorSemantico("La variable -" + nombre + "- no existe", 0, 0);
+                        Valor v2 = new Valor("", "error");
+                        return v2;
+                    }
                 }
                 break;
                 case "SentenciaSi": {
@@ -544,6 +585,7 @@ public class SegundaPasada {
                         }
                     }
                 }
+                break;
                 case "AsignaPosicion": {
                     Arreglo arreglo = new Arreglo();
                     String nombre = raiz.hijos.get(0).hijos.get(0).valor.toString();
@@ -795,37 +837,22 @@ public class SegundaPasada {
                                             }
                                         }
                                     }
-                                } else {
-                                    if (v != null) {
-                                        if (v.tipo != null) {
-                                            if (!"error".equals(v.tipo)) {
-                                                if (met.tipo.equals(v.tipo)) {
-                                                    //saco variables
-                                                    if (!pila.isEmpty()) {
-                                                        while (pila.peek().equals(nombre + contTemp)) {
-                                                            variables.remove(variables.size() - 1);
-                                                            pila.pop();
-                                                            if (pila.isEmpty()) {
-                                                                break;
-                                                            }
+                                } else if (v != null) {
+                                    if (v.tipo != null) {
+                                        if (!"error".equals(v.tipo)) {
+                                            if (met.tipo.equals(v.tipo)) {
+                                                //saco variables
+                                                if (!pila.isEmpty()) {
+                                                    while (pila.peek().equals(nombre + contTemp)) {
+                                                        variables.remove(variables.size() - 1);
+                                                        pila.pop();
+                                                        if (pila.isEmpty()) {
+                                                            break;
                                                         }
                                                     }
-                                                    //Valor v3 = new Valor(v.valor, v.tipo);
-                                                    //return v3;
-                                                } else {
-                                                    if (!pila.isEmpty()) {
-                                                        while (pila.peek().equals(nombre + contTemp)) {
-                                                            variables.remove(variables.size() - 1);
-                                                            pila.pop();
-                                                            if (pila.isEmpty()) {
-                                                                break;
-                                                            }
-                                                        }
-                                                    }
-                                                    Errores.ErrorSemantico("El metodo -" + nombre + "- retorna un tipo diferente", 0, 0);
-                                                    Valor v3 = new Valor("", "error");
-                                                    return v3;
                                                 }
+                                                //Valor v3 = new Valor(v.valor, v.tipo);
+                                                //return v3;
                                             } else {
                                                 if (!pila.isEmpty()) {
                                                     while (pila.peek().equals(nombre + contTemp)) {
@@ -836,6 +863,7 @@ public class SegundaPasada {
                                                         }
                                                     }
                                                 }
+                                                Errores.ErrorSemantico("El metodo -" + nombre + "- retorna un tipo diferente", 0, 0);
                                                 Valor v3 = new Valor("", "error");
                                                 return v3;
                                             }
@@ -862,10 +890,22 @@ public class SegundaPasada {
                                                 }
                                             }
                                         }
-                                        Errores.ErrorSemantico("El metodo -" + nombre + "- no tiene retorno", 0, 0);
                                         Valor v3 = new Valor("", "error");
                                         return v3;
                                     }
+                                } else {
+                                    if (!pila.isEmpty()) {
+                                        while (pila.peek().equals(nombre + contTemp)) {
+                                            variables.remove(variables.size() - 1);
+                                            pila.pop();
+                                            if (pila.isEmpty()) {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    Errores.ErrorSemantico("El metodo -" + nombre + "- no tiene retorno", 0, 0);
+                                    Valor v3 = new Valor("", "error");
+                                    return v3;
                                 }
                             } else {
                                 if (!pila.isEmpty()) {
