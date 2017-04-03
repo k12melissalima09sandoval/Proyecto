@@ -1,8 +1,8 @@
 digraph G {node[shape=box, style=filled]; edge[color=red]
-node553389522[label="LlamaFunc"];
- node553389522->node550795875;node550795875[label="Polinomial2"];
- node553389522->node955456002;node955456002[label="Parametros"];
- node955456002->node254009313;node254009313[label="numero"];
- node254009313->node1332855114;node1332855114[label="5"];
+node1803393483[label="LlamaFunc"];
+ node1803393483->node1396775381;node1396775381[label="Invertir"];
+ node1803393483->node1469384533;node1469384533[label="Parametros"];
+ node1469384533->node96343654;node96343654[label="cadena"];
+ node96343654->node42628315;node42628315[label="mel"];
 
 }

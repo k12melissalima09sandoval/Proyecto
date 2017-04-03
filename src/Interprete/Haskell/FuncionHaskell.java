@@ -16,6 +16,10 @@ public class FuncionHaskell implements Cloneable{
     public Object parametros;
     Nodo cuerpo;
     
+    
+    public FuncionHaskell(){
+        
+    }
     public FuncionHaskell copiar(){
         try{
             return (FuncionHaskell)this.clone();

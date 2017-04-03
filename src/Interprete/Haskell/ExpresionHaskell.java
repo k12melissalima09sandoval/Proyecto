@@ -5,6 +5,7 @@
  */
 package Interprete.Haskell;
 
+import Analizadores.Errores;
 import Dibujar.Nodo;
 import Interprete.Parametros;
 import Interprete.Valor;
@@ -622,6 +623,7 @@ public class ExpresionHaskell {
 
                                     ArrayList<Parametros> parametros = (ArrayList) fun.get(nombreFun).getParametros();
                                     if (parametros == null) {
+                                        Errores.ErrorSemantico("Haskell, cantidad de parametros no coincide", i, contador);
                                         Valor v = new Valor("cantidad de parametros no coincide", "");
                                         return v;
                                     }

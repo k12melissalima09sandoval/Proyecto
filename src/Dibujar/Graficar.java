@@ -9,6 +9,7 @@ package Dibujar;
  *
  * @author MishaPks
  */
+import Analizadores.Errores;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import org.jfree.chart.ChartFactory;
@@ -18,30 +19,27 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-public class Graficar extends JFrame    
-{
-    public static Graficar graficar = null;
-    public static XYSeriesCollection grafica;
-    public static JFreeChart graf;
-    
+public class Graficar extends JFrame {
 
-     public Graficar(String titulo)
-    {
+    public static Graficar graficar = null;
+    public static XYSeriesCollection grafica = new XYSeriesCollection();
+    public static JFreeChart graf;
+    public String titulo;
+
+    public Graficar(String titulo) {
         super(titulo);
         grafica = new XYSeriesCollection();
     }
-     
-    public static Graficar Inicializar()
-    {
-        if(graficar == null)
-        {
+
+    public static Graficar Inicializar() {
+        if (graficar == null) {
             graficar = new Graficar("Grafica");
         }
         return graficar;
     }
-    
-    
-    public void graficar(ArrayList x, ArrayList y, String titulo) {
+
+    public void graficarL(ArrayList x, ArrayList y, String titulo) {
+        this.titulo = titulo;
         final XYSeries serie = new XYSeries(titulo);
         if (x.size() == y.size()) {
             for (int i = 0; i < x.size(); i++) {
@@ -49,12 +47,17 @@ public class Graficar extends JFrame
             }
             grafica.addSeries(serie);
         } else {
-
+            Errores.ErrorSemantico("No se puede graficar porque las dimensiones en el ejeX y ejeY"
+                    + " no coinciden", 0, 0);
         }
-       graf = ChartFactory.createXYLineChart("Compiladores 2, Melissa Lima", "Eje X", "Eje Y", 
-                    grafica, PlotOrientation.VERTICAL, true, true, false);
-        ChartFrame frame = new ChartFrame(titulo, graf);
         
+    }
+    
+    public void mostrar(){
+        graf = ChartFactory.createXYLineChart("Compiladores 2, Melissa Lima", "Eje X", "Eje Y",
+                grafica, PlotOrientation.VERTICAL, true, true, false);
+        ChartFrame frame = new ChartFrame(titulo, graf);
+
         frame.pack();
         frame.setVisible(true);
     }

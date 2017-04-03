@@ -6,6 +6,9 @@ import Dibujar.Graficar;
 import Dibujar.Nodo;
 import Interprete.Arreglo;
 import Interprete.AsignacionCasteo;
+import Interprete.Haskell.FuncionHaskell;
+import Interprete.Haskell.RecorreHaskell;
+import Interprete.Parametros;
 import Interprete.Valor;
 import Interprete.Variable;
 import Simbolos.TablaSimbolosGraphik;
@@ -23,6 +26,8 @@ public class SegundaPasada {
     AsignacionCasteo asigna = new AsignacionCasteo();
     public static int contTemp = 0;
     public static Stack pila = new Stack();
+    static Graficar graf = new Graficar("Grafica");
+    Boolean pasoGraf = false;
 
     public Object Reconocer() {
 
@@ -39,7 +44,9 @@ public class SegundaPasada {
                 nueva.add(Globales);
                 int nivel = 0;
                 Ejecucion(cuerpo, nueva, nivel, als.get(i), "Inicio", contTemp, "inicio");
-                return null;
+                if (pasoGraf) {
+                    graf.mostrar();
+                }
             } else {
                 Errores.ErrorSemantico("No existe el metodo Inicio", 0, 0);
             }
@@ -120,7 +127,19 @@ public class SegundaPasada {
                             Boolean ban = false;
                             if (var.instancia) {
                                 if (var.tipo.equals(objeto)) {
-                                    ArrayList<Als> im = als.importa;
+                                    ArrayList<Als> im = new ArrayList();
+                                    if (!als.importa.isEmpty()) {
+                                        for (int i = 0; i < als.importa.size(); i++) {
+                                            if (objeto.equals(als.importa.get(i).nombre)) {
+                                                im = als.importa;
+                                            }
+                                        }
+                                        if (im.isEmpty()) {
+                                            im = TablaSimbolosGraphik.listaAls;
+                                        }
+                                    } else {
+                                        im = TablaSimbolosGraphik.listaAls;
+                                    }
                                     //busco el importa y se lo asigno a la instancia
 
                                     for (int i = 0; i < im.size(); i++) {
@@ -264,9 +283,11 @@ public class SegundaPasada {
                                             if (vdelcaso != null && vdelcaso.valor != null) {
                                                 if (vdelcaso.valor.equals("Terminar")) {
                                                     break;
+                                                } else if (!vdelcaso.valor.equals("Continuar")) {
+                                                    Valor vc = new Valor(vdelcaso.valor, vdelcaso.tipo);
+                                                    return vc;
                                                 }
                                             }
-                                            //break;
                                         }
                                     } else {
                                         Errores.ErrorSemantico("La expresion del caso de Seleccion devolvio un nulo", 0, 0);
@@ -309,7 +330,7 @@ public class SegundaPasada {
                     contTemp++;
                     Nodo var = raiz.hijos.get(0);
                     if (var.valor.toString().equals("DeclaraLocalVariable")) {
-                        varsLocales.CrearVariableLocal(raiz, variables, als);
+                        varsLocales.CrearVariableLocal(var, variables, als);
                         bandera = true;
                         pila.push("para" + contTemp);
                     } else {
@@ -685,32 +706,17 @@ public class SegundaPasada {
                     ArrayList nueva = new ArrayList();
                     nueva.add(als.VarsGlobales);
                     String nombre = raiz.hijos.get(0).valor.toString();
-                    Valor existe = (Valor) buscarMetodo(als.Metodos, nombre);
-                    if (existe.tipo.equals("true")) {
-                        MetodoGraphik met = (MetodoGraphik) existe.valor;
-                        if (raiz.hijos.get(1).hijos.isEmpty()) {
-                            if (met.listaParametros.isEmpty()) {
-                                //metodo sin parametros
-                                Nodo cuerpometodo = met.cuerpo.hijos.get(0);
+                    ArrayList<Valor> valores = new ArrayList();
+                    if (raiz.hijos.get(1).hijos.isEmpty()) {
+                        Valor existe = (Valor) buscarMetodo(als.Metodos, nombre, valores);
+                        if (existe.tipo.equals("true")) {
+                            MetodoGraphik met = (MetodoGraphik) existe.valor;
+                            Nodo cuerpometodo = met.cuerpo.hijos.get(0);
 
-                                Valor v = (Valor) Ejecucion(cuerpometodo, nueva, nivel, als, nombre, contTemp, nombre);
-                                variables = nueva;
-                                if (met.tipo.equals("vacio")) {
-                                    if (v != null) {
-                                        if (!pila.isEmpty()) {
-                                            while (pila.peek().equals(nombre + contTemp)) {
-                                                variables.remove(variables.size() - 1);
-                                                pila.pop();
-                                                if (pila.isEmpty()) {
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        Errores.ErrorSemantico("El metodo -" + nombre + "- no puede retornar un valor", nivel, cont);
-                                        Valor v2 = new Valor("", "error");
-                                        return v2;
-                                    }
-                                    //saco variables
+                            Valor v = (Valor) Ejecucion(cuerpometodo, nueva, nivel, als, nombre, contTemp, nombre);
+                            variables = nueva;
+                            if (met.tipo.equals("vacio")) {
+                                if (v != null) {
                                     if (!pila.isEmpty()) {
                                         while (pila.peek().equals(nombre + contTemp)) {
                                             variables.remove(variables.size() - 1);
@@ -720,33 +726,33 @@ public class SegundaPasada {
                                             }
                                         }
                                     }
-                                } else if (v != null) {
-                                    if (v.tipo != null) {
-                                        if (!"error".equals(v.tipo)) {
-                                            if (met.tipo.equals(v.tipo)) {
-                                                //saco variables
-                                                if (!pila.isEmpty()) {
-                                                    while (pila.peek().equals(nombre + contTemp)) {
-                                                        variables.remove(variables.size() - 1);
-                                                        pila.pop();
-                                                        if (pila.isEmpty()) {
-                                                            break;
-                                                        }
+                                    Errores.ErrorSemantico("El metodo -" + nombre + "- no puede retornar un valor", nivel, cont);
+                                    Valor v2 = new Valor("", "error");
+                                    return v2;
+                                }
+                                //saco variables
+                                if (!pila.isEmpty()) {
+                                    while (pila.peek().equals(nombre + contTemp)) {
+                                        variables.remove(variables.size() - 1);
+                                        pila.pop();
+                                        if (pila.isEmpty()) {
+                                            break;
+                                        }
+                                    }
+                                }
+                            } else if (v != null) {
+                                if (v.tipo != null) {
+                                    if (!"error".equals(v.tipo)) {
+                                        if (met.tipo.equals(v.tipo)) {
+                                            //saco variables
+                                            if (!pila.isEmpty()) {
+                                                while (pila.peek().equals(nombre + contTemp)) {
+                                                    variables.remove(variables.size() - 1);
+                                                    pila.pop();
+                                                    if (pila.isEmpty()) {
+                                                        break;
                                                     }
                                                 }
-                                            } else {
-                                                if (!pila.isEmpty()) {
-                                                    while (pila.peek().equals(nombre + contTemp)) {
-                                                        variables.remove(variables.size() - 1);
-                                                        pila.pop();
-                                                        if (pila.isEmpty()) {
-                                                            break;
-                                                        }
-                                                    }
-                                                }
-                                                Errores.ErrorSemantico("El metodo -" + nombre + "- retorna un tipo diferente", nivel, cont);
-                                                Valor v2 = new Valor("", "error");
-                                                return v2;
                                             }
                                         } else {
                                             if (!pila.isEmpty()) {
@@ -758,6 +764,7 @@ public class SegundaPasada {
                                                     }
                                                 }
                                             }
+                                            Errores.ErrorSemantico("El metodo -" + nombre + "- retorna un tipo diferente", nivel, cont);
                                             Valor v2 = new Valor("", "error");
                                             return v2;
                                         }
@@ -784,36 +791,50 @@ public class SegundaPasada {
                                             }
                                         }
                                     }
-                                    Errores.ErrorSemantico("El metodo -" + nombre + "- no tiene retorno", nivel, cont);
                                     Valor v2 = new Valor("", "error");
                                     return v2;
                                 }
                             } else {
-                                Errores.ErrorSemantico("Los parametros del metodo -" + nombre + "- no coinciden", 0, 0);
-                                Valor v = new Valor("", "error");
-                                return v;
-                            }
-                        } else if (raiz.hijos.get(1).hijos.size() == met.listaParametros.size()) {
-                            //metodo con parametros
-                            ArrayList<Valor> valores = new ArrayList();
-                            for (int i = 0; i < raiz.hijos.get(1).hijos.size(); i++) {
-                                Valor v = (Valor) exp.Expresion(raiz.hijos.get(1).hijos.get(i), als, nombreFun, variables, false);
-                                if (v != null) {
-                                    if (v.valor != null) {
-                                        if (!"error".equals(v.tipo)) {
-                                            Valor v2 = new Valor(v.valor, v.tipo);
-                                            valores.add(v2);
+                                if (!pila.isEmpty()) {
+                                    while (pila.peek().equals(nombre + contTemp)) {
+                                        variables.remove(variables.size() - 1);
+                                        pila.pop();
+                                        if (pila.isEmpty()) {
+                                            break;
                                         }
-                                    } else {
-                                        Valor v2 = new Valor("", "error");
-                                        return v2;
+                                    }
+                                }
+                                Errores.ErrorSemantico("El metodo -" + nombre + "- no tiene retorno", nivel, cont);
+                                Valor v2 = new Valor("", "error");
+                                return v2;
+                            }
+                        } else {
+                            Errores.ErrorSemantico("El metodo -" + nombre + "- no existe", 0, 0);
+                            Valor v = new Valor("", "error");
+                            return v;
+                        }
+                    } else {
+                        for (int i = 0; i < raiz.hijos.get(1).hijos.size(); i++) {
+                            Valor v = (Valor) exp.Expresion(raiz.hijos.get(1).hijos.get(i), als, nombreFun, variables, false);
+                            if (v != null) {
+                                if (v.valor != null) {
+                                    if (!"error".equals(v.tipo)) {
+                                        Valor v2 = new Valor(v.valor, v.tipo);
+                                        valores.add(v2);
                                     }
                                 } else {
                                     Valor v2 = new Valor("", "error");
                                     return v2;
                                 }
+                            } else {
+                                Valor v2 = new Valor("", "error");
+                                return v2;
                             }
-
+                        }
+                        Valor existe = (Valor) buscarMetodo(als.Metodos, nombre, valores);
+                        if (existe.tipo.equals("true")) {
+                            MetodoGraphik met = (MetodoGraphik) existe.valor;
+                            //metodo con parametros
                             //envio a crear los parametros como variables
                             Valor v2 = (Valor) varsLocales.CrearVariablesMetodos(met.listaParametros, valores, nueva, als, nombre, contTemp);
                             variables = nueva;
@@ -928,14 +949,74 @@ public class SegundaPasada {
                                 return v;
                             }
                         } else {
-                            Errores.ErrorSemantico("Los parametros del metodo -" + nombre + "- no coinciden", 0, 0);
+                            Errores.ErrorSemantico("El metodo -" + nombre + "- no existe", 0, 0);
                             Valor v = new Valor("", "error");
                             return v;
                         }
+                    }
+
+                    break;
+                }
+
+                case "LlamarHK": {
+
+                    String nombre = raiz.hijos.get(0).valor.toString();
+                    FuncionHaskell fun = new FuncionHaskell();
+                    Boolean tt = false;
+                    if (!als.incluye.isEmpty()) {
+                        for (int i = 0; i < als.incluye.size(); i++) {
+                            if (nombre.equals(als.incluye.get(i).getNombre())) {
+                                fun = (FuncionHaskell) als.incluye.get(i);
+                                tt = true;
+                                break;
+                            }
+                        }
+                        if (tt) {
+                            ArrayList<Parametros> param = (ArrayList<Parametros>) fun.parametros;
+                            if (param.isEmpty()) {
+                                //no trae parametros
+                                if (raiz.hijos.get(1).hijos.isEmpty()) {
+                                    Nodo cuerpo = fun.getCuerpo();
+                                    ArrayList nueva = new ArrayList();
+                                    RecorreHaskell.Graphika(nombre, cuerpo, nueva);
+                                } else {
+                                    Errores.ErrorSemantico("La cantidad de parametros "
+                                            + "para la funcion -" + nombre + "- no coinciden", nivel, cont);
+                                }
+                            } else if (!raiz.hijos.get(1).hijos.isEmpty()) {
+                                //trae parametros
+                                if (param.size() == raiz.hijos.get(1).hijos.size()) {
+                                    ArrayList nueva = new ArrayList();
+                                    for (int i = 0; i < param.size(); i++) {
+                                        Valor v = (Valor) exp.Expresion(raiz.hijos.get(1).hijos.get(i), als, nombreFun, variables, false);
+                                        if (v != null) {
+                                            if (!"error".equals(v.tipo)) {
+                                                if(v.tipo.equals("decimal")){
+                                                    v.tipo="numero";
+                                                }
+                                                Variable var = new Variable(param.get(i).nombre,v.valor,v.tipo);
+                                                nueva.add(var);
+                                            } else {
+                                                break;
+                                            }
+                                        } else {
+                                            Errores.ErrorSemantico("Error en los parametros", nivel, cont);
+                                            break;
+                                        }
+                                    }
+                                    
+                                    Nodo cuerpo = fun.getCuerpo();
+                                    RecorreHaskell.Graphika(nombre, cuerpo, nueva);
+                                }
+                            } else {
+                                Errores.ErrorSemantico("La cantidad de parametros "
+                                        + "para la funcion -" + nombre + "- no coinciden", nivel, cont);
+                            }
+                        } else {
+                            Errores.ErrorSemantico("La funcion Haskell -" + nombre + "- no existe", nivel, cont);
+                        }
                     } else {
-                        Errores.ErrorSemantico("El metodo -" + nombre + "- no existe", 0, 0);
-                        Valor v = new Valor("", "error");
-                        return v;
+                        Errores.ErrorSemantico("No hay funciones Incluidas de Haskell", nivel, cont);
                     }
                     break;
                 }
@@ -956,7 +1037,7 @@ public class SegundaPasada {
                 break;
 
                 case "Graphikar": {
-                    contTemp++;
+
                     ArrayList valoresX = new ArrayList();
                     ArrayList valoresY = new ArrayList();
                     Nodo exp1 = raiz.hijos.get(0);
@@ -965,8 +1046,8 @@ public class SegundaPasada {
                     Valor v2 = new Valor("", "");
                     if (exp1.hijos.get(0).valor.equals("Posiciones")) {
                         ArrayList val = new ArrayList();
-                        for (Nodo c : raiz.hijos.get(1).hijos) {
-                            val.add(c.hijos.get(0).hijos.get(0));
+                        for (Nodo c : raiz.hijos.get(1).hijos.get(0).hijos) {
+                            val.add(Integer.parseInt(c.hijos.get(0).valor.toString()));
                         }
                         valoresX = val;
                     } else {
@@ -980,7 +1061,7 @@ public class SegundaPasada {
                     if (exp2.hijos.get(0).valor.equals("Posiciones")) {
                         ArrayList val = new ArrayList();
                         for (Nodo c : raiz.hijos.get(1).hijos.get(0).hijos) {
-                            val.add(c.hijos.get(0).valor);
+                            val.add(Integer.parseInt(c.hijos.get(0).valor.toString()));
                         }
                         valoresY = val;
                     } else {
@@ -991,8 +1072,9 @@ public class SegundaPasada {
                             }
                         }
                     }
-                    Graficar nueva = Graficar.Inicializar();
-                    nueva.graficar(valoresX, valoresY, "Grafica"+contTemp);
+                    //Graficar nueva = Graficar.Inicializar();
+                    graf.graficarL(valoresX, valoresY, "Grafica" + contTemp);
+                    pasoGraf = true;
                 }
                 break;
                 case "Incremento": {
@@ -1038,13 +1120,33 @@ public class SegundaPasada {
         return v;
     }
 
-    public Object buscarMetodo(ArrayList<MetodoGraphik> metodos, String nombre) {
-
+    public Object buscarMetodo(ArrayList<MetodoGraphik> metodos, String nombre, ArrayList<Valor> parametros) {
+        Boolean existe = false;
         for (int i = 0; i < metodos.size(); i++) {
             if (metodos.get(i).nombre.equals(nombre)) {
                 MetodoGraphik met = metodos.get(i);
-                Valor v = new Valor(met, "true");
-                return v;
+                if (met.listaParametros.isEmpty()) {
+                    if (parametros.isEmpty()) {
+                        Valor v = new Valor(met, "true");
+                        return v;
+                    }
+                } else if (!parametros.isEmpty()) {
+                    if (met.listaParametros.size() == parametros.size()) {
+                        for (int j = 0; j < parametros.size(); j++) {
+                            if (met.listaParametros.get(j).tipo.equals(parametros.get(j).tipo)) {
+                                existe = true;
+                            } else {
+                                existe = false;
+                                break;
+                            }
+                        }
+                        if (existe) {
+                            Valor v = new Valor(met, "true");
+                            return v;
+                        }
+                    }
+                }
+
             }
 
         }

@@ -37,20 +37,26 @@ public class CrearVariables {
 
                     //DECLARACION LISTA DE VARIABLES
                     if (nodo.hijos.size() == 2) {
+                        Boolean t = false;
                         String tipo = nodo.hijos.get(0).valor.toString();
+                        if (tipo.equals("Als")) {
+                            tipo = nodo.hijos.get(0).hijos.get(0).valor.toString();
+                            t = true;
+                        }
                         for (Nodo a : nodo.hijos.get(1).hijos) {
                             String nombre = a.hijos.get(0).valor.toString();
                             if (als.existeVariableG(nombre)) {
                                 Errores.ErrorSemantico("La variable -" + nombre + "- ya esta declarada", 0, 0);
                             } else {
                                 String visible = a.hijos.get(1).valor.toString();
-                                Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                 als.addVarGlobal(var);
                             }
                         }
                         //DECLARACION DE UNA VARIABLE CON O SIN ASIGNACION
                     } else //SOLAMENTE DECLARACION
-                     if (nodo.hijos.get(2).hijos.isEmpty()) {
+                    {
+                        if (nodo.hijos.get(2).hijos.isEmpty()) {
                             Boolean t = false;
                             String tipo = nodo.hijos.get(0).valor.toString();
                             if (tipo.equals("Als")) {
@@ -68,21 +74,25 @@ public class CrearVariables {
                             }
 
                         } else { //VIENE CON UNA ASIGNACION
+                            Boolean t = false;
                             String tipo = nodo.hijos.get(0).valor.toString();
-
+                            if (tipo.equals("Als")) {
+                                tipo = nodo.hijos.get(0).hijos.get(0).valor.toString();
+                                t = true;
+                            }
                             Nodo temp = nodo.hijos.get(1);
                             String nombre = temp.hijos.get(0).hijos.get(0).valor.toString();
                             if (als.existeVariableG(nombre)) {
                                 Errores.ErrorSemantico("La variable -" + nombre + "- ya esta declarada", 0, 0);
                             } else {
                                 Nodo expresion = nodo.hijos.get(2);
-                                Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), als, nombre, arr, false);
+                                Valor v = (Valor) exp.Expresion(expresion.hijos.get(0), als, nombre, arr, t);
                                 if (v != null) {
                                     if (v.valor != null) {
                                         if (v.tipo.equals("error")) {
                                             String visible = temp.hijos.get(0).hijos.get(1).valor.toString();
 
-                                            Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                            Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                             als.addVarGlobal(var);
 
                                             Errores.ErrorSemantico("A la variable -" + nombre + "- "
@@ -91,10 +101,10 @@ public class CrearVariables {
                                             String visible = temp.hijos.get(0).hijos.get(1).valor.toString();
                                             Valor val = (Valor) asigna.Casteo(tipo, v.valor, v.tipo);
                                             if (!val.tipo.equals("error")) {
-                                                Variable var = new Variable(tipo, nombre, visible, val.valor, false, false);
+                                                Variable var = new Variable(tipo, nombre, visible, val.valor, false, t);
                                                 als.addVarGlobal(var);
                                             } else {
-                                                Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                                Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                                 als.addVarGlobal(var);
                                                 Errores.ErrorSemantico("Error de casteo en asignacion de la "
                                                         + "variable -" + nombre + "- ", 0, 0);
@@ -103,7 +113,7 @@ public class CrearVariables {
                                     } else {
                                         String visible = temp.hijos.get(0).hijos.get(1).valor.toString();
 
-                                        Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                        Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                         als.addVarGlobal(var);
 
                                         Errores.ErrorSemantico("A la variable -" + nombre + "- "
@@ -112,7 +122,7 @@ public class CrearVariables {
                                 } else {
                                     String visible = temp.hijos.get(1).valor.toString();
 
-                                    Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                    Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                     als.addVarGlobal(var);
 
                                     Errores.ErrorSemantico("A la variable -" + nombre + "- "
@@ -120,6 +130,7 @@ public class CrearVariables {
                                 }
                             }
                         }
+                    }
                     break;
 
                 case "InstanciaGlobal":
@@ -127,59 +138,69 @@ public class CrearVariables {
                     String tipoObjeto = nodo.hijos.get(0).hijos.get(0).valor.toString();
                     String nombreN = nodo.hijos.get(1).hijos.get(0).valor.toString();
                     String visible = nodo.hijos.get(1).hijos.get(1).valor.toString();
+                    ArrayList<Als> importa = new ArrayList();
                     if (!als.importa.isEmpty()) {
-                        ArrayList<Als> importa = als.importa;
-                        //no esta inicializado
-                        if (nodo.hijos.get(2).hijos.isEmpty()) {
-                            for (int i = 0; i < importa.size(); i++) {
-                                if (tipoObjeto.equals(importa.get(i).nombre)) {
-                                    bandera = true;
-                                    break;
-                                }
-                            }
-                            if (bandera) {
-                                Variable v2 = new Variable(tipoObjeto, nombreN, visible, null, false, true);
-                                als.addVarGlobal(v2);
-                            } else {
-                                Errores.ErrorSemantico("El objeto -" + nombreN + "- no se puede instanciar "
-                                        + "porque no se ha importado el Als -" + tipoObjeto + "-", 0, 0);
-                            }
-                        } else {
-                            //esta inicializado
-                            String NameObject = nodo.hijos.get(2).hijos.get(0).valor.toString();
-                            if (nodo.hijos.get(2).valor.equals("Objeto")) {
-                                if (tipoObjeto.equals(NameObject)) {
-                                    Als instancia = new Als();
-                                    Als ins = new Als();
-                                    for (int i = 0; i < importa.size(); i++) {
-                                        if (tipoObjeto.equals(importa.get(i).nombre)) {
-                                            bandera = true;
-                                            instancia = importa.get(i).copiar();
-                                            ins = instancia.copiar();
-                                            break;
-                                        }
-                                    }
-                                    if (bandera) {
-                                        Variable v2 = new Variable(tipoObjeto, nombreN, visible,
-                                                ins.copiar(), false, true);
-                                        als.addVarGlobal(v2);
-                                    } else {
-                                        Errores.ErrorSemantico("El objeto -" + nombreN + "- no se puede instanciar "
-                                                + "porque no se ha importado el Als -" + tipoObjeto + "-", 0, 0);
-                                    }
-                                } else {
-                                    Errores.ErrorSemantico("La instancia de -" + nombreN + "- es de "
-                                            + "tipos diferentes (" + tipoObjeto + "," + NameObject + ")", 0, 0);
-
-                                }
-                            } else {
-                                Errores.ErrorSemantico("Asignacion erronea en -" + nombreN + "- ", 0, 0);
+                        for (int i = 0; i < als.importa.size(); i++) {
+                            if (tipoObjeto.equals(als.importa.get(i).nombre)) {
+                                importa = als.importa;
                             }
                         }
+                        if (importa.isEmpty()) {
+                            importa = TablaSimbolosGraphik.listaAls;
+                        }
+                        //no esta inicializado
                     } else {
-                        Errores.ErrorSemantico("El objeto -" + nombreN + "- no se puede instanciar "
-                                + "porque no se ha importado el Als -" + tipoObjeto + "-", 0, 0);
+                        importa = TablaSimbolosGraphik.listaAls;
                     }
+
+                    //no esta inicializado
+                    if (nodo.hijos.get(2).hijos.isEmpty()) {
+                        for (int i = 0; i < importa.size(); i++) {
+                            if (tipoObjeto.equals(importa.get(i).nombre)) {
+                                bandera = true;
+                                break;
+                            }
+                        }
+                        if (bandera) {
+                            Variable v2 = new Variable(tipoObjeto, nombreN, visible, null, false, true);
+                            als.addVarGlobal(v2);
+                        } else {
+                            Errores.ErrorSemantico("El objeto -" + nombreN + "- no se puede instanciar "
+                                    + "porque no se ha importado el Als -" + tipoObjeto + "-", 0, 0);
+                        }
+                    } else {
+                        //esta inicializado
+                        String NameObject = nodo.hijos.get(2).hijos.get(0).valor.toString();
+                        if (nodo.hijos.get(2).valor.equals("Objeto")) {
+                            if (tipoObjeto.equals(NameObject)) {
+                                Als instancia = new Als();
+                                Als ins = new Als();
+                                for (int i = 0; i < importa.size(); i++) {
+                                    if (tipoObjeto.equals(importa.get(i).nombre)) {
+                                        bandera = true;
+                                        instancia = importa.get(i).copiar();
+                                        ins = instancia.copiar();
+                                        break;
+                                    }
+                                }
+                                if (bandera) {
+                                    Variable v2 = new Variable(tipoObjeto, nombreN, visible,
+                                            ins.copiar(), false, true);
+                                    als.addVarGlobal(v2);
+                                } else {
+                                    Errores.ErrorSemantico("El objeto -" + nombreN + "- no se puede instanciar "
+                                            + "porque no se ha importado el Als -" + tipoObjeto + "-", 0, 0);
+                                }
+                            } else {
+                                Errores.ErrorSemantico("La instancia de -" + nombreN + "- es de "
+                                        + "tipos diferentes (" + tipoObjeto + "," + NameObject + ")", 0, 0);
+
+                            }
+                        } else {
+                            Errores.ErrorSemantico("Asignacion erronea en -" + nombreN + "- ", 0, 0);
+                        }
+                    }
+
                     break;
 
                 case "DeclaraGlobalArreglo":
@@ -379,7 +400,12 @@ public class CrearVariables {
         ArrayList<Variable> nueva = new ArrayList();
         //Nodo nodo = raiz.hijos;
         if (nodo.hijos.size() == 2) {
+            Boolean t = false;
             String tipo = nodo.hijos.get(0).valor.toString();
+            if (tipo.equals("Als")) {
+                tipo = nodo.hijos.get(0).hijos.get(0).valor.toString();
+                t = true;
+            }
             for (Nodo a : nodo.hijos.get(1).hijos) {
                 String nombre = a.hijos.get(0).valor.toString();
                 if (!vars.isEmpty()) {
@@ -406,12 +432,12 @@ public class CrearVariables {
                             bandera = false;
                         } else {
                             String visible = a.hijos.get(1).valor.toString();
-                            Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                            Variable var = new Variable(tipo, nombre, visible, null, false, t);
                             nueva.add(var);
                         }
                     } else {
                         String visible = a.hijos.get(1).valor.toString();
-                        Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                        Variable var = new Variable(tipo, nombre, visible, null, false, t);
                         nueva.add(var);
                     }
                 } else if (!nueva.isEmpty()) {
@@ -426,12 +452,12 @@ public class CrearVariables {
                         bandera = false;
                     } else {
                         String visible = a.hijos.get(1).valor.toString();
-                        Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                        Variable var = new Variable(tipo, nombre, visible, null, false, t);
                         nueva.add(var);
                     }
                 } else {
                     String visible = a.hijos.get(1).valor.toString();
-                    Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                    Variable var = new Variable(tipo, nombre, visible, null, false, t);
                     nueva.add(var);
                 }
 
@@ -504,7 +530,10 @@ public class CrearVariables {
 
             } else { //VIENE CON UNA ASIGNACION
                 String tipo = nodo.hijos.get(0).valor.toString();
-
+                if (tipo.equals("Als")) {
+                    tipo = nodo.hijos.get(0).hijos.get(0).valor.toString();
+                    t = true;
+                }
                 Nodo temp = nodo.hijos.get(1);
                 String nombre = temp.hijos.get(0).hijos.get(0).valor.toString();
                 if (!vars.isEmpty()) {
@@ -538,7 +567,7 @@ public class CrearVariables {
                                     if (v.tipo.equals("error")) {
                                         String visible = temp.hijos.get(0).hijos.get(1).valor.toString();
 
-                                        Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                        Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                         nueva.add(var);
                                         Errores.ErrorSemantico("A la variable -" + nombre + "- "
                                                 + "se le asigno null", 0, 0);
@@ -546,10 +575,10 @@ public class CrearVariables {
                                         String visible = temp.hijos.get(0).hijos.get(1).valor.toString();
                                         Valor val = (Valor) asigna.Casteo(tipo, v.valor, v.tipo);
                                         if (!val.tipo.equals("error")) {
-                                            Variable var = new Variable(tipo, nombre, visible, val.valor, false, false);
+                                            Variable var = new Variable(tipo, nombre, visible, val.valor, false, t);
                                             nueva.add(var);
                                         } else {
-                                            Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                            Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                             nueva.add(var);
                                             Errores.ErrorSemantico("Error de casteo en asignacion de la "
                                                     + "variable -" + nombre + "- ", 0, 0);
@@ -558,7 +587,7 @@ public class CrearVariables {
                                 } else {
                                     String visible = temp.hijos.get(0).hijos.get(1).valor.toString();
 
-                                    Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                    Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                     nueva.add(var);
                                     Errores.ErrorSemantico("A la variable -" + nombre + "- "
                                             + "se le asigno null", 0, 0);
@@ -566,7 +595,7 @@ public class CrearVariables {
                             } else {
                                 String visible = temp.hijos.get(1).valor.toString();
 
-                                Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                 nueva.add(var);
                                 Errores.ErrorSemantico("A la variable -" + nombre + "- "
                                         + "se le asigno null", 0, 0);
@@ -580,7 +609,7 @@ public class CrearVariables {
                             if (v.valor != null) {
                                 if (v.tipo.equals("error")) {
                                     String visible = temp.hijos.get(0).hijos.get(1).valor.toString();
-                                    Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                    Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                     nueva.add(var);
                                     Errores.ErrorSemantico("A la variable -" + nombre + "- "
                                             + "se le asigno null", 0, 0);
@@ -588,10 +617,10 @@ public class CrearVariables {
                                     String visible = temp.hijos.get(0).hijos.get(1).valor.toString();
                                     Valor val = (Valor) asigna.Casteo(tipo, v.valor, v.tipo);
                                     if (!val.tipo.equals("error")) {
-                                        Variable var = new Variable(tipo, nombre, visible, val.valor, false, false);
+                                        Variable var = new Variable(tipo, nombre, visible, val.valor, false, t);
                                         nueva.add(var);
                                     } else {
-                                        Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                        Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                         nueva.add(var);
                                         Errores.ErrorSemantico("Error de casteo en asignacion de la "
                                                 + "variable -" + nombre + "- ", 0, 0);
@@ -599,14 +628,14 @@ public class CrearVariables {
                                 }
                             } else {
                                 String visible = temp.hijos.get(0).hijos.get(1).valor.toString();
-                                Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                 nueva.add(var);
                                 Errores.ErrorSemantico("A la variable -" + nombre + "- "
                                         + "se le asigno null", 0, 0);
                             }
                         } else {
                             String visible = temp.hijos.get(1).valor.toString();
-                            Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                            Variable var = new Variable(tipo, nombre, visible, null, false, t);
                             nueva.add(var);
                             Errores.ErrorSemantico("A la variable -" + nombre + "- "
                                     + "se le asigno null", 0, 0);
@@ -630,7 +659,7 @@ public class CrearVariables {
                             if (v.valor != null) {
                                 if (v.tipo.equals("error")) {
                                     String visible = temp.hijos.get(0).hijos.get(1).valor.toString();
-                                    Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                    Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                     nueva.add(var);
                                     Errores.ErrorSemantico("A la variable -" + nombre + "- "
                                             + "se le asigno null", 0, 0);
@@ -638,10 +667,10 @@ public class CrearVariables {
                                     String visible = temp.hijos.get(0).hijos.get(1).valor.toString();
                                     Valor val = (Valor) asigna.Casteo(tipo, v.valor, v.tipo);
                                     if (!val.tipo.equals("error")) {
-                                        Variable var = new Variable(tipo, nombre, visible, val.valor, false, false);
+                                        Variable var = new Variable(tipo, nombre, visible, val.valor, false, t);
                                         nueva.add(var);
                                     } else {
-                                        Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                        Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                         nueva.add(var);
                                         Errores.ErrorSemantico("Error de casteo en asignacion de la "
                                                 + "variable -" + nombre + "- ", 0, 0);
@@ -649,14 +678,14 @@ public class CrearVariables {
                                 }
                             } else {
                                 String visible = temp.hijos.get(0).hijos.get(1).valor.toString();
-                                Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                 nueva.add(var);
                                 Errores.ErrorSemantico("A la variable -" + nombre + "- "
                                         + "se le asigno null", 0, 0);
                             }
                         } else {
                             String visible = temp.hijos.get(1).valor.toString();
-                            Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                            Variable var = new Variable(tipo, nombre, visible, null, false, t);
                             nueva.add(var);
                             Errores.ErrorSemantico("A la variable -" + nombre + "- "
                                     + "se le asigno null", 0, 0);
@@ -670,7 +699,7 @@ public class CrearVariables {
                         if (v.valor != null) {
                             if (v.tipo.equals("error")) {
                                 String visible = temp.hijos.get(0).hijos.get(1).valor.toString();
-                                Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                 nueva.add(var);
                                 Errores.ErrorSemantico("A la variable -" + nombre + "- "
                                         + "se le asigno null", 0, 0);
@@ -678,10 +707,10 @@ public class CrearVariables {
                                 String visible = temp.hijos.get(0).hijos.get(1).valor.toString();
                                 Valor val = (Valor) asigna.Casteo(tipo, v.valor, v.tipo);
                                 if (!val.tipo.equals("error")) {
-                                    Variable var = new Variable(tipo, nombre, visible, val.valor, false, false);
+                                    Variable var = new Variable(tipo, nombre, visible, val.valor, false, t);
                                     nueva.add(var);
                                 } else {
-                                    Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                                    Variable var = new Variable(tipo, nombre, visible, null, false, t);
                                     nueva.add(var);
                                     Errores.ErrorSemantico("Error de casteo en asignacion de la "
                                             + "variable -" + nombre + "- ", 0, 0);
@@ -689,14 +718,14 @@ public class CrearVariables {
                             }
                         } else {
                             String visible = temp.hijos.get(0).hijos.get(1).valor.toString();
-                            Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                            Variable var = new Variable(tipo, nombre, visible, null, false, t);
                             nueva.add(var);
                             Errores.ErrorSemantico("A la variable -" + nombre + "- "
                                     + "se le asigno null", 0, 0);
                         }
                     } else {
                         String visible = temp.hijos.get(1).valor.toString();
-                        Variable var = new Variable(tipo, nombre, visible, null, false, false);
+                        Variable var = new Variable(tipo, nombre, visible, null, false, t);
                         nueva.add(var);
                         Errores.ErrorSemantico("A la variable -" + nombre + "- "
                                 + "se le asigno null", 0, 0);
@@ -738,9 +767,16 @@ public class CrearVariables {
         String nombreN = nodo.hijos.get(1).hijos.get(0).valor.toString();
         String visible = nodo.hijos.get(1).hijos.get(1).valor.toString();
         ArrayList<Als> importa = new ArrayList();
-
+        Boolean ba = false;
         if (!als.importa.isEmpty()) {
-            importa = als.importa;
+            for (int i = 0; i < als.importa.size(); i++) {
+                if (tipoObjeto.equals(als.importa.get(i).nombre)) {
+                    importa = als.importa;
+                }
+            }
+            if (importa.isEmpty()) {
+                importa = TablaSimbolosGraphik.listaAls;
+            }
             //no esta inicializado
         } else {
             importa = TablaSimbolosGraphik.listaAls;

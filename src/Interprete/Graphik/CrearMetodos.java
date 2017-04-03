@@ -83,6 +83,13 @@ public class CrearMetodos {
                                 if (bandera) {
                                     Errores.ErrorSemantico("El metodo -" + nombre + "- ya esta definido "
                                             + "con los mismos parametros", 0, 0);
+                                } else {
+                                    MetodoGraphik met = new MetodoGraphik(tipo, nombre, visible, cuerpo);
+                                    for (int i = 0; i < temp.size(); i++) {
+                                        Parametros p = (Parametros) temp.get(i);
+                                        met.setParametros(p);
+                                    }
+                                    als.addMetodo(met);
                                 }
 
                             } else {

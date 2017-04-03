@@ -8,6 +8,10 @@ package Interprete.Graphik;
 import Analizadores.Errores;
 import Dibujar.Nodo;
 import Interprete.Arreglo;
+import Interprete.Haskell.Concatena;
+import Interprete.Haskell.FuncionHaskell;
+import Interprete.Haskell.RecorreHaskell;
+import Interprete.Parametros;
 import Interprete.Operacion.*;
 import Interprete.Valor;
 import Interprete.Variable;
@@ -32,6 +36,7 @@ public class ExpresionGraphik {
     Diferente diferente = new Diferente();
     static SegundaPasada ej = new SegundaPasada();
     static CrearVariables varsLocales = new CrearVariables();
+    static Concatena concatena = new Concatena();
 
     public Object Expresion(Nodo raiz, Als als, String nombreFuncion, ArrayList<ArrayList<Variable>> variables, Boolean imprimir) {
 
@@ -141,6 +146,8 @@ public class ExpresionGraphik {
                                 }
                             } else {
                                 Errores.ErrorSemantico("En negacion Not(!) no es de tipo booleano", 0, 0);
+                                Valor v2 = new Valor("", "error");
+                                return v2;
                             }
                         } else {
                             Valor v2 = new Valor("", "error");
@@ -151,14 +158,13 @@ public class ExpresionGraphik {
                         return v2;
                     }
                 }
-                break;
                 case "Incremento": {
 
                     Valor v = (Valor) Expresion(exp, als, nombreFuncion, variables, imprimir);
                     if (v.tipo.equals("error")) {
                         Valor v2 = new Valor("", "error");
                         return v2;
-                    }else if (exp.valor.equals("id")) {
+                    } else if (exp.valor.equals("id")) {
                         String nombre = exp.hijos.get(0).valor.toString();
                         for (int i = 0; i < variables.size(); i++) {
                             for (int j = 0; j < variables.get(i).size(); j++) {
@@ -166,12 +172,18 @@ public class ExpresionGraphik {
                                     if (variables.get(i).get(j).tipo.equals("numero")) {
                                         int inc = Integer.parseInt(v.valor.toString()) + 1;
                                         variables.get(i).get(j).valor = inc;
+                                        Valor v2 = new Valor(inc, "numero");
+                                        return v2;
                                     } else if (variables.get(i).get(j).tipo.equals("decimal")) {
                                         Double inc = Double.parseDouble(v.valor.toString()) + 1;
                                         variables.get(i).get(j).valor = inc;
+                                        Valor v2 = new Valor(inc, "decimal");
+                                        return v2;
                                     } else if (variables.get(i).get(j).tipo.equals("caracter")) {
                                         int inc = v.valor.toString().codePointAt(0) + 1;
                                         variables.get(i).get(j).valor = inc;
+                                        Valor v2 = new Valor(inc, "caracter");
+                                        return v2;
                                     } else {
                                         Errores.ErrorSemantico("No se puede incrementar la variable -" + nombre + "- es de tipo invalido", 0, 0);
                                         Valor v2 = new Valor("", "error");
@@ -204,7 +216,7 @@ public class ExpresionGraphik {
                     if (v.tipo.equals("error")) {
                         Valor v2 = new Valor("", "error");
                         return v2;
-                    }else if (exp.valor.equals("id")) {
+                    } else if (exp.valor.equals("id")) {
                         String nombre = exp.hijos.get(0).valor.toString();
                         for (int i = 0; i < variables.size(); i++) {
                             for (int j = 0; j < variables.get(i).size(); j++) {
@@ -212,12 +224,18 @@ public class ExpresionGraphik {
                                     if (variables.get(i).get(j).tipo.equals("numero")) {
                                         int inc = Integer.parseInt(v.valor.toString()) - 1;
                                         variables.get(i).get(j).valor = inc;
+                                        Valor v2 = new Valor(inc, "numero");
+                                        return v2;
                                     } else if (variables.get(i).get(j).tipo.equals("decimal")) {
                                         Double inc = Double.parseDouble(v.valor.toString()) - 1;
                                         variables.get(i).get(j).valor = inc;
+                                        Valor v2 = new Valor(inc, "decimal");
+                                        return v2;
                                     } else if (variables.get(i).get(j).tipo.equals("caracter")) {
                                         int inc = v.valor.toString().codePointAt(0) - 1;
                                         variables.get(i).get(j).valor = inc;
+                                        Valor v2 = new Valor(inc, "caracter");
+                                        return v2;
                                     } else {
                                         Errores.ErrorSemantico("No se puede incrementar la variable -" + nombre + "- es de tipo invalido", 0, 0);
                                         Valor v2 = new Valor("", "error");
@@ -243,7 +261,7 @@ public class ExpresionGraphik {
                         Valor v2 = new Valor("", "error");
                         return v2;
                     }
-                    
+
                     break;
                 }
 
@@ -514,7 +532,7 @@ public class ExpresionGraphik {
                         if (var.instancia) {
                             if (var.valor != null) {
                                 Als a = (Als) var.valor;
-                                Valor v2 = (Valor) ins.InstanciaAcceso(accesos, a,als,variables);
+                                Valor v2 = (Valor) ins.InstanciaAcceso(accesos, a, als, variables);
                                 if (!"error".equals(v2.tipo)) {
                                     Valor acceso = new Valor(v2.valor, v2.tipo);
                                     return acceso;
@@ -540,35 +558,20 @@ public class ExpresionGraphik {
                 }
                 case "LlamaFun": {
                     SegundaPasada.contTemp++;
+                    ArrayList nueva = new ArrayList();
+                    nueva.add(als.VarsGlobales);
                     String nombre = raiz.hijos.get(0).valor.toString();
-                    Valor existe = (Valor) buscarMetodo(als.Metodos, nombre);
-                    if (existe.tipo.equals("true")) {
-                        MetodoGraphik met = (MetodoGraphik) existe.valor;
-                        ArrayList nueva = new ArrayList();
-                        nueva.add(als.VarsGlobales);
-                        if (raiz.hijos.get(1).hijos.isEmpty()) {
-                            if (met.listaParametros.isEmpty()) {
-                                //metodo sin parametros
-                                Nodo cuerpometodo = met.cuerpo.hijos.get(0);
 
-                                Valor v = (Valor) ej.Ejecucion(cuerpometodo, nueva, 0, als, nombre, SegundaPasada.contTemp, nombre);
-                                variables = nueva;
-                                if (met.tipo.equals("vacio")) {
-                                    if (v != null) {
-                                        if (!SegundaPasada.pila.isEmpty()) {
-                                            while (SegundaPasada.pila.peek().equals(nombre + SegundaPasada.contTemp)) {
-                                                variables.remove(variables.size() - 1);
-                                                SegundaPasada.pila.pop();
-                                                if (SegundaPasada.pila.isEmpty()) {
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        Errores.ErrorSemantico("El metodo -" + nombre + "- no puede retornar un valor", 0, 0);
-                                        Valor v2 = new Valor("", "error");
-                                        return v2;
-                                    }
-                                    //saco variables
+                    ArrayList<Valor> valores = new ArrayList();
+                    if (raiz.hijos.get(1).hijos.isEmpty()) {
+                        Valor existe = (Valor) buscarMetodo(als.Metodos, nombre, valores);
+                        if (existe.tipo.equals("true")) {
+                            MetodoGraphik met = (MetodoGraphik) existe.valor;
+                            Nodo cuerpometodo = met.cuerpo.hijos.get(0);
+                            Valor v = (Valor) ej.Ejecucion(cuerpometodo, nueva, 0, als, nombre, SegundaPasada.contTemp, nombre);
+                            variables = nueva;
+                            if (met.tipo.equals("vacio")) {
+                                if (v != null) {
                                     if (!SegundaPasada.pila.isEmpty()) {
                                         while (SegundaPasada.pila.peek().equals(nombre + SegundaPasada.contTemp)) {
                                             variables.remove(variables.size() - 1);
@@ -578,36 +581,36 @@ public class ExpresionGraphik {
                                             }
                                         }
                                     }
-                                } else if (v != null) {
-                                    if (v.tipo != null) {
-                                        if (!"error".equals(v.tipo)) {
-                                            if (met.tipo.equals(v.tipo)) {
-                                                //saco variables
-                                                if (!SegundaPasada.pila.isEmpty()) {
-                                                    while (SegundaPasada.pila.peek().equals(nombre + SegundaPasada.contTemp)) {
-                                                        variables.remove(variables.size() - 1);
-                                                        SegundaPasada.pila.pop();
-                                                        if (SegundaPasada.pila.isEmpty()) {
-                                                            break;
-                                                        }
+                                    Errores.ErrorSemantico("El metodo -" + nombre + "- no puede retornar un valor", 0, 0);
+                                    Valor v2 = new Valor("", "error");
+                                    return v2;
+                                }
+                                //saco variables
+                                if (!SegundaPasada.pila.isEmpty()) {
+                                    while (SegundaPasada.pila.peek().equals(nombre + SegundaPasada.contTemp)) {
+                                        variables.remove(variables.size() - 1);
+                                        SegundaPasada.pila.pop();
+                                        if (SegundaPasada.pila.isEmpty()) {
+                                            break;
+                                        }
+                                    }
+                                }
+                            } else if (v != null) {
+                                if (v.tipo != null) {
+                                    if (!"error".equals(v.tipo)) {
+                                        if (met.tipo.equals(v.tipo)) {
+                                            //saco variables
+                                            if (!SegundaPasada.pila.isEmpty()) {
+                                                while (SegundaPasada.pila.peek().equals(nombre + SegundaPasada.contTemp)) {
+                                                    variables.remove(variables.size() - 1);
+                                                    SegundaPasada.pila.pop();
+                                                    if (SegundaPasada.pila.isEmpty()) {
+                                                        break;
                                                     }
                                                 }
-                                                Valor v2 = new Valor(v.valor, v.tipo);
-                                                return v2;
-                                            } else {
-                                                if (!SegundaPasada.pila.isEmpty()) {
-                                                    while (SegundaPasada.pila.peek().equals(nombre + SegundaPasada.contTemp)) {
-                                                        variables.remove(variables.size() - 1);
-                                                        SegundaPasada.pila.pop();
-                                                        if (SegundaPasada.pila.isEmpty()) {
-                                                            break;
-                                                        }
-                                                    }
-                                                }
-                                                Errores.ErrorSemantico("El metodo -" + nombre + "- retorna un tipo diferente", 0, 0);
-                                                Valor v2 = new Valor("", "error");
-                                                return v2;
                                             }
+                                            Valor v2 = new Valor(v.valor, v.tipo);
+                                            return v2;
                                         } else {
                                             if (!SegundaPasada.pila.isEmpty()) {
                                                 while (SegundaPasada.pila.peek().equals(nombre + SegundaPasada.contTemp)) {
@@ -618,6 +621,7 @@ public class ExpresionGraphik {
                                                     }
                                                 }
                                             }
+                                            Errores.ErrorSemantico("El metodo -" + nombre + "- retorna un tipo diferente", 0, 0);
                                             Valor v2 = new Valor("", "error");
                                             return v2;
                                         }
@@ -644,36 +648,50 @@ public class ExpresionGraphik {
                                             }
                                         }
                                     }
-                                    Errores.ErrorSemantico("El metodo -" + nombre + "- no tiene retorno", 0, 0);
                                     Valor v2 = new Valor("", "error");
                                     return v2;
                                 }
                             } else {
-                                Errores.ErrorSemantico("Los parametros del metodo -" + nombre + "- no coinciden", 0, 0);
-                                Valor v = new Valor("", "error");
-                                return v;
-                            }
-                        } else if (raiz.hijos.get(1).hijos.size() == met.listaParametros.size()) {
-                            //metodo con parametros
-                            ArrayList<Valor> valores = new ArrayList();
-                            for (int i = 0; i < raiz.hijos.get(1).hijos.size(); i++) {
-                                Valor v = (Valor) Expresion(raiz.hijos.get(1).hijos.get(i), als, nombreFuncion, variables, false);
-                                if (v != null) {
-                                    if (v.valor != null) {
-                                        if (!"error".equals(v.tipo)) {
-                                            Valor v2 = new Valor(v.valor, v.tipo);
-                                            valores.add(v2);
+                                if (!SegundaPasada.pila.isEmpty()) {
+                                    while (SegundaPasada.pila.peek().equals(nombre + SegundaPasada.contTemp)) {
+                                        variables.remove(variables.size() - 1);
+                                        SegundaPasada.pila.pop();
+                                        if (SegundaPasada.pila.isEmpty()) {
+                                            break;
                                         }
-                                    } else {
-                                        Valor v2 = new Valor("", "error");
-                                        return v2;
+                                    }
+                                }
+                                Errores.ErrorSemantico("El metodo -" + nombre + "- no tiene retorno", 0, 0);
+                                Valor v2 = new Valor("", "error");
+                                return v2;
+                            }
+                        } else {
+                            Errores.ErrorSemantico("El metodo -" + nombre + "- no existe", 0, 0);
+                            Valor v = new Valor("", "error");
+                            return v;
+                        }
+                    } else {
+                        //metodo con parametros
+                        for (int i = 0; i < raiz.hijos.get(1).hijos.size(); i++) {
+                            Valor v = (Valor) Expresion(raiz.hijos.get(1).hijos.get(i), als, nombreFuncion, variables, false);
+                            if (v != null) {
+                                if (v.valor != null) {
+                                    if (!"error".equals(v.tipo)) {
+                                        Valor v2 = new Valor(v.valor, v.tipo);
+                                        valores.add(v2);
                                     }
                                 } else {
                                     Valor v2 = new Valor("", "error");
                                     return v2;
                                 }
+                            } else {
+                                Valor v2 = new Valor("", "error");
+                                return v2;
                             }
-
+                        }
+                        Valor existe = (Valor) buscarMetodo(als.Metodos, nombre, valores);
+                        if (existe.tipo.equals("true")) {
+                            MetodoGraphik met = (MetodoGraphik) existe.valor;
                             //envio a crear los parametros como variables
                             Valor v2 = (Valor) varsLocales.CrearVariablesMetodos(met.listaParametros, valores, nueva,
                                     als, nombre, SegundaPasada.contTemp); //revisar que el contTemp que pase sea el correcto
@@ -789,18 +807,16 @@ public class ExpresionGraphik {
                                 return v;
                             }
                         } else {
-                            Errores.ErrorSemantico("Los parametros del metodo -" + nombre + "- no coinciden", 0, 0);
+                            Errores.ErrorSemantico("El metodo -" + nombre + "- no existe", 0, 0);
                             Valor v = new Valor("", "error");
                             return v;
                         }
-                    } else {
-                        Errores.ErrorSemantico("El metodo -" + nombre + "- no existe", 0, 0);
-                        Valor v = new Valor("", "error");
-                        return v;
+
                     }
+
+                    break;
                 }
-                break;
-                
+
                 case "LlamaArreglo": {
                     Arreglo arreglo = new Arreglo();
                     String nombre = raiz.hijos.get(0).valor.toString();
@@ -868,6 +884,101 @@ public class ExpresionGraphik {
                     }
 
                 }
+                case "LlamarHK": {
+
+                    String nombre = raiz.hijos.get(0).valor.toString();
+                    FuncionHaskell fun = new FuncionHaskell();
+                    Boolean tt = false;
+                    if (!als.incluye.isEmpty()) {
+                        for (int i = 0; i < als.incluye.size(); i++) {
+                            if (nombre.equals(als.incluye.get(i).getNombre())) {
+                                fun = (FuncionHaskell) als.incluye.get(i);
+                                tt = true;
+                                break;
+                            }
+                        }
+                        if (tt) {
+                            ArrayList<Parametros> param = (ArrayList<Parametros>) fun.parametros;
+                            if (param.isEmpty()) {
+                                //no trae parametros
+                                if (raiz.hijos.get(1).hijos.isEmpty()) {
+                                    Nodo cuerpo = fun.getCuerpo();
+                                    ArrayList nueva = new ArrayList();
+                                    RecorreHaskell.Graphika(nombre, cuerpo, nueva);
+                                } else {
+                                    Errores.ErrorSemantico("La cantidad de parametros "
+                                            + "para la funcion -" + nombre + "- no coinciden", 0, 0);
+                                    Valor v2 = new Valor("", "error");
+                                    return v2;
+                                }
+                            } else if (!raiz.hijos.get(1).hijos.isEmpty()) {
+                                //trae parametros
+                                if (param.size() == raiz.hijos.get(1).hijos.size()) {
+                                    ArrayList nueva = new ArrayList();
+                                    for (int i = 0; i < param.size(); i++) {
+                                        Valor v = (Valor) Expresion(raiz.hijos.get(1).hijos.get(i), als, nombreFuncion, variables, false);
+                                        if (v != null) {
+                                            if (!"error".equals(v.tipo)) {
+                                                if (v.tipo.equals("decimal")) {
+                                                    v.tipo = "numero";
+                                                }else if(v.tipo.equals("cadena")||v.tipo.equals("caracter")){
+                                                    String cad = v.valor.toString();
+                                                    ArrayList caracteres = new ArrayList();
+                                                    for (int j = 0; j < cad.length(); j++) {
+                                                        caracteres.add(cad.charAt(j));
+                                                    }
+                                                    v.valor = caracteres;
+                                                }
+                                                Variable var = new Variable(param.get(i).nombre, v.valor, v.tipo);
+                                                nueva.add(var);
+                                            } else {
+                                                Valor v2 = new Valor("", "error");
+                                                return v2;
+                                            }
+                                        } else {
+
+                                            Errores.ErrorSemantico("Error en los parametros", 0, 0);
+                                            Valor v2 = new Valor("", "error");
+                                            return v2;
+
+                                        }
+                                    }
+
+                                    Nodo cuerpo = fun.getCuerpo();
+                                    Valor v = (Valor) RecorreHaskell.Graphika(nombre, cuerpo, nueva);
+                                    if (v != null) {
+                                        if (v.valor != null) {
+                                            if (!"".equals(v.tipo)) {
+                                                Valor vv = new Valor(v.valor, v.tipo);
+                                                return vv;
+                                            }
+                                        } else {
+                                            Valor v2 = new Valor("", "error");
+                                            return v2;
+                                        }
+                                    } else {
+                                        Valor v2 = new Valor("", "error");
+                                        return v2;
+                                    }
+                                }
+                            } else {
+                                Errores.ErrorSemantico("La cantidad de parametros "
+                                        + "para la funcion -" + nombre + "- no coinciden", 0, 0);
+                                Valor v2 = new Valor("", "error");
+                                return v2;
+                            }
+                        } else {
+                            Errores.ErrorSemantico("La funcion Haskell -" + nombre + "- no existe", 0, 0);
+                            Valor v2 = new Valor("", "error");
+                            return v2;
+                        }
+                    } else {
+                        Errores.ErrorSemantico("No hay funciones Incluidas de Haskell", 0, 0);
+                        Valor v2 = new Valor("", "error");
+                        return v2;
+                    }
+                    break;
+                }
             }
         }
 
@@ -889,13 +1000,33 @@ public class ExpresionGraphik {
         return v;
     }
 
-    public Object buscarMetodo(ArrayList<MetodoGraphik> metodos, String nombre) {
-
+    public Object buscarMetodo(ArrayList<MetodoGraphik> metodos, String nombre, ArrayList<Valor> parametros) {
+        Boolean existe = false;
         for (int i = 0; i < metodos.size(); i++) {
             if (metodos.get(i).nombre.equals(nombre)) {
                 MetodoGraphik met = metodos.get(i);
-                Valor v = new Valor(met, "true");
-                return v;
+                if (met.listaParametros.isEmpty()) {
+                    if (parametros.isEmpty()) {
+                        Valor v = new Valor(met, "true");
+                        return v;
+                    }
+                } else if (!parametros.isEmpty()) {
+                    if (met.listaParametros.size() == parametros.size()) {
+                        for (int j = 0; j < parametros.size(); j++) {
+                            if (met.listaParametros.get(j).tipo.equals(parametros.get(j).tipo)) {
+                                existe = true;
+                            } else {
+                                existe = false;
+                                break;
+                            }
+                        }
+                        if (existe) {
+                            Valor v = new Valor(met, "true");
+                            return v;
+                        }
+                    }
+                }
+
             }
 
         }

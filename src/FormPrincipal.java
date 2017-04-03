@@ -341,6 +341,19 @@ public class FormPrincipal extends javax.swing.JFrame {
                         ImprimirTabla();
 
                     } catch (Exception e) {
+                        String textoImprimir ="";
+                        for (int i = 0; i < Imprimir.imprimir.size(); i++) {
+                            textoImprimir+=">> "+Imprimir.imprimir.get(i);
+                        }
+                        txtConsolaGraphik.setText(textoImprimir);
+                        String textoErrores = "";
+                        for (int i = 0; i < TablaSimbolosGraphik.errorSemantico.size(); i++) {
+                            textoErrores += TablaSimbolosGraphik.errorSemantico.get(i).tipo + "->"
+                                    + TablaSimbolosGraphik.errorSemantico.get(i).texto + "\n";
+                            textoErrores += "----------------------------------------------------------------------------\n";
+                        }
+                        txtErrores.setText(textoErrores);
+                        ImprimirTabla();
                         JOptionPane.showMessageDialog(null,
                                 "Algo ha ido mal",
                                 "",
