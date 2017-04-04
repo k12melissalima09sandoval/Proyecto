@@ -5,6 +5,7 @@
  */
 package Interprete.Haskell;
 
+import Dibujar.Funciones;
 import Dibujar.Nodo;
 import java.util.ArrayList;
 import static Interprete.Haskell.ExpresionHaskell.ultimoValor;
@@ -16,12 +17,17 @@ import Simbolos.TablaSimbolosHaskell;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.JTree;
+import javax.swing.WindowConstants;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
  * @author MishaPks
  */
-public class RecorreHaskell {
+public class RecorreHaskell extends JFrame {
 
     public static ArrayList<Parametros> parametros;
     public static ArrayList<Parametros> parametrosTemp;
@@ -32,24 +38,34 @@ public class RecorreHaskell {
     static TablaSimbolosHaskell agrega = new TablaSimbolosHaskell();
     static Variable variable;
     public static String ambito = "consola";
+    static DefaultMutableTreeNode raizJTree = new DefaultMutableTreeNode("Funciones Haskell");
+    static Funciones fun = new Funciones();
 
     //-------------------------------------AGREGANDO FUNCIONES---------------------------------
     public static void Recorrido(Nodo raiz) {
 
+        raizJTree.removeAllChildren();
         for (int i = 0; i < raiz.hijos.size(); i++) {
+
             //nombre de la funcion
             String nombreFunc = raiz.hijos.get(i).hijos.get(0).valor.toString();
+            DefaultMutableTreeNode nuevo = new DefaultMutableTreeNode(nombreFunc);
             if (raiz.hijos.get(i).hijos.size() == 3) {
                 //parametros que recibe la funcion
+                ArrayList paraArbol = new ArrayList();
                 parametros = new ArrayList();
                 parametrosTemp = new ArrayList();
                 Nodo param = raiz.hijos.get(i).hijos.get(1);
                 for (int j = 0; j < param.hijos.size(); j++) {
+                    DefaultMutableTreeNode temp = new DefaultMutableTreeNode(nombreFunc);
                     Parametros p = new Parametros("", param.hijos.get(j).hijos.get(0).valor.toString());
                     p.setValor(null);
                     parametros.add(p);
+                    temp.setUserObject(param.hijos.get(j).hijos.get(0).valor.toString());
+                    nuevo.add(temp);
 
                 }
+                raizJTree.add(nuevo);
                 Nodo cuerpo = raiz.hijos.get(i).hijos.get(2).hijos.get(0);
                 nueva = new FuncionHaskell(nombreFunc, parametros, cuerpo);
                 agrega.AgregarFuncion(nombreFunc, nueva);
@@ -57,12 +73,16 @@ public class RecorreHaskell {
                 //nodo del cuerpo de la funcion
 
                 Nodo cuerpo = raiz.hijos.get(i).hijos.get(1).hijos.get(0);
-
+                raizJTree.add(nuevo);
                 nueva = new FuncionHaskell(nombreFunc, cuerpo);
                 agrega.AgregarFuncion(nombreFunc, nueva);
             }
 
         }
+
+        DefaultTreeModel arbol = new DefaultTreeModel(raizJTree);
+        Funciones.jTree1.setModel(arbol);
+        fun.setVisible(true);
     }
 
     //------------------------------------RECIBE DE GRAPHIK------------------------------------
@@ -79,7 +99,7 @@ public class RecorreHaskell {
                 v.tipo = "cadena";
             } else if (v.valor.toString().contains(".")) {
                 v.tipo = "decimal";
-            } else if (ExpresionHaskell.ultimoTipo.equals("numero")){
+            } else if (ExpresionHaskell.ultimoTipo.equals("numero")) {
                 v.tipo = "numero";
             }
             return v;
@@ -96,8 +116,8 @@ public class RecorreHaskell {
                 v.tipo = "cadena";
             } else if (v.valor.toString().contains(".")) {
                 v.tipo = "decimal";
-            } else if (ExpresionHaskell.ultimoTipo.equals("numero")){
-                v.tipo="numero";
+            } else if (ExpresionHaskell.ultimoTipo.equals("numero")) {
+                v.tipo = "numero";
             }
             ExpresionHaskell.pila.pop();
 

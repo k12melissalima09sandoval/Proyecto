@@ -1,5 +1,6 @@
 
 import Dibujar.Datos;
+import Dibujar.Funciones;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import Analizadores.Haskell.HaskellLexico;
@@ -9,6 +10,7 @@ import Analizadores.Consola.ConsolaSintactico;
 import Analizadores.Graphik.GraphikLexico;
 import Analizadores.Graphik.GraphikSintactico;
 import Analizadores.Imprimir;
+import Dibujar.ArbolFunciones;
 import Dibujar.DatosGraphik;
 import Dibujar.Graficar;
 import Dibujar.Nodo;
@@ -116,6 +118,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         btnGuardar = new javax.swing.JButton();
         btnAbrir = new javax.swing.JButton();
         btnCargarDatos = new javax.swing.JButton();
+        btnFunciones = new javax.swing.JButton();
 
         jMenu1.setText("jMenu1");
 
@@ -210,6 +213,13 @@ public class FormPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btnFunciones.setText("Funciones");
+        btnFunciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFuncionesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -238,7 +248,8 @@ public class FormPrincipal extends javax.swing.JFrame {
                                     .addComponent(btnEjecutar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnAbrir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnCargarDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnFunciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(0, 21, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -258,6 +269,8 @@ public class FormPrincipal extends javax.swing.JFrame {
                         .addComponent(btnGuardar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCargarDatos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnFunciones)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnCerrarPestaña)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -608,6 +621,11 @@ public class FormPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCargarDatosActionPerformed
 
+    private void btnFuncionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFuncionesActionPerformed
+        Funciones fun = new Funciones();
+        fun.setVisible(true);
+    }//GEN-LAST:event_btnFuncionesActionPerformed
+
     private boolean JFileChooserDialog() {
         int seleccion = jFileChooser1.showDialog(this, "Selecionar archivo ...");
 
@@ -727,6 +745,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnCargarDatos;
     private javax.swing.JButton btnCerrarPestaña;
     private javax.swing.JButton btnEjecutar;
+    private javax.swing.JButton btnFunciones;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNueva;
     private javax.swing.Box.Filler filler1;
