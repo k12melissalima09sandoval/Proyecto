@@ -37,6 +37,7 @@ public class ExpresionGraphik {
     static SegundaPasada ej = new SegundaPasada();
     static CrearVariables varsLocales = new CrearVariables();
     static Concatena concatena = new Concatena();
+    public static ArrayList<Valor> Columnas = new ArrayList();
 
     public Object Expresion(Nodo raiz, Als als, String nombreFuncion, ArrayList<ArrayList<Variable>> variables, Boolean imprimir) {
 
@@ -264,7 +265,36 @@ public class ExpresionGraphik {
 
                     break;
                 }
+                case "Columna": {
+                    int col;
+                    if (!Columnas.isEmpty()) {
+                        Valor expresion = (Valor) Expresion(raiz.hijos.get(0), als, nombreFuncion, variables, false);
+                        if (expresion != null) {
+                            if (!"error".equals(expresion.tipo)) {
+                                try {
+                                    col = Integer.parseInt(expresion.valor.toString());
+                                } catch (Exception e) {
+                                    Errores.ErrorSemantico("La expresion de Columna debe ser entero", 0, 0);
+                                    Valor v2 = new Valor("", "error");
+                                    return v2;
+                                }
+                                Valor obtiene = (Valor) Columnas.get(col-1);
+                                Valor v = new Valor(obtiene.valor, obtiene.tipo);
+                                return v;
+                            } else {
+                                Valor v2 = new Valor("", "error");
+                                return v2;
+                            }
+                        } else {
+                            Valor v2 = new Valor("", "error");
+                            return v2;
+                        }
 
+                    } else {
+                        Valor v = new Valor("", "error");
+                        return v;
+                    }
+                }
             }
 
         } else if (raiz.hijos.size() == 2) {
@@ -921,7 +951,7 @@ public class ExpresionGraphik {
                                             if (!"error".equals(v.tipo)) {
                                                 if (v.tipo.equals("decimal")) {
                                                     v.tipo = "numero";
-                                                }else if(v.tipo.equals("cadena")||v.tipo.equals("caracter")){
+                                                } else if (v.tipo.equals("cadena") || v.tipo.equals("caracter")) {
                                                     String cad = v.valor.toString();
                                                     ArrayList caracteres = new ArrayList();
                                                     for (int j = 0; j < cad.length(); j++) {

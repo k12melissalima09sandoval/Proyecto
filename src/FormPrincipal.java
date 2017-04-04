@@ -1,4 +1,5 @@
 
+import Dibujar.Datos;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import Analizadores.Haskell.HaskellLexico;
@@ -8,10 +9,11 @@ import Analizadores.Consola.ConsolaSintactico;
 import Analizadores.Graphik.GraphikLexico;
 import Analizadores.Graphik.GraphikSintactico;
 import Analizadores.Imprimir;
+import Dibujar.DatosGraphik;
 import Dibujar.Nodo;
-import Dibujar.Graficar;
 import Interprete.Graphik.Als;
 import Interprete.Graphik.Ejecucion;
+import Interprete.Graphik.ExpresionGraphik;
 import Interprete.Valor;
 import Interprete.Graphik.PrimeraPasada;
 import Interprete.Graphik.SegundaPasada;
@@ -112,14 +114,14 @@ public class FormPrincipal extends javax.swing.JFrame {
         txtConsolaGraphik = new javax.swing.JTextArea();
         btnGuardar = new javax.swing.JButton();
         btnAbrir = new javax.swing.JButton();
-        btnGraphikar = new javax.swing.JButton();
+        btnCargarDatos = new javax.swing.JButton();
 
         jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Graphik y Haskell++");
         setBackground(new java.awt.Color(255, 255, 204));
-        setMinimumSize(new java.awt.Dimension(900, 500));
+        setMinimumSize(new java.awt.Dimension(950, 500));
         setPreferredSize(new java.awt.Dimension(935, 710));
 
         btnNueva.setText("Nuevo");
@@ -200,10 +202,10 @@ public class FormPrincipal extends javax.swing.JFrame {
             }
         });
 
-        btnGraphikar.setText("Graphikar");
-        btnGraphikar.addActionListener(new java.awt.event.ActionListener() {
+        btnCargarDatos.setText("Cargar Datos");
+        btnCargarDatos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGraphikarActionPerformed(evt);
+                btnCargarDatosActionPerformed(evt);
             }
         });
 
@@ -231,13 +233,12 @@ public class FormPrincipal extends javax.swing.JFrame {
                                         .addComponent(jLabel1)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(lblColumna))
-                                    .addComponent(btnCerrarPestaña, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnCerrarPestaña, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
                                     .addComponent(btnEjecutar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnAbrir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(btnGraphikar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnGuardar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                    .addComponent(btnCargarDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 21, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -255,7 +256,7 @@ public class FormPrincipal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnGuardar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnGraphikar)
+                        .addComponent(btnCargarDatos)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnCerrarPestaña)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -318,6 +319,7 @@ public class FormPrincipal extends javax.swing.JFrame {
                         Imprimir.imprimir.removeAll(Imprimir.imprimir);
                         SegundaPasada.contTemp=0;
                         SegundaPasada.pila.removeAllElements();
+                        ExpresionGraphik.Columnas.clear();
                         //
                         Ejecucion ejecuta = new Ejecucion();
                         GraphikLexico scan = new GraphikLexico(new BufferedReader(new StringReader(a)));
@@ -551,9 +553,35 @@ public class FormPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAbrirActionPerformed
 
-    private void btnGraphikarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGraphikarActionPerformed
-        
-    }//GEN-LAST:event_btnGraphikarActionPerformed
+    private void btnCargarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarDatosActionPerformed
+        try {
+            int actual = jTabbedPane1.getSelectedIndex();
+            String a = listaPestañas.get(actual).getTextArea().getText();
+            if (a.isEmpty()) {
+                JOptionPane.showMessageDialog(null,
+                        "No hay cadena para analizar!!",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            try {
+                Datos tabla = new Datos();
+                DatosGraphik datos = new DatosGraphik();
+                datos.recibirCadena(a,Datos.jTable1);
+                
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null,
+                        "Ups... Algo a salido mal!!",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                    "No hay ningun archivo para analizar!!",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnCargarDatosActionPerformed
 
     private boolean JFileChooserDialog() {
         int seleccion = jFileChooser1.showDialog(this, "Selecionar archivo ...");
@@ -671,9 +699,9 @@ public class FormPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAbrir;
+    private javax.swing.JButton btnCargarDatos;
     private javax.swing.JButton btnCerrarPestaña;
     private javax.swing.JButton btnEjecutar;
-    private javax.swing.JButton btnGraphikar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNueva;
     private javax.swing.Box.Filler filler1;

@@ -1,7 +1,9 @@
 package Interprete.Graphik;
 
+import Dibujar.Datos;
 import Analizadores.Errores;
 import Analizadores.Imprimir;
+import Dibujar.DatosGraphik;
 import Dibujar.Graficar;
 import Dibujar.Nodo;
 import Interprete.Arreglo;
@@ -14,6 +16,7 @@ import Interprete.Variable;
 import Simbolos.TablaSimbolosGraphik;
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.Vector;
 
 /**
  *
@@ -28,6 +31,8 @@ public class SegundaPasada {
     public static Stack pila = new Stack();
     static Graficar graf = new Graficar("Grafica");
     Boolean pasoGraf = false;
+    static DatosGraphik datos = new DatosGraphik();
+    static ArrayList Resultados = new ArrayList();
 
     public Object Reconocer() {
 
@@ -991,10 +996,17 @@ public class SegundaPasada {
                                         Valor v = (Valor) exp.Expresion(raiz.hijos.get(1).hijos.get(i), als, nombreFun, variables, false);
                                         if (v != null) {
                                             if (!"error".equals(v.tipo)) {
-                                                if(v.tipo.equals("decimal")){
-                                                    v.tipo="numero";
+                                                if (v.tipo.equals("decimal")) {
+                                                    v.tipo = "numero";
+                                                } else if (v.tipo.equals("cadena") || v.tipo.equals("caracter")) {
+                                                    String cad = v.valor.toString();
+                                                    ArrayList caracteres = new ArrayList();
+                                                    for (int j = 0; j < cad.length(); j++) {
+                                                        caracteres.add(cad.charAt(j));
+                                                    }
+                                                    v.valor = caracteres;
                                                 }
-                                                Variable var = new Variable(param.get(i).nombre,v.valor,v.tipo);
+                                                Variable var = new Variable(param.get(i).nombre, v.valor, v.tipo);
                                                 nueva.add(var);
                                             } else {
                                                 break;
@@ -1004,9 +1016,10 @@ public class SegundaPasada {
                                             break;
                                         }
                                     }
-                                    
+
                                     Nodo cuerpo = fun.getCuerpo();
                                     RecorreHaskell.Graphika(nombre, cuerpo, nueva);
+
                                 }
                             } else {
                                 Errores.ErrorSemantico("La cantidad de parametros "
@@ -1035,6 +1048,174 @@ public class SegundaPasada {
 
                 }
                 break;
+
+                case "LlamaDatos": {
+                    ArrayList<Valor> p = new ArrayList();
+                    Valor v = (Valor) buscarMetodo(als.Metodos, "Datos", p);
+                    if (v.tipo.equals("true")) {
+                        MetodoGraphik met = (MetodoGraphik) v.valor;
+                        Nodo cuerpo = met.cuerpo;
+                        Nodo procesar = new Nodo();
+                        for (Nodo c : cuerpo.hijos) {
+                            if (c.valor.toString().equals("Procesar")) {
+                                procesar = c.hijos.get(0);
+                            }
+                            if (!c.valor.toString().equals("Procesar")) {
+                                Valor columna = (Valor) exp.Expresion(c.hijos.get(0), als, nombreFun, variables, false);
+
+                                //DONDE
+                                if (c.valor.equals("Donde")) {
+                                    Valor filtro = (Valor) exp.Expresion(c.hijos.get(1), als, nombreFun, variables, false);
+                                    if (columna != null && filtro != null) {
+                                        if (!"error".equals(columna.tipo) && !"error".equals(filtro.tipo)) {
+                                            ArrayList<Vector> resultado = new ArrayList();
+                                            //busqueda donde
+                                            resultado = (ArrayList) datos.filtroDonde(Datos.jTable1,
+                                                    Integer.parseInt(columna.valor.toString()), filtro.valor.toString());
+                                            if (!resultado.isEmpty()) {
+                                                for (int i = 0; i < resultado.size(); i++) {
+                                                    ExpresionGraphik.Columnas.clear();
+                                                    Resultados.clear();
+                                                    for (int j = 0; j < resultado.get(i).size(); j++) {
+                                                        String cad = resultado.get(i).get(j).toString().replace("\"", "");
+                                                        String clase;
+                                                        if (cad.contains(".")) {
+                                                            Double num = Double.parseDouble(cad);
+                                                            Valor val = new Valor(num, "decimal");
+                                                            ExpresionGraphik.Columnas.add(val);
+                                                        } else {
+                                                            try {
+                                                                int valor = Integer.parseInt(cad);
+                                                                Valor val = new Valor(valor, "numero");
+                                                                ExpresionGraphik.Columnas.add(val);
+
+                                                            } catch (Exception e) {
+                                                                Valor val = new Valor(cad, "cadena");
+                                                                ExpresionGraphik.Columnas.add(val);
+
+                                                            }
+                                                        }
+
+                                                    }
+                                                    Valor res = (Valor) exp.Expresion(procesar, als, "Datos", variables, false);
+                                                    if (res != null) {
+                                                        if (res.tipo != "error") {
+                                                            Resultados.add(res.valor);
+                                                        }
+                                                    }
+                                                }
+                                                //tabla donde
+                                                datos.resultadoDonde(Datos.jTable1, Resultados, filtro.valor.toString());
+                                                
+                                            }
+                                        }
+                                    }
+                                    
+                                    //DONDE CADA
+                                } else if (c.valor.equals("DondeCada")) {
+                                    if (columna != null) {
+                                        if (!"error".equals(columna.tipo)) {
+                                            ArrayList<Vector> resultado = new ArrayList();
+                                            //busqueda donde cada
+                                            resultado = (ArrayList) datos.filtroDondeCada(Datos.jTable1);
+                                            if (!resultado.isEmpty()) {
+                                                Resultados.clear();
+                                                for (int i = 0; i < resultado.size(); i++) {
+                                                    ExpresionGraphik.Columnas.clear();
+
+                                                    for (int j = 0; j < resultado.get(i).size(); j++) {
+                                                        String cad = resultado.get(i).get(j).toString().replace("\"", "");
+                                                        String clase;
+                                                        if (cad.contains(".")) {
+                                                            Double num = Double.parseDouble(cad);
+                                                            Valor val = new Valor(num, "decimal");
+                                                            ExpresionGraphik.Columnas.add(val);
+                                                        } else {
+                                                            try {
+                                                                int valor = Integer.parseInt(cad);
+                                                                Valor val = new Valor(valor, "numero");
+                                                                ExpresionGraphik.Columnas.add(val);
+
+                                                            } catch (Exception e) {
+                                                                Valor val = new Valor(cad, "cadena");
+                                                                ExpresionGraphik.Columnas.add(val);
+
+                                                            }
+                                                        }
+
+                                                    }
+                                                    Valor res = (Valor) exp.Expresion(procesar, als, "Datos", variables, false);
+                                                    if (res != null) {
+                                                        if (res.tipo != "error") {
+                                                            Resultados.add(res.valor);
+                                                        }
+                                                    }
+                                                }
+                                                //tabla donde cada
+                                                datos.resultadoDondeCada(Datos.jTable1, Resultados,
+                                                        Integer.parseInt(columna.valor.toString()), resultado);
+                                                
+                                            }
+                                        }
+                                    }
+                                    
+                                    //DONDE TODO
+                                } else if (c.valor.equals("DondeTodo")) {
+                                    if (columna != null) {
+                                        if (!"error".equals(columna.tipo)) {
+                                            ArrayList<Vector> resultado = new ArrayList();
+                                            //busqueda
+                                            resultado = (ArrayList) datos.filtroDondeTodo(Datos.jTable1);
+                                            if (!resultado.isEmpty()) {
+                                                Resultados.clear();
+                                                for (int i = 0; i < resultado.size(); i++) {
+                                                    ExpresionGraphik.Columnas.clear();
+
+                                                    for (int j = 0; j < resultado.get(i).size(); j++) {
+                                                        String cad = resultado.get(i).get(j).toString().replace("\"", "");
+                                                        String clase;
+                                                        if (cad.contains(".")) {
+                                                            Double num = Double.parseDouble(cad);
+                                                            Valor val = new Valor(num, "decimal");
+                                                            ExpresionGraphik.Columnas.add(val);
+                                                        } else {
+                                                            try {
+                                                                int valor = Integer.parseInt(cad);
+                                                                Valor val = new Valor(valor, "numero");
+                                                                ExpresionGraphik.Columnas.add(val);
+
+                                                            } catch (Exception e) {
+                                                                Valor val = new Valor(cad, "cadena");
+                                                                ExpresionGraphik.Columnas.add(val);
+
+                                                            }
+                                                        }
+
+                                                    }
+                                                    Valor res = (Valor) exp.Expresion(procesar, als, "Datos", variables, false);
+                                                    if (res != null) {
+                                                        if (res.tipo != "error") {
+                                                            Resultados.add(res.valor);
+                                                        }
+                                                    }
+                                                }
+                                                //tabla donde todo
+                                                datos.resultadoDondeTodo(Datos.jTable1, Resultados,
+                                                        Integer.parseInt(columna.valor.toString()), resultado);
+                                                
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    Errores.ErrorSemantico("El Metodo Datos necesita un Donde", nivel, cont);
+                                }
+                            }
+                        }
+                    } else {
+                        Errores.ErrorSemantico("El Metodo Datos no existe", nivel, cont);
+                    }
+                    break;
+                }
 
                 case "Graphikar": {
 

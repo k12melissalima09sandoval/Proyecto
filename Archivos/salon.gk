@@ -2,7 +2,11 @@ importar estudiante.gk?
 
 ALS salon:publico {
     
-    
+    vacio inicio(){
+		llamar cargar_estudiantes()?
+	}
+	
+	
     vacio cargar_estudiantes():publico{
     
         var estudiante estudiante1 = nuevo estudiante()?

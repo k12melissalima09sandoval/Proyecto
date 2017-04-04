@@ -56,11 +56,14 @@ public class NuevoDocumento extends javax.swing.JFrame {
     private void initComponents() {
 
         btnHaskell = new javax.swing.JButton();
-        btnGraphik = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        jSeparator2 = new javax.swing.JSeparator();
+        btnGraphik = new javax.swing.JButton();
+        btnDatos = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setTitle("Nuevo Documento");
         setMinimumSize(new java.awt.Dimension(437, 194));
@@ -75,15 +78,6 @@ public class NuevoDocumento extends javax.swing.JFrame {
         });
         getContentPane().add(btnHaskell, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 150, 113));
 
-        btnGraphik.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Graphik.PNG"))); // NOI18N
-        btnGraphik.setText("jButton1");
-        btnGraphik.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGraphikActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnGraphik, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, 150, 113));
-
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, 10, 150));
 
@@ -95,18 +89,63 @@ public class NuevoDocumento extends javax.swing.JFrame {
 
         jPanel1.setMinimumSize(new java.awt.Dimension(402, 197));
 
+        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        btnGraphik.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Graphik.PNG"))); // NOI18N
+        btnGraphik.setText("jButton1");
+        btnGraphik.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGraphikActionPerformed(evt);
+            }
+        });
+
+        btnDatos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Datos.PNG"))); // NOI18N
+        btnDatos.setText("jButton1");
+        btnDatos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDatosActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Datos");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 402, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(229, 229, 229)
+                .addComponent(btnGraphik, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(67, 67, 67)
+                        .addComponent(jLabel3)))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 200, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(btnGraphik, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(btnDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel3)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 390, 200));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 200));
 
         pack();
         setLocationRelativeTo(null);
@@ -120,6 +159,9 @@ public class NuevoDocumento extends javax.swing.JFrame {
 
     private void btnHaskellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHaskellActionPerformed
 
+        AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
+        atmf.putMapping("text/TextoGraphik", "GraphikSyntax");
+        
         texto = new RSyntaxTextArea(20, 60);
         texto.setCodeFoldingEnabled(true);
         texto.setCurrentLineHighlightColor(new Color(227, 242, 253, 200));
@@ -137,6 +179,16 @@ public class NuevoDocumento extends javax.swing.JFrame {
         pestaña.setViewportBorder(BorderFactory.createEmptyBorder());
         FormPrincipal.jTabbedPane1.add(pestaña);
         FormPrincipal.listaPestañas.add(pestaña);
+        SyntaxScheme scheme = texto.getSyntaxScheme();
+        scheme.getStyle(Token.RESERVED_WORD).foreground = Color.BLUE;
+        scheme.getStyle(Token.LITERAL_STRING_DOUBLE_QUOTE).foreground = Color.decode("#0ab115");
+        scheme.getStyle(Token.IDENTIFIER).foreground = Color.decode("#ED7F02");
+        scheme.getStyle(Token.COMMENT_EOL).foreground = Color.GRAY;
+        scheme.getStyle(Token.COMMENT_MULTILINE).foreground = Color.GRAY;
+        scheme.getStyle(Token.LITERAL_NUMBER_DECIMAL_INT).foreground = Color.BLACK;
+        scheme.getStyle(Token.LITERAL_NUMBER_FLOAT).foreground = Color.BLACK;
+        scheme.getStyle(Token.LITERAL_CHAR).foreground = Color.decode("#439a4d");
+        scheme.getStyle(Token.RESERVED_WORD_2).foreground = Color.BLACK;
         this.setVisible(false);
 
 
@@ -178,6 +230,41 @@ public class NuevoDocumento extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnGraphikActionPerformed
 
+    private void btnDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatosActionPerformed
+        
+        AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
+        atmf.putMapping("text/TextoGraphik", "GraphikSyntax");
+        
+        texto = new RSyntaxTextArea(20, 60);
+        texto.setCodeFoldingEnabled(true);
+        texto.setCurrentLineHighlightColor(new Color(227, 242, 253, 200));
+        texto.setFadeCurrentLineHighlight(true);
+        texto.setName(".csv");
+        texto.setBorder(BorderFactory.createEmptyBorder());
+        texto.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                Columna();
+            }
+        });
+        RTextScrollPane pestaña = new RTextScrollPane(texto);
+        pestaña.setName("Datos.csv");
+        pestaña.setViewportBorder(BorderFactory.createEmptyBorder());
+        FormPrincipal.jTabbedPane1.add(pestaña);
+        FormPrincipal.listaPestañas.add(pestaña);
+        SyntaxScheme scheme = texto.getSyntaxScheme();
+        scheme.getStyle(Token.RESERVED_WORD).foreground = Color.BLUE;
+        scheme.getStyle(Token.LITERAL_STRING_DOUBLE_QUOTE).foreground = Color.decode("#0ab115");
+        scheme.getStyle(Token.IDENTIFIER).foreground = Color.decode("#ED7F02");
+        scheme.getStyle(Token.COMMENT_EOL).foreground = Color.GRAY;
+        scheme.getStyle(Token.COMMENT_MULTILINE).foreground = Color.GRAY;
+        scheme.getStyle(Token.LITERAL_NUMBER_DECIMAL_INT).foreground = Color.BLACK;
+        scheme.getStyle(Token.LITERAL_NUMBER_FLOAT).foreground = Color.BLACK;
+        scheme.getStyle(Token.LITERAL_CHAR).foreground = Color.decode("#439a4d");
+        scheme.getStyle(Token.RESERVED_WORD_2).foreground = Color.BLACK;
+        this.setVisible(false);
+    }//GEN-LAST:event_btnDatosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -214,11 +301,14 @@ public class NuevoDocumento extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDatos;
     private javax.swing.JButton btnGraphik;
     private javax.swing.JButton btnHaskell;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     // End of variables declaration//GEN-END:variables
 }

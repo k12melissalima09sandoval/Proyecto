@@ -58,7 +58,7 @@ terminal protegido, privado, publico;
 terminal importar, hereda, var, nuevo, retornar, llamar;
 terminal inicio, llamarHK, incluirHK, graphikar;
 terminal si, seleccion, sino, caso, defecto, para, mientras, hacer, continuar, terminar;
-terminal columna, procesar, donde, dondecada, dondetodo, imprimir,datos;
+terminal columna, procesar, donde, dondecada, dondetodo, imprimir, datos;
 terminal cad, id, num, dec, carac, verdadero, falso,nombreArchivo;
 terminal corAbre, corCierra, llaveAbre, llaveCierra, parenAbre, parenCierra;
 terminal mas, menos, por, div, potencia;
@@ -468,6 +468,7 @@ SENTENCIAS ::= SENTENCIAS:sent L_SENT:nodo {:sent.Hijo(nodo); RESULT = sent;:}
 L_SENT ::= DECLARACION_LOCAL:nodo fin       {:RESULT = nodo;:}
         | LLAMAR:nodo fin                   {:RESULT = nodo;:}
         | LLAMARHK:nodo fin                 {:RESULT = nodo;:}
+        | llamar datos parenAbre parenCierra fin    {:RESULT = new Nodo("LlamaDatos");:}
         | ASIGNA:nodo fin                   {:RESULT = nodo;:}
         | RETORNA:nodo                      {:RESULT = nodo;:}
         | SENTENCIA_SI:nodo                 {:RESULT = nodo;:}

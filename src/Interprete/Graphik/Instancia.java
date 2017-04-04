@@ -58,7 +58,7 @@ public class Instancia {
                         //cuando viene acceso a un atributo
                         String nombre = nodo.hijos.get(0).valor.toString();
                         Valor var = (Valor) buscarVariable(variables, nombre);
-
+                        
                         if (var.tipo.equals("true")) {
                             Variable acceso = (Variable) var.valor;
                             if (acceso.valor != null) {
