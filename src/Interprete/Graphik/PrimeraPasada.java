@@ -11,6 +11,7 @@ import Analizadores.Graphik.GraphikSintactico;
 import Dibujar.Nodo;
 import Interprete.Haskell.FuncionHaskell;
 import Interprete.Valor;
+import Interprete.Variable;
 import Simbolos.TablaSimbolosGraphik;
 import Simbolos.TablaSimbolosHaskell;
 import java.io.BufferedReader;
@@ -33,12 +34,11 @@ import javax.swing.JOptionPane;
 public class PrimeraPasada {
 
     public static String ruta;
-    SentenciasAls sentAls = new SentenciasAls();
     CrearVariables varsGlobales = new CrearVariables();
     CrearMetodos metodos = new CrearMetodos();
     TablaSimbolosGraphik tabla = new TablaSimbolosGraphik();
     TablaSimbolosHaskell tablaH = new TablaSimbolosHaskell();
-    static int paso = 0;
+    public static int paso = 0;
 
     public Object Reconocer(Nodo raiz, Boolean bandera) {
 
@@ -338,5 +338,18 @@ public class PrimeraPasada {
             }
         }
         return null;
+    }
+
+    public Object buscarVariable(ArrayList<Variable> variables, String nombre) {
+
+        for (int j = 0; j < variables.size(); j++) {
+            if (variables.get(j).nombre.equals(nombre)) {
+                Variable var = variables.get(j);
+                Valor v = new Valor(var, "true");
+                return v;
+            }
+        }
+        Valor v = new Valor("", "false");
+        return v;
     }
 }

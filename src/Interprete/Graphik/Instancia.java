@@ -58,9 +58,15 @@ public class Instancia {
                         //cuando viene acceso a un atributo
                         String nombre = nodo.hijos.get(0).valor.toString();
                         Valor var = (Valor) buscarVariable(variables, nombre);
-                        
+
                         if (var.tipo.equals("true")) {
                             Variable acceso = (Variable) var.valor;
+                            if (acceso.visibilidad.equals("Privado")) {
+                                Errores.ErrorSemantico("La variable -" + nombre + "- es privada"
+                                        + " en el Als -" + claseObjeto.nombre + "- ", 0, 0);
+                                Valor v2 = new Valor("", "error");
+                                return v2;
+                            }
                             if (acceso.valor != null) {
                                 if (acceso.instancia) {
                                     claseObjeto = (Als) acceso.valor;
@@ -93,7 +99,12 @@ public class Instancia {
                     Valor v = (Valor) buscarMetodo(metodos, nombre, valores);
                     if (v.tipo.equals("true")) {
                         MetodoGraphik met = (MetodoGraphik) v.valor;
-
+                        if (met.visibilidad.equals("Privado")) {
+                            Errores.ErrorSemantico("El metodo -" + nombre + "- es privado"
+                                    + " en el Als -" + claseObjeto.nombre + "- ", 0, 0);
+                            Valor v2 = new Valor("", "error");
+                            return v2;
+                        }
                         if (met.tipo.equals("vacio")) {
                             Valor v2 = new Valor("", "error");
                             return v2;
@@ -140,7 +151,7 @@ public class Instancia {
                         return v2;
                     }
                 } else {
-
+                    //trae parametros
                     for (int i = 0; i < nodo.hijos.get(1).hijos.size(); i++) {
                         Valor v2 = (Valor) exp.Expresion(nodo.hijos.get(1).hijos.get(i), claseAnterior, nombre, anteriores, false);
                         if (v2 != null) {
@@ -161,6 +172,12 @@ public class Instancia {
                     Valor v = (Valor) buscarMetodo(metodos, nombre, valores);
                     if (v.tipo.equals("true")) {
                         MetodoGraphik met = (MetodoGraphik) v.valor;
+                        if (met.visibilidad.equals("Privado")) {
+                            Errores.ErrorSemantico("El metodo -" + nombre + "- es privado"
+                                    + " en el Als -" + claseObjeto.nombre + "- ", 0, 0);
+                            Valor v2 = new Valor("", "error");
+                            return v2;
+                        }
                         if (met.tipo.equals("vacio")) {
                             Valor v4 = new Valor("", "error");
                             return v4;
@@ -254,6 +271,12 @@ public class Instancia {
 
                         if (var.tipo.equals("true")) {
                             Variable acceso = (Variable) var.valor;
+                            if (acceso.visibilidad.equals("Privado")) {
+                                Errores.ErrorSemantico("La variable -" + nombre + "- es privada"
+                                        + " en el Als -" + claseObjeto.nombre + "- ", 0, 0);
+                                Valor v2 = new Valor("", "error");
+                                return v2;
+                            }
                             if (acceso.valor != null) {
                                 if (acceso.instancia) {
                                     claseObjeto = (Als) acceso.valor;
@@ -290,6 +313,12 @@ public class Instancia {
                     Valor v = (Valor) buscarMetodo(metodos, nombre, valores);
                     if (v.tipo.equals("true")) {
                         MetodoGraphik met = (MetodoGraphik) v.valor;
+                        if (met.visibilidad.equals("Privado")) {
+                            Errores.ErrorSemantico("El metodo -" + nombre + "- es privado"
+                                    + " en el Als -" + claseObjeto.nombre + "- ", 0, 0);
+                            Valor v2 = new Valor("", "error");
+                            return v2;
+                        }
                         Nodo cuerpo = met.cuerpo.hijos.get(0);
                         Valor retorno = (Valor) ej.Ejecucion(cuerpo, nueva, 0,
                                 claseObjeto, nombre, SegundaPasada.contTemp, nombre);
@@ -344,6 +373,12 @@ public class Instancia {
                     Valor v = (Valor) buscarMetodo(metodos, nombre, valores);
                     if (v.tipo.equals("true")) {
                         MetodoGraphik met = (MetodoGraphik) v.valor;
+                        if (met.visibilidad.equals("Privado")) {
+                            Errores.ErrorSemantico("El metodo -" + nombre + "- es privado"
+                                    + " en el Als -" + claseObjeto.nombre + "- ", 0, 0);
+                            Valor v2 = new Valor("", "error");
+                            return v2;
+                        }
                         Valor v2 = (Valor) varsLocales.CrearVariablesMetodos(met.listaParametros, valores, nueva,
                                 claseObjeto, nombre, SegundaPasada.contTemp);
                         // variables = nueva;
@@ -423,9 +458,15 @@ public class Instancia {
                         //cuando viene acceso a un atributo
                         String nombre = nodo.hijos.get(0).valor.toString();
                         Valor var = (Valor) buscarVariable(variables, nombre);
-
+                        
                         if (var.tipo.equals("true")) {
                             Variable acceso = (Variable) var.valor;
+                            if(acceso.visibilidad.equals("Privado")){
+                                Errores.ErrorSemantico("La variable -" + nombre + "- es privada"
+                                        + " en el Als -" + claseObjeto.nombre + "- ", 0, 0);
+                                Valor v2 = new Valor("", "error");
+                                return v2;
+                            }
                             if (acceso.valor != null) {
                                 if (acceso.instancia) {
                                     claseObjeto = (Als) acceso.valor;
@@ -461,6 +502,12 @@ public class Instancia {
                     Valor v = (Valor) buscarMetodo(metodos, nombre, valores);
                     if (v.tipo.equals("true")) {
                         MetodoGraphik met = (MetodoGraphik) v.valor;
+                        if(met.visibilidad.equals("Privado")){
+                            Errores.ErrorSemantico("El metodo -" + nombre + "- es privado"
+                                        + " en el Als -" + claseObjeto.nombre + "- ", 0, 0);
+                                Valor v2 = new Valor("", "error");
+                                return v2;
+                        }
                         //no trae parametros
                         if (met.tipo.equals("vacio")) {
                             Valor v2 = new Valor("", "error");
@@ -528,6 +575,12 @@ public class Instancia {
                     Valor v = (Valor) buscarMetodo(metodos, nombre, valores);
                     if (v.tipo.equals("true")) {
                         MetodoGraphik met = (MetodoGraphik) v.valor;
+                        if(met.visibilidad.equals("Privado")){
+                            Errores.ErrorSemantico("El metodo -" + nombre + "- es privado"
+                                        + " en el Als -" + claseObjeto.nombre + "- ", 0, 0);
+                                Valor v2 = new Valor("", "error");
+                                return v2;
+                        }
                         if (met.tipo.equals("vacio")) {
                             Valor v4 = new Valor("", "error");
                             return v4;

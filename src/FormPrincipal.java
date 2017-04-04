@@ -10,6 +10,7 @@ import Analizadores.Graphik.GraphikLexico;
 import Analizadores.Graphik.GraphikSintactico;
 import Analizadores.Imprimir;
 import Dibujar.DatosGraphik;
+import Dibujar.Graficar;
 import Dibujar.Nodo;
 import Interprete.Graphik.Als;
 import Interprete.Graphik.Ejecucion;
@@ -20,6 +21,7 @@ import Interprete.Graphik.SegundaPasada;
 import Interprete.Haskell.RecorreHaskell;
 import Interprete.Parametros;
 import Simbolos.TablaSimbolosGraphik;
+import Simbolos.TablaSimbolosHaskell;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
@@ -40,7 +42,6 @@ public class FormPrincipal extends javax.swing.JFrame {
      * Creates new form FormPrincipal
      */
     public static ArrayList<RTextScrollPane> listaPestañas = new ArrayList();
-    public static int nuevo;
     public static String rutaPestaña;
 
     static RecorreHaskell consola = new RecorreHaskell();
@@ -300,6 +301,8 @@ public class FormPrincipal extends javax.swing.JFrame {
 
                 if (listaPestañas.get(actual).getTextArea().getName().equals(".hk")) {
                     try {
+                        TablaSimbolosHaskell.listaFunciones.clear();
+                        TablaSimbolosHaskell.listaListasConsola.clear();
                         HaskellLexico scan = new HaskellLexico(new BufferedReader(new StringReader(a)));
                         HaskellSintactico parser = new HaskellSintactico(scan);
                         parser.parse();
@@ -314,12 +317,15 @@ public class FormPrincipal extends javax.swing.JFrame {
                 else if (listaPestañas.get(actual).getTextArea().getName().equals(".gk")) {
                     try {
                         //vacio las estaticas
+                        Graficar.Inicializar();
                         TablaSimbolosGraphik.listaAls.removeAll(TablaSimbolosGraphik.listaAls);
                         TablaSimbolosGraphik.errorSemantico.removeAll(TablaSimbolosGraphik.errorSemantico);
                         Imprimir.imprimir.removeAll(Imprimir.imprimir);
-                        SegundaPasada.contTemp=0;
+                        SegundaPasada.contTemp = 0;
                         SegundaPasada.pila.removeAllElements();
+                        SegundaPasada.Resultados.clear();
                         ExpresionGraphik.Columnas.clear();
+                        PrimeraPasada.paso = 0;
                         //
                         Ejecucion ejecuta = new Ejecucion();
                         GraphikLexico scan = new GraphikLexico(new BufferedReader(new StringReader(a)));
@@ -327,10 +333,10 @@ public class FormPrincipal extends javax.swing.JFrame {
                         parser.parse();
                         Graficar(recorrido(GraphikSintactico.raiz), "AstGraphik");
                         ejecuta.Ejecucion(GraphikSintactico.raiz);
-                        
-                        String textoImprimir ="";
+
+                        String textoImprimir = "";
                         for (int i = 0; i < Imprimir.imprimir.size(); i++) {
-                            textoImprimir+=">> "+Imprimir.imprimir.get(i);
+                            textoImprimir += ">> " + Imprimir.imprimir.get(i);
                         }
                         txtConsolaGraphik.setText(textoImprimir);
                         String textoErrores = "";
@@ -343,9 +349,16 @@ public class FormPrincipal extends javax.swing.JFrame {
                         ImprimirTabla();
 
                     } catch (Exception e) {
-                        String textoImprimir ="";
+                        Graficar.Inicializar();
+                        TablaSimbolosGraphik.listaAls.removeAll(TablaSimbolosGraphik.listaAls);
+                        SegundaPasada.contTemp = 0;
+                        SegundaPasada.pila.removeAllElements();
+                        SegundaPasada.Resultados.clear();
+                        ExpresionGraphik.Columnas.clear();
+                        PrimeraPasada.paso = 0;
+                        String textoImprimir = "";
                         for (int i = 0; i < Imprimir.imprimir.size(); i++) {
-                            textoImprimir+=">> "+Imprimir.imprimir.get(i);
+                            textoImprimir += ">> " + Imprimir.imprimir.get(i);
                         }
                         txtConsolaGraphik.setText(textoImprimir);
                         String textoErrores = "";
@@ -363,12 +376,28 @@ public class FormPrincipal extends javax.swing.JFrame {
                     }
                 }
             } catch (Exception ex) {
+                Graficar.Inicializar();
+                TablaSimbolosGraphik.listaAls.removeAll(TablaSimbolosGraphik.listaAls);
+            
+                SegundaPasada.contTemp = 0;
+                SegundaPasada.pila.removeAllElements();
+                SegundaPasada.Resultados.clear();
+                ExpresionGraphik.Columnas.clear();
+                PrimeraPasada.paso = 0;
                 JOptionPane.showMessageDialog(null,
                         "Ups... Algo a salido mal!!",
                         "Warning",
                         JOptionPane.WARNING_MESSAGE);
             }
         } catch (Exception e) {
+            Graficar.Inicializar();
+            TablaSimbolosGraphik.listaAls.removeAll(TablaSimbolosGraphik.listaAls);
+       
+            SegundaPasada.contTemp = 0;
+            SegundaPasada.pila.removeAllElements();
+            SegundaPasada.Resultados.clear();
+            ExpresionGraphik.Columnas.clear();
+            PrimeraPasada.paso = 0;
             JOptionPane.showMessageDialog(null,
                     "No hay ningun archivo para analizar!!",
                     "Warning",
@@ -567,8 +596,8 @@ public class FormPrincipal extends javax.swing.JFrame {
             try {
                 Datos tabla = new Datos();
                 DatosGraphik datos = new DatosGraphik();
-                datos.recibirCadena(a,Datos.jTable1);
-                
+                datos.recibirCadena(a, Datos.jTable1);
+
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null,
                         "Ups... Algo a salido mal!!",

@@ -29,10 +29,10 @@ public class SegundaPasada {
     AsignacionCasteo asigna = new AsignacionCasteo();
     public static int contTemp = 0;
     public static Stack pila = new Stack();
-    static Graficar graf = new Graficar("Grafica");
+    //static Graficar graf = new Graficar("Grafica");
     Boolean pasoGraf = false;
     static DatosGraphik datos = new DatosGraphik();
-    static ArrayList Resultados = new ArrayList();
+    public static ArrayList Resultados = new ArrayList();
 
     public Object Reconocer() {
 
@@ -50,7 +50,7 @@ public class SegundaPasada {
                 int nivel = 0;
                 Ejecucion(cuerpo, nueva, nivel, als.get(i), "Inicio", contTemp, "inicio");
                 if (pasoGraf) {
-                    graf.mostrar();
+                    //graf.mostrar();
                 }
             } else {
                 Errores.ErrorSemantico("No existe el metodo Inicio", 0, 0);
@@ -1106,11 +1106,11 @@ public class SegundaPasada {
                                                 }
                                                 //tabla donde
                                                 datos.resultadoDonde(Datos.jTable1, Resultados, filtro.valor.toString());
-                                                
+
                                             }
                                         }
                                     }
-                                    
+
                                     //DONDE CADA
                                 } else if (c.valor.equals("DondeCada")) {
                                     if (columna != null) {
@@ -1154,11 +1154,11 @@ public class SegundaPasada {
                                                 //tabla donde cada
                                                 datos.resultadoDondeCada(Datos.jTable1, Resultados,
                                                         Integer.parseInt(columna.valor.toString()), resultado);
-                                                
+
                                             }
                                         }
                                     }
-                                    
+
                                     //DONDE TODO
                                 } else if (c.valor.equals("DondeTodo")) {
                                     if (columna != null) {
@@ -1202,7 +1202,7 @@ public class SegundaPasada {
                                                 //tabla donde todo
                                                 datos.resultadoDondeTodo(Datos.jTable1, Resultados,
                                                         Integer.parseInt(columna.valor.toString()), resultado);
-                                                
+
                                             }
                                         }
                                     }
@@ -1218,7 +1218,7 @@ public class SegundaPasada {
                 }
 
                 case "Graphikar": {
-
+                    
                     ArrayList valoresX = new ArrayList();
                     ArrayList valoresY = new ArrayList();
                     Nodo exp1 = raiz.hijos.get(0);
@@ -1227,34 +1227,40 @@ public class SegundaPasada {
                     Valor v2 = new Valor("", "");
                     if (exp1.hijos.get(0).valor.equals("Posiciones")) {
                         ArrayList val = new ArrayList();
-                        for (Nodo c : raiz.hijos.get(1).hijos.get(0).hijos) {
+                        for (Nodo c : exp1.hijos.get(0).hijos) {
                             val.add(Integer.parseInt(c.hijos.get(0).valor.toString()));
                         }
                         valoresX = val;
                     } else {
                         v1 = (Valor) exp.Expresion(exp1, als, nombreFun, variables, false);
                         if (v1 != null) {
-                            if (v1.valor != null) {
-                                valoresX = (ArrayList) v1.valor;
+                            if (!v1.tipo.equals("error")) {
+                                if (v1.valor != null) {
+                                    valoresX = (ArrayList) v1.valor;
+                                }
                             }
                         }
                     }
                     if (exp2.hijos.get(0).valor.equals("Posiciones")) {
                         ArrayList val = new ArrayList();
-                        for (Nodo c : raiz.hijos.get(1).hijos.get(0).hijos) {
+                        for (Nodo c : exp2.hijos.get(0).hijos) {
                             val.add(Integer.parseInt(c.hijos.get(0).valor.toString()));
                         }
                         valoresY = val;
                     } else {
                         v2 = (Valor) exp.Expresion(exp2, als, nombreFun, variables, false);
-                        if (v1 != null) {
-                            if (v1.valor != null) {
-                                valoresY = (ArrayList) v2.valor;
+                        if (v2 != null) {
+                            if (!v2.tipo.equals("error")) {
+                                if (v2.valor != null) {
+                                    valoresY = (ArrayList) v2.valor;
+                                }
                             }
+                        } else {
+
                         }
                     }
                     //Graficar nueva = Graficar.Inicializar();
-                    graf.graficarL(valoresX, valoresY, "Grafica" + contTemp);
+                    Graficar.graficarL(valoresX, valoresY, "Grafica");
                     pasoGraf = true;
                 }
                 break;

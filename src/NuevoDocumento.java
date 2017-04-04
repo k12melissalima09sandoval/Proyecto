@@ -167,6 +167,7 @@ public class NuevoDocumento extends javax.swing.JFrame {
         texto.setCurrentLineHighlightColor(new Color(227, 242, 253, 200));
         texto.setFadeCurrentLineHighlight(true);
         texto.setName(".hk");
+        texto.setSyntaxEditingStyle("text/TextoGraphik");
         texto.setBorder(BorderFactory.createEmptyBorder());
         texto.addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
@@ -240,6 +241,7 @@ public class NuevoDocumento extends javax.swing.JFrame {
         texto.setCurrentLineHighlightColor(new Color(227, 242, 253, 200));
         texto.setFadeCurrentLineHighlight(true);
         texto.setName(".csv");
+        texto.setSyntaxEditingStyle("text/TextoGraphik");
         texto.setBorder(BorderFactory.createEmptyBorder());
         texto.addKeyListener(new java.awt.event.KeyAdapter() {
             @Override

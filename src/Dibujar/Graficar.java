@@ -22,41 +22,48 @@ import org.jfree.data.xy.XYSeriesCollection;
 public class Graficar extends JFrame {
 
     public static Graficar graficar = null;
-    public static XYSeriesCollection grafica = new XYSeriesCollection();
+    public static XYSeriesCollection grafica;
     public static JFreeChart graf;
-    public String titulo;
+    public static ChartFrame frame;
+    public static String titulo;
+    static int contador = 1;
 
     public Graficar(String titulo) {
         super(titulo);
         grafica = new XYSeriesCollection();
     }
 
-    public static Graficar Inicializar() {
-        if (graficar == null) {
-            graficar = new Graficar("Grafica");
-        }
-        return graficar;
-    }
-
-    public void graficarL(ArrayList x, ArrayList y, String titulo) {
-        this.titulo = titulo;
-        final XYSeries serie = new XYSeries(titulo);
-        if (x.size() == y.size()) {
-            for (int i = 0; i < x.size(); i++) {
-                serie.add(Integer.parseInt(x.get(i).toString()), Integer.parseInt(y.get(i).toString()));
-            }
-            grafica.addSeries(serie);
-        } else {
-            Errores.ErrorSemantico("No se puede graficar porque las dimensiones en el ejeX y ejeY"
-                    + " no coinciden", 0, 0);
-        }
-        
-    }
-    
-    public void mostrar(){
+    public static void Inicializar() {
+        grafica = new XYSeriesCollection();
         graf = ChartFactory.createXYLineChart("Compiladores 2, Melissa Lima", "Eje X", "Eje Y",
                 grafica, PlotOrientation.VERTICAL, true, true, false);
-        ChartFrame frame = new ChartFrame(titulo, graf);
+        frame = new ChartFrame(titulo, graf);
+    }
+
+    public static void graficarL(ArrayList x, ArrayList y, String titulo) {
+        final XYSeries serie = new XYSeries(titulo+contador);
+        if (!x.isEmpty() && !y.isEmpty()) {
+
+            if (x.size() == y.size()) {
+                for (int i = 0; i < x.size(); i++) {
+                    serie.add(Integer.parseInt(x.get(i).toString()), Integer.parseInt(y.get(i).toString()));
+                }
+                grafica.addSeries(serie);
+            } else {
+                Errores.ErrorSemantico("No se puede graficar porque las dimensiones en el ejeX y ejeY"
+                        + " no coinciden", 0, 0);
+
+            }
+        }
+        contador++;
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    public void mostrar() {
+        graf = ChartFactory.createXYLineChart("Compiladores 2, Melissa Lima", "Eje X", "Eje Y",
+                grafica, PlotOrientation.VERTICAL, true, true, false);
+        //ChartFrame frame = new ChartFrame(titulo, graf);
 
         frame.pack();
         frame.setVisible(true);
