@@ -4,7 +4,7 @@ ALS estudiante:publico {
     var cadena nombre:publico?
     var entero edad:publico?
     var entero carnet:publico?
-    var detalle d:publico?
+    var detalle d:publico=nuevo detalle()?
     
 	vacio estudiante():publico{
         d = nuevo detalle()?

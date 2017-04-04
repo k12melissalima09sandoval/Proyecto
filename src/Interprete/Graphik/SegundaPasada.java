@@ -332,10 +332,11 @@ public class SegundaPasada {
                 }
                 case "SentenciaPara": {
                     Boolean bandera = false;
-                    contTemp++;
+                    //contTemp++;
                     Nodo var = raiz.hijos.get(0);
                     if (var.valor.toString().equals("DeclaraLocalVariable")) {
                         varsLocales.CrearVariableLocal(var, variables, als);
+                        contTemp++;
                         bandera = true;
                         pila.push("para" + contTemp);
                     } else {
@@ -345,7 +346,7 @@ public class SegundaPasada {
                     Nodo cond = raiz.hijos.get(1);
                     Nodo inc = raiz.hijos.get(2);
                     Nodo sentpara = raiz.hijos.get(3).hijos.get(0);
-
+                    contTemp++;
                     Valor v = (Valor) exp.Expresion(cond, als, nombreFun, variables, false);
                     if (v != null && v.valor != null) {
                         if (!v.valor.equals("error")) {
@@ -681,7 +682,6 @@ public class SegundaPasada {
                         Valor v = new Valor("", "error");
                         return v;
                     }
-
                 }
                 case "Acceso": {
                     Instancia ins = new Instancia();
@@ -819,6 +819,7 @@ public class SegundaPasada {
                             return v;
                         }
                     } else {
+                        //con parametros
                         for (int i = 0; i < raiz.hijos.get(1).hijos.size(); i++) {
                             Valor v = (Valor) exp.Expresion(raiz.hijos.get(1).hijos.get(i), als, nombreFun, variables, false);
                             if (v != null) {
@@ -996,15 +997,20 @@ public class SegundaPasada {
                                         Valor v = (Valor) exp.Expresion(raiz.hijos.get(1).hijos.get(i), als, nombreFun, variables, false);
                                         if (v != null) {
                                             if (!"error".equals(v.tipo)) {
-                                                if (v.tipo.equals("decimal")) {
-                                                    v.tipo = "numero";
-                                                } else if (v.tipo.equals("cadena") || v.tipo.equals("caracter")) {
-                                                    String cad = v.valor.toString();
-                                                    ArrayList caracteres = new ArrayList();
-                                                    for (int j = 0; j < cad.length(); j++) {
-                                                        caracteres.add(cad.charAt(j));
+                                                if (v.valor instanceof ArrayList) {
+                                                    ArrayList valores = (ArrayList) v.valor;
+                                                    v.valor = valores;
+                                                } else {
+                                                    if (v.tipo.equals("decimal")) {
+                                                        v.tipo = "numero";
+                                                    } else if (v.tipo.equals("cadena") || v.tipo.equals("caracter")) {
+                                                        String cad = v.valor.toString();
+                                                        ArrayList caracteres = new ArrayList();
+                                                        for (int j = 0; j < cad.length(); j++) {
+                                                            caracteres.add(cad.charAt(j));
+                                                        }
+                                                        v.valor = caracteres;
                                                     }
-                                                    v.valor = caracteres;
                                                 }
                                                 Variable var = new Variable(param.get(i).nombre, v.valor, v.tipo);
                                                 nueva.add(var);
@@ -1218,7 +1224,7 @@ public class SegundaPasada {
                 }
 
                 case "Graphikar": {
-                    
+
                     ArrayList valoresX = new ArrayList();
                     ArrayList valoresY = new ArrayList();
                     Nodo exp1 = raiz.hijos.get(0);

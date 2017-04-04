@@ -324,7 +324,8 @@ public class CrearVariables {
 
                 }
             } else {
-                Variable var = new Variable(tipo, nombre, visibilidad, null, true, false);
+                Valor v = (Valor) arreglo.InicializarArreglo(dim, 0);
+                Variable var = new Variable(tipo, nombre, visibilidad, v.valor, true, false);
                 var.dimensiones = dim;
                 nueva.add(var);
             }
@@ -386,7 +387,8 @@ public class CrearVariables {
 
                     }
                 } else {
-                    Variable var = new Variable(tipo, nombre, visibilidad, null, true, false);
+                    Valor v = (Valor) arreglo.InicializarArreglo(dim, 0);
+                    Variable var = new Variable(tipo, nombre, visibilidad, v.valor, true, false);
                     var.dimensiones = dim;
                     nueva.add(var);
                 }

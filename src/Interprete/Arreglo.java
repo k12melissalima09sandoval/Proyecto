@@ -193,8 +193,8 @@ public class Arreglo {
             if (dim.size() == 1) {
                 if (pos.size() == 1) {
                     ArrayList a = (ArrayList) var.valor;
-                    a.get(Integer.parseInt(pos.get(0).toString()));
-                    Valor v = new Valor(a, var.tipo);
+                    int num = Integer.parseInt(a.get(Integer.parseInt(pos.get(0).toString())).toString());
+                    Valor v = new Valor(num, var.tipo);
                     return v;
                 } else {
                     Errores.ErrorSemantico("El acceso al arreglo -" + nombreA + "- no es valido", cont, cont);
@@ -256,7 +256,7 @@ public class Arreglo {
                 if (pos.size() == 1) {
                     ArrayList a = (ArrayList) var.valor;
                     a.get(Integer.parseInt(pos.get(0).toString()));
-                    Valor v = new Valor(a, var.tipo);
+                    Valor v = new Valor(pos.get(0), var.tipo);
                     return v;
                 } else {
                     Errores.ErrorSemantico("El acceso al arreglo -" + nombreA + "- no es valido", cont, cont);

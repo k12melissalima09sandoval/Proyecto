@@ -79,6 +79,8 @@ public class RecorreHaskell {
                 v.tipo = "cadena";
             } else if (v.valor.toString().contains(".")) {
                 v.tipo = "decimal";
+            } else if (ExpresionHaskell.ultimoTipo.equals("numero")){
+                v.tipo = "numero";
             }
             return v;
 
@@ -94,6 +96,8 @@ public class RecorreHaskell {
                 v.tipo = "cadena";
             } else if (v.valor.toString().contains(".")) {
                 v.tipo = "decimal";
+            } else if (ExpresionHaskell.ultimoTipo.equals("numero")){
+                v.tipo="numero";
             }
             ExpresionHaskell.pila.pop();
 

@@ -278,7 +278,7 @@ public class ExpresionGraphik {
                                     Valor v2 = new Valor("", "error");
                                     return v2;
                                 }
-                                Valor obtiene = (Valor) Columnas.get(col-1);
+                                Valor obtiene = (Valor) Columnas.get(col - 1);
                                 Valor v = new Valor(obtiene.valor, obtiene.tipo);
                                 return v;
                             } else {
@@ -949,6 +949,10 @@ public class ExpresionGraphik {
                                         Valor v = (Valor) Expresion(raiz.hijos.get(1).hijos.get(i), als, nombreFuncion, variables, false);
                                         if (v != null) {
                                             if (!"error".equals(v.tipo)) {
+                                                if (v.valor instanceof ArrayList) {
+                                                    ArrayList valores = (ArrayList) v.valor;
+                                                    v.valor = valores;
+                                                }
                                                 if (v.tipo.equals("decimal")) {
                                                     v.tipo = "numero";
                                                 } else if (v.tipo.equals("cadena") || v.tipo.equals("caracter")) {

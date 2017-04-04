@@ -325,7 +325,6 @@ public class FormPrincipal extends javax.swing.JFrame {
                         SegundaPasada.pila.removeAllElements();
                         SegundaPasada.Resultados.clear();
                         ExpresionGraphik.Columnas.clear();
-                        PrimeraPasada.paso = 0;
                         //
                         Ejecucion ejecuta = new Ejecucion();
                         GraphikLexico scan = new GraphikLexico(new BufferedReader(new StringReader(a)));
@@ -355,7 +354,6 @@ public class FormPrincipal extends javax.swing.JFrame {
                         SegundaPasada.pila.removeAllElements();
                         SegundaPasada.Resultados.clear();
                         ExpresionGraphik.Columnas.clear();
-                        PrimeraPasada.paso = 0;
                         String textoImprimir = "";
                         for (int i = 0; i < Imprimir.imprimir.size(); i++) {
                             textoImprimir += ">> " + Imprimir.imprimir.get(i);
@@ -383,7 +381,6 @@ public class FormPrincipal extends javax.swing.JFrame {
                 SegundaPasada.pila.removeAllElements();
                 SegundaPasada.Resultados.clear();
                 ExpresionGraphik.Columnas.clear();
-                PrimeraPasada.paso = 0;
                 JOptionPane.showMessageDialog(null,
                         "Ups... Algo a salido mal!!",
                         "Warning",
@@ -397,7 +394,6 @@ public class FormPrincipal extends javax.swing.JFrame {
             SegundaPasada.pila.removeAllElements();
             SegundaPasada.Resultados.clear();
             ExpresionGraphik.Columnas.clear();
-            PrimeraPasada.paso = 0;
             JOptionPane.showMessageDialog(null,
                     "No hay ningun archivo para analizar!!",
                     "Warning",

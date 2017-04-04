@@ -75,19 +75,40 @@ public class PrimeraPasada {
                                 Als b = (Als) v.valor;
                                 if (!b.visibilidad.equals("Privado")) {
                                     Als a = b.copiar();
+
                                     for (int i = 0; i < a.VarsGlobales.size(); i++) {
                                         if (a.VarsGlobales.get(i).visibilidad.equals("Publico")
                                                 || a.VarsGlobales.get(i).visibilidad.equals("Protegido")) {
-                                            a.VarsGlobales.get(i).setHereda(true);
-                                            nuevo.addVarGlobal(a.VarsGlobales.get(i));
-
+                                            String nombre = a.VarsGlobales.get(i).nombre;
+                                            Boolean si = (Boolean) buscarVariable(nuevo.VarsGlobales, nombre);
+                                            if (!si) {
+                                                a.VarsGlobales.get(i).setHereda(true);
+                                                nuevo.addVarGlobal(a.VarsGlobales.get(i));
+                                            }else{
+                                                Errores.ErrorSemantico("En hereda: La variable -"+nombre+"- ya "
+                                                        + "existe en la clase -"+nombreAls+"-", i, i);
+                                            }
                                         }
                                     }
                                     for (int i = 0; i < a.Metodos.size(); i++) {
                                         if (a.Metodos.get(i).visibilidad.equals("Publico")
                                                 || a.Metodos.get(i).visibilidad.equals("Protegido")) {
-                                            a.Metodos.get(i).setHereda(true);
+                                            String nombre = a.Metodos.get(i).nombre;
+                                            ArrayList<Valor> valores = new ArrayList();
+                                            for (int j = 0; j < a.Metodos.get(i).listaParametros.size(); j++) {
+                                                Valor f = new Valor(a.Metodos.get(i).listaParametros.get(j).nombre,
+                                                a.Metodos.get(i).listaParametros.get(j).tipo);
+                                                valores.add(f);
+                                            }
+                                            Boolean si = (Boolean) buscarMetodo(nuevo.Metodos, nombre, valores);
+                                            if(!si){
+                                                a.Metodos.get(i).setHereda(true);
                                             nuevo.addMetodo(a.Metodos.get(i));
+                                            }else{
+                                                Errores.ErrorSemantico("En hereda: El metodo -"+nombre+"- ya "
+                                                        + "existe en la clase -"+nombreAls+"-", i, i);
+                                            }
+                                            
                                         }
                                     }
                                     nuevo.agregarHereda(a);
@@ -348,6 +369,40 @@ public class PrimeraPasada {
                 Valor v = new Valor(var, "true");
                 return v;
             }
+        }
+        Valor v = new Valor("", "false");
+        return v;
+    }
+
+    public Object buscarMetodo(ArrayList<MetodoGraphik> metodos, String nombre, ArrayList<Valor> parametros) {
+        Boolean existe = false;
+        for (int i = 0; i < metodos.size(); i++) {
+            if (metodos.get(i).nombre.equals(nombre)) {
+                MetodoGraphik met = metodos.get(i);
+                if (met.listaParametros.isEmpty()) {
+                    if (parametros.isEmpty()) {
+                        Valor v = new Valor(met, "true");
+                        return v;
+                    }
+                } else if (!parametros.isEmpty()) {
+                    if (met.listaParametros.size() == parametros.size()) {
+                        for (int j = 0; j < parametros.size(); j++) {
+                            if (met.listaParametros.get(j).tipo.equals(parametros.get(j).tipo)) {
+                                existe = true;
+                            } else {
+                                existe = false;
+                                break;
+                            }
+                        }
+                        if (existe) {
+                            Valor v = new Valor(met, "true");
+                            return v;
+                        }
+                    }
+                }
+
+            }
+
         }
         Valor v = new Valor("", "false");
         return v;
