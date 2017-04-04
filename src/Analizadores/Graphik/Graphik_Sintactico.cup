@@ -3,6 +3,7 @@
 package Analizadores.Graphik;
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
+import Analizadores.Errores;
 import Dibujar.Nodo;
 
 //------> Parser, Variables y Metodos
@@ -20,6 +21,7 @@ parser code
         System.out.println("Error Sintactico Recuperado: "+texto+" Fila: "+fila+" Columna: " +columna);
         //Analizadores.Errores err = new Analizadores.Errores("Sintactico: ","No se esperaba: ",texto,fila,columna);
         //Err.add(err);
+        //Errores.ErrorSemantico("Sintactico: No se esperaba"+texto, 0, 0);
 
     }
 
@@ -32,6 +34,7 @@ parser code
         System.out.println("Error Sintactico: "+texto+" Fila: "+fila+" Columna: " +columna);
         Analizadores.Errores err = new Analizadores.Errores("Sintactico: ","No se esperaba: ",texto,fila,columna);
         Err.add(err);
+        Errores.ErrorSemantico("Sintactico: No se esperaba "+texto, fila, columna);
     }
 :}  
 

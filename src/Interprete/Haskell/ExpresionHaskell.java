@@ -66,6 +66,7 @@ public class ExpresionHaskell {
                                         return v9;
                                     } else {
                                         System.out.println("parametros cantidad invalidos");
+                                        Errores.ErrorSemantico("Haskell: cantidad de parametros no coincide", 0, 0);
                                         Valor v = new Valor("cantidad de parametros no coincide", "");
                                         return v;
                                     }
@@ -76,10 +77,12 @@ public class ExpresionHaskell {
                             }
                         } else {
                             System.out.println("no hay ninguna funcion declarada1");
+                            Errores.ErrorSemantico("Haskell: no hay funciones cargadas", 0, 0);
                             Valor v = new Valor("no hay funciones cargadas", "");
                             return v;
                         }
                     } else {
+                        Errores.ErrorSemantico("Haskell: no hay funciones cargadas", 0, 0);
                         Valor v = new Valor("no hay funciones cargadas", "");
                         return v;
                     }
@@ -113,6 +116,7 @@ public class ExpresionHaskell {
                         tmp = new Valor(num, "numero");
                         return tmp;
                     } else {
+                        Errores.ErrorSemantico("Haskell: El ultimo valor es nulo", 0, 0);
                         Valor v = new Valor("el ultimo valor es nulo", "");
                         return v;
                     }
@@ -127,6 +131,8 @@ public class ExpresionHaskell {
                         Valor val4 = new Valor(tamaño, "numero");
                         return val4;
                     } catch (Exception e) {
+                        Errores.ErrorSemantico("", 0, 0);
+                        Errores.ErrorSemantico("Haskell: no es una lista", 0, 0);
                         Valor v = new Valor("no es una lista", "");
                         return v;
                     }
@@ -198,6 +204,7 @@ public class ExpresionHaskell {
                             return v;
                         }
                     } catch (Exception e) {
+                        Errores.ErrorSemantico("Haskell: no es una lista", 0, 0);
                         Valor v = new Valor("no es una lista", "");
                         return v;
                     }
@@ -302,6 +309,7 @@ public class ExpresionHaskell {
                             return v;
                         }
                     } catch (Exception e) {
+                        Errores.ErrorSemantico("Haskell: no es una lista", 0, 0);
                         Valor v = new Valor("no es una lista", "");
                         return v;
                     }
@@ -374,6 +382,7 @@ public class ExpresionHaskell {
                             return v;
                         }
                     } catch (Exception e) {
+                        Errores.ErrorSemantico("Haskell: no es una lista", 0, 0);
                         Valor v = new Valor("no es una lista", "");
                         return v;
                     }
@@ -398,6 +407,7 @@ public class ExpresionHaskell {
                         tmp = new Valor(num, "numero");
                         return tmp;
                     } else {
+                        Errores.ErrorSemantico("Haskell: el ultimo valor es nulo", 0, 0);
                         Valor v = new Valor("el ultimo valor es nulo", "");
                         return v;
                     }
@@ -462,6 +472,7 @@ public class ExpresionHaskell {
                             return v;
                         }
                     } catch (Exception e) {
+                        Errores.ErrorSemantico("Haskell: no es una lista", 0, 0);
                         Valor v = new Valor("no es una lista", "");
                         return v;
                     }
@@ -490,6 +501,7 @@ public class ExpresionHaskell {
                         }
 
                     } else {
+                        Errores.ErrorSemantico("Haskell: el ultimo valor es nulo", 0, 0);
                         Valor v = new Valor("el ultimo valor es nulo", "");
                         return v;
 
@@ -505,6 +517,7 @@ public class ExpresionHaskell {
                             ultimoTipo = "numero";
                             return v6;
                         } catch (Exception e) {
+                            Errores.ErrorSemantico("Haskell: no aplica el unario", 0, 0);
                             Valor v = new Valor("no aplica el unario", "");
                             return v;
                         }
@@ -583,6 +596,7 @@ public class ExpresionHaskell {
                             }
                         }
                         if (bandera != true) {
+                            Errores.ErrorSemantico("Haskell: el parametro no existe", 0, 0);
                             Valor v2 = new Valor("el parametro no existe", "");
                             return v2;
                         }
@@ -640,6 +654,7 @@ public class ExpresionHaskell {
                                         break;
                                     } else {
                                         System.out.println("parametros cantidad invalidos");
+                                        Errores.ErrorSemantico("Haskell: cantidad de parametros no coincide", 0, 0);
                                         Valor v = new Valor("cantidad de parametros no coincide", "");
                                         return v;
 
@@ -651,10 +666,12 @@ public class ExpresionHaskell {
                             }
                         } else {
                             System.out.println("no hay ninguna funcion declarada2");
+                            Errores.ErrorSemantico("Haskell: no hay funciones cargadas", 0, 0);
                             Valor v = new Valor("no hay funciones cargadas", "");
                             return v;
                         }
                     } else {
+                        Errores.ErrorSemantico("Haskell: no hay funciones cargadas", 0, 0);
                         Valor v = new Valor("no hay funciones cargadas", "");
                         return v;
                     }
@@ -707,12 +724,14 @@ public class ExpresionHaskell {
                                             return val;
                                         }
                                     } else {
+                                        Errores.ErrorSemantico("Haskell: lista no declarada", 0, 0);
                                         Valor v2 = new Valor("lista no declarada", "");
                                         return v2;
                                     }
                                 }
                             }
                         } else {
+                            Errores.ErrorSemantico("Haskell: no hay listas declaradas", 0, 0);
                             Valor v = new Valor("no hay listas declaradas", "");
                             return v;
                         }
@@ -744,6 +763,7 @@ public class ExpresionHaskell {
                             }
                         }
                         if (bandera != true) {
+                            Errores.ErrorSemantico("Haskell: el parametro no existe", 0, 0);
                             Valor v2 = new Valor("el parametro no existe", "");
                             return v2;
                         }
@@ -776,18 +796,22 @@ public class ExpresionHaskell {
                                     return v;
                                 } else {
                                     //error
+                                    Errores.ErrorSemantico("Haskell: no son del mismo tipo", 0, 0);
                                     Valor v = new Valor("no son del mismo tipo", "");
                                     return v;
                                 }
                             } else {
+                                Errores.ErrorSemantico("Haskell: no son del mismo tipo", 0, 0);
                                 Valor v = new Valor("no son del mismo tipo", "");
                                 return v;
                             }
                         } else {
+                            Errores.ErrorSemantico("Haskell: el ultimo valor es nulo", 0, 0);
                             Valor v = new Valor("el ultimo valor es nulo", "");
                             return v;
                         }
                     } else {
+                        Errores.ErrorSemantico("Haskell: en la suma hay valor nulo", 0, 0);
                        Valor v = new Valor("en la suma hay valor nulo", "");
                             return v;
                     }

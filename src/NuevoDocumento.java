@@ -10,6 +10,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Utilities;
 import org.fife.ui.rsyntaxtextarea.AbstractTokenMakerFactory;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.SyntaxScheme;
 import org.fife.ui.rsyntaxtextarea.Token;
 import org.fife.ui.rsyntaxtextarea.TokenMakerFactory;
@@ -161,7 +162,7 @@ public class NuevoDocumento extends javax.swing.JFrame {
 
         AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
         atmf.putMapping("text/TextoGraphik", "GraphikSyntax");
-        
+
         texto = new RSyntaxTextArea(20, 60);
         texto.setCodeFoldingEnabled(true);
         texto.setCurrentLineHighlightColor(new Color(227, 242, 253, 200));
@@ -201,6 +202,7 @@ public class NuevoDocumento extends javax.swing.JFrame {
         atmf.putMapping("text/TextoGraphik", "GraphikSyntax");
 
         texto = new RSyntaxTextArea(20, 60);
+        texto.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
         texto.setCodeFoldingEnabled(true);
         texto.setCurrentLineHighlightColor(new Color(227, 242, 253, 200));
         texto.setFadeCurrentLineHighlight(true);
@@ -228,14 +230,16 @@ public class NuevoDocumento extends javax.swing.JFrame {
         scheme.getStyle(Token.LITERAL_NUMBER_FLOAT).foreground = Color.BLACK;
         scheme.getStyle(Token.LITERAL_CHAR).foreground = Color.decode("#439a4d");
         scheme.getStyle(Token.RESERVED_WORD_2).foreground = Color.BLACK;
+
         this.setVisible(false);
     }//GEN-LAST:event_btnGraphikActionPerformed
 
+
     private void btnDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatosActionPerformed
-        
+
         AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
         atmf.putMapping("text/TextoGraphik", "GraphikSyntax");
-        
+
         texto = new RSyntaxTextArea(20, 60);
         texto.setCodeFoldingEnabled(true);
         texto.setCurrentLineHighlightColor(new Color(227, 242, 253, 200));
@@ -313,4 +317,5 @@ public class NuevoDocumento extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     // End of variables declaration//GEN-END:variables
+
 }

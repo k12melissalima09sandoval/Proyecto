@@ -6,6 +6,8 @@ package Analizadores.Haskell;
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
 
+import Analizadores.Errores;
+
 /*------------ Opciones y Declaraciones ---------*/
 
 /**
@@ -748,6 +750,8 @@ public class HaskellLexico implements java_cup.runtime.Scanner {
             { System.out.println("ErrorLexico: "+yytext()+"Linea: "+yyline+" Columna: "+yycolumn);
                                 Analizadores.Errores err = new Analizadores.Errores("Lexico: ","No es parte del lenguaje ",yytext(),yyline,yycolumn);
                                 Err.add(err);
+
+                                Errores.ErrorSemantico("Lexico: No es parte del Lenguaje Haskell -" +yytext()+ "- ", 0, 0);
             }
           case 54: break;
           case 2: 

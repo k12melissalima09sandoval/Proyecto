@@ -5,6 +5,7 @@
  */
 package Interprete.Haskell;
 
+import Analizadores.Errores;
 import Dibujar.Funciones;
 import Dibujar.Nodo;
 import java.util.ArrayList;
@@ -159,11 +160,13 @@ public class RecorreHaskell extends JFrame {
                             return v;
                         }
                     } else {
+                        Errores.ErrorSemantico("Haskell: no devuelve un bool la condicion if", 0, 0);
                         Valor v = new Valor("no devuelve un bool la condicion if", "");
                         return v;
                     }
 
                 } else {
+                    Errores.ErrorSemantico("Haskell: el if devuelve un nulo", 0, 0);
                     Valor v = new Valor("la condicion if devuelve un nulo", "");
                     return v;
                 }
@@ -186,6 +189,7 @@ public class RecorreHaskell extends JFrame {
                                             return v;
                                         }
                                     } else {
+                                        Errores.ErrorSemantico("Haskell: en el case no coinciden los tipos", 0, 0);
                                         Valor v = new Valor("en el case no coinciden los tipos", "");
                                         return v;
                                     }
@@ -279,6 +283,7 @@ public class RecorreHaskell extends JFrame {
                         }
                     }
                 } catch (Exception e) {
+                    Errores.ErrorSemantico("Haskell: no es una lista", 0, 0);
                     Valor v = new Valor("no es una lista", "");
                     return v;
                 }
@@ -330,6 +335,7 @@ public class RecorreHaskell extends JFrame {
                         }
                     }
                 } catch (Exception e) {
+                    Errores.ErrorSemantico("Haskell: no es una lista", 0, 0);
                     Valor v = new Valor("no es una lista", "");
                     return v;
                 }
@@ -359,6 +365,7 @@ public class RecorreHaskell extends JFrame {
                     }
 
                 } catch (Exception e) {
+                    Errores.ErrorSemantico("Haskell: no es una lista", 0, 0);
                     Valor v = new Valor("no es una lista", "");
                     return v;
                 }
@@ -387,6 +394,7 @@ public class RecorreHaskell extends JFrame {
                         return vvv;
                     }
                 } catch (Exception e) {
+                    Errores.ErrorSemantico("Haskell: no es una lista", 0, 0);
                     Valor v = new Valor("no es una lista", "");
                     return v;
                 }

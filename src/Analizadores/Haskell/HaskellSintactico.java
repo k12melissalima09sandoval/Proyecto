@@ -5,6 +5,7 @@
 
 package Analizadores.Haskell;
 
+import Analizadores.Errores;
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
 import Dibujar.Nodo;
@@ -859,6 +860,7 @@ public class HaskellSintactico extends java_cup.runtime.lr_parser {
         System.out.println("Error Sintactico Recuperado: "+texto+" Fila: "+fila+" Columna: " +columna);
         Analizadores.Errores err = new Analizadores.Errores("Sintactico: ","No se esperaba: ",texto,fila,columna);
         Err.add(err);
+        //Errores.ErrorSemantico("Sintactico: No se esperaba "+texto, 0, 0);
 
     }
 
@@ -871,6 +873,7 @@ public class HaskellSintactico extends java_cup.runtime.lr_parser {
         System.out.println("Error Sintactico Modo Panico: "+texto+" Fila: "+fila+" Columna: " +columna);
         Analizadores.Errores err = new Analizadores.Errores("Sintactico: ","No se esperaba: ",texto,fila,columna);
         Err.add(err);
+        Errores.ErrorSemantico("Sintactico: No se esperaba "+texto, fila, columna);
     }
 
 

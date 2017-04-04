@@ -5,6 +5,7 @@
 package Analizadores.Graphik;
 import java_cup.runtime.*;
 import java.util.LinkedList;
+import Analizadores.Errores;
 
 /*------------ Opciones y Declaraciones ---------*/
 
@@ -1053,6 +1054,7 @@ public class GraphikLexico implements java_cup.runtime.Scanner {
             { System.out.println("ErrorLexico: "+yytext()+"Linea: "+yyline+" Columna: "+yycolumn);
                                 Analizadores.Errores err = new Analizadores.Errores("Lexico: ","No es parte del lenguaje ",yytext(),yyline,yycolumn);
                                 Err.add(err);
+                                Errores.ErrorSemantico("Lexico: No es parte del Lenguaje Graphik -" +yytext()+ "- ", 0, 0);
             }
           case 76: break;
           case 2: 
@@ -1170,8 +1172,7 @@ public class GraphikLexico implements java_cup.runtime.Scanner {
             }
           case 99: break;
           case 25: 
-            { System.out.println("Entro Si");
-                    return new Symbol(SimbolosGraphik.si, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.si, yyline, yycolumn, new String(yytext()));
             }
           case 100: break;
           case 26: 
@@ -1230,13 +1231,11 @@ public class GraphikLexico implements java_cup.runtime.Scanner {
             }
           case 111: break;
           case 37: 
-            { System.out.println("Entro ALS");
-                    return new Symbol(SimbolosGraphik.Tals, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.Tals, yyline, yycolumn, new String(yytext()));
             }
           case 112: break;
           case 38: 
-            { System.out.println("Entro var");
-                    return new Symbol(SimbolosGraphik.var, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.var, yyline, yycolumn, new String(yytext()));
             }
           case 113: break;
           case 39: 
@@ -1250,13 +1249,11 @@ public class GraphikLexico implements java_cup.runtime.Scanner {
             }
           case 115: break;
           case 41: 
-            { System.out.println("Entro bool");
-                    return new Symbol(SimbolosGraphik.Tbool, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.Tbool, yyline, yycolumn, new String(yytext()));
             }
           case 116: break;
           case 42: 
-            { System.out.println("Entro Sino");
-                    return new Symbol(SimbolosGraphik.sino, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.sino, yyline, yycolumn, new String(yytext()));
             }
           case 117: break;
           case 43: 
@@ -1265,8 +1262,7 @@ public class GraphikLexico implements java_cup.runtime.Scanner {
             }
           case 118: break;
           case 44: 
-            { System.out.println("Entro nuevo");
-                    return new Symbol(SimbolosGraphik.nuevo, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.nuevo, yyline, yycolumn, new String(yytext()));
             }
           case 119: break;
           case 45: 
@@ -1280,8 +1276,7 @@ public class GraphikLexico implements java_cup.runtime.Scanner {
             }
           case 121: break;
           case 47: 
-            { System.out.println("Entro vacio");
-                    return new Symbol(SimbolosGraphik.Tvacio, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.Tvacio, yyline, yycolumn, new String(yytext()));
             }
           case 122: break;
           case 48: 
@@ -1295,33 +1290,27 @@ public class GraphikLexico implements java_cup.runtime.Scanner {
             }
           case 124: break;
           case 50: 
-            { System.out.println("Entro entero");
-                    return new Symbol(SimbolosGraphik.Tentero, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.Tentero, yyline, yycolumn, new String(yytext()));
             }
           case 125: break;
           case 51: 
-            { System.out.println("Entro cadena");
-                    return new Symbol(SimbolosGraphik.Tcadena, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.Tcadena, yyline, yycolumn, new String(yytext()));
             }
           case 126: break;
           case 52: 
-            { System.out.println("Entro inicio");
-                    return new Symbol(SimbolosGraphik.inicio, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.inicio, yyline, yycolumn, new String(yytext()));
             }
           case 127: break;
           case 53: 
-            { System.out.println("Entro llamar");
-                    return new Symbol(SimbolosGraphik.llamar, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.llamar, yyline, yycolumn, new String(yytext()));
             }
           case 128: break;
           case 54: 
-            { System.out.println("Entro hereda");
-                    return new Symbol(SimbolosGraphik.hereda, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.hereda, yyline, yycolumn, new String(yytext()));
             }
           case 129: break;
           case 55: 
-            { System.out.println("Entro decimal");
-                    return new Symbol(SimbolosGraphik.Tdecimal, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.Tdecimal, yyline, yycolumn, new String(yytext()));
             }
           case 130: break;
           case 56: 
@@ -1335,13 +1324,11 @@ public class GraphikLexico implements java_cup.runtime.Scanner {
             }
           case 132: break;
           case 58: 
-            { System.out.println("Entro privado");
-                    return new Symbol(SimbolosGraphik.privado, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.privado, yyline, yycolumn, new String(yytext()));
             }
           case 133: break;
           case 59: 
-            { System.out.println("Entro publico");
-                    return new Symbol(SimbolosGraphik.publico, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.publico, yyline, yycolumn, new String(yytext()));
             }
           case 134: break;
           case 60: 
@@ -1350,13 +1337,11 @@ public class GraphikLexico implements java_cup.runtime.Scanner {
             }
           case 135: break;
           case 61: 
-            { System.out.println("Entro retornar");
-                    return new Symbol(SimbolosGraphik.retornar, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.retornar, yyline, yycolumn, new String(yytext()));
             }
           case 136: break;
           case 62: 
-            { System.out.println("Entro caracter");
-                    return new Symbol(SimbolosGraphik.Tcaracter, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.Tcaracter, yyline, yycolumn, new String(yytext()));
             }
           case 137: break;
           case 63: 
@@ -1365,8 +1350,7 @@ public class GraphikLexico implements java_cup.runtime.Scanner {
             }
           case 138: break;
           case 64: 
-            { System.out.println("Entro importar");
-                    return new Symbol(SimbolosGraphik.importar, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.importar, yyline, yycolumn, new String(yytext()));
             }
           case 139: break;
           case 65: 
@@ -1375,8 +1359,7 @@ public class GraphikLexico implements java_cup.runtime.Scanner {
             }
           case 140: break;
           case 66: 
-            { System.out.println("Entro llamarHK");
-                    return new Symbol(SimbolosGraphik.llamarHK, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.llamarHK, yyline, yycolumn, new String(yytext()));
             }
           case 141: break;
           case 67: 
@@ -1400,8 +1383,7 @@ public class GraphikLexico implements java_cup.runtime.Scanner {
             }
           case 145: break;
           case 71: 
-            { System.out.println("Entro seleccion");
-                    return new Symbol(SimbolosGraphik.seleccion, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.seleccion, yyline, yycolumn, new String(yytext()));
             }
           case 146: break;
           case 72: 
@@ -1410,13 +1392,11 @@ public class GraphikLexico implements java_cup.runtime.Scanner {
             }
           case 147: break;
           case 73: 
-            { System.out.println("Entro protegido");
-                    return new Symbol(SimbolosGraphik.protegido, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.protegido, yyline, yycolumn, new String(yytext()));
             }
           case 148: break;
           case 74: 
-            { System.out.println("Entro incluir_HK");
-                    return new Symbol(SimbolosGraphik.incluirHK, yyline, yycolumn, new String(yytext()));
+            { return new Symbol(SimbolosGraphik.incluirHK, yyline, yycolumn, new String(yytext()));
             }
           case 149: break;
           case 75: 

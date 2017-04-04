@@ -7,6 +7,7 @@ package Analizadores.Graphik;
 
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
+import Analizadores.Errores;
 import Dibujar.Nodo;
 import java_cup.runtime.XMLElement;
 
@@ -1043,6 +1044,7 @@ public class GraphikSintactico extends java_cup.runtime.lr_parser {
         System.out.println("Error Sintactico Recuperado: "+texto+" Fila: "+fila+" Columna: " +columna);
         //Analizadores.Errores err = new Analizadores.Errores("Sintactico: ","No se esperaba: ",texto,fila,columna);
         //Err.add(err);
+        //Errores.ErrorSemantico("Sintactico: No se esperaba"+texto, 0, 0);
 
     }
 
@@ -1055,6 +1057,7 @@ public class GraphikSintactico extends java_cup.runtime.lr_parser {
         System.out.println("Error Sintactico: "+texto+" Fila: "+fila+" Columna: " +columna);
         Analizadores.Errores err = new Analizadores.Errores("Sintactico: ","No se esperaba: ",texto,fila,columna);
         Err.add(err);
+        Errores.ErrorSemantico("Sintactico: No se esperaba "+texto, fila, columna);
     }
 
 

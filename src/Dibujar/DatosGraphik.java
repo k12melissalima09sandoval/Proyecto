@@ -117,7 +117,7 @@ public class DatosGraphik {
 
     public void resultadoDondeCada(JTable tabla, ArrayList Resultados, int Columna, ArrayList<Vector> filtros) {
 
-        Object a = Resultados.get(0);
+       
         dtm = new DefaultTableModel();
         dtm.addColumn("DondeCada");
         dtm.addColumn("Funcion");
